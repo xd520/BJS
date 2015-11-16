@@ -7,11 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShareMyData.h"
+#import "ConMethods.h"
+#import "PublicMethod.h"
+#import "NetWork.h"
+#import "HttpMethods.h"
+#import "AFNetworking.h"
+#import "UIImageView+AFNetworking.h"
+#import "SDRefresh.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@class CPVTabViewController;
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (strong, nonatomic)CPVTabViewController *tabBarController;
 
 @end
 
