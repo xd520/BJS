@@ -56,7 +56,7 @@
     [table setDelegate:self];
     [table setDataSource:self];
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [table setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
+    [table setBackgroundColor:[ConMethods colorWithHexString:@"F7F7F5"]];
     table.tableFooterView = [[UIView alloc] init];
     
     [self.view addSubview:table];
@@ -99,26 +99,7 @@
     UITableViewCell *cell;
     cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
     
-    if ([dataList count] == 0 ) {
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
-        [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-        //图标
-        UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
-        [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
-        [backView addSubview:iconImageView];
-        //提示
-        UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
-        [tipLabel setFont:[UIFont systemFontOfSize:15]];
-        [tipLabel setTextAlignment:NSTextAlignmentCenter];
-        [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
-        tipLabel.backgroundColor = [UIColor clearColor];
-        [tipLabel setText:@"没有任何商品哦~"];
-        [backView addSubview:tipLabel];
-        [cell.contentView addSubview:backView];
-        
-    } else{
+   
         
        
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
@@ -185,7 +166,7 @@
                 
                 
                 UILabel *labelTip= [[UILabel alloc] initWithFrame:CGRectMake(24 + [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 183, 12*3, 12)];
-                labelTip.text = @"标件物";
+                labelTip.text = @"件标物";
                 labelTip.font = [UIFont systemFontOfSize:12];
                 labelTip.textColor = [ConMethods colorWithHexString:@"999999"];
                 [backView addSubview:labelTip];
@@ -212,29 +193,7 @@
                 dayLabelMore.textColor = [ConMethods colorWithHexString:@"999999"];
                 [backView addSubview:dayLabelMore];
                 
-                
-                
-                
-                
-                
-                //围观
-                /*
-                UILabel *dateLabelMore = [[UILabel alloc] initWithFrame:CGRectMake( 10, 180, 28, 14)];
-                dateLabelMore.text = [NSString stringWithFormat:@"%d",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"WGCS"] intValue]];
-                dateLabelMore.font = [UIFont systemFontOfSize:14];
-                dateLabelMore.textColor = [UIColor redColor];
-                
-                [backView addSubview:dateLabelMore];
-                
-                UILabel *dayLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(38, 180, ScreenWidth - 60, 14)];
-                dayLabelMore.text = @"次围观";
-                dayLabelMore.font = [UIFont systemFontOfSize:14];
-                dayLabelMore.textColor = [ConMethods colorWithHexString:@"999999"];
-                [backView addSubview:dayLabelMore];
-                */
-                
                 [cell.contentView addSubview:backView];
-            }
         
     }
     
@@ -297,7 +256,7 @@
     
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     searchBtn.frame = CGRectMake(ScreenWidth - 10 - 35, 2.5, 25, 25);
-    [searchBtn setBackgroundImage:[UIImage imageNamed:@"nav_icon_search_normal"] forState:UIControlStateNormal];
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:searchBtn];
     [view addSubview:view1];
@@ -305,6 +264,13 @@
     return view;
     
 }
+
+#pragma mark - 消除键盘
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)even{
+    [self.view endEditing:YES];
+}
+
 
 
 -(void)searchMthods{

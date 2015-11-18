@@ -261,7 +261,7 @@
                 
                 
                 UILabel *labelTip= [[UILabel alloc] initWithFrame:CGRectMake(26 + [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 183, 12*3, 12)];
-                labelTip.text = @"标件物";
+                labelTip.text = @"件标物";
                 labelTip.font = [UIFont systemFontOfSize:12];
                 labelTip.textColor = [ConMethods colorWithHexString:@"999999"];
                 [backView addSubview:labelTip];

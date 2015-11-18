@@ -13,6 +13,7 @@
 #import "HttpMethods.h"
 #import "OpenUDID.h"
 #import "Base64XD.h"
+#import "RegesterViewController.h"
 
 
 @interface LoginViewController ()
@@ -56,7 +57,7 @@
        
     }
     
-    _logoView.frame = CGRectMake((ScreenWidth - 180)/2, 90 + addHight, 180, 85);
+   // _logoView.frame = CGRectMake((ScreenWidth - 180)/2, 90 + addHight, 180, 85);
     
     
     _loginBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
@@ -82,9 +83,9 @@
     UIView *lineView3 = [[UIView alloc] initWithFrame:CGRectMake(0, 366 + 9.5 + addHight, ScreenWidth, 0.5)];
     lineView3.backgroundColor = [ConMethods  colorWithHexString:@"eeeeee"];
     //[self.view addSubview:lineView3];
+    //设置文本框
     
-    
-//设置文本框
+
     _userName.clearButtonMode = UITextFieldViewModeAlways;
     _userName.text = @"";
     //设置密码
@@ -102,7 +103,7 @@
     _userName.autocorrectionType = UITextAutocorrectionTypeNo;
     self.code.autocorrectionType = UITextAutocorrectionTypeNo;
     //是否自动纠错
-    
+    /*
     _codeImgve.userInteractionEnabled = YES;
     
     UITapGestureRecognizer *singleTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(requestCategoryList)];
@@ -119,8 +120,8 @@
     _codeImgve.layer.masksToBounds = YES;
     
     
-     [self requestCategoryList];
-    
+     //[self requestCategoryList];
+    */
     [self readUserInfo]; 
 }
 
@@ -152,7 +153,7 @@
     Base64XD * passwordBase64 = [Base64XD encodeBase64String:self.password.text];
     NSLog(@"%@",passwordBase64.strBase64);
     
-     NSDictionary *parameters = @{@"username": self.userName.text,@"password": passwordBase64.strBase64,@"captcha": _code.text, @"mac":openUDID};
+     NSDictionary *parameters = @{@"username": self.userName.text,@"password": passwordBase64.strBase64, @"mac":openUDID};
     
     
     
@@ -306,19 +307,14 @@
 
 
 - (IBAction)push:(id)sender {
-   // RegesterViewController *controller = [[RegesterViewController alloc] init];
-   // controller.modalTransitionStyle = UIModalTransitionStyle;
+    RegesterViewController *controller = [[RegesterViewController alloc] init];
+  
     
-   // [self presentViewController:controller animated:YES completion:nil];
-    
-    //[self.navigationController pushViewController:controller animated:YES];
+    [self.navigationController pushViewController:controller animated:YES];
     
 }
 
 - (IBAction)loginBtn:(id)sender {
-    
-    
-    
    
     [self.userName resignFirstResponder];
     [self.password resignFirstResponder];
@@ -338,14 +334,7 @@
                                           target:self.view
                                  displayInterval:3];
         
-    }else if ([self.code.text isEqualToString:@""]){
-        [[HttpMethods Instance] activityIndicate:NO
-                                      tipContent:@"请输入验证码"
-                                   MBProgressHUD:nil
-                                          target:self.view
-                                 displayInterval:3];
-       
-    }  else {
+    } else {
         
         if (self.rember.selected == YES) {
             [self saveData];

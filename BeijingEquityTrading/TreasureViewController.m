@@ -8,6 +8,8 @@
 
 #import "TreasureViewController.h"
 #import "AppDelegate.h"
+#import "MoreTableViewCell.h"
+#import "ListData.h"
 
 @interface TreasureViewController ()
 {
@@ -55,18 +57,82 @@
     [table setDelegate:self];
     [table setDataSource:self];
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [table setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
+    [table setBackgroundColor:[ConMethods colorWithHexString:@"F7F7F5"]];
     table.tableFooterView = [[UIView alloc] init];
     
     [self.view addSubview:table];
     
     
-    [self requestData:_searchStr];
+    [self requestData:@"0" withprice:@"2" with:@""];
     
     [self setupHeader];
     [self setupFooter];
 
 }
+
+
+//请求数据方法
+//请求数据方法
+-(void) requestData:(NSString *)_endTime withprice:(NSString *)_price with:(NSString *)search{
+    
+    NSLog(@"start = %@",start);
+    
+    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"id":@"23",@"endTime":_endTime,@"price":_price,@"search":search};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERprjsappIndexli] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            [self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"prjList"] objectForKey:@"object"]];
+            
+        } else {
+            
+            NSMutableArray *arr = [NSMutableArray array];
+            [self recivedCategoryList:arr];
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
+
+
+
+
 
 #pragma mark - UITableView DataSource Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -90,15 +156,21 @@
     return count;
 }
 
+static NSString *rosterItemTableIdentifier = @"TZGGItem";
+
 - (UITableViewCell *)tableView:(UITableView *)tbleView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //[tableView setScrollEnabled:NO]; tableView 不能滑动
     static NSString *RepairCellIdentifier = @"RepairCellIdentifier";
-    UITableViewCell *cell;
-    cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
+    
+    	MoreTableViewCell *cell = (MoreTableViewCell * ) [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+    
+    
+   // UITableViewCell *cell;
+    //cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
     
     if ([dataList count] == 0 ) {
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
+        cell = [[MoreTableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
         [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
@@ -118,73 +190,30 @@
         
     } else{
         
-        
-        cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+        NSString * nibName = @"MoreTableViewCell";
+
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 220)];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-            //添加背景View
-            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, ScreenWidth - 10, 210)];
-            [backView setBackgroundColor:[UIColor whiteColor]];
-            backView.layer.cornerRadius = 2;
-            backView.layer.masksToBounds = YES;
-            backView.layer.borderWidth = 1;
-            backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
-            //专场列表
+           // cell = [[[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil] objectAtIndex: 0];
+            
+           // cell = [[MoreTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
             
             
+            //[tbleView registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellReuseIdentifier:rosterItemTableIdentifier];
             
-            UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 100)];
-            [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles?type=zclogo&id=%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
-            [backView addSubview:image];
+            ListData *listD = [[ListData alloc] initWithListData:[dataList objectAtIndex:indexPath.row]];
             
-            
-            //品牌
-            UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, ScreenWidth - 30, 15)];
-            brandLabel.font = [UIFont systemFontOfSize:15];
-            [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
-            [brandLabel setBackgroundColor:[UIColor clearColor]];
-            // brandLabel.numberOfLines = 0;
-            brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ZCMC"];
-            [backView addSubview:brandLabel];
-            
-            //最新价
-            UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10 , 135, ScreenWidth - 30, 14)];
-            dayLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ZCQH"];
-            dayLabel.font = [UIFont systemFontOfSize:14];
-            dayLabel.textColor = [ConMethods colorWithHexString:@"999999"];
-            [backView addSubview:dayLabel];
-            
-            UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 155, ScreenWidth - 30, 14)];
-            dateLabel.text = [NSString stringWithFormat:@"%@-%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"KSRQ"],[[dataList objectAtIndex:indexPath.row] objectForKey:@"JSRQ"]];
-            dateLabel.font = [UIFont systemFontOfSize:14];
-            dateLabel.textColor = [ConMethods colorWithHexString:@"333333"];
-            
-            [backView addSubview:dateLabel];
+            cell = [MoreTableViewCell testCell];
+                 [cell setModel:listD];
             
             
-            
-            
-            //围观
-            
-            UILabel *dateLabelMore = [[UILabel alloc] initWithFrame:CGRectMake( 10, 180, 28, 14)];
-            dateLabelMore.text = [NSString stringWithFormat:@"%d",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"WGCS"] intValue]];
-            dateLabelMore.font = [UIFont systemFontOfSize:14];
-            dateLabelMore.textColor = [UIColor redColor];
-            
-            [backView addSubview:dateLabelMore];
-            
-            UILabel *dayLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(38, 180, ScreenWidth - 60, 14)];
-            dayLabelMore.text = @"次围观";
-            dayLabelMore.font = [UIFont systemFontOfSize:14];
-            dayLabelMore.textColor = [ConMethods colorWithHexString:@"999999"];
-            [backView addSubview:dayLabelMore];
-            
-            
-            [cell.contentView addSubview:backView];
         }
+        
+        if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+        
+            cell.timeEnd = [[dataList objectAtIndex:indexPath.row] objectForKey:@"djs"];
+        }
+            
         
     }
     
@@ -193,11 +222,11 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 220;
+    if (dataList.count == 0) {
+        return 90;
     } else {
+        return 120;
         
-        return 170;
     }
     
 }
@@ -322,6 +351,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             [dataList removeAllObjects];
+            
+            NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:[[NSBundle mainBundle] loadNibNamed:@"MoreTableViewCell" owner:self options:nil]];
+            [arr removeAllObjects];
+            
         }
         
     }

@@ -59,9 +59,16 @@
 		044B54B51BD9E7FB00CC4CC5 /* GTMBase64XD.m in Sources */ = {isa = PBXBuildFile; fileRef = 044B54B11BD9E7FB00CC4CC5 /* GTMBase64XD.m */; };
 		044B54B61BD9E7FB00CC4CC5 /* Base64XD.m in Sources */ = {isa = PBXBuildFile; fileRef = 044B54B41BD9E7FB00CC4CC5 /* Base64XD.m */; };
 		044B54B91BD9E80500CC4CC5 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 044B54B81BD9E80500CC4CC5 /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		045A59131BFC162E00771AE0 /* MoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A59111BFC162E00771AE0 /* MoreTableViewCell.m */; };
+		045A59141BFC162E00771AE0 /* MoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045A59121BFC162E00771AE0 /* MoreTableViewCell.xib */; };
+		045A59191BFC2EB100771AE0 /* ListData.m in Sources */ = {isa = PBXBuildFile; fileRef = 045A59181BFC2EB000771AE0 /* ListData.m */; };
 		047105FD1BCB670700F558FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 047105FC1BCB670700F558FF /* main.m */; };
 		047106001BCB670700F558FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 047105FF1BCB670700F558FF /* AppDelegate.m */; };
 		047106081BCB670700F558FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 047106071BCB670700F558FF /* Assets.xcassets */; };
+		04B101621BFC6070008C6100 /* UserProcrolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B101601BFC6070008C6100 /* UserProcrolViewController.m */; };
+		04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B101611BFC6070008C6100 /* UserProcrolViewController.xib */; };
+		04B101671BFC6084008C6100 /* RegesterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B101651BFC6084008C6100 /* RegesterViewController.m */; };
+		04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B101661BFC6084008C6100 /* RegesterViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -166,12 +173,23 @@
 		044B54B41BD9E7FB00CC4CC5 /* Base64XD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64XD.m; sourceTree = "<group>"; };
 		044B54B71BD9E80500CC4CC5 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		044B54B81BD9E80500CC4CC5 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
+		045A59101BFC162E00771AE0 /* MoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTableViewCell.h; sourceTree = "<group>"; };
+		045A59111BFC162E00771AE0 /* MoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTableViewCell.m; sourceTree = "<group>"; };
+		045A59121BFC162E00771AE0 /* MoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreTableViewCell.xib; sourceTree = "<group>"; };
+		045A59171BFC2EB000771AE0 /* ListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListData.h; sourceTree = "<group>"; };
+		045A59181BFC2EB000771AE0 /* ListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListData.m; sourceTree = "<group>"; };
 		047105F81BCB670600F558FF /* BeijingEquityTrading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeijingEquityTrading.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047105FC1BCB670700F558FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		047105FE1BCB670700F558FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		047105FF1BCB670700F558FF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		047106071BCB670700F558FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0471060C1BCB670700F558FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04B1015F1BFC6070008C6100 /* UserProcrolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProcrolViewController.h; sourceTree = "<group>"; };
+		04B101601BFC6070008C6100 /* UserProcrolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProcrolViewController.m; sourceTree = "<group>"; };
+		04B101611BFC6070008C6100 /* UserProcrolViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProcrolViewController.xib; sourceTree = "<group>"; };
+		04B101641BFC6084008C6100 /* RegesterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegesterViewController.h; sourceTree = "<group>"; };
+		04B101651BFC6084008C6100 /* RegesterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegesterViewController.m; sourceTree = "<group>"; };
+		04B101661BFC6084008C6100 /* RegesterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegesterViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +348,11 @@
 				043E3E5C1BF9B09100FF5AAE /* MarkViewController.h */,
 				043E3E5D1BF9B09100FF5AAE /* MarkViewController.m */,
 				043E3E5E1BF9B09100FF5AAE /* MarkViewController.xib */,
+				045A59101BFC162E00771AE0 /* MoreTableViewCell.h */,
+				045A59111BFC162E00771AE0 /* MoreTableViewCell.m */,
+				045A59121BFC162E00771AE0 /* MoreTableViewCell.xib */,
+				045A59171BFC2EB000771AE0 /* ListData.h */,
+				045A59181BFC2EB000771AE0 /* ListData.m */,
 			);
 			name = "详情界面";
 			sourceTree = "<group>";
@@ -337,6 +360,12 @@
 		044B54A71BD9E74300CC4CC5 /* 登录界面 */ = {
 			isa = PBXGroup;
 			children = (
+				04B101641BFC6084008C6100 /* RegesterViewController.h */,
+				04B101651BFC6084008C6100 /* RegesterViewController.m */,
+				04B101661BFC6084008C6100 /* RegesterViewController.xib */,
+				04B1015F1BFC6070008C6100 /* UserProcrolViewController.h */,
+				04B101601BFC6070008C6100 /* UserProcrolViewController.m */,
+				04B101611BFC6070008C6100 /* UserProcrolViewController.xib */,
 				044B54A81BD9E74D00CC4CC5 /* LoginViewController.h */,
 				044B54A91BD9E74D00CC4CC5 /* LoginViewController.m */,
 				044B54AA1BD9E74D00CC4CC5 /* LoginViewController.xib */,
@@ -483,6 +512,9 @@
 				044B54AC1BD9E74D00CC4CC5 /* LoginViewController.xib in Resources */,
 				042A56981BF30CF9006032C5 /* DetailViewController.xib in Resources */,
 				047106081BCB670700F558FF /* Assets.xcassets in Resources */,
+				045A59141BFC162E00771AE0 /* MoreTableViewCell.xib in Resources */,
+				04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */,
+				04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */,
 				04041E4C1BF18A25009C6D2B /* sdRefeshView_arrow@2x.png in Resources */,
 				0429691D1BCF80F900975279 /* TreasureViewController.xib in Resources */,
 				042969181BCF80D200975279 /* SpecialPerformanceViewController.xib in Resources */,
@@ -515,13 +547,17 @@
 				04041EBB1BF18EB3009C6D2B /* UIImageView+AFNetworking.m in Sources */,
 				04041EC51BF18ED8009C6D2B /* MBProgressHUD.mm in Sources */,
 				042968DE1BCF792800975279 /* Circle.m in Sources */,
+				04B101671BFC6084008C6100 /* RegesterViewController.m in Sources */,
 				047106001BCB670700F558FF /* AppDelegate.m in Sources */,
 				04041EB81BF18EB3009C6D2B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				042969121BCF804B00975279 /* MainViewController.m in Sources */,
+				045A59131BFC162E00771AE0 /* MoreTableViewCell.m in Sources */,
 				0429691C1BCF80F900975279 /* TreasureViewController.m in Sources */,
+				04B101621BFC6070008C6100 /* UserProcrolViewController.m in Sources */,
 				04041E501BF18A25009C6D2B /* SDRefreshFooterView.m in Sources */,
 				04041EBD1BF18EB3009C6D2B /* UIRefreshControl+AFNetworking.m in Sources */,
 				04041EA31BF18EA4009C6D2B /* AFURLResponseSerialization.m in Sources */,
+				045A59191BFC2EB100771AE0 /* ListData.m in Sources */,
 				04041E9D1BF18EA4009C6D2B /* AFHTTPRequestOperationManager.m in Sources */,
 				04041E9C1BF18EA4009C6D2B /* AFHTTPRequestOperation.m in Sources */,
 				042968E01BCF792800975279 /* CPVTabViewController.m in Sources */,
@@ -635,6 +671,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = InHouse.com.apex.TouGou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -650,6 +687,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = InHouse.com.apex.TouGou;
 				PRODUCT_NAME = "$(TARGET_NAME)";
