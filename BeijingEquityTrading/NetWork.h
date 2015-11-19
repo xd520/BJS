@@ -55,7 +55,10 @@
 #define USERsearchappIndexli @"/service/s/search/app_index"
 #define USERsearchliappIndex @"/service/s/search/app_search_li"
 
-
+/**资讯模块***/
+#define USERinfomenu @"/service/s/info/app_menu"
+#define USERinfolist @"/service/s/info/app_list_li"
+#define USERinfodetail @"/page/s/info/app_detail"
 
 
 

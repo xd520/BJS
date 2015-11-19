@@ -36,7 +36,7 @@
         addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
-        statusBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
+        statusBarView.backgroundColor=[UIColor blackColor];
         
         [self.view addSubview:statusBarView];
     } else {
@@ -65,12 +65,28 @@
    // table.tableFooterView = [[UIView alloc] init];
     //table.bounces = NO;
     
+    table.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    
     [self.view addSubview:table];
     
     [self requestMethods];
     
     
 }
+
+
+
+
+
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
+
 
 
 
@@ -1062,12 +1078,28 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)sender
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (scrollView == table) {
+        
+    
+    //去掉UItableview headerview黏性(sticky)
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+
+    } else {
+    
+    
+    
     CGFloat pagewidth = scrollViewImage.frame.size.width;
     int page = floor((scrollViewImage.contentOffset.x - pagewidth/([imageArray count]+2))/pagewidth)+1;
     page --;  // 默认从第二页开始
     pageControl.currentPage = page;
+    }
 }
 
 

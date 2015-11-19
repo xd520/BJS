@@ -42,7 +42,7 @@
         addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
-        statusBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
+        statusBarView.backgroundColor=[UIColor blackColor];
         
         [self.view addSubview:statusBarView];
     } else {
@@ -71,7 +71,17 @@
 }
 
 
-//请求数据方法
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
+
+
+
+
 //请求数据方法
 -(void) requestData:(NSString *)_endTime withprice:(NSString *)_price with:(NSString *)search{
     

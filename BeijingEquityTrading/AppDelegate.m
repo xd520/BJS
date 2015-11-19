@@ -13,6 +13,7 @@
 #import "MyViewController.h"
 #import "CPVTabViewController.h"
 #import "LoginViewController.h"
+#import "MoreViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,8 +23,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
     _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.backgroundColor = [UIColor whiteColor];
+    
+    _loginUser = [NSMutableDictionary dictionary];
     
     [self initTabBarControllerUI];
     /*
@@ -61,20 +66,27 @@
     nav4.delegate = self;
     
     
-    _tabBarController.viewControllers =[[NSArray alloc] initWithObjects:nav1,nav2,nav3,nav4, nil];
+    
+    MoreViewController *moerVC = [[MoreViewController alloc] init];
+    UINavigationController *nav5 = [[UINavigationController alloc] initWithRootViewController:moerVC];
+    nav5.delegate = self;
+    
+    
+    
+    _tabBarController.viewControllers =[[NSArray alloc] initWithObjects:nav1,nav2,nav3,nav4,nav5,  nil];
     _tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
     
-    NSArray *tbNormalArray = @[[UIImage imageNamed:@"nav_icon_home_focus"],[UIImage imageNamed:@"nav_icon_zc_focus"],[UIImage imageNamed:@"nav_icon_search_focus"],[UIImage imageNamed:@"nav_icon_user_focus"]];
+    NSArray *tbNormalArray = @[[UIImage imageNamed:@"nav_icon_home_focus"],[UIImage imageNamed:@"nav_icon_zc_focus"],[UIImage imageNamed:@"nav_icon_search_focus"],[UIImage imageNamed:@"nav_icon_user_focus"],[UIImage imageNamed:@"nav_icon_user_focus"]];
     
     
-    NSArray *tbHighlightArray = @[[UIImage imageNamed:@"nav_icon_home_normal"],[UIImage imageNamed:@"nav_icon_zc_normal"],[UIImage imageNamed:@"nav_icon_search_normal"],[UIImage imageNamed:@"nav_icon_user_normal"]];
+    NSArray *tbHighlightArray = @[[UIImage imageNamed:@"nav_icon_home_normal"],[UIImage imageNamed:@"nav_icon_zc_normal"],[UIImage imageNamed:@"nav_icon_search_normal"],[UIImage imageNamed:@"nav_icon_user_normal"],[UIImage imageNamed:@"nav_icon_user_normal"]];
     [_tabBarController setItemSelectedImages:tbNormalArray];
     
     [_tabBarController setTabBarItemsImage:tbHighlightArray];
     
     
     
-    NSMutableArray *txtArr=[NSMutableArray arrayWithObjects:@"首页",@"专场",@"寻宝",@"我的",nil];
+    NSMutableArray *txtArr=[NSMutableArray arrayWithObjects:@"首页",@"专场",@"寻宝",@"我的",@"更多",nil];
     
     [self.tabBarController setTabBarItemsTitle:txtArr];
     self.tabBarController.delegate = (id <UITabBarControllerDelegate>)self;

@@ -69,6 +69,16 @@
 		04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B101611BFC6070008C6100 /* UserProcrolViewController.xib */; };
 		04B101671BFC6084008C6100 /* RegesterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B101651BFC6084008C6100 /* RegesterViewController.m */; };
 		04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B101661BFC6084008C6100 /* RegesterViewController.xib */; };
+		04BC405F1BFDBE6A00548EBA /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC405D1BFDBE6A00548EBA /* MoreViewController.m */; settings = {ASSET_TAGS = (); }; };
+		04BC40601BFDBE6A00548EBA /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC405E1BFDBE6A00548EBA /* MoreViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		04BC406A1BFDBE8900548EBA /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40621BFDBE8900548EBA /* AboutViewController.m */; settings = {ASSET_TAGS = (); }; };
+		04BC406B1BFDBE8900548EBA /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40631BFDBE8900548EBA /* AboutViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		04BC406C1BFDBE8900548EBA /* PublicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40651BFDBE8900548EBA /* PublicViewController.m */; settings = {ASSET_TAGS = (); }; };
+		04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40661BFDBE8900548EBA /* PublicViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		04BC406E1BFDBE8900548EBA /* WebDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40681BFDBE8900548EBA /* WebDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
+		04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40691BFDBE8900548EBA /* WebDetailViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		04BC40731BFDC39700548EBA /* ProviousViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40711BFDC39700548EBA /* ProviousViewController.m */; settings = {ASSET_TAGS = (); }; };
+		04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40721BFDC39700548EBA /* ProviousViewController.xib */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -190,6 +200,21 @@
 		04B101641BFC6084008C6100 /* RegesterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegesterViewController.h; sourceTree = "<group>"; };
 		04B101651BFC6084008C6100 /* RegesterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegesterViewController.m; sourceTree = "<group>"; };
 		04B101661BFC6084008C6100 /* RegesterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegesterViewController.xib; sourceTree = "<group>"; };
+		04BC405C1BFDBE6A00548EBA /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
+		04BC405D1BFDBE6A00548EBA /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
+		04BC405E1BFDBE6A00548EBA /* MoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreViewController.xib; sourceTree = "<group>"; };
+		04BC40611BFDBE8900548EBA /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		04BC40621BFDBE8900548EBA /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		04BC40631BFDBE8900548EBA /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		04BC40641BFDBE8900548EBA /* PublicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicViewController.h; sourceTree = "<group>"; };
+		04BC40651BFDBE8900548EBA /* PublicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicViewController.m; sourceTree = "<group>"; };
+		04BC40661BFDBE8900548EBA /* PublicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublicViewController.xib; sourceTree = "<group>"; };
+		04BC40671BFDBE8900548EBA /* WebDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebDetailViewController.h; sourceTree = "<group>"; };
+		04BC40681BFDBE8900548EBA /* WebDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebDetailViewController.m; sourceTree = "<group>"; };
+		04BC40691BFDBE8900548EBA /* WebDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebDetailViewController.xib; sourceTree = "<group>"; };
+		04BC40701BFDC39700548EBA /* ProviousViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviousViewController.h; sourceTree = "<group>"; };
+		04BC40711BFDC39700548EBA /* ProviousViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviousViewController.m; sourceTree = "<group>"; };
+		04BC40721BFDC39700548EBA /* ProviousViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProviousViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +346,7 @@
 		0429690E1BCF7F0600975279 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				04F706311BFD6A9C0036F8A6 /* 资讯界面 */,
 				042A56931BF30CD2006032C5 /* 详情界面 */,
 				044B54A71BD9E74300CC4CC5 /* 登录界面 */,
 				0429690F1BCF804B00975279 /* MainViewController.h */,
@@ -335,6 +361,9 @@
 				0429691E1BCF811900975279 /* MyViewController.h */,
 				0429691F1BCF811900975279 /* MyViewController.m */,
 				042969201BCF811900975279 /* MyViewController.xib */,
+				04BC405C1BFDBE6A00548EBA /* MoreViewController.h */,
+				04BC405D1BFDBE6A00548EBA /* MoreViewController.m */,
+				04BC405E1BFDBE6A00548EBA /* MoreViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -449,6 +478,25 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		04F706311BFD6A9C0036F8A6 /* 资讯界面 */ = {
+			isa = PBXGroup;
+			children = (
+				04BC40701BFDC39700548EBA /* ProviousViewController.h */,
+				04BC40711BFDC39700548EBA /* ProviousViewController.m */,
+				04BC40721BFDC39700548EBA /* ProviousViewController.xib */,
+				04BC40611BFDBE8900548EBA /* AboutViewController.h */,
+				04BC40621BFDBE8900548EBA /* AboutViewController.m */,
+				04BC40631BFDBE8900548EBA /* AboutViewController.xib */,
+				04BC40641BFDBE8900548EBA /* PublicViewController.h */,
+				04BC40651BFDBE8900548EBA /* PublicViewController.m */,
+				04BC40661BFDBE8900548EBA /* PublicViewController.xib */,
+				04BC40671BFDBE8900548EBA /* WebDetailViewController.h */,
+				04BC40681BFDBE8900548EBA /* WebDetailViewController.m */,
+				04BC40691BFDBE8900548EBA /* WebDetailViewController.xib */,
+			);
+			name = "资讯界面";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -512,9 +560,14 @@
 				044B54AC1BD9E74D00CC4CC5 /* LoginViewController.xib in Resources */,
 				042A56981BF30CF9006032C5 /* DetailViewController.xib in Resources */,
 				047106081BCB670700F558FF /* Assets.xcassets in Resources */,
+				04BC40601BFDBE6A00548EBA /* MoreViewController.xib in Resources */,
 				045A59141BFC162E00771AE0 /* MoreTableViewCell.xib in Resources */,
+				04BC406B1BFDBE8900548EBA /* AboutViewController.xib in Resources */,
+				04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */,
 				04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */,
+				04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */,
 				04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */,
+				04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */,
 				04041E4C1BF18A25009C6D2B /* sdRefeshView_arrow@2x.png in Resources */,
 				0429691D1BCF80F900975279 /* TreasureViewController.xib in Resources */,
 				042969181BCF80D200975279 /* SpecialPerformanceViewController.xib in Resources */,
@@ -535,6 +588,7 @@
 				044B54AB1BD9E74D00CC4CC5 /* LoginViewController.m in Sources */,
 				04041E4F1BF18A25009C6D2B /* UIView+SDExtension.m in Sources */,
 				044B54B91BD9E80500CC4CC5 /* OpenUDID.m in Sources */,
+				04BC40731BFDC39700548EBA /* ProviousViewController.m in Sources */,
 				04041EA11BF18EA4009C6D2B /* AFURLConnectionOperation.m in Sources */,
 				044B54B61BD9E7FB00CC4CC5 /* Base64XD.m in Sources */,
 				043E3E5F1BF9B09100FF5AAE /* MarkViewController.m in Sources */,
@@ -556,6 +610,7 @@
 				04B101621BFC6070008C6100 /* UserProcrolViewController.m in Sources */,
 				04041E501BF18A25009C6D2B /* SDRefreshFooterView.m in Sources */,
 				04041EBD1BF18EB3009C6D2B /* UIRefreshControl+AFNetworking.m in Sources */,
+				04BC406E1BFDBE8900548EBA /* WebDetailViewController.m in Sources */,
 				04041EA31BF18EA4009C6D2B /* AFURLResponseSerialization.m in Sources */,
 				045A59191BFC2EB100771AE0 /* ListData.m in Sources */,
 				04041E9D1BF18EA4009C6D2B /* AFHTTPRequestOperationManager.m in Sources */,
@@ -564,10 +619,13 @@
 				042969171BCF80D200975279 /* SpecialPerformanceViewController.m in Sources */,
 				042968E11BCF792800975279 /* ConMethods.m in Sources */,
 				042969211BCF811900975279 /* MyViewController.m in Sources */,
+				04BC406A1BFDBE8900548EBA /* AboutViewController.m in Sources */,
 				04041E411BF18A18009C6D2B /* Child.m in Sources */,
+				04BC406C1BFDBE8900548EBA /* PublicViewController.m in Sources */,
 				04041E9F1BF18EA4009C6D2B /* AFNetworkReachabilityManager.m in Sources */,
 				04041E4E1BF18A25009C6D2B /* SDRefreshHeaderView.m in Sources */,
 				042968E21BCF792800975279 /* ApexJs.m in Sources */,
+				04BC405F1BFDBE6A00548EBA /* MoreViewController.m in Sources */,
 				04041EB71BF18EB3009C6D2B /* AFNetworkActivityIndicatorManager.m in Sources */,
 				0429690D1BCF7E9600975279 /* ShareMyData.m in Sources */,
 				042968E31BCF792800975279 /* PublicMethod.mm in Sources */,

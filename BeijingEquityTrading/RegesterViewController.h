@@ -24,6 +24,7 @@
 - (IBAction)sheetMethods:(id)sender;
 
 - (IBAction)back:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *headView;
 - (IBAction)next:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *allView;

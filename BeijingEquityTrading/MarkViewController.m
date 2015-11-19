@@ -25,7 +25,7 @@
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
-        statusBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
+        statusBarView.backgroundColor=[UIColor blackColor];
         
         [self.view addSubview:statusBarView];
     } else {

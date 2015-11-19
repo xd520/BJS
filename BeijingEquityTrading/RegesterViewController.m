@@ -42,12 +42,20 @@
         addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
-        statusBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
+        statusBarView.backgroundColor=[UIColor blackColor];
         
         [self.view addSubview:statusBarView];
     } else {
         addHight = 0;
     }
+    
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 39.5, ScreenWidth, 0.5)];
+    lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
+    [self.headView addSubview:lineView1];
+
+    
+    
+    
     
     
     UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 39.5, ScreenWidth - 10, 0.5)];
@@ -69,7 +77,7 @@
     
     
     //按钮设置
-    self.sheetBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
+    self.sheetBtn.backgroundColor = [ConMethods colorWithHexString:@"BD0100"];
     //self.sheetBtn.enabled = NO;
     //self.sheetBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
     
@@ -429,7 +437,7 @@
         
         if ([[responseObject objectForKey:@"success"] boolValue]){
             NSLog(@"JSON: %@", responseObject);
-            
+            child.age = 0;
             
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]
@@ -454,6 +462,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        child.age = 0;
         
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:notNetworkConnetTip

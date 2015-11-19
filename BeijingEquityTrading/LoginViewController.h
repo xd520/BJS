@@ -17,6 +17,7 @@
 @property (strong, nonatomic)NSString *loginStr;
 
 @property (weak, nonatomic) IBOutlet UITextField *code;
+@property (weak, nonatomic) IBOutlet UIView *allView;
 
 @property (weak, nonatomic) IBOutlet UITextField *userName;
 @property (weak, nonatomic) IBOutlet UITextField *password;
@@ -28,5 +29,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *codeImgve;
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
+@property (weak, nonatomic) IBOutlet UIView *headVeiw;
 
 @end

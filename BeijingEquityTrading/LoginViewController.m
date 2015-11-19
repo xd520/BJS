@@ -49,7 +49,7 @@
         addHight = 20;
     UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
     
-    statusBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
+    statusBarView.backgroundColor=[UIColor blackColor];
     
     [self.view addSubview:statusBarView];
     } else {
@@ -58,6 +58,10 @@
     }
     
    // _logoView.frame = CGRectMake((ScreenWidth - 180)/2, 90 + addHight, 180, 85);
+    
+    UIView *lineView0 = [[UIView alloc] initWithFrame:CGRectMake(0, 39.5, ScreenWidth, 1)];
+    lineView0.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
+    [self.headVeiw addSubview:lineView0];
     
     
     _loginBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
@@ -68,21 +72,13 @@
    // [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
     
    // [self.navigationController setNavigationBarHidden:YES];
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 265.5 +  addHight, ScreenWidth - 10, 0.5)];
-     lineView.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
-   [self.view addSubview:lineView];
+   
     
-    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(10, 305.5 +  addHight, ScreenWidth - 10, 0.5)];
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, +  39.5, ScreenWidth - 20,1)];
      lineView1.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
-    [self.view addSubview:lineView1];
+    [self.allView addSubview:lineView1];
     
-    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 345.5 + addHight, ScreenWidth - 10, 0.5)];
-    lineView2.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
-    [self.view addSubview:lineView2];
-    
-    UIView *lineView3 = [[UIView alloc] initWithFrame:CGRectMake(0, 366 + 9.5 + addHight, ScreenWidth, 0.5)];
-    lineView3.backgroundColor = [ConMethods  colorWithHexString:@"eeeeee"];
-    //[self.view addSubview:lineView3];
+  
     //设置文本框
     
 
