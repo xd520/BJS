@@ -19,5 +19,6 @@
 - (IBAction)back:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *titleLab;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIView *headView;
 
 @end

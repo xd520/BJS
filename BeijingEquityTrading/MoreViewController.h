@@ -23,5 +23,6 @@
 @property (weak,nonatomic) id<LogOutVCDelegate> delegate;
 - (IBAction)logoutBtn:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
+@property (weak, nonatomic) IBOutlet UIView *headView;
 
 @end

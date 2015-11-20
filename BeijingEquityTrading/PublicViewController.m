@@ -55,12 +55,16 @@
         addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
-        statusBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
+        statusBarView.backgroundColor=[UIColor blackColor];
         
         [self.view addSubview:statusBarView];
     } else {
         addHight = 0;
     }
+    
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 1)];
+    lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
+    [self.headView addSubview:lineView1];
     
    
     float scrollViewHeight = 0;
@@ -75,10 +79,10 @@
     [self.view addSubview:table];
     
     [self setupHeader];
-    [self setupFooter];
+   // [self setupFooter];
     
 //夏金所公告
-    [self requestData:@"999"];
+    [self requestData:_strId];
 
 }
 
@@ -96,9 +100,8 @@
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            start = @"1";
             
-            [self requestData:@"999"];
+            [self requestData:_strId];
             
             [weakRefreshHeader endRefreshing];
         });
@@ -127,7 +130,7 @@
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [self requestData:@"999"];
+            [self requestData:_strId];
             [self.refreshFooter endRefreshing];
         });
     }
@@ -137,9 +140,8 @@
 
 -(void) requestData:(NSString *)str {
     
-    NSLog(@"start = %@",start);
 
-    NSDictionary *parameters = @{@"pageIndex":start,@"pageSize":limit,@"classId":str};
+    NSDictionary *parameters = @{@"id":str};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -159,7 +161,7 @@
                                               target:self.view
                                      displayInterval:3];
             
-            [self recivedCategoryList:[responseObject objectForKey:@"object"]];
+            [self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"list_li"] objectForKey:@"object"]];
             
         } else {
             
@@ -195,12 +197,11 @@
 {
     NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理品牌列表数据");
     
-    if ([start isEqualToString:@"1"]) {
+   
         if (dataList.count > 0) {
             [dataList removeAllObjects];
         }
-        
-    }
+    
     
     if(dataList){
         
@@ -209,22 +210,7 @@
         dataList = [dataArray mutableCopy];
     }
     
-    [table reloadData];
     
-    if ([dataArray count] < 20) {
-        hasMore = NO;
-    } else {
-        hasMore = YES;
-        start = [NSString stringWithFormat:@"%d", [start intValue] + 1];
-    }
-    
-    if (hasMore) {
-        if (!_refreshFooter) {
-            [self setupFooter];
-        }
-    } else {
-        [_refreshFooter removeFromSuperview];
-    }
     
     [table reloadData];
     
@@ -306,8 +292,8 @@
                     
                     NSMutableString *strDate = [[NSMutableString alloc] initWithString:[[dataList objectAtIndex:[indexPath row]] objectForKey:@"PUBTIME"]];
                     // NSString *newStr = [strDate insertring:@"-" atIndex:3];
-                    [strDate insertString:@"-" atIndex:4];
-                    [strDate insertString:@"-" atIndex:(strDate.length - 2)];
+                   // [strDate insertString:@"-" atIndex:4];
+                    //[strDate insertString:@"-" atIndex:(strDate.length - 2)];
                     timeLabel.text = [NSString stringWithFormat:@"%@",strDate];
                     
                     

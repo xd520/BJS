@@ -450,6 +450,15 @@
             [backView addSubview:image1];
             
             
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]){
+                UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(100 - 50, 105 - 35, 50, 35)];
+                img.image = [UIImage imageNamed:@"end"];
+                [backView addSubview:img];
+            }
+            
+            
+            
+            
             //品牌
             UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 5, ScreenWidth - 110, 15)];
             brandLabel.font = [UIFont systemFontOfSize:15];

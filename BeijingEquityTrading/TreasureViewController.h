@@ -10,6 +10,7 @@
 
 @interface TreasureViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIView *headView;
 @property(nonatomic,strong)NSString *searchStr;
 
 @end

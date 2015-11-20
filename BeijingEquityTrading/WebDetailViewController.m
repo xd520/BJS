@@ -35,10 +35,17 @@
         
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
-        statusBarView.backgroundColor=[UIColor colorWithPatternImage:[UIImage imageNamed:@"title_bg"]];
+        statusBarView.backgroundColor=[UIColor blackColor];
         
         [self.view addSubview:statusBarView];
     }
+    
+    
+    
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 1)];
+    lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
+    [self.headView addSubview:lineView1];
+    
     
     _titleLab.text = _name;
     
@@ -48,7 +55,7 @@
     
      [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
-         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/website/infonews/appDetail?id=%@",SERVERURL,_Id]];
+         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",SERVERURL,USERinfodetail,_Id]];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [_webView loadRequest:request];

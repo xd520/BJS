@@ -11,5 +11,6 @@
 @interface ProviousViewController : UIViewController
 
 - (IBAction)back:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *headView;
 
 @end

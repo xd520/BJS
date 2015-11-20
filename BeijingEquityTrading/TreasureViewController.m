@@ -21,6 +21,17 @@
     NSString *limit;
     BOOL hasMore;
     UITableViewCell *moreCell;
+    UITextField *searchText;
+    
+    NSString *endTime;
+    NSString *price;
+    
+    UILabel *lab1;
+    UILabel *lab2;
+    UILabel *lab3;
+    NSInteger countin;
+    NSInteger indext;
+    NSInteger tipcount;
     
     
 }
@@ -50,10 +61,122 @@
     }
     
     
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 0.5)];
+    lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
+    [self.headView addSubview:lineView1];
+    
+    
+    
+   UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(5, 5, ScreenWidth - 10, 30)];
+    view1.backgroundColor = [UIColor whiteColor];
+    view1.layer.masksToBounds = YES;
+    view1.layer.cornerRadius = 4;
+    view1.layer.borderWidth = 1;
+    view1.layer.borderColor = [ConMethods colorWithHexString:@"dedede"].CGColor;
+    
+    UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 1)];
+    lineview.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
+    [view1 addSubview:lineview];
+    
+    
+    searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, ScreenWidth - 10 - 30, 30)];
+    searchText.delegate = self;
+    searchText.placeholder = @"搜索标的名称或编号";
+    searchText.textColor = [ConMethods colorWithHexString:@"333333"];
+    searchText.font = [UIFont systemFontOfSize:15];
+    searchText.clearButtonMode = UITextFieldViewModeWhileEditing;
+    searchText.backgroundColor = [UIColor clearColor];
+    [view1 addSubview:searchText];
+    
+    
+    UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 25, 5, 20, 20);
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
+    [view1 addSubview:searchBtn];
+    [_headView addSubview:view1];
+    
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 30)];
+    backView.backgroundColor = [UIColor whiteColor];
+    
+    
+    //默认选择按钮
+    
+    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"价格▲"];
+    
+    for (int i = 0; i < 4; i++) {
+        UIButton *btn = [[UIButton alloc] init];
+        
+        btn.tag = i;
+        btn.backgroundColor = [UIColor whiteColor];
+        
+        if (i == 0) {
+            
+            btn.frame = CGRectMake(0, 0, ScreenWidth/4 - 0.5, 30);
+            
+            lab1 = [[UILabel alloc] init];
+            lab1.frame = CGRectMake(0, 0,  ScreenWidth/4, 30);
+            lab1.text = [titleArrTranfer objectAtIndex:i];
+            lab1.textAlignment = NSTextAlignmentCenter;
+            lab1.font = [UIFont systemFontOfSize:13];
+            //lab1.userInteractionEnabled = YES;
+            lab1.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            [btn addSubview:lab1];
+            
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/4 - 0.5, 7.5, 0.5, 15)];
+            img.image = [UIImage imageNamed:@"line_iocn"];
+            [btn addSubview:img];
+        } else if(i == 1){
+            btn.frame = CGRectMake(ScreenWidth/4, 0, ScreenWidth/2 , 30);
+            lab2 = [[UILabel alloc] init];
+            lab2.frame = CGRectMake(0, 0, ScreenWidth/2 - 0.5, 30);
+            lab2.text = [titleArrTranfer objectAtIndex:i];
+            lab2.font = [UIFont systemFontOfSize:13];
+            lab2.textAlignment = NSTextAlignmentCenter;
+            lab2.textColor = [ConMethods colorWithHexString:@"999999"];
+            //lab2.userInteractionEnabled = YES;
+            lab2.textColor = [UIColor grayColor];
+            [btn addSubview:lab2];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 0.5, 7.5, 0.5, 15)];
+            img.image = [UIImage imageNamed:@"line_iocn"];
+            [btn addSubview:img];
+        } else if(i == 2){
+            btn.frame = CGRectMake(ScreenWidth*3/4, 0, ScreenWidth/4, 30);
+            lab3 = [[UILabel alloc] init];
+            lab3.frame = CGRectMake(0, 0,ScreenWidth/4 - 0.5, 30);
+            lab3.text = [titleArrTranfer objectAtIndex:i];
+            lab3.font = [UIFont systemFontOfSize:13];
+            lab3.textAlignment = NSTextAlignmentCenter;
+            lab3.textColor = [ConMethods colorWithHexString:@"999999"];
+            //lab3.userInteractionEnabled = YES;
+            lab3.textColor = [UIColor grayColor];
+            [btn addSubview:lab3];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/4- 0.5, 7.5, 0.5, 15)];
+            img.image = [UIImage imageNamed:@"line_iocn"];
+            [btn addSubview:img];
+        }
+        // btn.titleLabel.font = [UIFont systemFontOfSize:13];
+        //btn.titleLabel.textColor = [UIColor redColor];
+        
+        [btn addTarget:self action:@selector(secelectMenthosd:) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:btn];
+        
+    }
+    
+    [self.view addSubview:backView];
+    
+    
+    
+    
+    
+    
+    
+    
     
     //添加tableView
     
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0,addHight , ScreenWidth,ScreenHeight - 20 - 49)];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0,addHight + 44 + 30, ScreenWidth,ScreenHeight - 20 - 49)];
     [table setDelegate:self];
     [table setDataSource:self];
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -69,6 +192,93 @@
     [self setupFooter];
 
 }
+
+
+
+
+-(void)secelectMenthosd:(UIButton *)btn {
+    
+    // NSArray *titleArr = @[@"默认",@"预期收益↑",@"投资期限↑",@"起投金额↑"];
+    //↓▲▼▶◀★☆▲■◆●◕✪✚✖❤
+    
+    
+    if (btn.tag == countin) {
+        indext++;
+    } else {
+        countin = btn.tag;
+        indext = 0;
+    }
+    
+    
+    if (btn.tag == 0) {
+        lab2.textColor = [ConMethods colorWithHexString:@"999999"];
+        lab3.textColor = [ConMethods colorWithHexString:@"999999"];
+        lab1.textColor = [ConMethods colorWithHexString:@"fe8103"];
+        
+        endTime = @"0";
+        price = @"0";
+        
+    } else if (btn.tag == 1) {
+        
+        lab3.textColor = [UIColor grayColor];
+        lab1.textColor = [UIColor grayColor];
+        
+        price = @"0";
+        
+        if (indext%2 == 0) {
+            lab2.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab2.text = @"限时报价开始时间▲";
+            endTime = @"1";
+            
+        } else {
+            
+            lab2.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab2.text = @"限时报价开始时间▼";
+            endTime = @"2";
+        }
+        
+        
+        
+        
+    } else if (btn.tag == 2){
+        lab2.textColor = [ConMethods colorWithHexString:@"999999"];
+        lab1.textColor = [ConMethods colorWithHexString:@"999999"];
+        
+        endTime = @"0";
+        
+        if (indext%2 == 0) {
+            lab3.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab3.text = @"价格▲";
+            price = @"1";
+        } else {
+            
+            lab3.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab3.text = @"价格▼";
+            price = @"2";
+        }
+        
+    }
+    
+    start = @"1";
+    searchText.text = @"";
+    [self requestData:endTime withprice:price with:searchText.text];
+    
+}
+
+
+-(void)searchMthods{
+    
+    [self.view endEditing:YES];
+    
+    start = @"1";
+    endTime = @"0";
+    price = @"0";
+    [self requestData:endTime withprice:price with:searchText.text];
+}
+
+
+
+
 
 
 - (UIStatusBarStyle)preferredStatusBarStyle

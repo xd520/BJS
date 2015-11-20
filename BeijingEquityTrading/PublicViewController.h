@@ -11,6 +11,10 @@
 
 @interface PublicViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
+
+@property(nonatomic,strong)NSString *strId;
+
 - (IBAction)back:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *headView;
 
 @end

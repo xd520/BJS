@@ -59,7 +59,7 @@
     
    // _logoView.frame = CGRectMake((ScreenWidth - 180)/2, 90 + addHight, 180, 85);
     
-    UIView *lineView0 = [[UIView alloc] initWithFrame:CGRectMake(0, 39.5, ScreenWidth, 1)];
+    UIView *lineView0 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 1)];
     lineView0.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
     [self.headVeiw addSubview:lineView0];
     

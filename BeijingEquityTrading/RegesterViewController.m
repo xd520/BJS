@@ -49,7 +49,7 @@
         addHight = 0;
     }
     
-    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 39.5, ScreenWidth, 0.5)];
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 1)];
     lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
     [self.headView addSubview:lineView1];
 
