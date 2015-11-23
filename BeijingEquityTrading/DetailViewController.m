@@ -66,7 +66,7 @@
     
     totalLastTime = [NSMutableArray array];
     
-     image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , 150)];
+    image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , 150)];
     image.userInteractionEnabled = YES;
     image.image = [UIImage imageNamed:@"logo"];
     
@@ -625,201 +625,6 @@
     return cell;
 }
 
-/*
- {
- //[tableView setScrollEnabled:NO]; tableView 不能滑动
- static NSString *RepairCellIdentifier = @"RepairCellIdentifier";
- UITableViewCell *cell;
- cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
- 
- if ([dataList count] == 0 ) {
- cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
- cell.selectionStyle = UITableViewCellSelectionStyleNone;
- UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
- [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
- //图标
- UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
- [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
- [backView addSubview:iconImageView];
- //提示
- UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
- [tipLabel setFont:[UIFont systemFontOfSize:15]];
- [tipLabel setTextAlignment:NSTextAlignmentCenter];
- [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
- tipLabel.backgroundColor = [UIColor clearColor];
- [tipLabel setText:@"没有任何商品哦~"];
- [backView addSubview:tipLabel];
- [cell.contentView addSubview:backView];
- 
- } else{
- 
- //static NSString *ReCellIdentifier = @"cell";
- 
- // cell = [tbleView dequeueReusableCellWithIdentifier:ReCellIdentifier];
- 
- if (cell == nil) {
- 
- cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 120)];
- cell.selectionStyle = UITableViewCellSelectionStyleNone;
- [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
- //添加背景View
- UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 5, ScreenWidth - 10, 110)];
- [backView setBackgroundColor:[UIColor whiteColor]];
- backView.layer.cornerRadius = 2;
- backView.layer.masksToBounds = YES;
- backView.layer.borderWidth = 1;
- backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
- 
- ListData *listData = [[ListData alloc] initWithListData:[dataList objectAtIndex:indexPath.row]];
- 
- 
- //专场列表
- UIImageView *image1 = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 90, 90)];
- [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,listData.image]] placeholderImage:[UIImage imageNamed:@"logo"]];
- [backView addSubview:image1];
- 
- 
- //品牌
- UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 5, ScreenWidth - 110, 15)];
- brandLabel.font = [UIFont systemFontOfSize:15];
- [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
- [brandLabel setBackgroundColor:[UIColor clearColor]];
- // brandLabel.numberOfLines = 0;
- brandLabel.text = listData.nameLab;
- [backView addSubview:brandLabel];
- 
- 
- 
- UILabel *dayLabelM = [[UILabel alloc] init];
- dayLabelM.text = listData.moneyNameL;
- dayLabelM.font = [UIFont systemFontOfSize:14];
- dayLabelM.textColor = [ConMethods colorWithHexString:@"999999"];
- dayLabelM.frame = CGRectMake(100, 28, [PublicMethod getStringWidth:dayLabelM.text font:dayLabelM.font], 14);
- 
- [backView addSubview:dayLabelM];
- 
- 
- 
- //最新价
- UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(dayLabelM.frame.origin.x + dayLabelM.frame.size.width, 28, ScreenWidth - 30, 14)];
- dayLabel.text = listData.moneyLab;
- dayLabel.font = [UIFont systemFontOfSize:14];
- dayLabel.textColor = [ConMethods colorWithHexString:@"333333"];
- [backView addSubview:dayLabel];
- 
- //竞拍中的时候 自由报价时期
- if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
- 
- 
- 
- UILabel *ziyouLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 105 - 40, ScreenWidth/2 - 30, 14)];
- 
- ziyouLabel.font = [UIFont systemFontOfSize:14];
- ziyouLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"JYZT_MC"];
- ziyouLabel.textColor = [ConMethods colorWithHexString:@"333333"];
- [backView addSubview:ziyouLabel];
- }
- 
- //开始时间判定
- 
- UILabel *starLab = [[UILabel alloc] init];
- starLab.textColor = [ConMethods colorWithHexString:@"333333"];
- 
- starLab.text = listData.timeNmaeL;
- starLab.font = [UIFont systemFontOfSize:10];
- 
- starLab.frame = CGRectMake(100, 105 - 20, [PublicMethod getStringWidth:starLab.text font:starLab.font], 12);
- 
- [backView addSubview:starLab];
- 
- 
- //时间显示
- 
- UILabel *timeYuLab = [[UILabel alloc] initWithFrame:CGRectMake(starLab.frame.origin.x   + starLab.frame.size.width, 105 - 20, ScreenWidth - starLab.frame.origin.x   + starLab.frame.size.width - 50, 12)];
- timeYuLab.backgroundColor = [UIColor clearColor];
- timeYuLab.text = listData.timeLab;
- 
- timeYuLab.textColor = [ConMethods colorWithHexString:@"999999"];
- 
- timeYuLab.font = [UIFont systemFontOfSize:10];
- [backView addSubview:timeYuLab];
- 
- 
- UILabel *markLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 20 - 50,105 - 50, 50, 25)];
- 
- markLab.font = [UIFont systemFontOfSize:15];
- markLab.textAlignment = NSTextAlignmentCenter;
- [backView addSubview:markLab];
- 
- //围观
- UILabel *dateLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 20 - 50,105 - 50 + 25, 50, 25)];
- dateLabelMore.font = [UIFont systemFontOfSize:15];
- dateLabelMore.textAlignment = NSTextAlignmentCenter;
- dateLabelMore.text = listData.classLab;
- dateLabelMore.layer.borderWidth = 1;
- [backView addSubview:dateLabelMore];
- 
- 
- if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"wks"]) {
- markLab.text = @"围观";
- markLab.backgroundColor = [ConMethods colorWithHexString:@"9c7e4a"];
- markLab.textColor = [UIColor whiteColor];
- 
- dateLabelMore.textColor = [ConMethods colorWithHexString:@"9c7e4a"];
- dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9c7e4a"].CGColor;
- 
- 
- } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
- markLab.text = @"报价";
- markLab.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
- markLab.textColor = [UIColor whiteColor];
- 
- dateLabelMore.textColor = [ConMethods colorWithHexString:@"bd0100"];
- dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"bd0100"].CGColor;
- 
- }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]){
- 
- markLab.text = @"报价";
- markLab.backgroundColor = [ConMethods colorWithHexString:@"9b9b9b"];
- markLab.textColor = [UIColor whiteColor];
- 
- dateLabelMore.textColor = [ConMethods colorWithHexString:@"9b9b9b"];
- dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9b9b9b"].CGColor;
- }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]){
- markLab.text = @"报价";
- markLab.backgroundColor = [ConMethods colorWithHexString:@"9b9b9b"];
- markLab.textColor = [UIColor whiteColor];
- 
- dateLabelMore.textColor = [ConMethods colorWithHexString:@"9b9b9b"];
- dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9b9b9b"].CGColor;
- }
- 
- 
- 
- 
- // dayLabel 最新价
- //starLab 开始时间判定
- //timeYuLab 时间显示
- // markLab 围观头标];
- //dateLabelMore 围观次数
- 
- 
- 
- 
- // [self getStrFormStly:[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] withLab1:dayLabel withLab2:timeYuLab withLab4:dateLabelMore with:[dataList objectAtIndex:indexPath.row]];
- 
- 
- [cell.contentView addSubview:backView];
- }
- 
- }
- 
- return cell;
- }
- 
- */
- 
-
 
 
 
@@ -845,7 +650,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     MarkViewController *vc = [[MarkViewController alloc] init];
     //vc.hidesBottomBarWhenPushed = YES;
-   // vc.strId = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"];
+    vc.strId = [[dataList objectAtIndex:indexPath.row] objectForKey:@"KEYID"];
     
     [self.navigationController pushViewController:vc animated:YES];
     

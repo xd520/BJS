@@ -50,6 +50,11 @@
 #define USERzcappIndexzc @"/service/s/zc_list/appIndex"
 #define USERprjsappIndex @"/service/s/zc_prjs/app_index"
 #define USERprjsappIndexli @"/service/s/zc_prjs/app_prj_li"
+#define USERappDetail @"/service/s/prj/appDetail"
+
+
+
+
 
 /*寻宝模块*/
 #define USERsearchappIndexli @"/service/s/search/app_index"

@@ -29,6 +29,8 @@
     UILabel *lab1;
     UILabel *lab2;
     UILabel *lab3;
+    UILabel *lab4;
+
     NSInteger countin;
     NSInteger indext;
     NSInteger tipcount;
@@ -103,7 +105,7 @@
     
     //默认选择按钮
     
-    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"价格▲"];
+    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"价格▲",@"类别"];
     
     for (int i = 0; i < 4; i++) {
         UIButton *btn = [[UIButton alloc] init];
@@ -113,10 +115,10 @@
         
         if (i == 0) {
             
-            btn.frame = CGRectMake(0, 0, ScreenWidth/4 - 0.5, 30);
+            btn.frame = CGRectMake(0, 0, 50 , 30);
             
             lab1 = [[UILabel alloc] init];
-            lab1.frame = CGRectMake(0, 0,  ScreenWidth/4, 30);
+            lab1.frame = CGRectMake(0, 0,  50 - 0.5, 30);
             lab1.text = [titleArrTranfer objectAtIndex:i];
             lab1.textAlignment = NSTextAlignmentCenter;
             lab1.font = [UIFont systemFontOfSize:13];
@@ -124,13 +126,13 @@
             lab1.textColor = [ConMethods colorWithHexString:@"fe8103"];
             [btn addSubview:lab1];
             
-            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/4 - 0.5, 7.5, 0.5, 15)];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(50 - 0.5, 7.5, 0.5, 15)];
             img.image = [UIImage imageNamed:@"line_iocn"];
             [btn addSubview:img];
         } else if(i == 1){
-            btn.frame = CGRectMake(ScreenWidth/4, 0, ScreenWidth/2 , 30);
+            btn.frame = CGRectMake(50, 0, 130 , 30);
             lab2 = [[UILabel alloc] init];
-            lab2.frame = CGRectMake(0, 0, ScreenWidth/2 - 0.5, 30);
+            lab2.frame = CGRectMake(0, 0,130 - 0.5, 30);
             lab2.text = [titleArrTranfer objectAtIndex:i];
             lab2.font = [UIFont systemFontOfSize:13];
             lab2.textAlignment = NSTextAlignmentCenter;
@@ -138,13 +140,13 @@
             //lab2.userInteractionEnabled = YES;
             lab2.textColor = [UIColor grayColor];
             [btn addSubview:lab2];
-            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 0.5, 7.5, 0.5, 15)];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(130 - 0.5, 7.5, 0.5, 15)];
             img.image = [UIImage imageNamed:@"line_iocn"];
             [btn addSubview:img];
         } else if(i == 2){
-            btn.frame = CGRectMake(ScreenWidth*3/4, 0, ScreenWidth/4, 30);
+            btn.frame = CGRectMake(180, 0, 60, 30);
             lab3 = [[UILabel alloc] init];
-            lab3.frame = CGRectMake(0, 0,ScreenWidth/4 - 0.5, 30);
+            lab3.frame = CGRectMake(0, 0,60 - 0.5, 30);
             lab3.text = [titleArrTranfer objectAtIndex:i];
             lab3.font = [UIFont systemFontOfSize:13];
             lab3.textAlignment = NSTextAlignmentCenter;
@@ -152,9 +154,25 @@
             //lab3.userInteractionEnabled = YES;
             lab3.textColor = [UIColor grayColor];
             [btn addSubview:lab3];
-            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/4- 0.5, 7.5, 0.5, 15)];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(60- 0.5, 7.5, 0.5, 15)];
             img.image = [UIImage imageNamed:@"line_iocn"];
             [btn addSubview:img];
+        } else {
+            btn.frame = CGRectMake(240, 0, ScreenWidth - 240, 30);
+            lab4 = [[UILabel alloc] init];
+            lab4.frame = CGRectMake(0, 0,ScreenWidth - 240 - 0.5, 30);
+            lab4.text = [titleArrTranfer objectAtIndex:i];
+            lab4.font = [UIFont systemFontOfSize:13];
+            lab4.textAlignment = NSTextAlignmentCenter;
+            lab4.textColor = [ConMethods colorWithHexString:@"999999"];
+            //lab3.userInteractionEnabled = YES;
+            lab4.textColor = [UIColor grayColor];
+            [btn addSubview:lab4];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 240 - 0.5, 7.5, 0.5, 15)];
+            img.image = [UIImage imageNamed:@"line_iocn"];
+            [btn addSubview:img];
+        
+        
         }
         // btn.titleLabel.font = [UIFont systemFontOfSize:13];
         //btn.titleLabel.textColor = [UIColor redColor];

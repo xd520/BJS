@@ -12,6 +12,7 @@
 
 @property(nonatomic,strong)NSString *strId;
 
+@property (weak, nonatomic) IBOutlet UIView *headView;
 - (IBAction)back:(id)sender;
 - (IBAction)shareMethods:(id)sender;
 
