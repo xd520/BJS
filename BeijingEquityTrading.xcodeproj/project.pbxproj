@@ -69,16 +69,16 @@
 		04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B101611BFC6070008C6100 /* UserProcrolViewController.xib */; };
 		04B101671BFC6084008C6100 /* RegesterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B101651BFC6084008C6100 /* RegesterViewController.m */; };
 		04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04B101661BFC6084008C6100 /* RegesterViewController.xib */; };
-		04BC405F1BFDBE6A00548EBA /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC405D1BFDBE6A00548EBA /* MoreViewController.m */; settings = {ASSET_TAGS = (); }; };
-		04BC40601BFDBE6A00548EBA /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC405E1BFDBE6A00548EBA /* MoreViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		04BC406A1BFDBE8900548EBA /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40621BFDBE8900548EBA /* AboutViewController.m */; settings = {ASSET_TAGS = (); }; };
-		04BC406B1BFDBE8900548EBA /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40631BFDBE8900548EBA /* AboutViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		04BC406C1BFDBE8900548EBA /* PublicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40651BFDBE8900548EBA /* PublicViewController.m */; settings = {ASSET_TAGS = (); }; };
-		04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40661BFDBE8900548EBA /* PublicViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		04BC406E1BFDBE8900548EBA /* WebDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40681BFDBE8900548EBA /* WebDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
-		04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40691BFDBE8900548EBA /* WebDetailViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		04BC40731BFDC39700548EBA /* ProviousViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40711BFDC39700548EBA /* ProviousViewController.m */; settings = {ASSET_TAGS = (); }; };
-		04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40721BFDC39700548EBA /* ProviousViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		04BC405F1BFDBE6A00548EBA /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC405D1BFDBE6A00548EBA /* MoreViewController.m */; };
+		04BC40601BFDBE6A00548EBA /* MoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC405E1BFDBE6A00548EBA /* MoreViewController.xib */; };
+		04BC406A1BFDBE8900548EBA /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40621BFDBE8900548EBA /* AboutViewController.m */; };
+		04BC406B1BFDBE8900548EBA /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40631BFDBE8900548EBA /* AboutViewController.xib */; };
+		04BC406C1BFDBE8900548EBA /* PublicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40651BFDBE8900548EBA /* PublicViewController.m */; };
+		04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40661BFDBE8900548EBA /* PublicViewController.xib */; };
+		04BC406E1BFDBE8900548EBA /* WebDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40681BFDBE8900548EBA /* WebDetailViewController.m */; };
+		04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40691BFDBE8900548EBA /* WebDetailViewController.xib */; };
+		04BC40731BFDC39700548EBA /* ProviousViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40711BFDC39700548EBA /* ProviousViewController.m */; };
+		04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40721BFDC39700548EBA /* ProviousViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */

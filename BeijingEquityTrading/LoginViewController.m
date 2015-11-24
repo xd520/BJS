@@ -149,7 +149,7 @@
     Base64XD * passwordBase64 = [Base64XD encodeBase64String:self.password.text];
     NSLog(@"%@",passwordBase64.strBase64);
     
-     NSDictionary *parameters = @{@"username": self.userName.text,@"password": passwordBase64.strBase64, @"mac":openUDID};
+     NSDictionary *parameters = @{@"username":[[Base64XD encodeBase64String:self.userName.text] strBase64],@"password": passwordBase64.strBase64, @"mac":openUDID};
     
     
     
@@ -162,26 +162,30 @@
     
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
-   
     
-    
-    
-   
-    
-    [manager POST:[NSString stringWithFormat:@"%@/app/login",SERVERURL] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERLogin] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue] == NO) {
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+        } else {
         
-       
-        
-        
+            [self saveData];
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:@"登录成功"
                                    MBProgressHUD:nil
-                                          target:self.view
+                                          target:self.navigationController.view
                                  displayInterval:3];
         
-        NSLog(@"JSON: %@", responseObject);
-        NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            [self.navigationController popViewControllerAnimated:YES];
+       
         
+        }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
