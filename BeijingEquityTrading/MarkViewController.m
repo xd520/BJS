@@ -20,12 +20,30 @@
     
     UIView *MyBackView;
     NSDictionary *myDic;
+    UILabel *numLabTip;
     
     long long timeAll;
+    
+    UIButton *commitBtn;
+    
+    UIImageView *summitBackImg;
+   UITextField *sureText;
+    
+    
 }
 @end
 
 @implementation MarkViewController
+
+#pragma mark - 进入后刷新
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self isGetPriceAndSure];
+
+}
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -165,13 +183,31 @@
 }
 
 
+#pragma mark - FoucsOn
+-(void)foucsMehtods:(UIButton *)btn{
+    if (btn.tag == 101) {//关注
+       [btn setImage:[UIImage imageNamed:@"未关注"] forState:UIControlStateNormal];
+         numLabTip.text = @"未关注";
+        btn.tag = 102;
+    } else {
+    
+    [btn setImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
+     numLabTip.text = @"已关注";
+     btn.tag = 101;
+    
+    }
+
+}
 
 
+#pragma mark - initWitUIData
 
 -(void)recivedList:(NSDictionary *)dic {
     
     myDic = dic;
-
+    
+     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
     UIImageView *imagelogo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , ScreenWidth)];
     imagelogo.userInteractionEnabled = YES;
     [imagelogo setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dic objectForKey:@"detail"] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
@@ -281,29 +317,41 @@
     
     
     if ([[[dic objectForKey:@"myFocusPrj"] objectForKey:@"FOCUS"] boolValue] == 1) {
-        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 50,ScreenWidth + 15, 30, 30)];
-        img.image = [UIImage imageNamed:@"已关注"];
-        [scrollView addSubview:img];
         
-        UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 50,ScreenWidth + 50, 50, 12)];
-        numLab.font = [UIFont systemFontOfSize:12];
-        numLab.backgroundColor = [UIColor clearColor];
-        numLab.textColor = [ConMethods colorWithHexString:@"333333"];
-        numLab.text = @"已关注";
-        [scrollView addSubview:numLab];
+        UIButton *focusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        focusBtn.frame = CGRectMake(ScreenWidth - 50,ScreenWidth + 15, 30, 30);
+        [focusBtn setImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
+        focusBtn.tag = 101;
+        [focusBtn addTarget:self action:@selector(foucsMehtods:) forControlEvents:UIControlEventTouchUpInside];
+        
+       // UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 50,ScreenWidth + 15, 30, 30)];
+       // img.image = [UIImage imageNamed:@"已关注"];
+        [scrollView addSubview:focusBtn];
+        
+        numLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 50,ScreenWidth + 50, 50, 12)];
+        numLabTip.font = [UIFont systemFontOfSize:12];
+        numLabTip.backgroundColor = [UIColor clearColor];
+        numLabTip.textColor = [ConMethods colorWithHexString:@"333333"];
+        numLabTip.text = @"已关注";
+        [scrollView addSubview:numLabTip];
         
         
     } else {
-        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 50,ScreenWidth + 15, 30, 30)];
-        img.image = [UIImage imageNamed:@"未关注"];
-        [scrollView addSubview:img];
         
-        UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 50,ScreenWidth + 50, 50, 12)];
-        numLab.font = [UIFont systemFontOfSize:12];
-        numLab.backgroundColor = [UIColor clearColor];
-        numLab.textColor = [ConMethods colorWithHexString:@"333333"];
-        numLab.text = @"未关注";
-        [scrollView addSubview:numLab];
+        UIButton *focusBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        focusBtn.frame = CGRectMake(ScreenWidth - 50,ScreenWidth + 15, 30, 30);
+        [focusBtn setImage:[UIImage imageNamed:@"未关注"] forState:UIControlStateNormal];
+        focusBtn.tag = 102;
+        [focusBtn addTarget:self action:@selector(foucsMehtods:) forControlEvents:UIControlEventTouchUpInside];
+ 
+        [scrollView addSubview:focusBtn];
+        
+        numLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 50,ScreenWidth + 50, 50, 12)];
+        numLabTip.font = [UIFont systemFontOfSize:12];
+        numLabTip.backgroundColor = [UIColor clearColor];
+        numLabTip.textColor = [ConMethods colorWithHexString:@"333333"];
+        numLabTip.text = @"未关注";
+        [scrollView addSubview:numLabTip];
         
     }
 
@@ -328,7 +376,7 @@
         starVauleLab.font = [UIFont systemFontOfSize:15];
         starVauleLab.backgroundColor = [UIColor clearColor];
         starVauleLab.textColor = [ConMethods colorWithHexString:@"333333"];
-        starVauleLab.text = [NSString stringWithFormat:@"￥%@",[[dic objectForKey:@"detail"] objectForKey:@"QPJ"]];
+        starVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]]]];
         [scrollView addSubview:starVauleLab];
         
  //保证金
@@ -346,7 +394,7 @@
         sureVauleLab.font = [UIFont systemFontOfSize:15];
         sureVauleLab.backgroundColor = [UIColor clearColor];
         sureVauleLab.textColor = [ConMethods colorWithHexString:@"ae4a5d"];
-        sureVauleLab.text = [NSString stringWithFormat:@"￥%@%@",[[arr objectAtIndex:0] objectForKey:@"BZJJE"],[[arr objectAtIndex:0] objectForKey:@"TCMC"]];
+        sureVauleLab.text = [NSString stringWithFormat:@"￥%@(%@)",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[arr objectAtIndex:0] objectForKey:@"BZJJE"] floatValue]]],[[arr objectAtIndex:0] objectForKey:@"TCMC"]];
         [scrollView addSubview:sureVauleLab];
         
         hight = sureVauleLab.frame.origin.y + sureVauleLab.frame.size.height;
@@ -363,15 +411,15 @@
         UILabel *newVauleLab = [[UILabel alloc] initWithFrame:CGRectMake(60, numLab.frame.origin.y + numLab.frame.size.height + 20, ScreenWidth - 70, 15)];
         newVauleLab.font = [UIFont systemFontOfSize:15];
         newVauleLab.backgroundColor = [UIColor clearColor];
-        newVauleLab.textColor = [ConMethods colorWithHexString:@"333333"];
-        newVauleLab.text = [NSString stringWithFormat:@"￥%@",[[dic objectForKey:@"detail"] objectForKey:@"ZXJG"]];
+        newVauleLab.textColor = [ConMethods colorWithHexString:@"716f70"];
+        newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]]]];
         [scrollView addSubview:newVauleLab];
 
     
         UILabel *starLab = [[UILabel alloc] initWithFrame:CGRectMake(10, newVauleLab.frame.origin.y + newVauleLab.frame.size.height + 10, 50, 12)];
         starLab.font = [UIFont systemFontOfSize:12];
         starLab.backgroundColor = [UIColor clearColor];
-        starLab.textColor = [ConMethods colorWithHexString:@"716f70"];
+        starLab.textColor = [ConMethods colorWithHexString:@"333333"];
         starLab.text = @"起始价:";
         [scrollView addSubview:starLab];
         
@@ -380,7 +428,7 @@
         starVauleLab.font = [UIFont systemFontOfSize:12];
         starVauleLab.backgroundColor = [UIColor clearColor];
         starVauleLab.textColor = [ConMethods colorWithHexString:@"333333"];
-        starVauleLab.text = [NSString stringWithFormat:@"￥%@",[[dic objectForKey:@"detail"] objectForKey:@"QPJ"]];
+        starVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]]]];
         [scrollView addSubview:starVauleLab];
 
  //溢价率
@@ -417,7 +465,7 @@
         sureVauleLab.font = [UIFont systemFontOfSize:15];
         sureVauleLab.backgroundColor = [UIColor clearColor];
         sureVauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
-        sureVauleLab.text = [NSString stringWithFormat:@"￥%@%@",[[arr objectAtIndex:0] objectForKey:@"BZJJE"],[[arr objectAtIndex:0] objectForKey:@"TCMC"]];
+        sureVauleLab.text = [NSString stringWithFormat:@"￥%@(%@)",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[arr objectAtIndex:0] objectForKey:@"BZJJE"] floatValue]]],[[arr objectAtIndex:0] objectForKey:@"TCMC"]];
         [scrollView addSubview:sureVauleLab];
         
         hight = sureVauleLab.frame.origin.y + sureVauleLab.frame.size.height;
@@ -444,7 +492,7 @@
         sureVauleLab.font = [UIFont systemFontOfSize:15];
         sureVauleLab.backgroundColor = [UIColor clearColor];
         sureVauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
-        sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[[dic objectForKey:@"detail"] objectForKey:@"QPJ"]];
+        sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]]]];
         [scrollView addSubview:sureVauleLab];
         
         hight = sureVauleLab.frame.origin.y + sureVauleLab.frame.size.height;
@@ -525,7 +573,7 @@
     serviceLab.textAlignment = NSTextAlignmentCenter;
     serviceLab.textColor = [ConMethods colorWithHexString:@"666666"];
    // serviceLab.text = [NSString stringWithFormat:@"服务费:￥%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]];
-     serviceLab.text = @"服务费:5%";
+    serviceLab.text = [NSString stringWithFormat:@"服务费:%@",[[dic objectForKey:@"detail"] objectForKey:@"FWF_BL_SRF"]];
     [scrollView addSubview:serviceLab];
 
     
@@ -534,7 +582,7 @@
     xianLab.backgroundColor = [UIColor clearColor];
     xianLab.textColor = [ConMethods colorWithHexString:@"666666"];
     xianLab.textAlignment = NSTextAlignmentRight;
-    xianLab.text = [NSString stringWithFormat:@"限时报价期:%@秒",[[dic objectForKey:@"detail"] objectForKey:@"ZBSC"]];
+    xianLab.text = [NSString stringWithFormat:@"限时报价期:%@秒",[[dic objectForKey:@"detail"] objectForKey:@"YSBJSC"]];
     [scrollView addSubview:xianLab];
 
     
@@ -638,9 +686,7 @@
          endViewImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
          
          
-         
-         
-         UIButton *commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
+         commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
          
          commitBtn.layer.masksToBounds = YES;
          commitBtn.layer.cornerRadius = 4;
@@ -665,25 +711,29 @@
          UIImageView *endViewImg = [[UIImageView alloc] initWithFrame:CGRectMake(0,  ScreenHeight - 75 , ScreenWidth, 75)];
          endViewImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
          
+             commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
+             commitBtn.layer.masksToBounds = YES;
+             commitBtn.layer.cornerRadius = 4;
+             commitBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
          
+         if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+             commitBtn.tag = 10003;
+             [commitBtn setTitle:@"交纳保证金" forState:UIControlStateNormal];
+         } else {
          
-         UIButton *commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
-         commitBtn.layer.masksToBounds = YES;
-         commitBtn.layer.cornerRadius = 4;
-         commitBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+             commitBtn.tag = 10004;
+             [commitBtn setTitle:@"报价" forState:UIControlStateNormal];
+         }
+             [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+             
+             commitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+             
+             [commitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
+             endViewImg.userInteractionEnabled = YES;
+             [endViewImg addSubview:commitBtn];
+             
+             [self.view addSubview:endViewImg];
          
-         [commitBtn setTitle:@"报价" forState:UIControlStateNormal];
-         [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-         
-         commitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-         commitBtn.tag = 10003;
-         [commitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
-         endViewImg.userInteractionEnabled = YES;
-         [endViewImg addSubview:commitBtn];
-         
-         [self.view addSubview:endViewImg];
-         
-     
      }
     
     
@@ -692,6 +742,26 @@
     
 }
 
+#pragma mark - 判断是否登录的时候 为报价还是交纳保证金
+
+-(void)isGetPriceAndSure {
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+        commitBtn.tag = 10003;
+        [commitBtn setTitle:@"交纳保证金" forState:UIControlStateNormal];
+    } else {
+        
+        commitBtn.tag = 10004;
+        [commitBtn setTitle:@"报价" forState:UIControlStateNormal];
+    }
+
+
+}
+
+
+#pragma mark - 是否同意协议按钮
 
 -(void)selectMethods:(UIButton *)btn{
 
@@ -700,6 +770,7 @@
 }
 
 
+#pragma mark - 提交保证金按钮
 
 -(void)pushDec:(UIButton *)btn {
     
@@ -708,21 +779,152 @@
     } else if (btn.tag == 10002) {
     
     
-    } else if(btn.tag == 10003){
+    } else if(btn.tag == 10003){//保证金
     
      [self initBackViewMehtods];
     
-    } else if(btn.tag == 10004){
+    } else if(btn.tag == 10004){//报价
     
-    [MyBackView removeFromSuperview];
+        [self summitBackViewMehtods];
+    
     } else if(btn.tag == 10005){
+        
+        [MyBackView removeFromSuperview];
+    } else if(btn.tag == 10006){
         
         [MyBackView removeFromSuperview];
     }
     
 }
 
+#pragma mark - 从保证金到 报价的时候报价记录 frame的变化
 
+
+
+#pragma mark - 提交报价按钮弹窗
+-(void)summitBackViewMehtods {
+    summitBackImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 170, ScreenWidth, 170)];
+    summitBackImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
+    summitBackImg.userInteractionEnabled = YES;
+    
+    NSArray *arr = @[@"+100",@"+200",@"+300"];
+    
+    for (int i = 0; i < 3; i++) {
+        
+    
+    UILabel *starLabel1 = [[UILabel alloc] initWithFrame:CGRectMake((ScreenWidth - 260)/2 + 90*i,50, 80, 30)];
+    starLabel1.font = [UIFont systemFontOfSize:14];
+    starLabel1.text = [arr objectAtIndex:i];
+        starLabel1.backgroundColor = [ConMethods colorWithHexString:@"f9f9f9"];
+    starLabel1.textColor = [ConMethods colorWithHexString:@"c2ae7f"];
+    starLabel1.textAlignment = NSTextAlignmentCenter;
+    starLabel1.layer.cornerRadius = 2;
+    starLabel1.layer.masksToBounds = YES;
+    starLabel1.layer.borderWidth = 1;
+    starLabel1.layer.borderColor = [ConMethods colorWithHexString:@"c7c7c7"].CGColor;
+    
+    UITapGestureRecognizer *singleTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone:)];
+    starLabel1.tag = i;
+        //单点触摸
+    singleTap1.numberOfTouchesRequired = 1;
+        //点击几次，如果是1就是单击
+    singleTap1.numberOfTapsRequired = 1;
+    [starLabel1 addGestureRecognizer:singleTap1];
+        
+    [summitBackImg addSubview:starLabel1];
+    
+    }
+    
+    
+    UIView *btnView = [[UIView alloc] initWithFrame:CGRectMake(70, 85, ScreenWidth - 140, 35)];
+    btnView.layer.cornerRadius = 4;
+    btnView.layer.borderWidth = 1;
+    btnView.layer.borderColor = [ConMethods colorWithHexString:@"cbcbcb"].CGColor;
+    btnView.layer.masksToBounds = YES;
+    
+   UIButton *jianBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    jianBtn.frame = CGRectMake(5, 5, 25, 25);
+    [jianBtn setTitle:@"-" forState:UIControlStateNormal];
+    [jianBtn setTitleColor:[ConMethods colorWithHexString:@"959595"] forState:UIControlStateNormal];
+    jianBtn.tag = 10001;
+    //[jianBtn setBackgroundImage:[UIImage imageNamed:@"jian_btn"] forState:UIControlStateNormal];
+    
+    [jianBtn addTarget:self action:@selector(summitBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btnView addSubview:jianBtn];
+    
+  UIButton * addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    addBtn.frame = CGRectMake(ScreenWidth - 140 - 30, 5, 25, 25);
+    [addBtn setTitle:@"+" forState:UIControlStateNormal];
+    [addBtn setTitleColor:[ConMethods colorWithHexString:@"850301"] forState:UIControlStateNormal];
+     addBtn.tag = 10002;
+    [addBtn addTarget:self action:@selector(summitBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btnView addSubview:addBtn];
+    
+    sureText = [[UITextField alloc] initWithFrame:CGRectMake(35, 0, ScreenWidth - 140 - 70, 35)];
+    sureText.backgroundColor = [UIColor whiteColor];
+    sureText.placeholder = @"输入转让数量";
+   // sureText.text = [NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"kmcsl_sl"] floatValue]];
+    
+    sureText.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    sureText.clearButtonMode = UITextFieldViewModeWhileEditing;
+    sureText.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    sureText.font = [UIFont systemFontOfSize:15];
+    
+    sureText.delegate = self;
+    
+    [btnView addSubview:sureText];
+    
+    [summitBackImg addSubview:btnView];
+    
+   UIButton *commit = [[UIButton alloc] initWithFrame: CGRectMake(40, 125, ScreenWidth - 80, 35)];
+    
+    commit.layer.masksToBounds = YES;
+    commit.layer.cornerRadius = 4;
+    commit.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+    
+    [commit setTitle:@"报价" forState:UIControlStateNormal];
+    [commit setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    commit.titleLabel.font = [UIFont systemFontOfSize:15];
+    commit.tag = 10003;
+    [commit addTarget:self action:@selector(summitBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [summitBackImg addSubview:commit];
+
+    [self.view addSubview:summitBackImg];
+
+}
+
+#pragma mark - 提交报价按钮
+
+- (IBAction)summitBtnMethods:(UIButton *)btn {
+    if (btn.tag == 10001) {
+        
+    } else if (btn.tag == 10002){
+    
+    
+    
+    } else if (btn.tag == 10003){
+        
+        [summitBackImg removeFromSuperview];
+        
+    }
+
+}
+
+
+- (IBAction)callPhone:(UITouch *)sender
+{
+    
+    UIView *view = [sender view];
+    if (view.tag == 0) {
+
+    }
+}
+
+#pragma mark - 提交保证金弹窗
 -(void)initBackViewMehtods {
     if (MyBackView) {
         [MyBackView removeFromSuperview];
@@ -730,7 +932,9 @@
     
     
         MyBackView  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-        MyBackView.backgroundColor = [ConMethods colorWithHexString:@"eeeeee" withApla:0.8];
+        MyBackView.backgroundColor = [ConMethods colorWithHexString:@"bfbfbf" withApla:0.8];
+        MyBackView.layer.masksToBounds = YES;
+        MyBackView.layer.cornerRadius = 4;
         
         UIView *litleView = [[UIView alloc] initWithFrame:CGRectMake(20, (ScreenHeight - 200)/2, ScreenWidth - 40, 200)];
         litleView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
@@ -809,18 +1013,18 @@
         [litleView addSubview:agreeUser];
         
   //确定 取消
-        UIButton *commitBtn = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 - 95, 130, 80, 30)];
-        commitBtn.layer.masksToBounds = YES;
-        commitBtn.layer.cornerRadius = 4;
-        commitBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+        UIButton *commitB = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 - 95, 130, 80, 30)];
+        commitB.layer.masksToBounds = YES;
+        commitB.layer.cornerRadius = 4;
+        commitB.backgroundColor = [ConMethods colorWithHexString:@"850301"];
         
-        [commitBtn setTitle:@"确定" forState:UIControlStateNormal];
-        [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [commitB setTitle:@"确定" forState:UIControlStateNormal];
+        [commitB setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        commitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        commitBtn.tag = 10004;
-        [commitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
-        [litleView addSubview:commitBtn];
+        commitB.titleLabel.font = [UIFont systemFontOfSize:15];
+        commitB.tag = 10005;
+        [commitB addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
+        [litleView addSubview:commitB];
         
         
         
@@ -833,7 +1037,7 @@
         [quitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         quitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        quitBtn.tag = 10005;
+        quitBtn.tag = 10006;
         [quitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
         [litleView addSubview:quitBtn];
         

@@ -52,7 +52,14 @@
 #define USERprjsappIndexli @"/service/s/zc_prjs/app_prj_li"
 #define USERappDetail @"/service/s/prj/appDetail"
 
-
+/***标的详情委托***/
+#define USERappWtList @"/service/s/prj/appWtList"
+#define USERfocusPrj @"/service/s/prj/focusPrj"
+#define USERcancelFocusPrj @"/service/s/prj/cancelFocusPrj"
+#define USERsubmitBzj @"/service/s/prj/submitBzj"
+//获取报价信息和提交报价 都是这个接口
+#define USERbidInfo @"/service/s/prj/bidInfo"
+#define USERbidInfo @"/service/s/prj/bidInfo"
 
 
 

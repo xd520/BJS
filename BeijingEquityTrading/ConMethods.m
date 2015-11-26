@@ -305,6 +305,36 @@ CGRectMake1(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
 }
 
 
++ (NSString *)AddComma:(NSString *)string{//添加逗号
+    
+     NSRange range = [string rangeOfString:@"."];//匹配得到的下标
+    NSString *string1 = [string substringFromIndex:range.location];
+    
+    NSString *str1 = [string substringToIndex:range.location];
+    
+    
+    
+    NSString *str=[str1 stringByReplacingOccurrencesOfString:@"," withString:@""];
+    
+    
+    int numl=(int)[str length];
+    NSLog(@"%d",numl);
+    
+    if (numl>3&&numl<7) {
+        return [NSString stringWithFormat:@"%@,%@%@",
+                [str substringWithRange:NSMakeRange(0,numl-3)],
+                [str substringWithRange:NSMakeRange(numl-3,3)],string1];
+    }else if (numl>6){
+        return [NSString stringWithFormat:@"%@,%@,%@%@",
+                [str substringWithRange:NSMakeRange(0,numl-6)],
+                [str substringWithRange:NSMakeRange(numl-6,3)],
+                [str substringWithRange:NSMakeRange(numl-3,3)],string1];
+    }else{
+        return  [NSString stringWithFormat:@"%@,%@",str,string1];
+    }
+    
+}
+
 
 
 

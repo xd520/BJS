@@ -181,6 +181,9 @@
                                    MBProgressHUD:nil
                                           target:self.navigationController.view
                                  displayInterval:3];
+            
+            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            delegate.loginUser = [[NSMutableDictionary alloc] initWithDictionary:responseObject];
         
             [self.navigationController popViewControllerAnimated:YES];
        
@@ -400,23 +403,7 @@
         
     }
     
-    
-    
-    
-    // [self.navigationController popViewControllerAnimated:YES];
-    
-}
-
-
-- (void)animationFinished:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
-    
-    if ([animationID compare:@"exitApplication"] == 0) {
-        
-        exit(0);
-        
-    }
-    
-}
+ }
 
 
 -(void)saveData {

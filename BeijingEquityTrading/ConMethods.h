@@ -29,4 +29,6 @@
 //几个逗号
 + (NSInteger)rangeString:(NSString *)string;
 
++ (NSString *)AddComma:(NSString *)string;
+
 @end
