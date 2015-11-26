@@ -54,6 +54,8 @@
 		042A56981BF30CF9006032C5 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 042A56961BF30CF9006032C5 /* DetailViewController.xib */; };
 		043E3E5F1BF9B09100FF5AAE /* MarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E3E5D1BF9B09100FF5AAE /* MarkViewController.m */; };
 		043E3E601BF9B09100FF5AAE /* MarkViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043E3E5E1BF9B09100FF5AAE /* MarkViewController.xib */; };
+		043E446D1C06F309007CC3C4 /* MarkListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043E446B1C06F309007CC3C4 /* MarkListViewController.m */; };
+		043E446E1C06F309007CC3C4 /* MarkListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 043E446C1C06F309007CC3C4 /* MarkListViewController.xib */; };
 		044B54AB1BD9E74D00CC4CC5 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 044B54A91BD9E74D00CC4CC5 /* LoginViewController.m */; };
 		044B54AC1BD9E74D00CC4CC5 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044B54AA1BD9E74D00CC4CC5 /* LoginViewController.xib */; };
 		044B54B51BD9E7FB00CC4CC5 /* GTMBase64XD.m in Sources */ = {isa = PBXBuildFile; fileRef = 044B54B11BD9E7FB00CC4CC5 /* GTMBase64XD.m */; };
@@ -173,6 +175,9 @@
 		043E3E5C1BF9B09100FF5AAE /* MarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkViewController.h; sourceTree = "<group>"; };
 		043E3E5D1BF9B09100FF5AAE /* MarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkViewController.m; sourceTree = "<group>"; };
 		043E3E5E1BF9B09100FF5AAE /* MarkViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkViewController.xib; sourceTree = "<group>"; };
+		043E446A1C06F309007CC3C4 /* MarkListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkListViewController.h; sourceTree = "<group>"; };
+		043E446B1C06F309007CC3C4 /* MarkListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkListViewController.m; sourceTree = "<group>"; };
+		043E446C1C06F309007CC3C4 /* MarkListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkListViewController.xib; sourceTree = "<group>"; };
 		044B54A81BD9E74D00CC4CC5 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		044B54A91BD9E74D00CC4CC5 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		044B54AA1BD9E74D00CC4CC5 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -382,6 +387,9 @@
 				045A59121BFC162E00771AE0 /* MoreTableViewCell.xib */,
 				045A59171BFC2EB000771AE0 /* ListData.h */,
 				045A59181BFC2EB000771AE0 /* ListData.m */,
+				043E446A1C06F309007CC3C4 /* MarkListViewController.h */,
+				043E446B1C06F309007CC3C4 /* MarkListViewController.m */,
+				043E446C1C06F309007CC3C4 /* MarkListViewController.xib */,
 			);
 			name = "详情界面";
 			sourceTree = "<group>";
@@ -559,6 +567,7 @@
 				043E3E601BF9B09100FF5AAE /* MarkViewController.xib in Resources */,
 				044B54AC1BD9E74D00CC4CC5 /* LoginViewController.xib in Resources */,
 				042A56981BF30CF9006032C5 /* DetailViewController.xib in Resources */,
+				043E446E1C06F309007CC3C4 /* MarkListViewController.xib in Resources */,
 				047106081BCB670700F558FF /* Assets.xcassets in Resources */,
 				04BC40601BFDBE6A00548EBA /* MoreViewController.xib in Resources */,
 				045A59141BFC162E00771AE0 /* MoreTableViewCell.xib in Resources */,
@@ -582,6 +591,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04041EBC1BF18EB3009C6D2B /* UIProgressView+AFNetworking.m in Sources */,
+				043E446D1C06F309007CC3C4 /* MarkListViewController.m in Sources */,
 				04041EA01BF18EA4009C6D2B /* AFSecurityPolicy.m in Sources */,
 				044B54B51BD9E7FB00CC4CC5 /* GTMBase64XD.m in Sources */,
 				04041EBA1BF18EB3009C6D2B /* UIButton+AFNetworking.m in Sources */,

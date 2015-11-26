@@ -8,6 +8,8 @@
 
 #import "MarkViewController.h"
 #import "AppDelegate.h"
+#import "LoginViewController.h"
+#import "MarkListViewController.h"
 
 
 @interface MarkViewController ()
@@ -28,8 +30,10 @@
     
     UIImageView *summitBackImg;
    UITextField *sureText;
+    UILabel *endVauleLab; //成交的时候登录几种情况
     
-    
+    UIView *baoBackView;
+    NSTimer *timer;
 }
 @end
 
@@ -38,7 +42,10 @@
 #pragma mark - 进入后刷新
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self isGetPriceAndSure];
+    //[self isGetPriceAndSure];
+    
+    [self requestMethods];
+    
 
 }
 
@@ -64,13 +71,6 @@
 
     
     
-    
-    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,  addHight + 44, ScreenWidth, ScreenHeight - 49 - 20)];
-    scrollView.bounces = NO;
-    scrollView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
-    [self.view addSubview:scrollView];
-    
-    
     [self requestMethods];
     
     
@@ -79,16 +79,194 @@
 
 
 
+#pragma mark - 获取报价记录委托列表
+-(void)requestBaojiaMethods:(NSString *)str {
+
+     NSDictionary *parameters = @{@"cpdm":str};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERappWtList] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            [self getDataForList:[[[responseObject objectForKey:@"object"] objectForKey:@"wtResult"] objectForKey:@"object"]];
+            
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+
+
+
+}
+
+
+-(void)getDataForList:(NSMutableArray *)arr {
+    
+    if (arr.count > 0 && arr.count <= 3) {
+        
+        for (int i = 0; i < arr.count; i++) {
+            
+            NSString *colorStr;
+            NSString *nameStr;
+            
+            
+            
+            
+            if (i == 0) {
+                if ([myDic objectForKey:@""]) {
+                   nameStr = @"成交";
+                 colorStr = @"850301";
+                } else {
+                    nameStr = @"领先";
+                    colorStr = @"9c7e4a";
+                    
+                }
+  
+            } else {
+            nameStr = @"出局";
+             colorStr = @"a4a2a3";
+            
+            }
+            
+            
+            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5 + (ScreenWidth - 20)/3*i + 5*i, 10, (ScreenWidth - 20)/3, 35)];
+            backView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+            backView.layer.borderWidth = 1;
+            backView.layer.borderColor = [ConMethods colorWithHexString:@"bcbcbc"].CGColor;
+            UILabel *nameL = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 40, 20)];
+            nameL.text = nameStr;
+            nameL.backgroundColor = [ConMethods colorWithHexString:colorStr];
+            nameL.textColor = [UIColor whiteColor];
+            nameL.font = [UIFont systemFontOfSize:15];
+            nameL.textAlignment = NSTextAlignmentCenter;
+            [backView addSubview:nameL];
+            
+            
+            UILabel *nameTip = [[UILabel alloc] initWithFrame:CGRectMake( 40, 0, backView.frame.size.width - 40, 20)];
+            nameTip.text = [NSString stringWithFormat:@"%@号",[[arr objectAtIndex:i] objectForKey:@"WTH"]];
+            nameTip.backgroundColor = [UIColor clearColor];
+            nameTip.textColor = [ConMethods colorWithHexString:colorStr];
+            nameTip.font = [UIFont systemFontOfSize:14];
+            nameTip.textAlignment = NSTextAlignmentRight;
+            [backView addSubview:nameTip];
+            
+            
+            UILabel *vuleTip = [[UILabel alloc] initWithFrame:CGRectMake( 10, 20, backView.frame.size.width - 20, 15)];
+            vuleTip.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[arr objectAtIndex:i] objectForKey:@"WTJG"] floatValue]]]];
+            vuleTip.backgroundColor = [UIColor clearColor];
+            vuleTip.textColor = [ConMethods colorWithHexString:colorStr];
+            vuleTip.font = [UIFont systemFontOfSize:10];
+            vuleTip.textAlignment = NSTextAlignmentRight;
+            [backView addSubview:vuleTip];
+            
+            [baoBackView addSubview:backView];
+            
+        }
+        
+        
+    } else if (arr.count > 3){
+        for (int i = 0; i < 3; i++) {
+            
+            NSString *colorStr;
+            NSString *nameStr;
+            
+            
+            
+            
+            if (i == 0) {
+                if ([myDic objectForKey:@""]) {
+                    nameStr = @"成交";
+                    colorStr = @"850301";
+                } else {
+                    nameStr = @"领先";
+                    colorStr = @"9c7e4a";
+                    
+                }
+                
+            } else {
+                nameStr = @"出局";
+                colorStr = @"a4a2a3";
+                
+            }
+
+            
+            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5 + (ScreenWidth - 20)/3*i + 5*i, 10, (ScreenWidth - 20)/3, 35)];
+            backView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+            backView.layer.borderWidth = 1;
+            backView.layer.borderColor = [ConMethods colorWithHexString:@"bcbcbc"].CGColor;
+            UILabel *nameL = [[UILabel alloc] initWithFrame:CGRectMake(0, -1, 40, 20)];
+            nameL.text = nameStr;
+            nameL.backgroundColor = [ConMethods colorWithHexString:colorStr];
+            nameL.textColor = [UIColor whiteColor];
+            nameL.font = [UIFont systemFontOfSize:15];
+            nameL.textAlignment = NSTextAlignmentCenter;
+            [backView addSubview:nameL];
+            
+            
+            UILabel *nameTip = [[UILabel alloc] initWithFrame:CGRectMake( 40, 0, backView.frame.size.width - 40, 20)];
+            nameTip.text = [NSString stringWithFormat:@"%@号",[[arr objectAtIndex:i] objectForKey:@"WTH"]];
+            nameTip.backgroundColor = [UIColor clearColor];
+            nameTip.textColor = [ConMethods colorWithHexString:colorStr];
+            nameTip.font = [UIFont systemFontOfSize:14];
+            nameTip.textAlignment = NSTextAlignmentRight;
+            [backView addSubview:nameTip];
+            
+            
+            UILabel *vuleTip = [[UILabel alloc] initWithFrame:CGRectMake( 10, 20, backView.frame.size.width - 20, 15)];
+            vuleTip.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[arr objectAtIndex:i] objectForKey:@"WTJG"] floatValue]]]];
+            vuleTip.backgroundColor = [UIColor clearColor];
+            vuleTip.textColor = [ConMethods colorWithHexString:colorStr];
+            vuleTip.font = [UIFont systemFontOfSize:10];
+            vuleTip.textAlignment = NSTextAlignmentRight;
+            [backView addSubview:vuleTip];
+            
+            [baoBackView addSubview:backView];
+            
+        }
+    
+    
+    }
+}
 
 
 
 
 
-
-
-
-
-//请求数据方法
+#pragma mark - 请求数据方法
 -(void)requestMethods {
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
@@ -185,28 +363,112 @@
 
 #pragma mark - FoucsOn
 -(void)foucsMehtods:(UIButton *)btn{
-    if (btn.tag == 101) {//关注
-       [btn setImage:[UIImage imageNamed:@"未关注"] forState:UIControlStateNormal];
-         numLabTip.text = @"未关注";
-        btn.tag = 102;
-    } else {
     
-    [btn setImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
-     numLabTip.text = @"已关注";
-     btn.tag = 101;
-    
-    }
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+        if (btn.tag == 101) {//quxiao关注
+            
+            [self focusOnMethods:btn with:USERcancelFocusPrj];
+            
+            
+        } else {
+            
+            
+            
+            [self focusOnMethods:btn with:USERfocusPrj];
+            
+        }
 
+    } else {
+        
+        LoginViewController *vc = [[LoginViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
+  
 }
+
+
+
+
+-(void)focusOnMethods:(UIButton*)btn with:(NSString *)str{
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    NSDictionary *parameters = @{@"id":[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,str] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            if ([str isEqualToString:@"USERfocusPrj"]) {
+                [btn setImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
+                numLabTip.text = @"已关注";
+                btn.tag = 101;
+
+            } else {
+                [btn setImage:[UIImage imageNamed:@"未关注"] forState:UIControlStateNormal];
+                numLabTip.text = @"未关注";
+                btn.tag = 102;
+            
+            }
+            
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+}
+
+
 
 
 #pragma mark - initWitUIData
 
 -(void)recivedList:(NSDictionary *)dic {
+    if (scrollView) {
+        [scrollView removeFromSuperview];
+    }
+    
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,  addHight + 44, ScreenWidth, ScreenHeight - 49 - 20)];
+    scrollView.bounces = NO;
+    scrollView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    [self.view addSubview:scrollView];
+    
     
     myDic = dic;
-    
-     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     UIImageView *imagelogo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , ScreenWidth)];
     imagelogo.userInteractionEnabled = YES;
@@ -254,7 +516,13 @@
         [backView addSubview:timeValue];
         timeAll = [[[dic objectForKey:@"detail"] objectForKey:@"djs"] longLongValue];
         
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod1:) userInfo:nil repeats:YES];
+        if (timer) {
+            [timer invalidate];
+            timer = nil;
+        }
+        
+        
+       timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod1:) userInfo:nil repeats:YES];
         
         
     } else {
@@ -272,7 +540,13 @@
         timeValueLab.font = [UIFont systemFontOfSize:14];
         timeValueLab.backgroundColor = [UIColor clearColor];
         timeValueLab.textColor = [ConMethods colorWithHexString:@"333333"];
-        timeValueLab.text = [NSString stringWithFormat:@"开始时间:%@  %@",[[dic objectForKey:@"detail"] objectForKey:@"SJSSRQ"],[[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"]];
+        
+        if(![[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"]){
+        
+        timeValueLab.text = [NSString stringWithFormat:@"结束时间:%@  %@",[[dic objectForKey:@"detail"] objectForKey:@"SJSSRQ"],[[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"]];
+        }
+            
+            
         [backView addSubview:timeValueLab];
         
         
@@ -500,29 +774,29 @@
         
     } else  {
         
-        UILabel *starVauleLab = [[UILabel alloc] initWithFrame:CGRectMake(10, numLab.frame.origin.y + numLab.frame.size.height + 20, ScreenWidth - 20, 15)];
-        starVauleLab.font = [UIFont systemFontOfSize:15];
-        starVauleLab.backgroundColor = [UIColor clearColor];
+       endVauleLab = [[UILabel alloc] initWithFrame:CGRectMake(10, numLab.frame.origin.y + numLab.frame.size.height + 20, ScreenWidth - 20, 15)];
+        endVauleLab.font = [UIFont systemFontOfSize:15];
+        endVauleLab.backgroundColor = [UIColor clearColor];
 
         if ([[[dic objectForKey:@"user"] objectForKey:@"isCybj"] boolValue] == 1) {
             if ([[[dic objectForKey:@"user"] objectForKey:@"isZgbjr"] boolValue] == 1) {
-              starVauleLab.text = @"恭喜您成为最高报价方！";
-            starVauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
+              endVauleLab.text = @"恭喜您成为最高报价方！";
+            endVauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
             } else {
-            starVauleLab.text = @"感谢您的参与，标的竞价结束。";
+            endVauleLab.text = @"感谢您的参与，标的竞价结束。";
             
             }
         } else {
             
-           starVauleLab.text = @"标的竞价结束。";
+           endVauleLab.text = @"标的竞价结束。";
         }
         
        
-        [scrollView addSubview:starVauleLab];
+        [scrollView addSubview:endVauleLab];
 
     
         //起始价
-        UILabel *sureLab = [[UILabel alloc] initWithFrame:CGRectMake(10, starVauleLab.frame.origin.y + starVauleLab.frame.size.height + 10, 85, 12)];
+        UILabel *sureLab = [[UILabel alloc] initWithFrame:CGRectMake(10, endVauleLab.frame.origin.y + endVauleLab.frame.size.height + 10, 85, 12)];
         sureLab.font = [UIFont systemFontOfSize:12];
         sureLab.backgroundColor = [UIColor clearColor];
         sureLab.textColor = [ConMethods colorWithHexString:@"716f70"];
@@ -530,7 +804,7 @@
         [scrollView addSubview:sureLab];
         
         
-        UILabel *sureVauleLab = [[UILabel alloc] initWithFrame:CGRectMake(95, starVauleLab.frame.origin.y + starVauleLab.frame.size.height + 10, ScreenWidth - 70, 15)];
+        UILabel *sureVauleLab = [[UILabel alloc] initWithFrame:CGRectMake(95, endVauleLab.frame.origin.y + endVauleLab.frame.size.height + 10, ScreenWidth - 70, 15)];
         sureVauleLab.font = [UIFont systemFontOfSize:15];
         sureVauleLab.backgroundColor = [UIColor clearColor];
         sureVauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
@@ -543,7 +817,7 @@
  //点击付款
         if ([[[dic objectForKey:@"user"] objectForKey:@"isZgbjr"] boolValue] == 1) {
             
-            UIButton *fukuanBtn = [[UIButton alloc] initWithFrame:CGRectMake(sureVauleLab.frame.origin.x + sureVauleLab.frame.size.height + 10,  starVauleLab.frame.origin.y + starVauleLab.frame.size.height + 10 - 5, 80, 20)];
+            UIButton *fukuanBtn = [[UIButton alloc] initWithFrame:CGRectMake(sureVauleLab.frame.origin.x + sureVauleLab.frame.size.height + 10,  endVauleLab.frame.origin.y + endVauleLab.frame.size.height + 10 - 5, 80, 20)];
             fukuanBtn.layer.borderWidth = 1;
             fukuanBtn.layer.borderColor = [ConMethods colorWithHexString:@"eeeeee"].CGColor;
             fukuanBtn.titleLabel.text = @"确认付款";
@@ -668,77 +942,139 @@
     [scrollView addSubview:baoBtn];
     
  // 交纳保证金
+    if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"wks"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]){
+        
+        if ([[[dic objectForKey:@"bzjInfo"] objectForKey:@"isSubmitBzj"] boolValue] == NO) {
+            
+            UILabel *baoLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 100, 10, 100, 12)];
+            baoLab.text = @"提交保证金后查看";
+            baoLab.textColor = [ConMethods colorWithHexString:@"8e8d8e"];
+            baoLab.font = [UIFont systemFontOfSize:12];
+            [baoBtn addSubview:baoLab];
+            
+            
+            
+            UIImageView *endViewImg = [[UIImageView alloc] initWithFrame:CGRectMake(0,  ScreenHeight - 75, ScreenWidth, 75)];
+            endViewImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
+            baoBtn.enabled = NO;
+            
+            commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
+            
+            commitBtn.layer.masksToBounds = YES;
+            commitBtn.layer.cornerRadius = 4;
+            commitBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+            
+            [commitBtn setTitle:@"交纳保证金" forState:UIControlStateNormal];
+            [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
+            commitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+            commitBtn.tag = 10003;
+            [commitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
+            endViewImg.userInteractionEnabled = YES;
+            [endViewImg addSubview:commitBtn];
+            [self.view addSubview:endViewImg];
+            
+            
+            [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55)];
+            
+        } else {
+            
+            baoBtn.enabled = YES;
+            UIImageView *endViewImg = [[UIImageView alloc] initWithFrame:CGRectMake(0,  ScreenHeight - 75 , ScreenWidth, 75)];
+            endViewImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
+            
+            commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
+            commitBtn.layer.masksToBounds = YES;
+            commitBtn.layer.cornerRadius = 4;
+            commitBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+            
+            commitBtn.tag = 10004;
+            [commitBtn setTitle:@"报价" forState:UIControlStateNormal];
+            [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
+            commitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+            
+            [commitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
+            endViewImg.userInteractionEnabled = YES;
+            [endViewImg addSubview:commitBtn];
+            
+            [self.view addSubview:endViewImg];
+            
+            
+            baoBackView = [[UIView alloc] initWithFrame:CGRectMake(0, baoBtn.frame.origin.y + baoBtn.frame.size.height, ScreenWidth, 55)];
+            baoBackView.backgroundColor = [ConMethods colorWithHexString:@"f8f8f8"];
+            [scrollView addSubview:baoBackView];
+            
+            [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55 + 55)];
+            
+            [self requestBaojiaMethods:[[dic objectForKey:@"detail"] objectForKey:@"KEYID"]];
+            
+        }
+        
+    }else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]){
     
-  
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES && [[[dic objectForKey:@"bzjInfo"] objectForKey:@"isSubmitBzj"] boolValue] == YES) {
+            baoBackView = [[UIView alloc] initWithFrame:CGRectMake(0, baoBtn.frame.origin.y + baoBtn.frame.size.height, ScreenWidth, 55)];
+            baoBackView.backgroundColor = [ConMethods colorWithHexString:@"f8f8f8"];
+            [scrollView addSubview:baoBackView];
+            
+            [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55)];
+            
+            [self requestBaojiaMethods:[[dic objectForKey:@"detail"] objectForKey:@"KEYID"]];
+
+            
+        } else {
+           
+                
+                UILabel *baoLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 100, 10, 100, 12)];
+                baoLab.text = @"提交保证金后查看";
+                baoLab.textColor = [ConMethods colorWithHexString:@"8e8d8e"];
+                baoLab.font = [UIFont systemFontOfSize:12];
+                [baoBtn addSubview:baoLab];
+                
+                
+                
+                UIImageView *endViewImg = [[UIImageView alloc] initWithFrame:CGRectMake(0,  ScreenHeight - 75, ScreenWidth, 75)];
+                endViewImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
+                baoBtn.enabled = NO;
+                
+                commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
+                
+                commitBtn.layer.masksToBounds = YES;
+                commitBtn.layer.cornerRadius = 4;
+                commitBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+                
+                [commitBtn setTitle:@"交纳保证金" forState:UIControlStateNormal];
+                [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                
+                commitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+                commitBtn.tag = 10003;
+                [commitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
+                endViewImg.userInteractionEnabled = YES;
+                [endViewImg addSubview:commitBtn];
+                [self.view addSubview:endViewImg];
+                
+                
+                [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55)];
+            
+        
+        
+        }
+        
     
+    } else {
+        baoBackView = [[UIView alloc] initWithFrame:CGRectMake(0, baoBtn.frame.origin.y + baoBtn.frame.size.height, ScreenWidth, 55)];
+        baoBackView.backgroundColor = [ConMethods colorWithHexString:@"f8f8f8"];
+        [scrollView addSubview:baoBackView];
+        
+        [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55)];
+        
+        [self requestBaojiaMethods:[[dic objectForKey:@"detail"] objectForKey:@"KEYID"]];
+
     
-     if ([[[dic objectForKey:@"bzjInfo"] objectForKey:@"isSubmitBzj"] boolValue] == NO) {
+    }
     
-         UILabel *baoLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 100, 10, 100, 12)];
-         baoLab.text = @"提交保证金后查看";
-         baoLab.textColor = [ConMethods colorWithHexString:@"8e8d8e"];
-         baoLab.font = [UIFont systemFontOfSize:12];
-         [baoBtn addSubview:baoLab];
-         
-         
-         
-         UIImageView *endViewImg = [[UIImageView alloc] initWithFrame:CGRectMake(0,  ScreenHeight - 75, ScreenWidth, 75)];
-         endViewImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
-         
-         
-         commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
-         
-         commitBtn.layer.masksToBounds = YES;
-         commitBtn.layer.cornerRadius = 4;
-         commitBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
-         
-         [commitBtn setTitle:@"交纳保证金" forState:UIControlStateNormal];
-         [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-         
-         commitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-         commitBtn.tag = 10003;
-         [commitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
-         endViewImg.userInteractionEnabled = YES;
-         [endViewImg addSubview:commitBtn];
-         [self.view addSubview:endViewImg];
-         
-         
-         
-         
-    
-     } else {
-         
-         UIImageView *endViewImg = [[UIImageView alloc] initWithFrame:CGRectMake(0,  ScreenHeight - 75 , ScreenWidth, 75)];
-         endViewImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
-         
-             commitBtn = [[UIButton alloc] initWithFrame: CGRectMake(40, 30, ScreenWidth - 80, 35)];
-             commitBtn.layer.masksToBounds = YES;
-             commitBtn.layer.cornerRadius = 4;
-             commitBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
-         
-         if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
-             commitBtn.tag = 10003;
-             [commitBtn setTitle:@"交纳保证金" forState:UIControlStateNormal];
-         } else {
-         
-             commitBtn.tag = 10004;
-             [commitBtn setTitle:@"报价" forState:UIControlStateNormal];
-         }
-             [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-             
-             commitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-             
-             [commitBtn addTarget:self action:@selector(pushDec:) forControlEvents:UIControlEventTouchUpInside];
-             endViewImg.userInteractionEnabled = YES;
-             [endViewImg addSubview:commitBtn];
-             
-             [self.view addSubview:endViewImg];
-         
-     }
-    
-    
-    
-    [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55)];
     
 }
 
@@ -778,18 +1114,43 @@
        
     } else if (btn.tag == 10002) {
     
+        MarkListViewController *vc = [[MarkListViewController alloc] init];
+        vc.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+        
     
     } else if(btn.tag == 10003){//保证金
     
-     [self initBackViewMehtods];
+       AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+           [self initBackViewMehtods];
+        } else {
+        
+            LoginViewController *vc = [[LoginViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        
+        }
+        
+     
     
     } else if(btn.tag == 10004){//报价
     
-        [self summitBackViewMehtods];
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+             [self summitBackViewMehtods];
+        } else {
+            
+            LoginViewController *vc = [[LoginViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
+
     
     } else if(btn.tag == 10005){
         
-        [MyBackView removeFromSuperview];
+        [self summitBaozhenJin];
+        
     } else if(btn.tag == 10006){
         
         [MyBackView removeFromSuperview];
@@ -902,6 +1263,7 @@
 - (IBAction)summitBtnMethods:(UIButton *)btn {
     if (btn.tag == 10001) {
         
+        
     } else if (btn.tag == 10002){
     
     
@@ -913,6 +1275,63 @@
     }
 
 }
+
+-(void)sumimBaojia {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在提交..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    NSDictionary *parameters = @{@"tcid":@"",@"wtjg":@""};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERsubmitBzj] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"提交成功"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            [MyBackView removeFromSuperview];
+            
+            commitBtn.tag = 10004;
+            [commitBtn setTitle:@"报价" forState:UIControlStateNormal];
+            
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+}
+
+
+
 
 
 - (IBAction)callPhone:(UITouch *)sender
@@ -1044,14 +1463,67 @@
         [MyBackView addSubview:litleView];
         [self.view addSubview:MyBackView];
         
+
+}
+
+-(void)summitBaozhenJin{
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在提交..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
-
-
-
+    NSDictionary *parameters = @{@"tcid":[[[[myDic objectForKey:@"bzjInfoPageResult"] objectForKey:@"object"] objectAtIndex:0] objectForKey:@"tcid"]};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERsubmitBzj] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"提交成功"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            [MyBackView removeFromSuperview];
+            
+            commitBtn.tag = 10004;
+            [commitBtn setTitle:@"报价" forState:UIControlStateNormal];
+            
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
 }
 
 
 
+
+#pragma mark - 提交金额
 
 -(void)payMehtods:(UIButton *)btn {
 

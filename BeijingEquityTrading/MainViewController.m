@@ -182,37 +182,39 @@
     UITableViewCell *cell;
     cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
     
-    if ([dataList count] == 0 || [dataListPast count] == 0) {
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
-        [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-        //图标
-        UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
-        [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
-        [backView addSubview:iconImageView];
-        //提示
-        UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
-        [tipLabel setFont:[UIFont systemFontOfSize:15]];
-        [tipLabel setTextAlignment:NSTextAlignmentCenter];
-        [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
-        tipLabel.backgroundColor = [UIColor clearColor];
-        [tipLabel setText:@"网络不给力哦~"];
-        [backView addSubview:tipLabel];
-        
-        
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - 100)/2, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27 + 25, 100, 30)];
-        btn.backgroundColor = [UIColor lightTextColor];
-        btn.titleLabel.text = @"点击加载";
-        btn.titleLabel.font = [UIFont systemFontOfSize:15];
-        [btn addTarget:self action:@selector(addData) forControlEvents:UIControlEventTouchUpInside];
-        [backView addSubview:btn];
-        
-        [cell.contentView addSubview:backView];
-        
-    } else{
-    
     if (indexPath.section == 0) {
+        
+        if ([dataList count] == 0 ) {
+            cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
+            [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+            //图标
+            UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
+            [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
+            [backView addSubview:iconImageView];
+            //提示
+            UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
+            [tipLabel setFont:[UIFont systemFontOfSize:15]];
+            [tipLabel setTextAlignment:NSTextAlignmentCenter];
+            [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
+            tipLabel.backgroundColor = [UIColor clearColor];
+            [tipLabel setText:@"网络不给力哦~"];
+            [backView addSubview:tipLabel];
+            
+            
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - 100)/2, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27 + 25, 100, 30)];
+            btn.backgroundColor = [UIColor lightTextColor];
+            btn.titleLabel.text = @"点击加载";
+            btn.titleLabel.font = [UIFont systemFontOfSize:15];
+            [btn addTarget:self action:@selector(addData) forControlEvents:UIControlEventTouchUpInside];
+            [backView addSubview:btn];
+            
+            [cell.contentView addSubview:backView];
+            
+        } else{
+
+        
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
                 cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 220)];
@@ -304,8 +306,38 @@
                 [cell.contentView addSubview:backView];
             }
         
-    } else if (indexPath.section == 2){
-        
+    }
+    }else if (indexPath.section == 2){
+        if ( [dataListPast count] == 0) {
+            cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
+            [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+            //图标
+            UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
+            [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
+            [backView addSubview:iconImageView];
+            //提示
+            UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
+            [tipLabel setFont:[UIFont systemFontOfSize:15]];
+            [tipLabel setTextAlignment:NSTextAlignmentCenter];
+            [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
+            tipLabel.backgroundColor = [UIColor clearColor];
+            [tipLabel setText:@"网络不给力哦~"];
+            [backView addSubview:tipLabel];
+            
+            
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - 100)/2, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27 + 25, 100, 30)];
+            btn.backgroundColor = [UIColor lightTextColor];
+            btn.titleLabel.text = @"点击加载";
+            btn.titleLabel.font = [UIFont systemFontOfSize:15];
+            [btn addTarget:self action:@selector(addData) forControlEvents:UIControlEventTouchUpInside];
+            [backView addSubview:btn];
+            
+            [cell.contentView addSubview:backView];
+            
+        } else{
+
             
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
@@ -754,9 +786,7 @@
 
                 
                 }
-                    
                 
-            }
         
     } else {
         cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
@@ -781,10 +811,10 @@
             
             [cell.contentView addSubview:backView];
 
+            }
         }
     }
-    }
-
+}
     return cell;
 }
 
