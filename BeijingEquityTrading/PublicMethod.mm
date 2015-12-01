@@ -265,6 +265,18 @@
     return size.height;
 }
 
+
++ (float) getStringHeight:(NSString *)str font:(UIFont *)font with:(float)witht{
+    CGSize size=[(str?str: @"") sizeWithFont:font constrainedToSize:CGSizeMake(witht, 9999)
+                               lineBreakMode:NSLineBreakByWordWrapping];
+    return size.height;
+}
+
+
+
+
+
+
 + (CGSize) getStringSize:(NSString *)str font:(UIFont *)font{
     CGSize size=[(str?str: @"") sizeWithFont:font constrainedToSize:CGSizeMake(320, 9999)
                                lineBreakMode:NSLineBreakByWordWrapping];

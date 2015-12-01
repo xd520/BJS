@@ -81,6 +81,18 @@
 		04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40691BFDBE8900548EBA /* WebDetailViewController.xib */; };
 		04BC40731BFDC39700548EBA /* ProviousViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40711BFDC39700548EBA /* ProviousViewController.m */; };
 		04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40721BFDC39700548EBA /* ProviousViewController.xib */; };
+		A199AA1C1C07E0B9002839CB /* PropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA0B1C07E0B9002839CB /* PropertyViewController.m */; };
+		A199AA1D1C07E0B9002839CB /* PropertyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA0C1C07E0B9002839CB /* PropertyViewController.xib */; };
+		A199AA1E1C07E0B9002839CB /* TradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA0E1C07E0B9002839CB /* TradeViewController.m */; };
+		A199AA1F1C07E0B9002839CB /* TradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA0F1C07E0B9002839CB /* TradeViewController.xib */; };
+		A199AA201C07E0B9002839CB /* AttentionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA111C07E0B9002839CB /* AttentionViewController.m */; };
+		A199AA211C07E0B9002839CB /* AttentionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA121C07E0B9002839CB /* AttentionViewController.xib */; };
+		A199AA221C07E0B9002839CB /* CertifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA141C07E0B9002839CB /* CertifyViewController.m */; };
+		A199AA231C07E0B9002839CB /* CertifyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA151C07E0B9002839CB /* CertifyViewController.xib */; };
+		A199AA241C07E0B9002839CB /* MeansViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA171C07E0B9002839CB /* MeansViewController.m */; };
+		A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA181C07E0B9002839CB /* MeansViewController.xib */; };
+		A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA1A1C07E0B9002839CB /* NewsViewController.m */; };
+		A199AA271C07E0B9002839CB /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA1B1C07E0B9002839CB /* NewsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -220,6 +232,24 @@
 		04BC40701BFDC39700548EBA /* ProviousViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviousViewController.h; sourceTree = "<group>"; };
 		04BC40711BFDC39700548EBA /* ProviousViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviousViewController.m; sourceTree = "<group>"; };
 		04BC40721BFDC39700548EBA /* ProviousViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProviousViewController.xib; sourceTree = "<group>"; };
+		A199AA0A1C07E0B9002839CB /* PropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyViewController.h; sourceTree = "<group>"; };
+		A199AA0B1C07E0B9002839CB /* PropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyViewController.m; sourceTree = "<group>"; };
+		A199AA0C1C07E0B9002839CB /* PropertyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PropertyViewController.xib; sourceTree = "<group>"; };
+		A199AA0D1C07E0B9002839CB /* TradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TradeViewController.h; sourceTree = "<group>"; };
+		A199AA0E1C07E0B9002839CB /* TradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TradeViewController.m; sourceTree = "<group>"; };
+		A199AA0F1C07E0B9002839CB /* TradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TradeViewController.xib; sourceTree = "<group>"; };
+		A199AA101C07E0B9002839CB /* AttentionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttentionViewController.h; sourceTree = "<group>"; };
+		A199AA111C07E0B9002839CB /* AttentionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttentionViewController.m; sourceTree = "<group>"; };
+		A199AA121C07E0B9002839CB /* AttentionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttentionViewController.xib; sourceTree = "<group>"; };
+		A199AA131C07E0B9002839CB /* CertifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CertifyViewController.h; sourceTree = "<group>"; };
+		A199AA141C07E0B9002839CB /* CertifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CertifyViewController.m; sourceTree = "<group>"; };
+		A199AA151C07E0B9002839CB /* CertifyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CertifyViewController.xib; sourceTree = "<group>"; };
+		A199AA161C07E0B9002839CB /* MeansViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeansViewController.h; sourceTree = "<group>"; };
+		A199AA171C07E0B9002839CB /* MeansViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeansViewController.m; sourceTree = "<group>"; };
+		A199AA181C07E0B9002839CB /* MeansViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeansViewController.xib; sourceTree = "<group>"; };
+		A199AA191C07E0B9002839CB /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		A199AA1A1C07E0B9002839CB /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		A199AA1B1C07E0B9002839CB /* NewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,6 +381,7 @@
 		0429690E1BCF7F0600975279 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				A199AA091C07E096002839CB /* 账户中心 */,
 				04F706311BFD6A9C0036F8A6 /* 资讯界面 */,
 				042A56931BF30CD2006032C5 /* 详情界面 */,
 				044B54A71BD9E74300CC4CC5 /* 登录界面 */,
@@ -505,6 +536,31 @@
 			name = "资讯界面";
 			sourceTree = "<group>";
 		};
+		A199AA091C07E096002839CB /* 账户中心 */ = {
+			isa = PBXGroup;
+			children = (
+				A199AA0A1C07E0B9002839CB /* PropertyViewController.h */,
+				A199AA0B1C07E0B9002839CB /* PropertyViewController.m */,
+				A199AA0C1C07E0B9002839CB /* PropertyViewController.xib */,
+				A199AA0D1C07E0B9002839CB /* TradeViewController.h */,
+				A199AA0E1C07E0B9002839CB /* TradeViewController.m */,
+				A199AA0F1C07E0B9002839CB /* TradeViewController.xib */,
+				A199AA101C07E0B9002839CB /* AttentionViewController.h */,
+				A199AA111C07E0B9002839CB /* AttentionViewController.m */,
+				A199AA121C07E0B9002839CB /* AttentionViewController.xib */,
+				A199AA131C07E0B9002839CB /* CertifyViewController.h */,
+				A199AA141C07E0B9002839CB /* CertifyViewController.m */,
+				A199AA151C07E0B9002839CB /* CertifyViewController.xib */,
+				A199AA161C07E0B9002839CB /* MeansViewController.h */,
+				A199AA171C07E0B9002839CB /* MeansViewController.m */,
+				A199AA181C07E0B9002839CB /* MeansViewController.xib */,
+				A199AA191C07E0B9002839CB /* NewsViewController.h */,
+				A199AA1A1C07E0B9002839CB /* NewsViewController.m */,
+				A199AA1B1C07E0B9002839CB /* NewsViewController.xib */,
+			);
+			name = "账户中心";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -569,14 +625,20 @@
 				042A56981BF30CF9006032C5 /* DetailViewController.xib in Resources */,
 				043E446E1C06F309007CC3C4 /* MarkListViewController.xib in Resources */,
 				047106081BCB670700F558FF /* Assets.xcassets in Resources */,
+				A199AA231C07E0B9002839CB /* CertifyViewController.xib in Resources */,
+				A199AA1F1C07E0B9002839CB /* TradeViewController.xib in Resources */,
 				04BC40601BFDBE6A00548EBA /* MoreViewController.xib in Resources */,
 				045A59141BFC162E00771AE0 /* MoreTableViewCell.xib in Resources */,
+				A199AA271C07E0B9002839CB /* NewsViewController.xib in Resources */,
 				04BC406B1BFDBE8900548EBA /* AboutViewController.xib in Resources */,
 				04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */,
 				04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */,
+				A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */,
 				04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */,
+				A199AA1D1C07E0B9002839CB /* PropertyViewController.xib in Resources */,
 				04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */,
 				04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */,
+				A199AA211C07E0B9002839CB /* AttentionViewController.xib in Resources */,
 				04041E4C1BF18A25009C6D2B /* sdRefeshView_arrow@2x.png in Resources */,
 				0429691D1BCF80F900975279 /* TreasureViewController.xib in Resources */,
 				042969181BCF80D200975279 /* SpecialPerformanceViewController.xib in Resources */,
@@ -599,6 +661,7 @@
 				04041E4F1BF18A25009C6D2B /* UIView+SDExtension.m in Sources */,
 				044B54B91BD9E80500CC4CC5 /* OpenUDID.m in Sources */,
 				04BC40731BFDC39700548EBA /* ProviousViewController.m in Sources */,
+				A199AA1C1C07E0B9002839CB /* PropertyViewController.m in Sources */,
 				04041EA11BF18EA4009C6D2B /* AFURLConnectionOperation.m in Sources */,
 				044B54B61BD9E7FB00CC4CC5 /* Base64XD.m in Sources */,
 				043E3E5F1BF9B09100FF5AAE /* MarkViewController.m in Sources */,
@@ -616,13 +679,17 @@
 				04041EB81BF18EB3009C6D2B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				042969121BCF804B00975279 /* MainViewController.m in Sources */,
 				045A59131BFC162E00771AE0 /* MoreTableViewCell.m in Sources */,
+				A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */,
 				0429691C1BCF80F900975279 /* TreasureViewController.m in Sources */,
 				04B101621BFC6070008C6100 /* UserProcrolViewController.m in Sources */,
 				04041E501BF18A25009C6D2B /* SDRefreshFooterView.m in Sources */,
 				04041EBD1BF18EB3009C6D2B /* UIRefreshControl+AFNetworking.m in Sources */,
 				04BC406E1BFDBE8900548EBA /* WebDetailViewController.m in Sources */,
+				A199AA201C07E0B9002839CB /* AttentionViewController.m in Sources */,
 				04041EA31BF18EA4009C6D2B /* AFURLResponseSerialization.m in Sources */,
 				045A59191BFC2EB100771AE0 /* ListData.m in Sources */,
+				A199AA241C07E0B9002839CB /* MeansViewController.m in Sources */,
+				A199AA221C07E0B9002839CB /* CertifyViewController.m in Sources */,
 				04041E9D1BF18EA4009C6D2B /* AFHTTPRequestOperationManager.m in Sources */,
 				04041E9C1BF18EA4009C6D2B /* AFHTTPRequestOperation.m in Sources */,
 				042968E01BCF792800975279 /* CPVTabViewController.m in Sources */,
@@ -636,6 +703,7 @@
 				04041E4E1BF18A25009C6D2B /* SDRefreshHeaderView.m in Sources */,
 				042968E21BCF792800975279 /* ApexJs.m in Sources */,
 				04BC405F1BFDBE6A00548EBA /* MoreViewController.m in Sources */,
+				A199AA1E1C07E0B9002839CB /* TradeViewController.m in Sources */,
 				04041EB71BF18EB3009C6D2B /* AFNetworkActivityIndicatorManager.m in Sources */,
 				0429690D1BCF7E9600975279 /* ShareMyData.m in Sources */,
 				042968E31BCF792800975279 /* PublicMethod.mm in Sources */,

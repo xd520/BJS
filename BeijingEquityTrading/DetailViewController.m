@@ -746,7 +746,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 //开启定时器方法：
 - (void)startTimer
 {
-    
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
     
     // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
@@ -759,21 +758,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     int time;
     for (int i = 0; i < totalLastTime.count; i++) {
-        time = (int)[[[totalLastTime objectAtIndex:i] objectForKey:@"lastTime"]longLongValue];
+        time = (int)[[[totalLastTime objectAtIndex:i] objectForKey:@"lastTime"]longLongValue] - 1;
         
         NSIndexPath *indexPath = [[totalLastTime objectAtIndex:i] objectForKey:@"indexPath"];
         
         UITableViewCell *cell = (UITableViewCell *)[table cellForRowAtIndexPath:indexPath];
         UILabel *textLab = [cell viewWithTag:indexPath.row + 1000];
         
-        /*
-        if (indexPath.row == 0) {
-            
-            cell.frame = CGRectMake(0, 0, ScreenWidth, 120);
-            
-            textLab.frame = CGRectMake(100 + 50, 105 - 20, ScreenWidth  - 210, 12);
-        }
-        */
         
         textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
         NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [NSString stringWithFormat:@"%i",time]};

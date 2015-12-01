@@ -57,9 +57,24 @@
 #define USERfocusPrj @"/service/s/prj/focusPrj"
 #define USERcancelFocusPrj @"/service/s/prj/cancelFocusPrj"
 #define USERsubmitBzj @"/service/s/prj/submitBzj"
+#define USERsubmitWt @"/service/s/prj/submitWt"
 //获取报价信息和提交报价 都是这个接口
 #define USERbidInfo @"/service/s/prj/bidInfo"
-#define USERbidInfo @"/service/s/prj/bidInfo"
+//#define USERbidInfo @"/service/s/prj/bidInfo"
+
+/*个人中心－账户中心*/
+//baozhengjin
+#define USERwdbzj @"/service/psncenter/wdzc/app_wdbzj"
+#define USERwdjyjl @"/service/psncenter/wdzc/app_wdjyjl"
+
+//jiaoyi
+#define USERappbjz @"/service/psncenter/wdjy/app_bjz"
+#define USERappwcj @"/service/psncenter/wdjy/app_wcj"
+#define USERappycj @"/service/psncenter/wdjy/app_ycj"
+//guanzhu
+#define USERappguanzhu @"/service/psncenter/wdgz/app_wdgz"
+
+
 
 
 

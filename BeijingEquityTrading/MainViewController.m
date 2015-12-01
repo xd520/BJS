@@ -9,6 +9,8 @@
 #import "MainViewController.h"
 #import "LoginViewController.h"
 #import "AppDelegate.h"
+#import "DetailViewController.h"
+#import "MarkViewController.h"
 
 @interface MainViewController ()
 {
@@ -375,7 +377,7 @@
                 [backView addSubview:brandLabel];
                 
                 //当前价
-                UIView *lastView = [[UIView alloc] initWithFrame:CGRectMake(0, 130, (ScreenWidth - 15)/2, 30)];
+                UIView *lastView = [[UIView alloc] initWithFrame:CGRectMake(0, 135, (ScreenWidth - 15)/2, 30)];
                 lastView.backgroundColor = [UIColor whiteColor];
                 
                 UILabel *fenLabTip = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, 30, 10)];
@@ -445,7 +447,7 @@
                     [backViewlast addSubview:brandLabelp];
                     
                 //当前价
-                UIView *lastViewp = [[UIView alloc] initWithFrame:CGRectMake(0, 130, (ScreenWidth - 15)/2, 30)];
+                UIView *lastViewp = [[UIView alloc] initWithFrame:CGRectMake(0, 135, (ScreenWidth - 15)/2, 30)];
                 lastViewp.backgroundColor = [UIColor whiteColor];
                 
                 UILabel *fenLabTipP = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, 30, 10)];
@@ -545,7 +547,7 @@
                         [backView addSubview:brandLabel];
                         
                         //当前价
-                        UIView *lastView = [[UIView alloc] initWithFrame:CGRectMake(0, 130, (ScreenWidth - 15)/2, 30)];
+                        UIView *lastView = [[UIView alloc] initWithFrame:CGRectMake(0, 135, (ScreenWidth - 15)/2, 30)];
                         lastView.backgroundColor = [UIColor whiteColor];
                         
                         UILabel *fenLabTip = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, 30, 10)];
@@ -640,7 +642,7 @@
                         [backView addSubview:brandLabel];
                         
                         //当前价
-                        UIView *lastView = [[UIView alloc] initWithFrame:CGRectMake(0, 130, (ScreenWidth - 15)/2, 30)];
+                        UIView *lastView = [[UIView alloc] initWithFrame:CGRectMake(0, 135, (ScreenWidth - 15)/2, 30)];
                         lastView.backgroundColor = [UIColor whiteColor];
                         
                         UILabel *fenLabTip = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, 30, 10)];
@@ -710,7 +712,7 @@
                         [backViewlast addSubview:brandLabelp];
                         
                         //当前价
-                        UIView *lastViewp = [[UIView alloc] initWithFrame:CGRectMake(0, 130, (ScreenWidth - 15)/2, 30)];
+                        UIView *lastViewp = [[UIView alloc] initWithFrame:CGRectMake(0, 135, (ScreenWidth - 15)/2, 30)];
                         lastViewp.backgroundColor = [UIColor whiteColor];
                         
                         UILabel *fenLabTipP = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, 30, 10)];
@@ -788,33 +790,40 @@
                 }
                 
         
-    } else {
-        cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-    
-          UIView  *backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 5, ScreenWidth - 10, 30)];
-            [backView setBackgroundColor:[UIColor whiteColor]];
-            backView.layer.cornerRadius = 2;
-            backView.layer.masksToBounds = YES;
-            
-            //品牌
-            UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 7.5, ScreenWidth - 30, 15)];
-            brandLabel.font = [UIFont systemFontOfSize:15];
-            [brandLabel setTextColor:[UIColor redColor]];
-            [brandLabel setBackgroundColor:[UIColor clearColor]];
-            brandLabel.textAlignment = NSTextAlignmentCenter;
-            brandLabel.text = str;
-            [backView addSubview:brandLabel];
-            
-            [cell.contentView addSubview:backView];
-
-            }
-        }
     }
-}
+    }
+    } else if(indexPath.section == 1){
+        if (dataListPast.count > 0) {
+            
+        
+        
+            cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+                
+                UIView  *backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 0, ScreenWidth - 10, 30)];
+                [backView setBackgroundColor:[UIColor whiteColor]];
+                backView.layer.cornerRadius = 2;
+                backView.layer.masksToBounds = YES;
+                backView.layer.borderWidth = 1;
+                backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
+                
+                //品牌
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 7.5, ScreenWidth - 30, 15)];
+                brandLabel.font = [UIFont systemFontOfSize:15];
+                [brandLabel setTextColor:[UIColor redColor]];
+                [brandLabel setBackgroundColor:[UIColor clearColor]];
+                brandLabel.textAlignment = NSTextAlignmentCenter;
+                brandLabel.text = str;
+                [backView addSubview:brandLabel];
+                
+                [cell.contentView addSubview:backView];
+                
+                }
+            }
+    }
     return cell;
 }
 
@@ -849,6 +858,16 @@
 {
     
     UIView *view = [sender view];
+    
+   
+        MarkViewController *vc = [[MarkViewController alloc] init];
+        vc.strId = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:view.tag] objectForKey:@"XMID"]];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    
+    
+    
 }
 
 
@@ -858,8 +877,8 @@
     UIView *view;
     if (section == 2) {
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 19, ScreenWidth, 40)];
-        view.backgroundColor = [UIColor clearColor];
-        
+       // view.backgroundColor = [UIColor clearColor];
+        [view setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
         
         
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(5,19, ScreenWidth/2 - 10 - 30, 2)];
@@ -916,7 +935,13 @@
         [view addSubview:lab1];
         
     
+    } else{
+     view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 5)];
+    [view setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+    
     }
+    
+    
     return view;
     
 }
@@ -929,30 +954,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     if (indexPath.section == 0) {
         
-        if (indexPath.row == 0) {
-          //  MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
-            //vc.hidesBottomBarWhenPushed = YES;
-            //[self.navigationController pushViewController:vc animated:YES];
-            
-        } else if (indexPath.row == 1){
-           
-            
-            
-        }else if (indexPath.row == 2) {
-           
-            
-        }
+        DetailViewController *vc = [[DetailViewController alloc] init];
+        vc.strId = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+      
     } else if (indexPath.section == 1){
-        if (indexPath.row == 0){
-            
-           
-        }else if (indexPath.row == 1){
-           
-            
-        } else {
-            
-            
-        }
         
     }
     
@@ -1043,6 +1050,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    manager.requestSerializer.timeoutInterval = 10.f;
     //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
     [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];

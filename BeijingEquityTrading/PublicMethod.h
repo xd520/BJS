@@ -34,6 +34,7 @@
 
 + (float) getStringWidth:(NSString *)str font:(UIFont *)font;
 + (float) getStringHeight:(NSString *)str font:(UIFont *)font;
++ (float) getStringHeight:(NSString *)str font:(UIFont *)font with:(float)witht;
 + (CGSize) getStringSize:(NSString *)str font:(UIFont *)font;
 
 //还没开始测试

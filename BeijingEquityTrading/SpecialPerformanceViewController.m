@@ -109,8 +109,26 @@
     UITableViewCell *cell;
     cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
     
-   
+    if ([dataList count] == 0 ) {
+        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
+        [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+        //图标
+        UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
+        [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
+        [backView addSubview:iconImageView];
+        //提示
+        UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
+        [tipLabel setFont:[UIFont systemFontOfSize:15]];
+        [tipLabel setTextAlignment:NSTextAlignmentCenter];
+        [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
+        tipLabel.backgroundColor = [UIColor clearColor];
+        [tipLabel setText:@"没有任何商品哦~"];
+        [backView addSubview:tipLabel];
+        [cell.contentView addSubview:backView];
         
+    } else{
        
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
@@ -204,7 +222,7 @@
                 [backView addSubview:dayLabelMore];
                 
                 [cell.contentView addSubview:backView];
-        
+            }
     }
     
     return cell;
@@ -248,6 +266,8 @@
     view1.backgroundColor = [UIColor whiteColor];
     view1.layer.masksToBounds = YES;
     view1.layer.cornerRadius = 4;
+    view1.layer.borderWidth = 1;
+    view1.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
     
   UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 1)];
     lineview.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];

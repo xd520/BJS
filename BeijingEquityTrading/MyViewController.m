@@ -8,6 +8,12 @@
 
 #import "MyViewController.h"
 #import "AppDelegate.h"
+#import "PropertyViewController.h"
+#import "TradeViewController.h"
+#import "AttentionViewController.h"
+#import "CertifyViewController.h"
+#import "MeansViewController.h"
+#import "NewsViewController.h"
 
 @interface MyViewController ()
 {
@@ -15,6 +21,7 @@
     NSArray *arrTitle;
      UITableView *table;
      UILabel *nameTitle;
+   UIImageView *imgHeadVeiw;
 }
 @end
 
@@ -28,7 +35,7 @@
         addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
-        statusBarView.backgroundColor=[UIColor blackColor];
+        statusBarView.backgroundColor= [ConMethods colorWithHexString:@"d23838"];
         
         [self.view addSubview:statusBarView];
     } else {
@@ -36,8 +43,8 @@
         
     }
 
-     arrTitle = @[@"我的资产",@"当日委托/撤单",@"当月成交记录",@"资金变动查询",@"账户中心"];
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight, ScreenWidth,ScreenHeight - 69)];
+      arrTitle = @[@"我的资产",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心"];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth,ScreenHeight - 49)];
     [table setDelegate:self];
     [table setDataSource:self];
     table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -86,17 +93,31 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-      return 150;
+      return 180;
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     UIView *view;
     if (section == 0) {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 160)];
-        view.backgroundColor = [UIColor redColor];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 180)];
+        view.backgroundColor = [ConMethods colorWithHexString:@"be1212"];
         
-        nameTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 13, ScreenWidth - 100, 17)];
+        
+        imgHeadVeiw = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 100)/2, 40, 100, 100)];
+        imgHeadVeiw.backgroundColor = [UIColor redColor];
+        
+        imgHeadVeiw.layer.cornerRadius = imgHeadVeiw.frame.size.width / 2;
+        imgHeadVeiw.clipsToBounds = YES;
+        imgHeadVeiw.layer.borderWidth = 4.0f;
+        imgHeadVeiw.layer.borderColor = [ConMethods colorWithHexString:@"d23838"].CGColor;
+        imgHeadVeiw.image = [UIImage imageNamed:@"logo"];
+        [view addSubview:imgHeadVeiw];
+        
+        
+        
+        
+        nameTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 150, ScreenWidth - 100, 17)];
         nameTitle.text = @"我的账户";
         nameTitle.backgroundColor = [UIColor clearColor];
         nameTitle.textAlignment = NSTextAlignmentCenter;
@@ -119,28 +140,44 @@
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-   
+    if (indexPath.row == 0) {
         
-        if (indexPath.row == 0) {
-           
-            
-        } else if (indexPath.row == 1){
-           
-            
-            
-        }else if (indexPath.row == 2) {
-          //  DayDealViewController *vc = [[DayDealViewController alloc] init];
-           // vc.hidesBottomBarWhenPushed = YES;
-           // [self.navigationController pushViewController:vc animated:YES];
-            
-        }
+        PropertyViewController *vc = [[PropertyViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
         
+        
+    } else if (indexPath.row == 1){
+        
+        TradeViewController *vc = [[TradeViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }else if (indexPath.row == 2) {
+        AttentionViewController *vc = [[AttentionViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } else if (indexPath.row == 3){
+        CertifyViewController *vc = [[CertifyViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.row == 4){
+        MeansViewController *vc = [[MeansViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.row == 5){
+        NewsViewController *vc = [[NewsViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
 
-
+/*
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -148,7 +185,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
     //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
 }
-
+*/
 
 
 - (void)didReceiveMemoryWarning {

@@ -307,6 +307,12 @@ CGRectMake1(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
 
 + (NSString *)AddComma:(NSString *)string{//添加逗号
     
+    if ([string floatValue] == 0) {
+        return @"0.00";
+    } else {
+    
+    
+    
      NSRange range = [string rangeOfString:@"."];//匹配得到的下标
     NSString *string1 = [string substringFromIndex:range.location];
     
@@ -332,7 +338,7 @@ CGRectMake1(CGFloat x, CGFloat y, CGFloat width, CGFloat height)
     }else{
         return  [NSString stringWithFormat:@"%@,%@",str,string1];
     }
-    
+    }
 }
 
 
