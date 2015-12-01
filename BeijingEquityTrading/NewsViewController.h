@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface NewsViewController : UIViewController
+- (IBAction)back:(id)sender;
 
 @end

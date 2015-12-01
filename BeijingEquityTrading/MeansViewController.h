@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MeansViewController : UIViewController
+- (IBAction)back:(id)sender;
 
 @end
