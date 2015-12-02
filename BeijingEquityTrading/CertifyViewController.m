@@ -14,8 +14,8 @@
     float addHight;
     UIView *lineView;
     
-    //标记前一个按钮的tag
-    NSInteger countBtn;
+    NSArray *arrTitle;
+    UITableView *table;
     
     
 }
@@ -25,7 +25,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    countBtn = 0;
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -37,39 +36,22 @@
         addHight = 0;
     }
 
-    UIView *headVeiw = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 32)];
-   UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+   
+   UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 1)];
     lineView1.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
-    [headVeiw addSubview:lineView1];
+    [self.view addSubview:lineView1];
     
-    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 31, ScreenWidth, 1)];
-    lineView2.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
-    [headVeiw addSubview:lineView2];
+    arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"银行卡认证",@"安全保护问题"];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth,ScreenHeight - 65)];
+    [table setDelegate:self];
+    [table setDataSource:self];
+    table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    [table setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
+    table.tableFooterView = [[UIView alloc] init];
     
+    table.bounces = NO;
     
-    
-    NSArray *arr = @[@"我的银行卡",@"我的保证金",@"交易记录"];
-    
-    for (int i = 0; i < 3; i++) {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(ScreenWidth/3*i, 1, ScreenWidth/3, 30);
-        btn.tag = i;
-        if (i == 0) {
-        [btn setTintColor:[ConMethods colorWithHexString:@"950401"]];
-        } else {
-        [btn setTintColor:[ConMethods colorWithHexString:@"333333"]];
-        
-        }
-        [btn setTitle:[arr objectAtIndex:i] forState:UIControlStateNormal];
-        [btn addTarget:self action:@selector(selectMethods:) forControlEvents:UIControlEventTouchUpInside];
-        [headVeiw addSubview:btn];
-        
-        
-    }
-    lineView = [[UIView alloc] initWithFrame:CGRectMake((ScreenWidth/3 - 75)/2, 28, 75, 2)];
-    lineView.backgroundColor = [ConMethods colorWithHexString:@"950401"];
-    [headVeiw addSubview:lineView];
-    
+    [self.view addSubview:table];
     
     
 }
@@ -77,29 +59,56 @@
 
 #pragma mark -  滑动条选择条
 
--(void)selectMethods:(UIButton *)btn {
-    
-    if (btn.tag == countBtn) {
-       [btn setTintColor:[ConMethods colorWithHexString:@"950401"]];
-        lineView.frame = CGRectMake((ScreenWidth/3 - 75)/2 + ScreenWidth/3*countBtn, 28, 75, 2);
-        
-        
-    } else {
-     UIButton *btnfirst = (UIButton *)[self.view viewWithTag:countBtn];
-         [btnfirst setTintColor:[ConMethods colorWithHexString:@"333333"]];
-        countBtn = btn.tag;
-        [btn setTintColor:[ConMethods colorWithHexString:@"950401"]];
-        lineView.frame = CGRectMake((ScreenWidth/3 - 75)/2 + ScreenWidth/3*countBtn, 28, 75, 2);
-    
+
+#pragma mark - UITableView DataSource Methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return arrTitle.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tbleView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //[tableView setScrollEnabled:NO]; tableView 不能滑动
+    static NSString *RepairCellIdentifier = @"RepairCellIdentifier";
+    UITableViewCell *cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:RepairCellIdentifier];
     }
     
+    
+    cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    return cell;
+}
 
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 40;
 }
 
 
 
 
+- (void)tableView:(UITableView *)tbleView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
 
 
 - (void)didReceiveMemoryWarning {

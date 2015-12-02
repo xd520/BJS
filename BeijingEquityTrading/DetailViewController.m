@@ -71,7 +71,9 @@
     image.image = [UIImage imageNamed:@"logo"];
     
     UIButton *back = [[UIButton alloc] initWithFrame:CGRectMake(0, 22.5, 30, 25)];
-    back.backgroundColor = [UIColor redColor];
+   
+    [back setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
+    
     [back addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
     [image addSubview:back];
     
@@ -82,12 +84,12 @@
     
     
     view1 = [[UIView alloc] initWithFrame:CGRectMake(35, 20, ScreenWidth - 40, 30)];
-    view1.backgroundColor = [ConMethods colorWithHexString:@"fbfbfb" withApla:0.5];
+    view1.backgroundColor = [ConMethods colorWithHexString:@"cacaca" withApla:0.5];
     view1.layer.masksToBounds = YES;
     view1.layer.cornerRadius = 4;
     
     UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 1)];
-    lineview.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
+    lineview.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
     [view1 addSubview:lineview];
     
     
@@ -102,14 +104,11 @@
     
     
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(ScreenWidth - 40 - 30, 2.5, 25, 25);
+    searchBtn.frame = CGRectMake(ScreenWidth - 40 - 30, 5, 20, 20);
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:searchBtn];
     [image addSubview:view1];
-    
-    
-    
     
     
     [self.view addSubview:image];
@@ -266,6 +265,15 @@
         [backView addSubview:btn];
         
     }
+
+    
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 79, ScreenWidth, 1)];
+    lineView1.backgroundColor = [ConMethods  colorWithHexString:@"d0d0d0"];
+    [backView addSubview:lineView1];
+    
+    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 109, ScreenWidth, 1)];
+    lineView2.backgroundColor = [ConMethods  colorWithHexString:@"d0d0d0"];
+    [backView addSubview:lineView2];
 
     
     

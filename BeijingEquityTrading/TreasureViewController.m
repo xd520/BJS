@@ -14,6 +14,9 @@
 @interface TreasureViewController ()
 {
     float addHight;
+    //所有剩余时间数组
+    NSMutableArray *totalLastTime;
+    NSTimer *timer;
     
     UITableView *table;
     NSMutableArray *dataList;
@@ -35,6 +38,27 @@
     NSInteger indext;
     NSInteger tipcount;
     
+    UIView *MyView;
+    UIScrollView *backscrollView;
+    
+    NSMutableArray *bigClassList;
+    NSMutableArray *littleClassList;
+    
+    UIView *bigView;
+    UIView *littleView;
+    UIView *moneyView;
+    
+    UIView *lineViewLit;
+    UIView *lineViewBig;
+    
+    
+    int countBig;
+    int countLittle;
+    
+    float bigHight;
+    float littltHight;
+    
+    UIButton *selectlitBtn;
     
 }
 
@@ -47,6 +71,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    totalLastTime = [NSMutableArray array];
+    
     start = @"1";
     limit = @"10";
     _searchStr = @"";
@@ -76,12 +103,10 @@
     view1.layer.borderWidth = 1;
     view1.layer.borderColor = [ConMethods colorWithHexString:@"dedede"].CGColor;
     
-    UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 1)];
-    lineview.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
-    [view1 addSubview:lineview];
+   
     
     
-    searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, ScreenWidth - 10 - 30, 30)];
+    searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 2.5, ScreenWidth - 10 - 30, 25)];
     searchText.delegate = self;
     searchText.placeholder = @"搜索标的名称或编号";
     searchText.textColor = [ConMethods colorWithHexString:@"333333"];
@@ -92,10 +117,16 @@
     
     
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 25, 5, 20, 20);
+    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 30, 5, 20, 20);
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:searchBtn];
+    
+    UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(2, 1, ScreenWidth - 14, 1)];
+    lineview.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
+    [view1 addSubview:lineview];
+    
+    
     [_headView addSubview:view1];
     
     
@@ -105,7 +136,7 @@
     
     //默认选择按钮
     
-    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"价格▲",@"类别"];
+    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"价格▲",@"类别▲"];
     
     for (int i = 0; i < 4; i++) {
         UIButton *btn = [[UIButton alloc] init];
@@ -182,19 +213,19 @@
         
     }
     
+    
+    lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 29.5, ScreenWidth, 0.5)];
+    lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
+    [backView addSubview:lineView1];
+    
+    
     [self.view addSubview:backView];
-    
-    
-    
-    
-    
-    
     
     
     
     //添加tableView
     
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0,addHight + 44 + 30, ScreenWidth,ScreenHeight - 20 - 49)];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0,addHight + 44 + 30, ScreenWidth,ScreenHeight - 94 - 49)];
     [table setDelegate:self];
     [table setDataSource:self];
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -236,6 +267,11 @@
         endTime = @"0";
         price = @"0";
         
+        
+        start = @"1";
+        searchText.text = @"";
+        [self requestData:endTime withprice:price with:searchText.text];
+        
     } else if (btn.tag == 1) {
         
         lab3.textColor = [UIColor grayColor];
@@ -255,7 +291,9 @@
             endTime = @"2";
         }
         
-        
+        start = @"1";
+        searchText.text = @"";
+        [self requestData:endTime withprice:price with:searchText.text];
         
         
     } else if (btn.tag == 2){
@@ -274,14 +312,487 @@
             lab3.text = @"价格▼";
             price = @"2";
         }
+       
+        start = @"1";
+        searchText.text = @"";
+        [self requestData:endTime withprice:price with:searchText.text];
+        
+    } else if (btn.tag == 3){
+    
+       // [self getFlashForSelectWindows:nil];
+        [self requestDataForWindows];
         
     }
     
-    start = @"1";
-    searchText.text = @"";
-    [self requestData:endTime withprice:price with:searchText.text];
+}
+
+
+#pragma mark - /***** 筛选处理 ******/
+
+#pragma mark - 请求筛选数据方法
+
+-(void) requestDataForWindows {
+    
+    NSLog(@"start = %@",start);
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERsearchappIndexli] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            [self getFlashForSelectWindows:[responseObject objectForKey:@"object"]];
+            
+        } else {
+            
+            NSMutableArray *arr = [NSMutableArray array];
+            [self recivedCategoryList:arr];
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
     
 }
+
+
+
+#pragma mark - 筛选弹窗
+
+-(void)getFlashForSelectWindows:(NSDictionary *)dic{
+
+    if (MyView) {
+        [MyView removeFromSuperview];
+    }
+    
+    
+    bigClassList = [[dic objectForKey:@"xmlbList"] objectForKey:@"object"];
+    littleClassList = [[dic objectForKey:@"xmzlList"] objectForKey:@"object"];
+    
+    
+    MyView  = [[UIView alloc] initWithFrame:CGRectMake(0, addHight, ScreenWidth, ScreenHeight - 20)];
+    MyView.backgroundColor = [ConMethods colorWithHexString:@"bfbfbf" withApla:0.8];
+    MyView.layer.masksToBounds = YES;
+    MyView.layer.cornerRadius = 4;
+    
+  
+
+    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(40, 0, ScreenWidth - 40, 44)];
+    headView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    
+    
+    
+    //取消按钮
+    UIButton *quitBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 19/2, 40, 25)];
+    [quitBtn setTitle:@"取消" forState:UIControlStateNormal];
+    quitBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    quitBtn.backgroundColor = [UIColor clearColor];
+    [quitBtn setTitleColor:[ConMethods colorWithHexString:@"999999"] forState:UIControlStateNormal];
+    quitBtn.tag = 10001;
+    [quitBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [headView addSubview:quitBtn];
+    
+    
+    UILabel *headLab = [[UILabel alloc] initWithFrame:CGRectMake(80, (44 - 18)/2, ScreenWidth - 180, 18)];
+    headLab.text = @"筛选";
+    headLab.textAlignment = NSTextAlignmentCenter;
+    headLab.textColor = [ConMethods colorWithHexString:@"252525"];
+    headLab.font = [UIFont systemFontOfSize:18];
+    [headView addSubview:headLab];
+    
+    
+    
+    //完成按钮
+    UIButton *finshBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 19/2, 40, 25)];
+    [finshBtn setTitle:@"完成" forState:UIControlStateNormal];
+    finshBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    finshBtn.backgroundColor = [UIColor clearColor];
+    [finshBtn setTitleColor:[ConMethods colorWithHexString:@"999999"] forState:UIControlStateNormal];
+    finshBtn.tag = 10002;
+    [finshBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [headView addSubview:finshBtn];
+    [MyView addSubview:headView];
+    
+    
+    backscrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(40, 44, ScreenWidth - 40, ScreenHeight - 64)];
+    backscrollView.backgroundColor = [ConMethods colorWithHexString:@"f2f2f2"];
+    backscrollView.bounces = NO;
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 40, 0.5)];
+    lineView.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+    [backscrollView addSubview:lineView];
+    
+    
+    [self initBigButtons];
+    [self initlittleButtons];
+    
+    moneyView = [[UIView alloc] initWithFrame:CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50)];
+    moneyView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    
+    UILabel *bigLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 18)];
+    bigLab.text = @"起拍价";
+    // bigLab.textAlignment = NSTextAlignmentCenter;
+    bigLab.textColor = [ConMethods colorWithHexString:@"252525"];
+    bigLab.font = [UIFont systemFontOfSize:18];
+    [moneyView addSubview:bigLab];
+    
+    //取消按钮
+    UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 19/2, 40, 25)];
+    // [selectBtn setTitle:@"取消" forState:UIControlStateNormal];
+    
+    [selectBtn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+    
+
+    selectBtn.tag = 10004;
+    [selectBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [moneyView addSubview:selectBtn];
+    [backscrollView addSubview:moneyView];
+    
+    [MyView addSubview:backscrollView];
+    
+    
+    
+    UIView *endView = [[UIView alloc] initWithFrame:CGRectMake(40, ScreenHeight - 20 - 50, ScreenWidth - 40, 50)];
+    endView.backgroundColor = [ConMethods colorWithHexString:@"f2f2f2"];
+    
+    
+    
+    //取消按钮
+    UIButton *emtyBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 7.5, (ScreenWidth - 70)/2, 35)];
+    [emtyBtn setTitle:@"清空筛选" forState:UIControlStateNormal];
+   // emtyBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    //emtyBtn.backgroundColor = [UIColor clearColor];
+    [emtyBtn setTitleColor:[ConMethods colorWithHexString:@"363636"] forState:UIControlStateNormal];
+    emtyBtn.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    emtyBtn.layer.masksToBounds = YES;
+    emtyBtn.layer.cornerRadius = 2;
+    
+    emtyBtn.tag = 10004;
+    [emtyBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [endView addSubview:emtyBtn];
+    
+    
+    
+    //完成按钮
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(20 + (ScreenWidth - 70)/2, 7.5, (ScreenWidth - 70)/2, 35)];
+    [sureBtn setTitle:@"完成" forState:UIControlStateNormal];
+   // sureBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    sureBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+    [sureBtn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
+    sureBtn.tag = 10005;
+    [sureBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [endView addSubview:sureBtn];
+    [MyView addSubview:endView];
+
+    
+    
+    
+    
+    
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    [delegate.window addSubview:MyView];
+}
+
+-(void)initBigButtons{
+    
+    
+    bigView = [[UIView alloc] init];
+    bigView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    
+     countBig = 0;
+    
+    
+    UILabel *bigLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 18)];
+    bigLab.text = @"标的大类";
+    // bigLab.textAlignment = NSTextAlignmentCenter;
+    bigLab.textColor = [ConMethods colorWithHexString:@"252525"];
+    bigLab.font = [UIFont systemFontOfSize:18];
+    [bigView addSubview:bigLab];
+    
+    //取消按钮
+    UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 19/2, 40, 25)];
+   // [selectBtn setTitle:@"取消" forState:UIControlStateNormal];
+    
+    [selectBtn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+    
+    //selectBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    //selectBtn.backgroundColor = [UIColor clearColor];
+    //[selectBtn setTitleColor:[ConMethods colorWithHexString:@"999999"] forState:UIControlStateNormal];
+    selectBtn.tag = 10002;
+    [selectBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [bigView addSubview:selectBtn];
+
+    
+    
+    //求出总共多少行
+    NSInteger less = bigClassList.count%3;
+    NSInteger row = (bigClassList.count - less)/3 + 1;
+  
+    
+    
+    for (int i = 0; i < row; i++) {
+        
+        if (i == row - 1) {
+          
+            for (int j = 0; j < less; j++) {
+                
+                UIButton *selectBigBtn = [[UIButton alloc] initWithFrame:CGRectMake(10 + (ScreenWidth - 70)/3*j + 5*j, 50 + 30*i, (ScreenWidth - 70)/3, 25)];
+                [selectBigBtn setTitle:[[bigClassList objectAtIndex:i*3 + j] objectForKey:@"XMLBMC"] forState:UIControlStateNormal];
+                selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"b50505"];
+                selectBigBtn.layer.masksToBounds = YES;
+                selectBigBtn.layer.cornerRadius = 4;
+                
+                selectBigBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+                [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
+                selectBigBtn.tag = 10001;
+                [selectBigBtn addTarget:self action:@selector(bigMethods:) forControlEvents:UIControlEventTouchUpInside];
+                [bigView addSubview:selectBigBtn];
+            }
+            
+            
+        } else {
+        
+        
+        for (int j = 0; j < 3; j++) {
+            
+            UIButton *selectBigBtn = [[UIButton alloc] initWithFrame:CGRectMake(10 + (ScreenWidth - 70)/3*j + 5*j, 50 + 30*i, (ScreenWidth - 70)/3, 25)];
+            [selectBigBtn setTitle:[[bigClassList objectAtIndex:3*i + j] objectForKey:@"XMLBMC"] forState:UIControlStateNormal];
+            selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"b50505"];
+            selectBigBtn.layer.masksToBounds = YES;
+            selectBigBtn.layer.cornerRadius = 4;
+            
+            selectBigBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+            [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
+            selectBigBtn.tag = 3*i + j;
+            [selectBigBtn addTarget:self action:@selector(bigMethods:) forControlEvents:UIControlEventTouchUpInside];
+            [bigView addSubview:selectBigBtn];
+            }
+        }
+    }
+    
+    
+    lineViewBig = [[UIView alloc] initWithFrame:CGRectMake(0, 50 + row*30 + 14.5, ScreenWidth - 40, 0.5)];
+    lineViewBig.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+    [bigView addSubview:lineViewBig];
+    
+    bigView.frame = CGRectMake(0, 10, ScreenWidth - 40, 50 + row*30 + 15);
+    
+    bigHight = 50 + row*30 + 15;
+    [backscrollView addSubview:bigView];
+    
+}
+
+
+
+
+
+-(void)initlittleButtons{
+    
+    
+    littleView = [[UIView alloc] init];
+    littleView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    
+    countLittle = 0;
+    
+    UILabel *littleLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 18)];
+    littleLab.text = @"标的小类";
+    // bigLab.textAlignment = NSTextAlignmentCenter;
+    littleLab.textColor = [ConMethods colorWithHexString:@"252525"];
+    littleLab.font = [UIFont systemFontOfSize:18];
+    [littleView addSubview:littleLab];
+    
+    //取消按钮
+    selectlitBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 19/2, 40, 25)];
+    [selectlitBtn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+    //[selectlitBtn setTitle:@"取消" forState:UIControlStateNormal];
+   // selectlitBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+   // selectlitBtn.backgroundColor = [UIColor clearColor];
+   // [selectlitBtn setTitleColor:[ConMethods colorWithHexString:@"999999"] forState:UIControlStateNormal];
+    selectlitBtn.tag = 10003;
+    [selectlitBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [littleView addSubview:selectlitBtn];
+    
+    
+    //求出总共多少行
+    NSInteger less = littleClassList.count%3;
+    NSInteger row = (littleClassList.count - less)/3 + 1;
+
+    
+    
+    for (int i = 0; i < row; i++) {
+        
+        if (i == row - 1) {
+          
+            for (int j = 0; j < less; j++) {
+                
+                
+                
+                UIButton *selectBigBtn = [[UIButton alloc] initWithFrame:CGRectMake(10 + (ScreenWidth - 70)/3*j + 5*j,50 + 30*i, (ScreenWidth - 70)/3, 25)];
+                [selectBigBtn setTitle:[[littleClassList objectAtIndex:i*3 + j] objectForKey:@"XMZLMC"] forState:UIControlStateNormal];
+                selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+                selectBigBtn.layer.masksToBounds = YES;
+                selectBigBtn.layer.cornerRadius = 4;
+                
+                selectBigBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+                [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+                selectBigBtn.tag = i*3 + j;
+                [selectBigBtn addTarget:self action:@selector(littleMethods:) forControlEvents:UIControlEventTouchUpInside];
+                [littleView addSubview:selectBigBtn];
+            }
+            
+        } else {
+        
+        
+        for (int j = 0; j < 3; j++) {
+            
+       
+        
+        UIButton *selectBigBtn = [[UIButton alloc] initWithFrame:CGRectMake(10 + (ScreenWidth - 70)/3*j + 5*j, 50 + 30*i, (ScreenWidth - 70)/3, 25)];
+        [selectBigBtn setTitle:[[littleClassList objectAtIndex:i*3 + j] objectForKey:@"XMZLMC"] forState:UIControlStateNormal];
+        selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+        selectBigBtn.layer.masksToBounds = YES;
+        selectBigBtn.layer.cornerRadius = 4;
+        
+        selectBigBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+        selectBigBtn.tag = i*3 + j;
+        [selectBigBtn addTarget:self action:@selector(littleMethods:) forControlEvents:UIControlEventTouchUpInside];
+        [littleView addSubview:selectBigBtn];
+    }
+        }
+     }
+    
+
+    lineViewLit = [[UIView alloc] initWithFrame:CGRectMake(0, 50 + row*30 + 14.5 , ScreenWidth - 40, 0.5)];
+    lineViewLit.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+    [littleView addSubview:lineViewLit];
+    
+    littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 + row*30 + 15);
+    littltHight = 50 + row*30 + 15;
+    [backscrollView addSubview:littleView];
+    
+
+}
+
+
+
+-(void)bigMehtods:(UIButton *)btn {
+
+}
+
+-(void)littleMehtods:(UIButton *)btn {
+    
+}
+
+
+-(void)quitMethods:(UIButton *)btn {
+
+
+    if (btn.tag == 10001) {
+         [MyView removeFromSuperview];
+    } else if(btn.tag == 10002){
+        ++countBig;
+        if (countBig % 2 == 0) {
+            [btn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+            bigView.frame = CGRectMake(0, 10, ScreenWidth - 40, bigHight);
+             littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
+             lineViewBig.frame = CGRectMake(0, bigHight - 0.5 , ScreenWidth - 40, 0.5);
+             lineViewLit.frame = CGRectMake(0, 50 - 0.5 , ScreenWidth - 40, 0.5);
+            
+            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+            
+            
+            
+        } else {
+        
+        [btn setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+            bigView.frame = CGRectMake(0, 10, ScreenWidth - 40, 50 );
+            
+            littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
+            lineViewBig.frame = CGRectMake(0, 50 - 0.5 , ScreenWidth - 40, 0.5);
+             lineViewLit.frame = CGRectMake(0, 50 - 0.5 , ScreenWidth - 40, 0.5);
+           
+            [selectlitBtn setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+            countLittle = 1;
+            
+            
+            
+            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+
+            
+        }
+        
+    
+    
+    } else if (btn.tag == 10003){
+        
+        ++countLittle ;
+        if (countBig % 2 == 0) {
+            
+            if (countLittle % 2 == 0) {
+              
+                [btn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+                littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, littltHight);
+                 lineViewLit.frame = CGRectMake(0, littltHight - 0.5 , ScreenWidth - 40, 0.5);
+                 moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+                
+            } else {
+             littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
+             lineViewLit.frame = CGRectMake(0, 49.5 , ScreenWidth - 40, 0.5);
+            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+            }
+            
+        } else {
+            
+            [btn setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+           
+            littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
+             lineViewLit.frame = CGRectMake(0, 49.5 , ScreenWidth - 40, 0.5);
+             moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+            
+        }
+    
+    }
+}
+
+#pragma mark - /***** 筛选处理 ******/
+
 
 
 -(void)searchMthods{
@@ -400,15 +911,11 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
 {
     //[tableView setScrollEnabled:NO]; tableView 不能滑动
     static NSString *RepairCellIdentifier = @"RepairCellIdentifier";
-    
-    	MoreTableViewCell *cell = (MoreTableViewCell * ) [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
-    
-    
-   // UITableViewCell *cell;
-    //cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
+    UITableViewCell *cell;
+    cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
     
     if ([dataList count] == 0 ) {
-        cell = [[MoreTableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
+        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
         [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
@@ -428,30 +935,198 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
         
     } else{
         
-        NSString * nibName = @"MoreTableViewCell";
-
+        //static NSString *ReCellIdentifier = @"cell";
+        
+        // cell = [tbleView dequeueReusableCellWithIdentifier:ReCellIdentifier];
+        
         if (cell == nil) {
             
-           // cell = [[[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil] objectAtIndex: 0];
+            cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 120)];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+            //添加背景View
+            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 5, ScreenWidth - 10, 110)];
+            [backView setBackgroundColor:[UIColor whiteColor]];
+            backView.layer.cornerRadius = 2;
+            backView.layer.masksToBounds = YES;
+            backView.layer.borderWidth = 1;
+            backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
-           // cell = [[MoreTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+            //专场列表
+            UIImageView *image1 = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 90, 90)];
+            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+            [backView addSubview:image1];
             
             
-            //[tbleView registerNib:[UINib nibWithNibName:nibName bundle:nil] forCellReuseIdentifier:rosterItemTableIdentifier];
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]){
+                UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(100 - 50, 105 - 35, 50, 35)];
+                img.image = [UIImage imageNamed:@"end"];
+                [backView addSubview:img];
+            }
             
-            ListData *listD = [[ListData alloc] initWithListData:[dataList objectAtIndex:indexPath.row]];
-            
-            cell = [MoreTableViewCell testCell];
-                 [cell setModel:listD];
             
             
+            
+            //品牌
+            UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 5, ScreenWidth - 110, 15)];
+            brandLabel.font = [UIFont systemFontOfSize:15];
+            [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+            [brandLabel setBackgroundColor:[UIColor clearColor]];
+            // brandLabel.numberOfLines = 0;
+            brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"XMMC"];
+            [backView addSubview:brandLabel];
+            
+            
+            
+            UILabel *dayLabelM = [[UILabel alloc] init];
+            dayLabelM.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"bj"];
+            dayLabelM.font = [UIFont systemFontOfSize:14];
+            dayLabelM.textColor = [ConMethods colorWithHexString:@"999999"];
+            dayLabelM.frame = CGRectMake(100, 28, [PublicMethod getStringWidth:dayLabelM.text font:dayLabelM.font], 14);
+            
+            [backView addSubview:dayLabelM];
+            
+            
+            
+            //最新价
+            UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(dayLabelM.frame.origin.x + dayLabelM.frame.size.width, 28, ScreenWidth - 30, 14)];
+            
+            dayLabel.font = [UIFont systemFontOfSize:14];
+            dayLabel.textColor = [ConMethods colorWithHexString:@"333333"];
+            [backView addSubview:dayLabel];
+            
+            //竞拍中的时候 自由报价时期
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+                
+                
+                
+                UILabel *ziyouLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 105 - 40, ScreenWidth/2 - 30, 14)];
+                
+                ziyouLabel.font = [UIFont systemFontOfSize:14];
+                ziyouLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"JYZT_MC"];
+                ziyouLabel.textColor = [ConMethods colorWithHexString:@"333333"];
+                [backView addSubview:ziyouLabel];
+                
+                
+                
+                
+                
+            }
+            
+            //开始时间判定
+            
+            UILabel *starLab = [[UILabel alloc] init];
+            starLab.textColor = [ConMethods colorWithHexString:@"333333"];
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"wks"]) {
+                
+                starLab.text = @"开始时间";
+                
+            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+                
+                
+                starLab.text = @"剩余时间";
+                
+            }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]){
+                
+                starLab.text= @"结束时间";
+                
+            }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]){
+                
+                starLab.text = @"已结束";
+            }
+            
+            starLab.font = [UIFont systemFontOfSize:10];
+            
+            starLab.frame = CGRectMake(100, 105 - 20, [PublicMethod getStringWidth:starLab.text font:starLab.font], 12);
+            
+            [backView addSubview:starLab];
+            
+            
+            //时间显示
+            
+            UILabel *timeYuLab = [[UILabel alloc] initWithFrame:CGRectMake(starLab.frame.origin.x   + starLab.frame.size.width, 105 - 20, ScreenWidth - starLab.frame.origin.x   + starLab.frame.size.width - 50, 12)];
+            timeYuLab.backgroundColor = [UIColor clearColor];
+            
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]) {
+                
+                timeYuLab.tag = indexPath.row + 1000;
+                NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [[dataList objectAtIndex:indexPath.row] objectForKey:@"djs"]};
+                [totalLastTime addObject:dic];
+                
+            }
+            
+            
+            timeYuLab.textColor = [ConMethods colorWithHexString:@"999999"];
+            
+            timeYuLab.font = [UIFont systemFontOfSize:10];
+            [backView addSubview:timeYuLab];
+            
+            
+            UILabel *markLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 20 - 50,105 - 50, 50, 25)];
+            
+            markLab.font = [UIFont systemFontOfSize:15];
+            markLab.textAlignment = NSTextAlignmentCenter;
+            [backView addSubview:markLab];
+            
+            //围观
+            UILabel *dateLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 20 - 50,105 - 50 + 25, 50, 25)];
+            dateLabelMore.font = [UIFont systemFontOfSize:15];
+            dateLabelMore.textAlignment = NSTextAlignmentCenter;
+            dateLabelMore.layer.borderWidth = 1;
+            [backView addSubview:dateLabelMore];
+            
+            
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"wks"]) {
+                markLab.text = @"围观";
+                markLab.backgroundColor = [ConMethods colorWithHexString:@"9c7e4a"];
+                markLab.textColor = [UIColor whiteColor];
+                
+                dateLabelMore.textColor = [ConMethods colorWithHexString:@"9c7e4a"];
+                dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9c7e4a"].CGColor;
+                
+                
+            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+                markLab.text = @"报价";
+                markLab.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
+                markLab.textColor = [UIColor whiteColor];
+                [self startTimer];
+                dateLabelMore.textColor = [ConMethods colorWithHexString:@"bd0100"];
+                dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"bd0100"].CGColor;
+                
+            }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]){
+                
+                markLab.text = @"报价";
+                markLab.backgroundColor = [ConMethods colorWithHexString:@"9b9b9b"];
+                markLab.textColor = [UIColor whiteColor];
+                
+                dateLabelMore.textColor = [ConMethods colorWithHexString:@"9b9b9b"];
+                dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9b9b9b"].CGColor;
+            }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]){
+                markLab.text = @"报价";
+                markLab.backgroundColor = [ConMethods colorWithHexString:@"9b9b9b"];
+                markLab.textColor = [UIColor whiteColor];
+                
+                dateLabelMore.textColor = [ConMethods colorWithHexString:@"9b9b9b"];
+                dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9b9b9b"].CGColor;
+            }
+            
+            
+            
+            
+            // dayLabel 最新价
+            //starLab 开始时间判定
+            //timeYuLab 时间显示
+            // markLab 围观头标];
+            //dateLabelMore 围观次数
+            
+            
+            
+            
+            [self getStrFormStly:[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] withLab1:dayLabel withLab2:timeYuLab withLab4:dateLabelMore with:[dataList objectAtIndex:indexPath.row]];
+            
+            
+            [cell.contentView addSubview:backView];
         }
-        
-        if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
-        
-            cell.timeEnd = [[dataList objectAtIndex:indexPath.row] objectForKey:@"djs"];
-        }
-            
         
     }
     
@@ -469,28 +1144,97 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
     
 }
 
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
-    return 40;
+-(void)getStrFormStly:(NSString *)str withLab1:(UILabel *)_lab1 withLab2:(UILabel *)_lab2 withLab4:(UILabel *)_lab4 with:(NSDictionary *)_dic{
+    if ([str isEqualToString:@"wks"]) {
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"QPJ"]];
+        _lab2.text =[NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"JJKSRQ"],[_dic objectForKey:@"JJKSSJ"]];
+        
+        // _lab3.text = @"开始时间";
+        
+        _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"WGCS"]];
+        
+    } else if ([str isEqualToString:@"jpz"]){
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"ZXJG"]];
+        _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
+        
+    }else if ([str isEqualToString:@"cj"]){
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"ZGCJJ"]];
+        _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
+        _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
+    }else if ([str isEqualToString:@"lp"]){
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"QPJ"]];
+        // _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
+        _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
+    }
 }
+
+
+
+//开启定时器方法：
+- (void)startTimer
+{
+    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
+    
+    // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+}
+
+
+
+- (void)refreshLessTime
+{
+    int time;
+    for (int i = 0; i < totalLastTime.count; i++) {
+        time = (int)[[[totalLastTime objectAtIndex:i] objectForKey:@"lastTime"]longLongValue] - 1;
+        
+        NSIndexPath *indexPath = [[totalLastTime objectAtIndex:i] objectForKey:@"indexPath"];
+        
+        UITableViewCell *cell = (UITableViewCell *)[table cellForRowAtIndexPath:indexPath];
+        UILabel *textLab = [cell viewWithTag:indexPath.row + 1000];
+        
+        
+        textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+        NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [NSString stringWithFormat:@"%i",time]};
+        [totalLastTime replaceObjectAtIndex:i withObject:dic];
+    }
+}
+
+
+- (NSString *)lessSecondToDay:(int)seconds
+{
+    
+    int dayCount = seconds%(3600*24);
+    int day = (seconds - dayCount)/(3600*24);
+    
+    int hourCount = dayCount%3600;
+    int hour = (dayCount - hourCount)/3600;
+    
+    int minCount = hourCount%60;
+    int min = (hourCount - minCount)/60;
+    // int miao = minCount;
+    
+    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟",day,hour,min];
+    return time;
+    
+}
+
+
+#pragma mark - 消除键盘
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)even{
+    [self.view endEditing:YES];
+}
+
+
+
+
+
 
 
 - (IBAction)callPhone:(UITouch *)sender
 {
     
     UIView *view = [sender view];
-}
-
-
-
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
-    UIView *view;
-    
-    view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
-    return view;
-    
 }
 
 
@@ -537,7 +1281,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     
-    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERzcappIndexzc] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERsearchliappIndex] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
@@ -678,8 +1422,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         });
     }
 }
-
-
 
 
 - (void)didReceiveMemoryWarning {

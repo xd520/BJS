@@ -424,7 +424,7 @@
                                               target:self.view
                                      displayInterval:3];
             
-            if ([str isEqualToString:@"USERfocusPrj"]) {
+            if ([str isEqualToString:USERfocusPrj]) {
                 [btn setImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
                 numLabTip.text = @"已关注";
                 btn.tag = 101;

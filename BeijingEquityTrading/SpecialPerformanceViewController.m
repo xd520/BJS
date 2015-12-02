@@ -242,7 +242,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 40;
+    return 35;
 }
 
 
@@ -258,7 +258,7 @@
     
     UIView *view1,*view;
     
-     view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , 40)];
+     view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , 35)];
     view.backgroundColor = [UIColor clearColor];
     
    
@@ -267,10 +267,10 @@
     view1.layer.masksToBounds = YES;
     view1.layer.cornerRadius = 4;
     view1.layer.borderWidth = 1;
-    view1.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
+    view1.layer.borderColor = [ConMethods colorWithHexString:@"d8d8d8"].CGColor;
     
-  UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 1)];
-    lineview.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
+  UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(2, 1, ScreenWidth - 14, 1)];
+    lineview.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
     [view1 addSubview:lineview];
     
     
@@ -285,7 +285,7 @@
     
     
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 35, 2.5, 25, 25);
+    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 30, 5, 20, 20);
     [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:searchBtn];
@@ -301,6 +301,19 @@
     [self.view endEditing:YES];
 }
 
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+   
+        //去掉UItableview headerview黏性(sticky)
+        CGFloat sectionHeaderHeight = 40;
+        if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+        } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+        }
+        
+}
 
 
 -(void)searchMthods{
