@@ -19,8 +19,8 @@
 //#define SERVERURL @"http://218.66.59.169:8400"
 
 
-//天津投
-//#define SERVERURL @"http://192.168.1.110:8805"
+//北交所客户外网
+//#define SERVERURL @"http://111.205.25.78:8071"
 
 
 
@@ -56,6 +56,7 @@
 #define USERappWtList @"/service/s/prj/appWtList"
 #define USERfocusPrj @"/service/s/prj/focusPrj"
 #define USERcancelFocusPrj @"/service/s/prj/cancelFocusPrj"
+
 #define USERsubmitBzj @"/service/s/prj/submitBzj"
 #define USERsubmitWt @"/service/s/prj/submitWt"
 //获取报价信息和提交报价 都是这个接口
@@ -73,10 +74,12 @@
 #define USERappycj @"/service/psncenter/wdjy/app_ycj"
 //guanzhu
 #define USERappguanzhu @"/service/psncenter/wdgz/app_wdgz"
-
-
-
-
+//xiaoxizhongxin
+#define USERinboxList @"/service/psncenter/message/inboxList"
+//上传头像
+#define USERappUploadPhotoSubmit @"/service/psncenter/grzl/appUploadPhotoSubmit"
+//显示头像
+#define USERinboxList @"/service/psncenter/message/inboxList"
 
 /*寻宝模块*/
 #define USERsearchappIndexli @"/service/s/search/app_index"
@@ -87,6 +90,40 @@
 #define USERinfolist @"/service/s/info/app_list_li"
 #define USERinfodetail @"/page/s/info/app_detail"
 
+
+/**密保问题***/
+#define USERsendVcode @"/service/psncenter/aqzxManage/szmb/sendVcode"
+#define USERquestionsList @"/service/psncenter/aqzxManage/szmb/questionsList"
+#define USERsubmit @"/service/psncenter/aqzxManage/szmb/submit"
+
+#define USERxgmb @"/service/psncenter/aqzxManage/xgmb/questionsList"
+#define USERcheckAnswer @"/service/psncenter/aqzxManage/xgmb/checkAnswer"
+#define USERmodify @"/service/psncenter/aqzxManage/xgmb/modify"
+#define USERfindmb @"/service/psncenter/aqzxManage/findmb/sendVcode"
+#define USERfindmbquestionsList @"/service/psncenter/aqzxManage/findmb/questionsList"
+#define USERfindmbreset @"/service/psncenter/aqzxManage/findmb/reset"
+
+/**修改手机号***/
+#define USERgrzlsendVcode @"/service/psncenter/grzl/sendVcode"
+#define USERgrzlcheckVcode @"/service/psncenter/grzl/checkVcode"
+//保存新手机号码
+#define USERsaveMobilePhone @"/service/psncenter/grzl/saveMobilePhone"
+//完善个人资料
+#define USERsaveEmail @"/service/psncenter/grzl/saveEmail"
+/**修改登录密码***/
+#define USERpwdManagesendVcode @"/service/psncenter/pwdManage/modifyLoginPwd/sendVcode"
+//修改登录密码
+#define USERpwdManageappModify @"/service/psncenter/pwdManage/modifyLoginPwd/appModify"
+//修改交易密码
+#define USERpwdManageappSendVcode @"/service/psncenter/pwdManage/modifyTranPwd/appSendVcode"
+#define USERpwdManageModify @"/service/psncenter/pwdManage/modifyTranPwd/appModify"
+
+/***认证中心***/
+#define USERpwdManageappappIndex @"/service/psncenter/aqzx/appIndex"
+#define USERpwdManagequeryProvince @"/service/psncenter/kh/queryProvince"
+#define USERpwdManagequeryCity @"/service/psncenter/kh/queryCity"
+#define USERpwdManageappVcode @"/service/psncenter/kh/appSendVcode"
+#define USERpwdManageappKh @"/service/psncenter/kh/appKh"
 
 
 

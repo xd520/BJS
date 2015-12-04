@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "MoreTableViewCell.h"
 #import "ListData.h"
+#import "MarkViewController.h"
 
 @interface TreasureViewController ()
 {
@@ -28,6 +29,11 @@
     
     NSString *endTime;
     NSString *price;
+    NSString *bddlStr;
+    NSString *bdxlStr;
+    NSString *downStr;
+    NSString *upStr;
+    
     
     UILabel *lab1;
     UILabel *lab2;
@@ -47,6 +53,9 @@
     UIView *bigView;
     UIView *littleView;
     UIView *moneyView;
+    UIView *moneyHide;
+    
+    
     
     UIView *lineViewLit;
     UIView *lineViewBig;
@@ -54,11 +63,19 @@
     
     int countBig;
     int countLittle;
+    int countMoney;
     
     float bigHight;
     float littltHight;
     
     UIButton *selectlitBtn;
+    
+    //数组存按钮
+    NSMutableArray *arrBig;
+    NSMutableArray *arrLittle;
+    NSMutableArray *arrMoney;
+    
+    
     
 }
 
@@ -74,9 +91,21 @@
     
     totalLastTime = [NSMutableArray array];
     
+    arrBig = [NSMutableArray array];
+    arrLittle = [NSMutableArray array];
+    arrMoney = [NSMutableArray array];
+    
     start = @"1";
     limit = @"10";
-    _searchStr = @"";
+    bddlStr = @"";
+    bdxlStr = @"";
+    downStr = @"";
+    upStr = @"";
+    endTime = @"0";
+    price = @"0";
+    
+    
+    
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -154,7 +183,7 @@
             lab1.textAlignment = NSTextAlignmentCenter;
             lab1.font = [UIFont systemFontOfSize:13];
             //lab1.userInteractionEnabled = YES;
-            lab1.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
             [btn addSubview:lab1];
             
             UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(50 - 0.5, 7.5, 0.5, 15)];
@@ -235,7 +264,8 @@
     [self.view addSubview:table];
     
     
-    [self requestData:@"0" withprice:@"2" with:@""];
+    [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
+    
     
     [self setupHeader];
     [self setupFooter];
@@ -262,15 +292,13 @@
     if (btn.tag == 0) {
         lab2.textColor = [ConMethods colorWithHexString:@"999999"];
         lab3.textColor = [ConMethods colorWithHexString:@"999999"];
-        lab1.textColor = [ConMethods colorWithHexString:@"fe8103"];
-        
+        lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
+        //b30000
         endTime = @"0";
         price = @"0";
         
-        
         start = @"1";
-        searchText.text = @"";
-        [self requestData:endTime withprice:price with:searchText.text];
+       [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
         
     } else if (btn.tag == 1) {
         
@@ -280,20 +308,19 @@
         price = @"0";
         
         if (indext%2 == 0) {
-            lab2.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab2.textColor = [ConMethods colorWithHexString:@"b30000"];
             lab2.text = @"限时报价开始时间▲";
             endTime = @"1";
             
         } else {
             
-            lab2.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab2.textColor = [ConMethods colorWithHexString:@"b30000"];
             lab2.text = @"限时报价开始时间▼";
             endTime = @"2";
         }
         
         start = @"1";
-        searchText.text = @"";
-        [self requestData:endTime withprice:price with:searchText.text];
+        [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
         
         
     } else if (btn.tag == 2){
@@ -303,19 +330,18 @@
         endTime = @"0";
         
         if (indext%2 == 0) {
-            lab3.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
             lab3.text = @"价格▲";
             price = @"1";
         } else {
             
-            lab3.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
             lab3.text = @"价格▼";
             price = @"2";
         }
        
         start = @"1";
-        searchText.text = @"";
-        [self requestData:endTime withprice:price with:searchText.text];
+        [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
         
     } else if (btn.tag == 3){
     
@@ -419,7 +445,7 @@
     //取消按钮
     UIButton *quitBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 19/2, 40, 25)];
     [quitBtn setTitle:@"取消" forState:UIControlStateNormal];
-    quitBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    quitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     quitBtn.backgroundColor = [UIColor clearColor];
     [quitBtn setTitleColor:[ConMethods colorWithHexString:@"999999"] forState:UIControlStateNormal];
     quitBtn.tag = 10001;
@@ -444,7 +470,7 @@
     [finshBtn setTitleColor:[ConMethods colorWithHexString:@"999999"] forState:UIControlStateNormal];
     finshBtn.tag = 10002;
     [finshBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
-    [headView addSubview:finshBtn];
+   // [headView addSubview:finshBtn];
     [MyView addSubview:headView];
     
     
@@ -457,6 +483,7 @@
     [backscrollView addSubview:lineView];
     
     
+   
     [self initBigButtons];
     [self initlittleButtons];
     
@@ -474,12 +501,51 @@
     UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 19/2, 40, 25)];
     // [selectBtn setTitle:@"取消" forState:UIControlStateNormal];
     
-    [selectBtn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+    [selectBtn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
     
 
     selectBtn.tag = 10004;
     [selectBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
     [moneyView addSubview:selectBtn];
+    
+  UIView  *lineVie = [[UIView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth - 40, 0.5)];
+    lineVie.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+    [moneyView addSubview:lineVie];
+    NSArray *arrMoney = @[@"¥0-500",@"¥500-1000",@"¥1000-5000",@"¥5000以上"];
+    moneyHide = [[UIView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth - 40, 100)];
+    moneyHide.backgroundColor = [UIColor whiteColor];
+    
+    
+            
+            for (int i = 0; i < 4; i++) {
+                
+                UIButton *selectBigBtn = [[UIButton alloc] init];
+                
+                if (i == 3) {
+                  selectBigBtn.frame  =CGRectMake(10 , 30, (ScreenWidth - 70)/3, 25);
+                    
+                } else {
+              selectBigBtn.frame  =CGRectMake(10 + (ScreenWidth - 70)/3*i + 5*i, 0, (ScreenWidth - 70)/3, 25);
+                }
+                [selectBigBtn setTitle:[arrMoney objectAtIndex:i] forState:UIControlStateNormal];
+                selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+                selectBigBtn.layer.masksToBounds = YES;
+                selectBigBtn.layer.cornerRadius = 4;
+                
+                selectBigBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+                [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+                selectBigBtn.tag = i;
+                [selectBigBtn addTarget:self action:@selector(moneyMethods:) forControlEvents:UIControlEventTouchUpInside];
+                [moneyHide addSubview:selectBigBtn];
+            }
+    
+    UIView  *lineVie1 = [[UIView alloc] initWithFrame:CGRectMake(0, 74.5, ScreenWidth - 40, 0.5)];
+    lineVie1.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+    [moneyHide addSubview:lineVie1];
+    
+    countMoney = 0;
+    
+    [moneyView addSubview:moneyHide];
     [backscrollView addSubview:moneyView];
     
     [MyView addSubview:backscrollView];
@@ -501,7 +567,7 @@
     emtyBtn.layer.masksToBounds = YES;
     emtyBtn.layer.cornerRadius = 2;
     
-    emtyBtn.tag = 10004;
+    emtyBtn.tag = 10005;
     [emtyBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
     [endView addSubview:emtyBtn];
     
@@ -513,15 +579,11 @@
    // sureBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     sureBtn.backgroundColor = [ConMethods colorWithHexString:@"850301"];
     [sureBtn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
-    sureBtn.tag = 10005;
+    sureBtn.tag = 10006;
     [sureBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
     [endView addSubview:sureBtn];
     [MyView addSubview:endView];
 
-    
-    
-    
-    
     
     
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -549,7 +611,7 @@
     UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 19/2, 40, 25)];
    // [selectBtn setTitle:@"取消" forState:UIControlStateNormal];
     
-    [selectBtn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+    [selectBtn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
     
     //selectBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     //selectBtn.backgroundColor = [UIColor clearColor];
@@ -558,7 +620,9 @@
     [selectBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
     [bigView addSubview:selectBtn];
 
-    
+    if (bigClassList.count > 0) {
+        
+  
     
     //求出总共多少行
     NSInteger less = bigClassList.count%3;
@@ -574,13 +638,13 @@
                 
                 UIButton *selectBigBtn = [[UIButton alloc] initWithFrame:CGRectMake(10 + (ScreenWidth - 70)/3*j + 5*j, 50 + 30*i, (ScreenWidth - 70)/3, 25)];
                 [selectBigBtn setTitle:[[bigClassList objectAtIndex:i*3 + j] objectForKey:@"XMLBMC"] forState:UIControlStateNormal];
-                selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"b50505"];
+                selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
                 selectBigBtn.layer.masksToBounds = YES;
                 selectBigBtn.layer.cornerRadius = 4;
                 
                 selectBigBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-                [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
-                selectBigBtn.tag = 10001;
+                [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+                selectBigBtn.tag = i*3 + j;
                 [selectBigBtn addTarget:self action:@selector(bigMethods:) forControlEvents:UIControlEventTouchUpInside];
                 [bigView addSubview:selectBigBtn];
             }
@@ -614,7 +678,18 @@
     bigView.frame = CGRectMake(0, 10, ScreenWidth - 40, 50 + row*30 + 15);
     
     bigHight = 50 + row*30 + 15;
+     [backscrollView addSubview:bigView];
+    } else {
+    
+        lineViewBig = [[UIView alloc] initWithFrame:CGRectMake(0,  49.5, ScreenWidth - 40, 0.5)];
+        lineViewBig.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+        [bigView addSubview:lineViewBig];
+        
+        bigView.frame = CGRectMake(0, 10, ScreenWidth - 40, 50 );
     [backscrollView addSubview:bigView];
+    }
+        
+    
     
 }
 
@@ -639,7 +714,7 @@
     
     //取消按钮
     selectlitBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 19/2, 40, 25)];
-    [selectlitBtn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+    [selectlitBtn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
     //[selectlitBtn setTitle:@"取消" forState:UIControlStateNormal];
    // selectlitBtn.titleLabel.font = [UIFont systemFontOfSize:13];
    // selectlitBtn.backgroundColor = [UIColor clearColor];
@@ -648,6 +723,8 @@
     [selectlitBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
     [littleView addSubview:selectlitBtn];
     
+    if (littleClassList.count > 0) {
+        
     
     //求出总共多少行
     NSInteger less = littleClassList.count%3;
@@ -661,10 +738,14 @@
           
             for (int j = 0; j < less; j++) {
                 
-                
-                
                 UIButton *selectBigBtn = [[UIButton alloc] initWithFrame:CGRectMake(10 + (ScreenWidth - 70)/3*j + 5*j,50 + 30*i, (ScreenWidth - 70)/3, 25)];
+                
+                if ([[littleClassList objectAtIndex:i*3 + j] objectForKey:@"XMZLMC"] == [NSNull null]) {
+                  [selectBigBtn setTitle:@"" forState:UIControlStateNormal];
+                } else {
+                
                 [selectBigBtn setTitle:[[littleClassList objectAtIndex:i*3 + j] objectForKey:@"XMZLMC"] forState:UIControlStateNormal];
+                }
                 selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
                 selectBigBtn.layer.masksToBounds = YES;
                 selectBigBtn.layer.cornerRadius = 4;
@@ -707,16 +788,106 @@
     littltHight = 50 + row*30 + 15;
     [backscrollView addSubview:littleView];
     
-
+    } else {
+    
+        lineViewLit = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5 , ScreenWidth - 40, 0.5)];
+        lineViewLit.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+        [littleView addSubview:lineViewLit];
+        
+        littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
+        littltHight = 50 ;
+        [backscrollView addSubview:littleView];
+    
+    }
+        
+        
+        
+    if (ScreenHeight < 568) {
+       
+      
+       [backscrollView setContentSize:CGSizeMake(ScreenWidth - 40, 488)];
+    }
+    
+    
 }
 
 
 
--(void)bigMehtods:(UIButton *)btn {
-
+-(void)bigMethods:(UIButton *)btn {
+    
+    if (arrBig.count > 0) {
+        UIButton *button = [arrBig objectAtIndex:0];
+        button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+        [button setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+        
+        [arrBig removeAllObjects];
+    }
+    [arrBig addObject:btn];
+    
+    
+    btn.backgroundColor = [ConMethods colorWithHexString:@"b50505"];
+    
+    [btn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
+    
+    bddlStr = [[bigClassList objectAtIndex:btn.tag] objectForKey:@"CLASS"];
+    
+    
 }
 
--(void)littleMehtods:(UIButton *)btn {
+-(void)littleMethods:(UIButton *)btn {
+    
+    if (arrLittle.count > 0) {
+        UIButton *button = [arrLittle objectAtIndex:0];
+        button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+        [button setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+        
+    [arrLittle removeAllObjects];
+    }
+    [arrLittle addObject:btn];
+    
+    
+    btn.backgroundColor = [ConMethods colorWithHexString:@"b50505"];
+    
+    [btn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
+   
+    
+    bddlStr = [[littleClassList objectAtIndex:btn.tag] objectForKey:@"CLASS"];
+    
+    bdxlStr = [[littleClassList objectAtIndex:btn.tag] objectForKey:@"SUBCLASS"];
+    
+    
+}
+
+
+-(void)moneyMethods:(UIButton *)btn {
+    
+    if (arrMoney.count > 0) {
+        UIButton *button = [arrMoney objectAtIndex:0];
+        button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+        [button setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+        
+        [arrMoney removeAllObjects];
+    }
+    [arrMoney addObject:btn];
+    
+    
+    btn.backgroundColor = [ConMethods colorWithHexString:@"b50505"];
+    
+    [btn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
+    
+    if (btn.tag == 0) {
+        downStr  = @"0";
+        upStr = @"500";
+    } else if (btn.tag == 1) {
+        downStr  = @"500";
+        upStr = @"1000";
+    } else if (btn.tag == 2) {
+        downStr  = @"1000";
+        upStr = @"5000";
+    } else if (btn.tag == 3) {
+        downStr  = @"5000";
+        upStr = @"";
+    }
     
 }
 
@@ -729,7 +900,7 @@
     } else if(btn.tag == 10002){
         ++countBig;
         if (countBig % 2 == 0) {
-            [btn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
             bigView.frame = CGRectMake(0, 10, ScreenWidth - 40, bigHight);
              littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
              lineViewBig.frame = CGRectMake(0, bigHight - 0.5 , ScreenWidth - 40, 0.5);
@@ -741,14 +912,14 @@
             
         } else {
         
-        [btn setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
             bigView.frame = CGRectMake(0, 10, ScreenWidth - 40, 50 );
             
             littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
             lineViewBig.frame = CGRectMake(0, 50 - 0.5 , ScreenWidth - 40, 0.5);
              lineViewLit.frame = CGRectMake(0, 50 - 0.5 , ScreenWidth - 40, 0.5);
            
-            [selectlitBtn setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+            [selectlitBtn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
             countLittle = 1;
             
             
@@ -767,12 +938,13 @@
             
             if (countLittle % 2 == 0) {
               
-                [btn setImage:[UIImage imageNamed:@"付款勾选"] forState:UIControlStateNormal];
+                [btn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
                 littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, littltHight);
                  lineViewLit.frame = CGRectMake(0, littltHight - 0.5 , ScreenWidth - 40, 0.5);
                  moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
                 
             } else {
+            [btn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
              littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
              lineViewLit.frame = CGRectMake(0, 49.5 , ScreenWidth - 40, 0.5);
             moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
@@ -780,7 +952,7 @@
             
         } else {
             
-            [btn setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
            
             littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
              lineViewLit.frame = CGRectMake(0, 49.5 , ScreenWidth - 40, 0.5);
@@ -788,8 +960,70 @@
             
         }
     
+    } else if (btn.tag == 10004){
+        countMoney++;
+        if (countMoney%2 == 0) {
+            moneyHide.hidden = NO;
+        } else {
+        
+        moneyHide.hidden = YES;
+        }
+    } else if (btn.tag == 10005){
+        if (arrBig.count > 0) {
+            UIButton *button = [arrBig objectAtIndex:0];
+            button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+            [button setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+            
+            [arrBig removeAllObjects];
+        }
+
+        if (arrMoney.count > 0) {
+            UIButton *button = [arrMoney objectAtIndex:0];
+            button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+            [button setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+            
+            [arrMoney removeAllObjects];
+        }
+
+        if (arrLittle.count > 0) {
+            UIButton *button = [arrLittle objectAtIndex:0];
+            button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+            [button setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+            
+            [arrLittle removeAllObjects];
+        }
+  
+        bddlStr = @"";
+        bdxlStr = @"";
+        upStr = @"";
+        downStr = @"";
+    
+    } else if (btn.tag == 10006){
+      
+        if ([bddlStr isEqualToString:@""]&&[bdxlStr isEqualToString:@""]&&[upStr isEqualToString:@""]&&[downStr isEqualToString:@""]) {
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"请筛选条件"
+                                       MBProgressHUD:nil
+                                              target:MyView
+                                     displayInterval:3];
+            
+        } else {
+        [bigView removeFromSuperview];
+        [lineViewBig removeFromSuperview];
+        [littleView removeFromSuperview];
+        [lineViewLit removeFromSuperview];
+        [moneyHide removeFromSuperview];
+            
+        [MyView removeFromSuperview];
+            
+        [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
+        
+        }
+        
     }
 }
+
 
 #pragma mark - /***** 筛选处理 ******/
 
@@ -800,9 +1034,7 @@
     [self.view endEditing:YES];
     
     start = @"1";
-    endTime = @"0";
-    price = @"0";
-    [self requestData:endTime withprice:price with:searchText.text];
+    [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
 }
 
 
@@ -822,11 +1054,11 @@
 
 
 //请求数据方法
--(void) requestData:(NSString *)_endTime withprice:(NSString *)_price with:(NSString *)search{
+-(void) requestData:(NSString *)_endTime withprice:(NSString *)_price withsearch:(NSString *)search withbddl:(NSString *)bddl withbdxl:(NSString *)bdxl withdown:(NSString *)_down withup:(NSString *)_up{
     
     NSLog(@"start = %@",start);
     
-    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"id":@"23",@"endTime":_endTime,@"price":_price,@"search":search};
+    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"endTime":_endTime,@"price":_price,@"keyWord":search,@"bddl":bddl,@"bdxl":bdxl,@"jgfwdown":_down,@"jgfwup":_up};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -835,7 +1067,7 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     
-    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERprjsappIndexli] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERsearchliappIndex] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
@@ -877,7 +1109,6 @@
     
     
 }
-
 
 
 
@@ -954,7 +1185,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             
             //专场列表
             UIImageView *image1 = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 90, 90)];
-            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
             [backView addSubview:image1];
             
             
@@ -1141,12 +1372,29 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
         return 120;
         
     }
-    
 }
+
+- (void)tableView:(UITableView *)tbleView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    MarkViewController *vc = [[MarkViewController alloc] init];
+    //vc.hidesBottomBarWhenPushed = YES;
+    vc.strId = [[dataList objectAtIndex:indexPath.row] objectForKey:@"KEYID"];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+
 
 -(void)getStrFormStly:(NSString *)str withLab1:(UILabel *)_lab1 withLab2:(UILabel *)_lab2 withLab4:(UILabel *)_lab4 with:(NSDictionary *)_dic{
     if ([str isEqualToString:@"wks"]) {
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"QPJ"]];
+        
+        
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"QPJ"] floatValue]]]];
         _lab2.text =[NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"JJKSRQ"],[_dic objectForKey:@"JJKSSJ"]];
         
         // _lab3.text = @"开始时间";
@@ -1154,19 +1402,20 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"WGCS"]];
         
     } else if ([str isEqualToString:@"jpz"]){
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"ZXJG"]];
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZXJG"] floatValue]]]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
         
     }else if ([str isEqualToString:@"cj"]){
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"ZGCJJ"]];
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZGCJJ"] floatValue]]]];
         _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
     }else if ([str isEqualToString:@"lp"]){
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"QPJ"]];
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"QPJ"] floatValue]]]];
         // _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
     }
 }
+
 
 
 
@@ -1239,91 +1488,6 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
 
 
 
-- (void)tableView:(UITableView *)tbleView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    
-    
-    if (indexPath.row == 0) {
-        //  MoneyAccountViewController *vc = [[MoneyAccountViewController alloc] init];
-        //vc.hidesBottomBarWhenPushed = YES;
-        //[self.navigationController pushViewController:vc animated:YES];
-        
-    } else if (indexPath.row == 1){
-        
-        
-        
-    }else if (indexPath.row == 2) {
-        
-        
-    }
-    
-    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-
-
-
-
-
-//请求数据方法
--(void) requestData:(NSString *)str {
-    
-    NSLog(@"start = %@",start);
-    
-    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"search":str};
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
-    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-    
-    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERsearchliappIndex] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
-            NSLog(@"JSON: %@", responseObject);
-            
-            [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"加载完成"
-                                       MBProgressHUD:nil
-                                              target:self.view
-                                     displayInterval:3];
-            
-            [self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"zcPageResult"] objectForKey:@"object"]];
-            
-        } else {
-            
-            NSMutableArray *arr = [NSMutableArray array];
-            [self recivedCategoryList:arr];
-            
-            [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:[responseObject objectForKey:@"msg"]
-                                       MBProgressHUD:nil
-                                              target:self.view
-                                     displayInterval:3];
-            
-            NSLog(@"JSON: %@", responseObject);
-            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
-            
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        [[HttpMethods Instance] activityIndicate:NO
-                                      tipContent:notNetworkConnetTip
-                                   MBProgressHUD:nil
-                                          target:self.view
-                                 displayInterval:3];
-        
-        NSLog(@"Error: %@", error);
-    }];
-    
-    
-}
-
 
 //处理品牌列表
 - (void)recivedCategoryList:(NSMutableArray *)dataArray
@@ -1387,7 +1551,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             start = @"1";
            
-            [self requestData:_searchStr];
+            [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
             [weakRefreshHeader endRefreshing];
         });
     };
@@ -1417,7 +1581,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [self requestData:_searchStr];
+            [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
             [self.refreshFooter endRefreshing];
         });
     }

@@ -8,14 +8,18 @@
 
 #import "CertifyViewController.h"
 #import "AppDelegate.h"
+#import "ChangeLoginPWViewController.h"
+#import "ChangerPassWordViewController.h"
 
 @interface CertifyViewController ()
 {
     float addHight;
-    UIView *lineView;
     
     NSArray *arrTitle;
     UITableView *table;
+    NSDictionary *myDic;
+    NSMutableArray *arrA;
+    UILabel *labBank;
     
     
 }
@@ -25,6 +29,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    arrA = [NSMutableArray array];
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -41,6 +47,11 @@
     lineView1.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
     [self.view addSubview:lineView1];
     
+    [self requestData];
+    
+    arrA = @[@"已认证",@"修改｜找回",@"修改｜找回",@"未绑定",@"修改｜找回"];
+
+    
     arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"银行卡认证",@"安全保护问题"];
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth,ScreenHeight - 65)];
     [table setDelegate:self];
@@ -56,8 +67,67 @@
     
 }
 
+-(void) requestData {
+    
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpwdManageappappIndex] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            myDic = [responseObject objectForKey:@"object"];
+            
+            if ([[[responseObject objectForKey:@"object"] objectForKey:@"isBingingCard"] boolValue]) {
+                labBank.text = @"已绑定";
+            } else {
+                labBank.text = @"未绑定";
+            }
 
-#pragma mark -  滑动条选择条
+            
+            
+        } else {
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
 
 
 #pragma mark - UITableView DataSource Methods
@@ -81,8 +151,29 @@
     
     
     cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    if (indexPath.row == 3) {
+        labBank = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 130, 12.5, 100, 15)];
+        labBank.textColor = [ConMethods colorWithHexString:@"666666"];
+        labBank.text = [arrA objectAtIndex:indexPath.row];
+        labBank.font = [UIFont systemFontOfSize:15];
+        labBank.textAlignment = NSTextAlignmentRight;
+        [cell.contentView addSubview:labBank];
+    }
+    
+    
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 130, 12.5, 100, 15)];
+    lab.textColor = [ConMethods colorWithHexString:@"666666"];
+    lab.text = [arrA objectAtIndex:indexPath.row];
+    lab.font = [UIFont systemFontOfSize:15];
+    lab.textAlignment = NSTextAlignmentRight;
+    [cell.contentView addSubview:lab];
+    
+    
+    if (indexPath.row != 0) {
+        
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     return cell;
 }
 
@@ -98,7 +189,16 @@
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    if (indexPath.row == 2) {
+        ChangerPassWordViewController *vc = [[ChangerPassWordViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if(indexPath.row == 1){
+        ChangeLoginPWViewController *vc = [[ChangeLoginPWViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    
+    
+    }
+     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

@@ -570,7 +570,7 @@
                 [backView addSubview:lineV];
                 
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 35, 95, 95)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                 [backView addSubview:image];
                 
                 
@@ -697,7 +697,7 @@
     //判定交易状态
                 if ([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"CJZT"] isEqualToString:@"2"]){
                   
-                   ztLab.text = @"超时违约";
+                   ztLab.text = @"成交确认";
                     
                     
                 } else if ([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"CJZT"] isEqualToString:@"1"]){
@@ -712,8 +712,16 @@
                 
                 } else if ([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"CJZT"] isEqualToString:@"3"]){
                 
-                ztLab.text = @"交易成功";
+                ztLab.text = @"超时违约";
                 
+                } else if ([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"CJZT"] isEqualToString:@"4"]){
+                    
+                    ztLab.text = @"交易成功";
+                    
+                }else if ([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"CJZT"] isEqualToString:@"5"]){
+                    
+                    ztLab.text = @"已交割";
+                    
                 }
                 
                 [backView addSubview:ztLab];
@@ -724,7 +732,7 @@
                 [backView addSubview:lineV];
                 
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 35, 95, 95)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                 [backView addSubview:image];
                 
                 
@@ -840,7 +848,7 @@
                 [backView addSubview:lineV];
                 
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 35, 95, 95)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListFinsh objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListFinsh objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                 [backView addSubview:image];
                 
                 

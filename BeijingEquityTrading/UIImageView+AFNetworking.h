@@ -108,6 +108,14 @@ NS_ASSUME_NONNULL_BEGIN
                        success:(nullable void (^)(NSURLRequest *request, NSHTTPURLResponse * __nullable response, UIImage *image))success
                        failure:(nullable void (^)(NSURLRequest *request, NSHTTPURLResponse * __nullable response, NSError *error))failure;
 
+- (void)setImageMoreWithURLRequest:(NSURLRequest *)urlRequest
+              placeholderImage:(nullable UIImage *)placeholderImage
+                       success:(nullable void (^)(NSURLRequest *request, NSHTTPURLResponse * __nullable response, UIImage *image))success
+                       failure:(nullable void (^)(NSURLRequest *request, NSHTTPURLResponse * __nullable response, NSError *error))failure;
+
+
+
+
 /**
  Cancels any executing image operation for the receiver, if one exists.
  */

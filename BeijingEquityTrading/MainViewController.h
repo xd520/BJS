@@ -9,10 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MainViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UIView *logoView;
-@property (weak, nonatomic) IBOutlet UIButton *loginBtn;
-@property (weak, nonatomic) IBOutlet UIButton *regestBtn;
-- (IBAction)loginMethods:(id)sender;
-- (IBAction)regestMethods:(id)sender;
+
 
 @end

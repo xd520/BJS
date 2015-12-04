@@ -302,19 +302,9 @@
                     
                     
                     
-                    
-                    
-                   
-                    if ([indexPath row] != [dataList count] - 1) {
-                        UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(10, 39, ScreenWidth - 10, 1)];
-                        [subView setBackgroundColor:[ConMethods colorWithHexString:@"dcdcdc"]];
-                        [backView addSubview:subView];
-                    } else {
-                    
                         UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, ScreenWidth, 1)];
-                        [subView setBackgroundColor:[ConMethods colorWithHexString:@"dcdcdc"]];
+                        [subView setBackgroundColor:[ConMethods colorWithHexString:@"dedede"]];
                       [backView addSubview:subView];
-                    }
                     
                     [cell.contentView addSubview:backView];
                     

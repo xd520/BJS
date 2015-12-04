@@ -379,14 +379,14 @@
     if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
         if (btn.tag == 101) {//quxiao关注
             
-            [self focusOnMethods:btn with:USERcancelFocusPrj];
+            [self focuscancelMethods:btn];
             
             
-        } else {
+        } else if(btn.tag == 102){
+            
+            [self focusOnMethods:btn];
             
             
-            
-            [self focusOnMethods:btn with:USERfocusPrj];
             
         }
 
@@ -402,10 +402,10 @@
 
 
 
--(void)focusOnMethods:(UIButton*)btn with:(NSString *)str{
+-(void)focusOnMethods:(UIButton*)btn {
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
-    NSDictionary *parameters = @{@"id":[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]};
+    NSDictionary *parameters = @{@"xmid":[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -413,28 +413,78 @@
     [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,str] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERfocusPrj] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSLog(@"JSON: %@", responseObject);
         if ([[responseObject objectForKey:@"success"] boolValue]){
-            NSLog(@"JSON: %@", responseObject);
+           
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"加载完成"
+                                          tipContent:@"关注成功"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
             
-            if ([str isEqualToString:USERfocusPrj]) {
+            
                 [btn setImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
                 numLabTip.text = @"已关注";
                 btn.tag = 101;
 
-            } else {
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+}
+
+
+-(void)focuscancelMethods:(UIButton*)btn {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    NSDictionary *parameters = @{@"xmid":[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERcancelFocusPrj] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"取消关注成功"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+           
                 [btn setImage:[UIImage imageNamed:@"未关注"] forState:UIControlStateNormal];
                 numLabTip.text = @"未关注";
                 btn.tag = 102;
-            
-            }
+                
+        
             
         } else {
             
@@ -483,7 +533,7 @@
     
     UIImageView *imagelogo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , ScreenWidth)];
     imagelogo.userInteractionEnabled = YES;
-    [imagelogo setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dic objectForKey:@"detail"] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+    [imagelogo setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dic objectForKey:@"detail"] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
     
     //背景设置：
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 30)];
@@ -907,7 +957,7 @@
     decLab.font = [UIFont systemFontOfSize:15];
     [decBtn addSubview:decLab];
     
-    UIImageView *fangImg = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 30, 2.5, 20, 30)];
+    UIImageView *fangImg = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 30, 13/2, 13, 22)];
     fangImg.image = [UIImage imageNamed:@"next"];
     [decBtn addSubview:fangImg];
     
@@ -936,7 +986,7 @@
     baoLab.font = [UIFont systemFontOfSize:15];
     [baoBtn addSubview:baoLab];
     
-    UIImageView *baoImg = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 30, 2.5, 20, 30)];
+    UIImageView *baoImg = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 30, 13/2, 13, 22)];
     baoImg.image = [UIImage imageNamed:@"next"];
     [baoBtn addSubview:baoImg];
     
@@ -1168,6 +1218,8 @@
     
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[dic objectForKey:@"style"]]) {
        
+        NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"ZGJ"] floatValue]]]);
+        
         newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"ZGJ"] floatValue]]]];
         
     } else {
@@ -1202,11 +1254,11 @@
 -(void)selectMethods:(UIButton *)btn{
     count++;
     if (count % 2 == 0) {
-        [btn setBackgroundImage:[UIImage imageNamed:@"select_0"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"select0"] forState:UIControlStateNormal];
         
     } else {
         
-        [btn setBackgroundImage:[UIImage imageNamed:@"select_1"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"select1"] forState:UIControlStateNormal];
     }
 
 
@@ -1231,6 +1283,7 @@
     
        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+            
            [self initBackViewMehtods];
         } else {
         
@@ -1256,8 +1309,18 @@
     
     } else if(btn.tag == 10005){
         
-        [self summitBaozhenJin];
+        if (count % 2 == 0) {
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"请阅读并同意保证金协议"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+        } else {
+
         
+        [self summitBaozhenJin];
+        }
     } else if(btn.tag == 10006){
         
         [MyBackView removeFromSuperview];
@@ -1615,7 +1678,7 @@
         [MyBackView removeFromSuperview];
     }
     
-    
+        count = 0;
         MyBackView  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         MyBackView.backgroundColor = [ConMethods colorWithHexString:@"bfbfbf" withApla:0.8];
         MyBackView.layer.masksToBounds = YES;
@@ -1756,10 +1819,15 @@
             
             [MyBackView removeFromSuperview];
             
+            
+            /*
             baoBtn.enabled = YES;
             baoLabTip.hidden = YES;
             commitBtn.tag = 10004;
             [commitBtn setTitle:@"报价" forState:UIControlStateNormal];
+            */
+            
+            [self requestMethods];
             
         } else {
             

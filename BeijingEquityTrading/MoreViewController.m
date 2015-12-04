@@ -64,7 +64,7 @@
    // arrImage = @[[UIImage imageNamed:@"icon_pwd"],[UIImage imageNamed:@"icon_update"],[UIImage imageNamed:@"我的客户经理"]];
     
     
-    _logoutBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
+    _logoutBtn.backgroundColor = [ConMethods colorWithHexString:@"b30000"];
     _logoutBtn.layer.cornerRadius = 4;
     _logoutBtn.layer.masksToBounds = YES;
     

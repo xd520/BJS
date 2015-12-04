@@ -148,7 +148,36 @@
                 
                 
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 100)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles?type=zclogo&id=%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+                
+               
+                    /*
+                    NSData *data = [NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]];
+                    
+                   NSLog(@"%@ 888888%@",data,image.image);
+                    
+            
+                
+                
+                
+                if (data == [NSNull null]) {
+                     image.image =[UIImage imageNamed:@"loading_failed_zc"];
+                }
+                
+                
+                
+                
+                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]]];
+                
+                [image setImageWithURLRequest:request placeholderImage:[UIImage imageNamed:@"loading_zc"] success:^(NSURLRequest *request, NSHTTPURLResponse * __nullable response, UIImage *ima){
+                    image.image = ima;
+                
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse * __nullable response, NSError *error){
+                
+                    image.image =[UIImage imageNamed:@"loading_failed_zc"];
+                }];
+                */
+                
                 [backView addSubview:image];
                 
                 

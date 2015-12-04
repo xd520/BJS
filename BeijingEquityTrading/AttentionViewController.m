@@ -8,6 +8,7 @@
 
 #import "AttentionViewController.h"
 #import "AppDelegate.h"
+#import "MarkViewController.h"
 
 @interface AttentionViewController ()
 {
@@ -73,7 +74,7 @@
     
     NSLog(@"start = %@",start);
     
-    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit};
+    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"search":@""};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -122,8 +123,6 @@
         
         NSLog(@"Error: %@", error);
     }];
-    
-    
 }
 
 //处理品牌列表
@@ -328,7 +327,7 @@
             quitBtn.backgroundColor = [UIColor clearColor];
             [quitBtn setTitleColor:[ConMethods colorWithHexString:@"999999"] forState:UIControlStateNormal];
             quitBtn.tag = indexPath.row;
-            [quitBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+            [quitBtn addTarget:self action:@selector(focuscancelMethods:) forControlEvents:UIControlEventTouchUpInside];
             [backView addSubview:quitBtn];
             
             
@@ -445,6 +444,75 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tbleView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    MarkViewController *vc = [[MarkViewController alloc] init];
+    //vc.hidesBottomBarWhenPushed = YES;
+    vc.strId = [[dataList objectAtIndex:indexPath.row] objectForKey:@"KEYID"];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+
+
+
+-(void)focuscancelMethods:(UIButton*)btn {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    NSDictionary *parameters = @{@"xmid":[[dataList objectAtIndex:btn.tag] objectForKey:@"KEYID"]};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERcancelFocusPrj] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"取消关注成功"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            start = @"1";
+            [self requestData];
+            
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+}
+
 
 #pragma mark - 开启定时器倒计时方法
 - (void)startTimer
@@ -495,15 +563,6 @@
 }
 
 
-
-
-
--(void)quitMethods:(UIButton *)btn {
-
-
-
-
-}
 
 
 

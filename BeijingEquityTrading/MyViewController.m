@@ -14,6 +14,7 @@
 #import "CertifyViewController.h"
 #import "MeansViewController.h"
 #import "NewsViewController.h"
+#import "LoginViewController.h"
 
 @interface MyViewController ()
 {
@@ -26,6 +27,88 @@
 @end
 
 @implementation MyViewController
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+        [self getUIFirst];
+}
+
+
+
+-(void)getUIFirst {
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (delegate.loginUser.count > 0) {
+        if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+            
+            nameTitle.text = [[delegate.loginUser objectForKey:@"object"] objectForKey:@"username"];
+            [self requestCategoryList];
+            
+            
+            } else {
+            
+            //delegate.strlogin = @"1";
+            LoginViewController *VC = [[LoginViewController alloc] init];
+            VC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:VC animated:YES];
+            
+          
+        }
+        
+    } else {
+        // delegate.strlogin = @"1";
+        LoginViewController *VC = [[LoginViewController alloc] init];
+        
+        VC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:VC animated:YES];
+        
+        
+    }
+    
+}
+
+
+//获取验证图形
+- (void)requestCategoryList
+{
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    NSURLRequest *reqest;
+    
+    
+    if ([[delegate.loginUser objectForKey:@"object"] objectForKey:@"isTX"] == [NSNull null]) {
+        reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/res/prj/default/images/avatar_default.jpg",SERVERURL]]];
+    } else {
+        
+        if ([[[delegate.loginUser objectForKey:@"object"] objectForKey:@"isTX"] boolValue] == 0 ) {
+            reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/res/prj/default/images/avatar_default.jpg",SERVERURL]]];
+        } else {
+            
+            reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/type=tx/%@.jpg",SERVERURL,[[delegate.loginUser objectForKey:@"object"] objectForKey:@"USERID"]]]];
+        }
+    }
+
+    
+    //reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/captcha",SERVERURL]]];
+    
+    [imgHeadVeiw setImageWithURLRequest:reqest placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image){
+        NSLog(@"JSON: %@  %@ %@", request,response,image);
+        //self.codeImgve.image = nil;
+        
+        // self.codeImgve.image =  [UIImage  safeImageWithData:image];;
+        
+        imgHeadVeiw.image = image;
+        
+        
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error){
+        
+        NSLog(@"JSON: %@  %@ %@", request,response,error);
+    }];
+    
+}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -164,6 +247,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.row == 4){
         MeansViewController *vc = [[MeansViewController alloc] init];
+        vc.headViewImg = imgHeadVeiw.image;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.row == 5){

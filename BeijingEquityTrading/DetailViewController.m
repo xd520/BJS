@@ -121,7 +121,7 @@
     //专场列表
     
     
-    [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles?type=zclogo&id=%@",SERVERURL,[strDic objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+    [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[strDic objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
     
     
     
@@ -223,7 +223,7 @@
             lab1.textAlignment = NSTextAlignmentCenter;
             lab1.font = [UIFont systemFontOfSize:13];
             //lab1.userInteractionEnabled = YES;
-            lab1.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
             [btn addSubview:lab1];
             
             UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth/4 - 0.5, 7.5, 0.5, 15)];
@@ -316,7 +316,7 @@
     if (btn.tag == 0) {
         lab2.textColor = [ConMethods colorWithHexString:@"999999"];
         lab3.textColor = [ConMethods colorWithHexString:@"999999"];
-        lab1.textColor = [ConMethods colorWithHexString:@"fe8103"];
+        lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
         
         endTime = @"0";
         price = @"0";
@@ -329,13 +329,13 @@
        price = @"0";
         
         if (indext%2 == 0) {
-            lab2.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab2.textColor = [ConMethods colorWithHexString:@"b30000"];
             lab2.text = @"限时报价开始时间▲";
             endTime = @"1";
             
         } else {
             
-            lab2.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab2.textColor = [ConMethods colorWithHexString:@"b30000"];
             lab2.text = @"限时报价开始时间▼";
              endTime = @"2";
         }
@@ -350,12 +350,12 @@
         endTime = @"0";
         
         if (indext%2 == 0) {
-            lab3.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
             lab3.text = @"价格▲";
              price = @"1";
         } else {
             
-            lab3.textColor = [ConMethods colorWithHexString:@"fe8103"];
+            lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
             lab3.text = @"价格▼";
             price = @"2";
         }
@@ -454,7 +454,7 @@
             
             //专场列表
             UIImageView *image1 = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 90, 90)];
-            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
             [backView addSubview:image1];
             
             
@@ -729,7 +729,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)getStrFormStly:(NSString *)str withLab1:(UILabel *)_lab1 withLab2:(UILabel *)_lab2 withLab4:(UILabel *)_lab4 with:(NSDictionary *)_dic{
     if ([str isEqualToString:@"wks"]) {
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"QPJ"]];
+        
+        
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"QPJ"] floatValue]]]];
         _lab2.text =[NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"JJKSRQ"],[_dic objectForKey:@"JJKSSJ"]];
         
        // _lab3.text = @"开始时间";
@@ -737,15 +739,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"WGCS"]];
         
     } else if ([str isEqualToString:@"jpz"]){
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"ZXJG"]];
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZXJG"] floatValue]]]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
         
     }else if ([str isEqualToString:@"cj"]){
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"ZGCJJ"]];
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZGCJJ"] floatValue]]]];
         _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
     }else if ([str isEqualToString:@"lp"]){
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"QPJ"]];
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"QPJ"] floatValue]]]];
        // _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
     }

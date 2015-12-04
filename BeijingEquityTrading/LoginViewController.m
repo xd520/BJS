@@ -14,6 +14,7 @@
 #import "OpenUDID.h"
 #import "Base64XD.h"
 #import "RegesterViewController.h"
+#import "CPVTabViewController.h"
 
 
 @interface LoginViewController ()
@@ -64,7 +65,7 @@
     [self.headVeiw addSubview:lineView0];
     
     
-    _loginBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
+    _loginBtn.backgroundColor = [ConMethods colorWithHexString:@"b30000"];
     _loginBtn.layer.cornerRadius = 4;
     _loginBtn.layer.masksToBounds = YES;
     
@@ -387,14 +388,14 @@
     //删除最后一个，也就是自己
     
     UIViewController *vc = [array objectAtIndex:array.count-2];
-    if ([vc.nibName isEqualToString:@"TransferViewCtrl"]) {
+    if ([vc.nibName isEqualToString:@"MyViewController"]) {
         
-       // AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-       // delegate.tabBarController.selectedIndex = 0;
-        //CPVSTabBarViewController *osTabbarVC = delegate.osTabVC;
-        //UINavigationController *navVC = [osTabbarVC viewControllers][0];
-        //[navVC popViewControllerAnimated:NO];
-        // osTabbarVC.selectedViewController = navVC;
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        delegate.tabBarController.selectedIndex = 0;
+        CPVTabViewController *osTabbarVC = delegate.tabBarController;
+        UINavigationController *navVC = [osTabbarVC viewControllers][0];
+        [navVC popViewControllerAnimated:NO];
+         osTabbarVC.selectedViewController = navVC;
         
         
         

@@ -40,7 +40,7 @@
         
         statusBarView.backgroundColor=[UIColor blackColor];
         
-        [self.view addSubview:statusBarView];
+       // [self.view addSubview:statusBarView];
     } else {
         addHight = 0;
     }
@@ -49,25 +49,17 @@
     NSLog(@"%f %f",ScreenWidth,ScreenHeight);
     
     
-    _loginBtn.backgroundColor = [ConMethods colorWithHexString:@"950401"];
-    _loginBtn.layer.cornerRadius = 4;
-    _loginBtn.layer.masksToBounds= YES;
-    
-    _regestBtn.backgroundColor = [ConMethods colorWithHexString:@"950401"];
-    _regestBtn.layer.cornerRadius = 4;
-    _regestBtn.layer.masksToBounds= YES;
-    
 
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 150 + 44, ScreenWidth,ScreenHeight - 64 - 49 - 150)];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 150 , ScreenWidth,ScreenHeight  - 49 - 150)];
     [table setDelegate:self];
     [table setDataSource:self];
     table.bounces = YES;
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
     [table setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
    // table.tableFooterView = [[UIView alloc] init];
-    //table.bounces = NO;
-    
-    table.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+   // table.bounces = NO;
+
+    table.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
     
     [self.view addSubview:table];
     
@@ -136,7 +128,7 @@
 #pragma mark - UITableView DataSource Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (dataList.count > 0) {
-        return 3;
+        return 4;
     } else {
      return 1;
     }
@@ -159,12 +151,18 @@
         } else {
         count = (dataListPast.count + 1)/2;
         }
-        }
-    }else {
-     
+    }else if(section == 1){
+        
         count = 1;
-     }
-         
+    } else if(section == 3){
+        
+        count = 1;
+    }
+    }else {
+    
+    count = 1;
+    }
+        
     return count;
 }
 
@@ -235,7 +233,7 @@
                 
                 
                  UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 100)];
-                 [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles?type=zclogo&id=%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                 [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
                 [backView addSubview:image];
                 
                 
@@ -435,7 +433,7 @@
             backViewlast.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
                     UIImageView *imagep = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
-                    [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                    [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                     [backViewlast addSubview:imagep];
                     
                     //品牌
@@ -630,7 +628,7 @@
                         backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
                         
                         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
-                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backView addSubview:image];
                         
                         //品牌
@@ -700,7 +698,7 @@
                         backViewlast.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
                         
                         UIImageView *imagep = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
-                        [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                        [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backViewlast addSubview:imagep];
                         
                         //品牌
@@ -823,7 +821,45 @@
                 
                 }
             }
+    } else if(indexPath.section == 3){
+        if (dataListPast.count > 0) {
+            
+            cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 60)];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+                
+                UIView  *backView = [[UIView alloc] initWithFrame:CGRectMake(0 , 0, ScreenWidth , 50)];
+                [backView setBackgroundColor:[UIColor whiteColor]];
+                
+                UIImageView *zixunview = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 60, 40)];
+                zixunview.image = [UIImage imageNamed:@"zx_title"];
+                [backView addSubview:zixunview];
+                
+                UIView *shuView = [[UIView alloc] initWithFrame:CGRectMake(75, 5, 1, 40)];
+                shuView.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
+                [backView addSubview:shuView];
+                
+                
+                
+                //品牌
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 18, ScreenWidth - 90, 14)];
+                brandLabel.font = [UIFont systemFontOfSize:14];
+                [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                [brandLabel setBackgroundColor:[UIColor clearColor]];
+                
+                brandLabel.text = @"关于平台充值、提现额度调整的公告";
+                [backView addSubview:brandLabel];
+                
+                [cell.contentView addSubview:backView];
+                
+            }
+        }
     }
+    
+    
+    
     return cell;
 }
 
@@ -833,9 +869,11 @@
        return 220;
     } else if (indexPath.section == 1){
         return  30;
-    }else {
+    }else if(indexPath.section == 2){
     
     return 170;
+    } else {
+    return 60;
     }
     
 }
@@ -847,8 +885,10 @@
         count = 40;
     } else if(section == 1){
       count = 5;
-    }else{
+    }else if(section == 2){
         count = 40;
+    } else {
+    count = 5;
     }
     return count;
 }
@@ -972,7 +1012,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 -(void)reloadData:(NSMutableArray *)arr {
     imageArray = arr;
 
-    CGRect bound=CGRectMake(0, addHight + 44, ScreenWidth, 150);
+    CGRect bound=CGRectMake(0, 0, ScreenWidth, 150);
     
     scrollViewImage = [[UIScrollView alloc] initWithFrame:bound];
     
@@ -999,7 +1039,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
        for (int i = 0; i < imageArray.count; i++) {
         UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth * i) + ScreenWidth, 0, ScreenWidth, 150)];
         [imageView1 setTag:i + 10000];
-           [imageView1 setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"logo"]];
+           [imageView1 setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
          [scrollViewImage addSubview:imageView1];
            
        }
@@ -1010,7 +1050,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
         imgView.tag = 4 + 10000;
         
-        [imgView setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:imageArray.count - 1]] placeholderImage:[UIImage imageNamed:@"logo"]];
+        [imgView setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:imageArray.count - 1]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
         
         
         
@@ -1021,7 +1061,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         UIImageView *imgViewl = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth * ([imageArray count] + 1)) , 0, ScreenWidth, 150)];
         imgViewl.tag = 5 + 10000;
         
-         [imgView setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:0]] placeholderImage:[UIImage imageNamed:@"logo"]];
+         [imgView setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:0]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
         
         // 添加第1页在最后 循环
         [scrollViewImage addSubview:imgViewl];
@@ -1033,7 +1073,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
     } else {
      UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
-        imageView1.image = [UIImage imageNamed:@"logo"];
+        imageView1.image = [UIImage imageNamed:@"loading_failed_zc"];
     [scrollViewImage addSubview:imageView1];
     }
     
@@ -1120,7 +1160,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (scrollView == table) {
         
-    
     //去掉UItableview headerview黏性(sticky)
     CGFloat sectionHeaderHeight = 40;
     if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {

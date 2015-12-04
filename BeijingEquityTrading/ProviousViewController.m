@@ -184,6 +184,10 @@
             brandLabel.text = [[dataList objectAtIndex:[indexPath row]] objectForKey:@"NAME"];
             [backView addSubview:brandLabel];
          
+            UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, ScreenWidth, 1)];
+            [subView setBackgroundColor:[ConMethods colorWithHexString:@"dedede"]];
+            [backView addSubview:subView];
+            
               cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
             [cell.contentView addSubview:backView];

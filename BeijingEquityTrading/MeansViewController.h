@@ -10,5 +10,6 @@
 
 @interface MeansViewController : UIViewController
 - (IBAction)back:(id)sender;
+@property(nonatomic,strong)UIImage *headViewImg;
 
 @end

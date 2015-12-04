@@ -93,6 +93,11 @@
 		A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA181C07E0B9002839CB /* MeansViewController.xib */; };
 		A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA1A1C07E0B9002839CB /* NewsViewController.m */; };
 		A199AA271C07E0B9002839CB /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA1B1C07E0B9002839CB /* NewsViewController.xib */; };
+		A1F69D2A1C1145760095F66C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D291C1145760095F66C /* README.md */; };
+		A1F69D321C116FFF0095F66C /* ChangeLoginPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */; };
+		A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */; };
+		A1F69D341C116FFF0095F66C /* ChangerPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */; };
+		A1F69D351C116FFF0095F66C /* ChangerPassWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -205,7 +210,7 @@
 		045A59121BFC162E00771AE0 /* MoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreTableViewCell.xib; sourceTree = "<group>"; };
 		045A59171BFC2EB000771AE0 /* ListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListData.h; sourceTree = "<group>"; };
 		045A59181BFC2EB000771AE0 /* ListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListData.m; sourceTree = "<group>"; };
-		047105F81BCB670600F558FF /* BeijingEquityTrading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeijingEquityTrading.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		047105F81BCB670600F558FF /* 北交所.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "北交所.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		047105FC1BCB670700F558FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		047105FE1BCB670700F558FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		047105FF1BCB670700F558FF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -250,6 +255,13 @@
 		A199AA191C07E0B9002839CB /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		A199AA1A1C07E0B9002839CB /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		A199AA1B1C07E0B9002839CB /* NewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
+		A1F69D291C1145760095F66C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A1F69D2C1C116FFF0095F66C /* ChangeLoginPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeLoginPWViewController.h; sourceTree = "<group>"; };
+		A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeLoginPWViewController.m; sourceTree = "<group>"; };
+		A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeLoginPWViewController.xib; sourceTree = "<group>"; };
+		A1F69D2F1C116FFF0095F66C /* ChangerPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangerPassWordViewController.h; sourceTree = "<group>"; };
+		A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangerPassWordViewController.m; sourceTree = "<group>"; };
+		A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangerPassWordViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,6 +306,7 @@
 		04041E511BF18B00009C6D2B /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				A1F69D291C1145760095F66C /* README.md */,
 				04041E891BF18EA4009C6D2B /* AFHTTPRequestOperation.h */,
 				04041E8A1BF18EA4009C6D2B /* AFHTTPRequestOperation.m */,
 				04041E8B1BF18EA4009C6D2B /* AFHTTPRequestOperationManager.h */,
@@ -488,7 +501,7 @@
 		047105F91BCB670600F558FF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				047105F81BCB670600F558FF /* BeijingEquityTrading.app */,
+				047105F81BCB670600F558FF /* 北交所.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -539,6 +552,7 @@
 		A199AA091C07E096002839CB /* 账户中心 */ = {
 			isa = PBXGroup;
 			children = (
+				A1F69D2B1C116FDE0095F66C /* 二级界面 */,
 				A199AA0A1C07E0B9002839CB /* PropertyViewController.h */,
 				A199AA0B1C07E0B9002839CB /* PropertyViewController.m */,
 				A199AA0C1C07E0B9002839CB /* PropertyViewController.xib */,
@@ -561,6 +575,19 @@
 			name = "账户中心";
 			sourceTree = "<group>";
 		};
+		A1F69D2B1C116FDE0095F66C /* 二级界面 */ = {
+			isa = PBXGroup;
+			children = (
+				A1F69D2C1C116FFF0095F66C /* ChangeLoginPWViewController.h */,
+				A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */,
+				A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */,
+				A1F69D2F1C116FFF0095F66C /* ChangerPassWordViewController.h */,
+				A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */,
+				A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */,
+			);
+			name = "二级界面";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -578,7 +605,7 @@
 			);
 			name = BeijingEquityTrading;
 			productName = BeijingEquityTrading;
-			productReference = 047105F81BCB670600F558FF /* BeijingEquityTrading.app */;
+			productReference = 047105F81BCB670600F558FF /* 北交所.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -627,10 +654,12 @@
 				047106081BCB670700F558FF /* Assets.xcassets in Resources */,
 				A199AA231C07E0B9002839CB /* CertifyViewController.xib in Resources */,
 				A199AA1F1C07E0B9002839CB /* TradeViewController.xib in Resources */,
+				A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */,
 				04BC40601BFDBE6A00548EBA /* MoreViewController.xib in Resources */,
 				045A59141BFC162E00771AE0 /* MoreTableViewCell.xib in Resources */,
 				A199AA271C07E0B9002839CB /* NewsViewController.xib in Resources */,
 				04BC406B1BFDBE8900548EBA /* AboutViewController.xib in Resources */,
+				A1F69D351C116FFF0095F66C /* ChangerPassWordViewController.xib in Resources */,
 				04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */,
 				04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */,
 				A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */,
@@ -652,6 +681,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1F69D341C116FFF0095F66C /* ChangerPassWordViewController.m in Sources */,
 				04041EBC1BF18EB3009C6D2B /* UIProgressView+AFNetworking.m in Sources */,
 				043E446D1C06F309007CC3C4 /* MarkListViewController.m in Sources */,
 				04041EA01BF18EA4009C6D2B /* AFSecurityPolicy.m in Sources */,
@@ -674,6 +704,7 @@
 				04041EBB1BF18EB3009C6D2B /* UIImageView+AFNetworking.m in Sources */,
 				04041EC51BF18ED8009C6D2B /* MBProgressHUD.mm in Sources */,
 				042968DE1BCF792800975279 /* Circle.m in Sources */,
+				A1F69D2A1C1145760095F66C /* README.md in Sources */,
 				04B101671BFC6084008C6100 /* RegesterViewController.m in Sources */,
 				047106001BCB670700F558FF /* AppDelegate.m in Sources */,
 				04041EB81BF18EB3009C6D2B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -686,6 +717,7 @@
 				04041EBD1BF18EB3009C6D2B /* UIRefreshControl+AFNetworking.m in Sources */,
 				04BC406E1BFDBE8900548EBA /* WebDetailViewController.m in Sources */,
 				A199AA201C07E0B9002839CB /* AttentionViewController.m in Sources */,
+				A1F69D321C116FFF0095F66C /* ChangeLoginPWViewController.m in Sources */,
 				04041EA31BF18EA4009C6D2B /* AFURLResponseSerialization.m in Sources */,
 				045A59191BFC2EB100771AE0 /* ListData.m in Sources */,
 				A199AA241C07E0B9002839CB /* MeansViewController.m in Sources */,
@@ -810,7 +842,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = InHouse.com.apex.TouGou;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "北交所";
 				PROVISIONING_PROFILE = "55e6434a-121d-477c-b681-cbeb42751acc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -826,7 +858,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = InHouse.com.apex.TouGou;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "北交所";
 				PROVISIONING_PROFILE = "55e6434a-121d-477c-b681-cbeb42751acc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

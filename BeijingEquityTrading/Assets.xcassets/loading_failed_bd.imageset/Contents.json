@@ -3,16 +3,16 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "next.png"
+      "filename" : "loading_failed_bd.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "next@2x.png"
+      "filename" : "loading_failed_bd@2x.png"
     },
     {
       "idiom" : "universal",
-      "filename" : "next@3x.png",
+      "filename" : "loading_failed_bd@3x.png",
       "scale" : "3x"
     }
   ],
