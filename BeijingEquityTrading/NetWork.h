@@ -34,7 +34,7 @@
 
 /*登录模块*/
 #define USERLogin @"/service/appCheckLogin"
-#define USERLogout @"/app/appLogout"
+#define USERLogout @"/service/appLogout"
 #define USERcaptcha @"/captcha"
 
 /*注册模块*/

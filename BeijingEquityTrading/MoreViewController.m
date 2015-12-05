@@ -247,10 +247,10 @@
     
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERLogout] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+         NSLog(@"JSON: %@", responseObject);
         if ([[responseObject objectForKey:@"success"] boolValue]){
             
-            NSLog(@"JSON: %@", responseObject);
+           
             [self.navigationController popToRootViewControllerAnimated:YES];
             
             [[HttpMethods Instance] activityIndicate:NO

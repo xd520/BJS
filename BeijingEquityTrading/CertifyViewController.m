@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "ChangeLoginPWViewController.h"
 #import "ChangerPassWordViewController.h"
+#import "PhoneNumViewController.h"
+#import "FirstRealNameViewController.h"
 
 @interface CertifyViewController ()
 {
@@ -18,7 +20,7 @@
     NSArray *arrTitle;
     UITableView *table;
     NSDictionary *myDic;
-    NSMutableArray *arrA;
+    NSArray *arrA;
     UILabel *labBank;
     
     
@@ -30,7 +32,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    arrA = [NSMutableArray array];
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -52,7 +53,7 @@
     arrA = @[@"已认证",@"修改｜找回",@"修改｜找回",@"未绑定",@"修改｜找回"];
 
     
-    arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"银行卡认证",@"安全保护问题"];
+    arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"银行卡认证",@"实名认证"];
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth,ScreenHeight - 65)];
     [table setDelegate:self];
     [table setDataSource:self];
@@ -170,10 +171,7 @@
     [cell.contentView addSubview:lab];
     
     
-    if (indexPath.row != 0) {
-        
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
     return cell;
 }
 
@@ -189,13 +187,20 @@
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 2) {
+    if (indexPath.row == 0) {
+        PhoneNumViewController *vc = [[PhoneNumViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if (indexPath.row == 2) {
         ChangerPassWordViewController *vc = [[ChangerPassWordViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     } else if(indexPath.row == 1){
         ChangeLoginPWViewController *vc = [[ChangeLoginPWViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     
+    }else if (indexPath.row == 4){
+    
+        FirstRealNameViewController *vc = [[FirstRealNameViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
     
     }
      [tbleView deselectRowAtIndexPath:indexPath animated:YES];

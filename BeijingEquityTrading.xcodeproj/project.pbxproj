@@ -93,6 +93,12 @@
 		A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA181C07E0B9002839CB /* MeansViewController.xib */; };
 		A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA1A1C07E0B9002839CB /* NewsViewController.m */; };
 		A199AA271C07E0B9002839CB /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA1B1C07E0B9002839CB /* NewsViewController.xib */; };
+		A1F02FA31C12B5B800D6DB5A /* PhoneNumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F02FA11C12B5B800D6DB5A /* PhoneNumViewController.m */; };
+		A1F02FA41C12B5B800D6DB5A /* PhoneNumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F02FA21C12B5B800D6DB5A /* PhoneNumViewController.xib */; };
+		A1F02FA81C12B69400D6DB5A /* RealNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F02FA61C12B69400D6DB5A /* RealNameViewController.m */; };
+		A1F02FA91C12B69400D6DB5A /* RealNameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F02FA71C12B69400D6DB5A /* RealNameViewController.xib */; };
+		A1F02FAD1C12BA8500D6DB5A /* FirstRealNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F02FAB1C12BA8500D6DB5A /* FirstRealNameViewController.m */; };
+		A1F02FAE1C12BA8500D6DB5A /* FirstRealNameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F02FAC1C12BA8500D6DB5A /* FirstRealNameViewController.xib */; };
 		A1F69D2A1C1145760095F66C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D291C1145760095F66C /* README.md */; };
 		A1F69D321C116FFF0095F66C /* ChangeLoginPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */; };
 		A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */; };
@@ -255,6 +261,15 @@
 		A199AA191C07E0B9002839CB /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		A199AA1A1C07E0B9002839CB /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		A199AA1B1C07E0B9002839CB /* NewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
+		A1F02FA01C12B5B800D6DB5A /* PhoneNumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumViewController.h; sourceTree = "<group>"; };
+		A1F02FA11C12B5B800D6DB5A /* PhoneNumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumViewController.m; sourceTree = "<group>"; };
+		A1F02FA21C12B5B800D6DB5A /* PhoneNumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneNumViewController.xib; sourceTree = "<group>"; };
+		A1F02FA51C12B69400D6DB5A /* RealNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealNameViewController.h; sourceTree = "<group>"; };
+		A1F02FA61C12B69400D6DB5A /* RealNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealNameViewController.m; sourceTree = "<group>"; };
+		A1F02FA71C12B69400D6DB5A /* RealNameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealNameViewController.xib; sourceTree = "<group>"; };
+		A1F02FAA1C12BA8500D6DB5A /* FirstRealNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstRealNameViewController.h; sourceTree = "<group>"; };
+		A1F02FAB1C12BA8500D6DB5A /* FirstRealNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstRealNameViewController.m; sourceTree = "<group>"; };
+		A1F02FAC1C12BA8500D6DB5A /* FirstRealNameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FirstRealNameViewController.xib; sourceTree = "<group>"; };
 		A1F69D291C1145760095F66C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A1F69D2C1C116FFF0095F66C /* ChangeLoginPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeLoginPWViewController.h; sourceTree = "<group>"; };
 		A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeLoginPWViewController.m; sourceTree = "<group>"; };
@@ -584,6 +599,15 @@
 				A1F69D2F1C116FFF0095F66C /* ChangerPassWordViewController.h */,
 				A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */,
 				A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */,
+				A1F02FA01C12B5B800D6DB5A /* PhoneNumViewController.h */,
+				A1F02FA11C12B5B800D6DB5A /* PhoneNumViewController.m */,
+				A1F02FA21C12B5B800D6DB5A /* PhoneNumViewController.xib */,
+				A1F02FAA1C12BA8500D6DB5A /* FirstRealNameViewController.h */,
+				A1F02FAB1C12BA8500D6DB5A /* FirstRealNameViewController.m */,
+				A1F02FAC1C12BA8500D6DB5A /* FirstRealNameViewController.xib */,
+				A1F02FA51C12B69400D6DB5A /* RealNameViewController.h */,
+				A1F02FA61C12B69400D6DB5A /* RealNameViewController.m */,
+				A1F02FA71C12B69400D6DB5A /* RealNameViewController.xib */,
 			);
 			name = "二级界面";
 			sourceTree = "<group>";
@@ -663,14 +687,17 @@
 				04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */,
 				04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */,
 				A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */,
+				A1F02FA41C12B5B800D6DB5A /* PhoneNumViewController.xib in Resources */,
 				04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */,
 				A199AA1D1C07E0B9002839CB /* PropertyViewController.xib in Resources */,
 				04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */,
 				04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */,
 				A199AA211C07E0B9002839CB /* AttentionViewController.xib in Resources */,
+				A1F02FAE1C12BA8500D6DB5A /* FirstRealNameViewController.xib in Resources */,
 				04041E4C1BF18A25009C6D2B /* sdRefeshView_arrow@2x.png in Resources */,
 				0429691D1BCF80F900975279 /* TreasureViewController.xib in Resources */,
 				042969181BCF80D200975279 /* SpecialPerformanceViewController.xib in Resources */,
+				A1F02FA91C12B69400D6DB5A /* RealNameViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,6 +722,7 @@
 				04041EA11BF18EA4009C6D2B /* AFURLConnectionOperation.m in Sources */,
 				044B54B61BD9E7FB00CC4CC5 /* Base64XD.m in Sources */,
 				043E3E5F1BF9B09100FF5AAE /* MarkViewController.m in Sources */,
+				A1F02FAD1C12BA8500D6DB5A /* FirstRealNameViewController.m in Sources */,
 				042968DF1BCF792800975279 /* CircleObject.m in Sources */,
 				042A56971BF30CF9006032C5 /* DetailViewController.m in Sources */,
 				042968E41BCF792800975279 /* UIKit+custom_.mm in Sources */,
@@ -709,6 +737,7 @@
 				047106001BCB670700F558FF /* AppDelegate.m in Sources */,
 				04041EB81BF18EB3009C6D2B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				042969121BCF804B00975279 /* MainViewController.m in Sources */,
+				A1F02FA31C12B5B800D6DB5A /* PhoneNumViewController.m in Sources */,
 				045A59131BFC162E00771AE0 /* MoreTableViewCell.m in Sources */,
 				A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */,
 				0429691C1BCF80F900975279 /* TreasureViewController.m in Sources */,
@@ -732,6 +761,7 @@
 				04041E411BF18A18009C6D2B /* Child.m in Sources */,
 				04BC406C1BFDBE8900548EBA /* PublicViewController.m in Sources */,
 				04041E9F1BF18EA4009C6D2B /* AFNetworkReachabilityManager.m in Sources */,
+				A1F02FA81C12B69400D6DB5A /* RealNameViewController.m in Sources */,
 				04041E4E1BF18A25009C6D2B /* SDRefreshHeaderView.m in Sources */,
 				042968E21BCF792800975279 /* ApexJs.m in Sources */,
 				04BC405F1BFDBE6A00548EBA /* MoreViewController.m in Sources */,

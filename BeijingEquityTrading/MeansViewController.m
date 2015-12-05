@@ -266,31 +266,54 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     [self saveImage:image withName:@"currentImage.png"];
     
-    
     NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"currentImage.png"];
       NSLog(@"%@",fullPath);
     
-   // [self requestData:fullPath];
-    
-    
-    //UIImage *savedImage = [[UIImage alloc] initWithContentsOfFile:fullPath];
-    
 
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-  // NSDictionary *parameters = @{@"upfile":fullPath};
     NSDictionary *parameters = @{};
     
    // NSURL *filePath = [NSURL URLWithString:[NSString stringWithFormat:@"file:/%@",fullPath]];
     //NSLog(@"%@",filePath);
     
     NSURL *filePath = [NSURL fileURLWithPath:fullPath];
-     NSLog(@"%@",filePath);
+    // NSLog(@"%@",filePath);
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERappUploadPhotoSubmit] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        // [formData appendPartWithFileData:data name:@"currentImage" fileName:@"upfile" mimeType:@"image/png"];
+       // [formData appendPartWithFileURL:filePath name:@"upfile" fileName:@"currentImage" mimeType:@"image/jpeg" error:nil];
+        
+        
         [formData appendPartWithFileURL:filePath name:@"upfile" error:nil];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]) {
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"上传成功"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            headView.image = [[UIImage alloc] initWithContentsOfFile:fullPath];
+        } else {
+        
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+        }
+        
         NSLog(@"Success: %@", responseObject);
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
         NSLog(@"Error: %@", error);
     }];
 
