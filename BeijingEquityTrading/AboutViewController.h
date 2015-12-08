@@ -12,5 +12,7 @@
 - (IBAction)back:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *versonLab;
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
+@property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
+- (IBAction)logOutMethods:(id)sender;
 
 @end

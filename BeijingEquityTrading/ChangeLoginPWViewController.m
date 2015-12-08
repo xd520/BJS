@@ -8,10 +8,12 @@
 
 #import "ChangeLoginPWViewController.h"
 #import "AppDelegate.h"
+#import "Child.h"
 
 @interface ChangeLoginPWViewController ()
 {
     float addHight;
+    Child *child;
 }
 @end
 
@@ -61,13 +63,101 @@
     [self.view addSubview:view3];
     
     
+    _codeBtn.layer.cornerRadius = 2;
+    _codeBtn.layer.masksToBounds = YES;
+    _codeBtn.userInteractionEnabled = YES;
+    _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
     
     
     _oldPW.clearButtonMode = UITextFieldViewModeWhileEditing;
     _password.clearButtonMode = UITextFieldViewModeWhileEditing;
     _passwordAgain.clearButtonMode = UITextFieldViewModeWhileEditing;
     
+    
+    [self requestCodeData];
+    
+    
 }
+
+-(void) requestCodeData {
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpwdManagesendVcode] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            NSLog(@"JSON: %@", responseObject);
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"获取成功"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            //注册观察者
+            child = [[Child alloc] init];
+            child.age = [[[responseObject objectForKey:@"object"] objectForKey:@"time"] integerValue];
+            [child addObserver:self forKeyPath:@"age" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:@"xxxx"];
+            
+        } else {
+            
+            _codeBtn.enabled = YES;
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        _codeBtn.enabled = YES;
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
+//监听方法
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    NSLog(@"%@",change);
+    
+    if ([[change objectForKey:@"new"] integerValue] <= 0) {
+        
+        [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        _codeBtn.enabled = YES;
+        _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
+        [child removeObserver:self forKeyPath:@"age"];
+    } else {
+        
+        [_codeBtn setTitle:[NSString stringWithFormat:@"%@秒后获取",[change objectForKey:@"new"]] forState:UIControlStateNormal];
+        _codeBtn.enabled = NO;
+        _codeBtn.backgroundColor = [UIColor grayColor];
+        
+        
+    }
+}
+
+
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     
@@ -97,7 +187,7 @@
     [paraDic setObject:[[Base64XD encodeBase64String:_oldPW.text] strBase64] forKey:@"oldPwd"];
     [paraDic setObject:[[Base64XD encodeBase64String:_password.text] strBase64] forKey:@"newPwd1"];
     [paraDic setObject:[[Base64XD encodeBase64String:_passwordAgain.text] strBase64] forKey:@"newPwd2"];
-    
+    [paraDic setObject:_code.text forKey:@"captcha"];
     
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -107,8 +197,9 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     
-    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERwdbzj] parameters:paraDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpwdManageappModify] parameters:paraDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
+        child.age = 0;
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
             
@@ -232,7 +323,17 @@
 
 }
 
+-(void)dealloc {
+    
+    [child removeObserver:self forKeyPath:@"age"];
+    
+}
 
 
 
+- (IBAction)codeMethods:(id)sender {
+    _codeBtn.enabled = NO;
+    [self requestCodeData];
+    
+}
 @end

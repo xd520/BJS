@@ -63,10 +63,11 @@
      array = @[@"信息公告",@"关于我们"];
    // arrImage = @[[UIImage imageNamed:@"icon_pwd"],[UIImage imageNamed:@"icon_update"],[UIImage imageNamed:@"我的客户经理"]];
     
-    
     _logoutBtn.backgroundColor = [ConMethods colorWithHexString:@"b30000"];
     _logoutBtn.layer.cornerRadius = 4;
     _logoutBtn.layer.masksToBounds = YES;
+    
+    
     
     /*
     MyLabel *lab = [[MyLabel alloc] initWithFrame:CGRectMake(50, 200, 200, 40)];
@@ -93,10 +94,7 @@
         }
     }else {
         _logoutBtn.hidden = YES;
-        
     }
-
-
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -164,7 +162,6 @@
 //    cell.imageView.image = [UIImage imageNamed:@"fs_main_login_selected.png"];
 //    NSLog(@"select:%ld", indexPath.row);
     
-       
     if (indexPath.row == 0) {
         ProviousViewController *cv = [[ProviousViewController alloc] init];
         cv.hidesBottomBarWhenPushed = YES;

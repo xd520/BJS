@@ -64,10 +64,49 @@
     UIView *view0 = [[UIView alloc] initWithFrame:CGRectMake(0, 204 + addHight, ScreenWidth , 1)];
     view0.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
     [self.view addSubview:view0];
-    
-    
-    
 }
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == _identiyNum) {
+        if(![PublicMethod validateIdentityCard:_identiyNum.text]){
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"请输入正确的身份证号码"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+        }
+    }else if (textField == _userName) {
+        NSString *emailRegex = @"^[\u4E00-\u9FA5]{2,5}(?:·[\u4E00-\u9FA5]{2,5})*$";
+        NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+        bool sfzNo = [emailTest evaluateWithObject:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        
+        if (!sfzNo) {
+            //[self HUDShow:@"请输入正确的身份证号" delay:1.5];
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"请输入正确格式的姓名"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            _userName.text = @"";
+        }
+        
+    }
+}
+
+
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -79,12 +118,50 @@
      [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)nextMthods:(id)sender {
+    
+    if(![PublicMethod validateIdentityCard:_identiyNum.text]){
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"请输入正确的身份证号码"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:2];
+        
+    }else if ([_identiyNum.text isEqualToString:@""]){
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"请输入身份证号码"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:2];
+    
+    } else if ([_userName.text isEqualToString:@""]){
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"请输入姓名"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:2];
+        
+    }else if ([_passWord.text isEqualToString:@""]||[_passWordAgain.text isEqualToString:@""]){
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"请输入交易密码"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:2];
+        
+    } else if (![_passWord.text isEqualToString:_passWordAgain.text]){
+    
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"确认密码与交易密码不一样"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:2];
+    } else {
+    
     RealNameViewController *vc = [[RealNameViewController alloc] init];
     vc.idCard = _identiyNum.text;
     vc.name = _userName.text;
     vc.password = _passWord.text;
     
     [self.navigationController pushViewController:vc animated:YES];
-    
+    }
 }
 @end

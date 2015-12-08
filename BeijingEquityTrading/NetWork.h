@@ -14,14 +14,22 @@
 #define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
 
 //北交所
-#define SERVERURL @"http://192.168.1.84:8089"
+//#define SERVERURL @"http://192.168.1.84:8089"
 
-//#define SERVERURL @"http://218.66.59.169:8400"
+#define SERVERURL @"http://192.168.2.207:8080"
 
+//这个是服务端的ws链接地址
+//http://192.168.1.84:8089/websocket/echoAnnotation
 
-//北交所客户外网
+/*
+ 000100000018
+ 000000
+ */
+
+//北交所客户外网1
 //#define SERVERURL @"http://111.205.25.78:8071"
-
+//北交所客户外网2
+//#define SERVERURL @"http://202.96.1.30"
 
 
 
@@ -105,13 +113,12 @@
 
 /**修改手机号***/
 #define USERgrzlsendVcode @"/service/psncenter/grzl/sendVcode"
-#define USERgrzlcheckVcode @"/service/psncenter/grzl/checkVcode"
 //保存新手机号码
-#define USERsaveMobilePhone @"/service/psncenter/grzl/saveMobilePhone"
+#define USERsaveMobilePhone @"/service/psncenter/grzl/appMobilePhoneSubmit"
 //完善个人资料
 #define USERsaveEmail @"/service/psncenter/grzl/saveEmail"
 /**修改登录密码***/
-#define USERpwdManagesendVcode @"/service/psncenter/pwdManage/modifyLoginPwd/sendVcode"
+#define USERpwdManagesendVcode @"/service/psncenter/pwdManage/modifyLoginPwd/appSendVcode"
 //修改登录密码
 #define USERpwdManageappModify @"/service/psncenter/pwdManage/modifyLoginPwd/appModify"
 //修改交易密码
@@ -124,6 +131,7 @@
 #define USERpwdManagequeryCity @"/service/psncenter/kh/queryCity"
 #define USERpwdManageappVcode @"/service/psncenter/kh/appSendVcode"
 #define USERpwdManageappKh @"/service/psncenter/kh/appKh"
+
 
 
 

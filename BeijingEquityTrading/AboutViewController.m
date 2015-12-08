@@ -8,6 +8,7 @@
 
 #import "AboutViewController.h"
 #import "AppDelegate.h"
+#import "LoginViewController.h"
 
 @interface AboutViewController ()
 {
@@ -45,19 +46,19 @@
     for (int i = 0; i < 3; i++) {
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 263 +addHight + 40*i, ScreenWidth, 1)];
         lineView.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
-        [self.view addSubview:lineView];
+        //[self.view addSubview:lineView];
     }
     
-    _imgView.frame = CGRectMake((ScreenWidth - 80)/2, 20, 80, 80);
+    _imgView.frame = CGRectMake((ScreenWidth - 80)/2, 84, 80, 80);
     
-    _versonLab.text = @"添金投:v1.0.0";
+    _versonLab.text = @"版本:v1.0.0";
     
     
     UILabel *lablast = [[UILabel alloc] initWithFrame:CGRectMake(15, ScreenHeight -25 - 14, ScreenWidth - 30, 13)];
     lablast.text = @"津ICP备08102316号";
     lablast.textAlignment = NSTextAlignmentCenter;
     lablast.font = [UIFont systemFontOfSize:13];
-    [self.view addSubview:lablast];
+    //[self.view addSubview:lablast];
     
     
     
@@ -65,9 +66,10 @@
     lab.text = @"版权所有 © 天津股权交易所";
     lab.textAlignment = NSTextAlignmentCenter;
     lab.font = [UIFont systemFontOfSize:12];
-    [self.view addSubview:lab];
+    //[self.view addSubview:lab];
     
-
+    _logoutBtn.layer.cornerRadius = 4;
+    _logoutBtn.layer.masksToBounds = YES;
     
 }
 
@@ -83,4 +85,120 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+- (IBAction)logOutMethods:(id)sender {
+    
+    UIAlertView *outAlert = [[UIAlertView alloc] initWithTitle:@"注销" message:@"是否要退出该帐号" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    outAlert.tag = 10003;
+    [outAlert show];
+    
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag==10000) {
+        if (buttonIndex==1) {
+            NSURL *url = [NSURL URLWithString:@"https://itunes.apple.com"];
+            [[UIApplication sharedApplication]openURL:url];
+        }
+    } else if (alertView.tag==10003){
+        
+        if (buttonIndex != 0) {
+            
+            [self requestData];
+        }
+    }
+}
+
+
+-(void)requestData{
+    
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在注销..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    
+    /*
+     <AFURLRequestSerialization>`
+     - `AFHTTPRequestSerializer`
+     - `AFJSONRequestSerializer`
+     - `AFPropertyListRequestSerializer`
+     * `<AFURLResponseSerialization>`
+     - `AFHTTPResponseSerializer`
+     - `AFJSONResponseSerializer`
+     - `AFXMLParserResponseSerializer`
+     - `AFXMLDocumentResponseSerializer` _(Mac OS X)_
+     - `AFPropertyListResponseSerializer`
+     - `AFImageResponseSerializer`
+     - `AFCompoundResponseSerializer`
+     
+     */
+    
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERLogout] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"注销成功"
+                                       MBProgressHUD:nil
+                                              target:self.navigationController.view
+                                     displayInterval:2];
+            
+            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [delegate.loginUser removeAllObjects];
+            _logoutBtn.hidden = YES;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+        } else {
+            
+            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                
+                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                [delegate.loginUser removeAllObjects];
+                
+                LoginViewController *cv = [[LoginViewController alloc] init];
+                cv.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:cv animated:YES];
+            } else {
+                
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:[responseObject objectForKey:@"msg"]
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+            }
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.navigationController.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+    
+    
+}
+
+
 @end

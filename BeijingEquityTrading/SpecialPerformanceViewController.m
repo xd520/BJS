@@ -132,11 +132,11 @@
        
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 220)];
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 270)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
                 //添加背景View
-                UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, ScreenWidth - 10, 210)];
+                UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, ScreenWidth - 10, 260)];
                 [backView setBackgroundColor:[UIColor whiteColor]];
                 backView.layer.cornerRadius = 2;
                 backView.layer.masksToBounds = YES;
@@ -147,7 +147,7 @@
                 
                 
                 
-                UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 100)];
+                UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 150)];
                 [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
                 
                
@@ -182,7 +182,7 @@
                 
                 
                 //品牌
-                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, ScreenWidth - 30, 15)];
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 160, ScreenWidth - 30, 15)];
                 brandLabel.font = [UIFont systemFontOfSize:15];
                 [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
@@ -191,13 +191,13 @@
                 [backView addSubview:brandLabel];
                 
                 //最新价
-                UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10 , 135, ScreenWidth - 30, 14)];
+                UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10 , 185, ScreenWidth - 30, 14)];
                 dayLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ZCQH"];
                 dayLabel.font = [UIFont systemFontOfSize:14];
                 dayLabel.textColor = [ConMethods colorWithHexString:@"999999"];
                 [backView addSubview:dayLabel];
                 
-                UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 155, ScreenWidth - 30, 14)];
+                UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 205, ScreenWidth - 30, 14)];
                 dateLabel.text = [NSString stringWithFormat:@"%@-%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"KSRQ"],[[dataList objectAtIndex:indexPath.row] objectForKey:@"JSRQ"]];
                 dateLabel.font = [UIFont systemFontOfSize:14];
                 dateLabel.textColor = [ConMethods colorWithHexString:@"333333"];
@@ -206,7 +206,7 @@
                 
                 
                 
-                UILabel *totalLabel= [[UILabel alloc] initWithFrame:CGRectMake(10, 183, 12, 12)];
+                UILabel *totalLabel= [[UILabel alloc] initWithFrame:CGRectMake(10, 233, 12, 12)];
                 totalLabel.text = @"共";
                 totalLabel.font = [UIFont systemFontOfSize:12];
                 totalLabel.textColor = [ConMethods colorWithHexString:@"999999"];
@@ -217,12 +217,12 @@
                 vuleLabel.text = [NSString stringWithFormat:@"%d",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"COUNT_BDS"] intValue]];
                 vuleLabel.font = [UIFont systemFontOfSize:15];
                 vuleLabel.textColor = [ConMethods colorWithHexString:@"950401"];
-                vuleLabel.frame = CGRectMake( 24, 180, [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 15);
+                vuleLabel.frame = CGRectMake( 24, 230, [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 15);
                 [backView addSubview:vuleLabel];
                 
                 
                 
-                UILabel *labelTip= [[UILabel alloc] initWithFrame:CGRectMake(24 + [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 183, 12*3, 12)];
+                UILabel *labelTip= [[UILabel alloc] initWithFrame:CGRectMake(24 + [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 233, 12*3, 12)];
                 labelTip.text = @"件标物";
                 labelTip.font = [UIFont systemFontOfSize:12];
                 labelTip.textColor = [ConMethods colorWithHexString:@"999999"];
@@ -237,14 +237,14 @@
                 dateLabelMore.text = [NSString stringWithFormat:@"%d",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"WGCS"] intValue]];
                 dateLabelMore.font = [UIFont systemFontOfSize:15];
                 dateLabelMore.textColor = [ConMethods colorWithHexString:@"950401"];
-                dateLabelMore.frame = CGRectMake( labelTip.frame.origin.x + labelTip.frame.size.width, 180, [PublicMethod getStringWidth:dateLabelMore.text font:dateLabelMore.font], 15);
+                dateLabelMore.frame = CGRectMake( labelTip.frame.origin.x + labelTip.frame.size.width, 230, [PublicMethod getStringWidth:dateLabelMore.text font:dateLabelMore.font], 15);
                 
                 
                 
                 [backView addSubview:dateLabelMore];
                 
                 
-                UILabel *dayLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(dateLabelMore.frame.origin.x + dateLabelMore.frame.size.width, 183,36, 12)];
+                UILabel *dayLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(dateLabelMore.frame.origin.x + dateLabelMore.frame.size.width, 233,36, 12)];
                 dayLabelMore.text = @"次围观";
                 dayLabelMore.font = [UIFont systemFontOfSize:12];
                 dayLabelMore.textColor = [ConMethods colorWithHexString:@"999999"];
@@ -263,7 +263,7 @@
         return 90;
     } else {
         
-        return 220;
+        return 270;
     }
     
 }
@@ -272,13 +272,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     return 35;
-}
-
-
-- (IBAction)callPhone:(UITouch *)sender
-{
-    
-    UIView *view = [sender view];
 }
 
 

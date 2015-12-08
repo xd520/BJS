@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UITextField *passwordAgain;
 @property (weak, nonatomic) IBOutlet UITextField *code;
+@property (weak, nonatomic) IBOutlet UIButton *codeBtn;
+- (IBAction)codeMethods:(id)sender;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;

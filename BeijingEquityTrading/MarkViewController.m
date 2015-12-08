@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "MarkListViewController.h"
+#import "SureMoneyViewController.h"
 
 
 @interface MarkViewController ()
@@ -19,6 +20,7 @@
     int count;
    // NSString *timeStr;
     UILabel *timeValue;
+    NSMutableArray *arrImag;
     
     UIView *MyBackView;
     NSDictionary *myDic;
@@ -77,6 +79,9 @@
     } else {
         addHight = 0;
     }
+    
+    arrImag = [NSMutableArray array];
+    
     
     UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 1)];
     lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
@@ -288,6 +293,8 @@
     //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
     [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
+   
+    NSLog(@"%@",[NSString stringWithFormat:@"%@%@",SERVERURL,USERappDetail]);
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERappDetail] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -528,13 +535,57 @@
     scrollView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
     [self.view addSubview:scrollView];
     
+    arrImag = [[dic objectForKey:@"bdwxx"] objectForKey:@"F_XMTP_ARR"];
     
     myDic = dic;
     
-    UIImageView *imagelogo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , ScreenWidth)];
-    imagelogo.userInteractionEnabled = YES;
-    [imagelogo setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dic objectForKey:@"detail"] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
     
+    
+    if (arrImag.count < 2) {
+        UIImageView *imagelogo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , ScreenWidth)];
+        imagelogo.userInteractionEnabled = YES;
+        [imagelogo setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dic objectForKey:@"detail"] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+        [scrollView addSubview:imagelogo];
+    } else {
+        
+        if (_scrollViewImg) {
+            [_scrollViewImg removeFromSuperview];
+            [self removeTimer];
+        }
+        
+        
+        _scrollViewImg = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , ScreenWidth)];
+        
+        //添加5张图片
+             for (int i = 0; i < arrImag.count; i++) {
+                     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth*i, 0, ScreenWidth, ScreenWidth)];
+            
+                [imageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[arrImag objectAtIndex:i]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+             //        隐藏指示条
+                    _scrollViewImg.showsHorizontalScrollIndicator = NO;
+                 
+                     [_scrollViewImg addSubview:imageView];
+                }
+             _scrollViewImg.contentSize = CGSizeMake(ScreenWidth*arrImag.count, ScreenWidth);
+         _scrollViewImg.pagingEnabled = YES;
+        _scrollViewImg.delegate = self;
+        
+        _pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(0,ScreenWidth -20,ScreenWidth,10)]; // 初始化mypagecontrol
+        [_pageControl setCurrentPageIndicatorTintColor:[ConMethods colorWithHexString:@"e3a325"]];
+        [_pageControl setPageIndicatorTintColor:[UIColor whiteColor]];
+        
+
+        _pageControl.numberOfPages = arrImag.count;
+        _pageControl.currentPage = 0;
+        
+        [_scrollViewImg addSubview:_pageControl];
+        
+        
+        [scrollView addSubview:_scrollViewImg];
+        
+        [self addTimer];
+   
+    }
     //背景设置：
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 30)];
     backView.backgroundColor = [ConMethods colorWithHexString:@"ffffff" withApla:0.8];
@@ -615,7 +666,7 @@
     
     [backView addSubview:image];
     [self.view addSubview:backView];
-    [scrollView addSubview:imagelogo];
+   
     
    
 
@@ -1158,6 +1209,72 @@
     }
 }
 
+#pragma mark - 轮播图片
+
+- (void)nextImage
+ {
+         int page = (int)self.pageControl.currentPage;
+         if (page == arrImag.count - 1) {
+                page = 0;
+             }else{
+                page++;
+                }
+     //  滚动scrollview
+          CGFloat x = page * self.scrollViewImg.frame.size.width;
+          self.scrollViewImg.contentOffset = CGPointMake(x, 0);
+     _pageControl.frame = CGRectMake(page*ScreenWidth, ScreenWidth - 20, ScreenWidth, 10);
+     
+     
+ }
+
+// scrollview滚动的时候调用
+ - (void)scrollViewDidScroll:(UIScrollView *)scrollView
+ {
+         NSLog(@"滚动中");
+     //    计算页码
+     //    页码 = (contentoffset.x + scrollView一半宽度)/scrollView宽度
+         CGFloat scrollviewW =  self.scrollViewImg.frame.size.width;
+         CGFloat x = self.scrollViewImg.contentOffset.x;
+         int page = (x + scrollviewW / 2) / scrollviewW;
+         self.pageControl.currentPage = page;
+     _pageControl.frame = CGRectMake(page*ScreenWidth, ScreenWidth - 20, ScreenWidth, 10);
+     
+     
+     
+}
+
+// 开始拖拽的时候调用
+ - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    //    关闭定时器(注意点; 定时器一旦被关闭,无法再开启)
+     //    [self.timer invalidate];
+        [self removeTimer];
+     }
+
+ - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+     //    开启定时器
+         [self addTimer];
+}
+
+ /**
+    100  *  开启定时器
+    101  */
+ - (void)addTimer{
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
+     }
+ /**
+*  关闭定时器
+*/
+ - (void)removeTimer
+ {
+         [self.timer invalidate];
+}
+
+
+
+
 #pragma mark - 获取报价信息（应该一段时间轮询1次，建议3秒）
 -(void)updateDatafornew:(NSTimer *)timer {
 
@@ -1283,6 +1400,7 @@
     
        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+           
             
            [self initBackViewMehtods];
         } else {
@@ -1318,8 +1436,14 @@
                                      displayInterval:3];
         } else {
 
+            [MyBackView removeFromSuperview];
+            SureMoneyViewController *vc = [[SureMoneyViewController alloc] init];
+            vc.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
+            
+            [self.navigationController pushViewController:vc animated:YES];
+            
         
-        [self summitBaozhenJin];
+        //[self summitBaozhenJin];古籍专场
         }
     } else if(btn.tag == 10006){
         

@@ -99,6 +99,14 @@
 		A1F02FA91C12B69400D6DB5A /* RealNameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F02FA71C12B69400D6DB5A /* RealNameViewController.xib */; };
 		A1F02FAD1C12BA8500D6DB5A /* FirstRealNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F02FAB1C12BA8500D6DB5A /* FirstRealNameViewController.m */; };
 		A1F02FAE1C12BA8500D6DB5A /* FirstRealNameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F02FAC1C12BA8500D6DB5A /* FirstRealNameViewController.xib */; };
+		A1F14AD31C16A685003D4923 /* BackMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F14AD11C16A685003D4923 /* BackMoneyViewController.m */; };
+		A1F14AD41C16A685003D4923 /* BackMoneyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F14AD21C16A685003D4923 /* BackMoneyViewController.xib */; };
+		A1F1F7041C155A7B00229183 /* CityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1F7021C155A7B00229183 /* CityViewController.m */; };
+		A1F1F7051C155A7B00229183 /* CityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F1F7031C155A7B00229183 /* CityViewController.xib */; };
+		A1F1F7091C155AD300229183 /* ProviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1F7071C155AD300229183 /* ProviceViewController.m */; };
+		A1F1F70A1C155AD300229183 /* ProviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F1F7081C155AD300229183 /* ProviceViewController.xib */; };
+		A1F1F70E1C1586E100229183 /* SureMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1F70C1C1586E100229183 /* SureMoneyViewController.m */; };
+		A1F1F70F1C1586E100229183 /* SureMoneyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F1F70D1C1586E100229183 /* SureMoneyViewController.xib */; };
 		A1F69D2A1C1145760095F66C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D291C1145760095F66C /* README.md */; };
 		A1F69D321C116FFF0095F66C /* ChangeLoginPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */; };
 		A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */; };
@@ -270,6 +278,18 @@
 		A1F02FAA1C12BA8500D6DB5A /* FirstRealNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstRealNameViewController.h; sourceTree = "<group>"; };
 		A1F02FAB1C12BA8500D6DB5A /* FirstRealNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstRealNameViewController.m; sourceTree = "<group>"; };
 		A1F02FAC1C12BA8500D6DB5A /* FirstRealNameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FirstRealNameViewController.xib; sourceTree = "<group>"; };
+		A1F14AD01C16A685003D4923 /* BackMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackMoneyViewController.h; sourceTree = "<group>"; };
+		A1F14AD11C16A685003D4923 /* BackMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackMoneyViewController.m; sourceTree = "<group>"; };
+		A1F14AD21C16A685003D4923 /* BackMoneyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BackMoneyViewController.xib; sourceTree = "<group>"; };
+		A1F1F7011C155A7B00229183 /* CityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityViewController.h; sourceTree = "<group>"; };
+		A1F1F7021C155A7B00229183 /* CityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityViewController.m; sourceTree = "<group>"; };
+		A1F1F7031C155A7B00229183 /* CityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CityViewController.xib; sourceTree = "<group>"; };
+		A1F1F7061C155AD300229183 /* ProviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviceViewController.h; sourceTree = "<group>"; };
+		A1F1F7071C155AD300229183 /* ProviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviceViewController.m; sourceTree = "<group>"; };
+		A1F1F7081C155AD300229183 /* ProviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProviceViewController.xib; sourceTree = "<group>"; };
+		A1F1F70B1C1586E100229183 /* SureMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SureMoneyViewController.h; sourceTree = "<group>"; };
+		A1F1F70C1C1586E100229183 /* SureMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SureMoneyViewController.m; sourceTree = "<group>"; };
+		A1F1F70D1C1586E100229183 /* SureMoneyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SureMoneyViewController.xib; sourceTree = "<group>"; };
 		A1F69D291C1145760095F66C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A1F69D2C1C116FFF0095F66C /* ChangeLoginPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeLoginPWViewController.h; sourceTree = "<group>"; };
 		A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeLoginPWViewController.m; sourceTree = "<group>"; };
@@ -449,6 +469,9 @@
 				043E446A1C06F309007CC3C4 /* MarkListViewController.h */,
 				043E446B1C06F309007CC3C4 /* MarkListViewController.m */,
 				043E446C1C06F309007CC3C4 /* MarkListViewController.xib */,
+				A1F1F70B1C1586E100229183 /* SureMoneyViewController.h */,
+				A1F1F70C1C1586E100229183 /* SureMoneyViewController.m */,
+				A1F1F70D1C1586E100229183 /* SureMoneyViewController.xib */,
 			);
 			name = "详情界面";
 			sourceTree = "<group>";
@@ -567,6 +590,7 @@
 		A199AA091C07E096002839CB /* 账户中心 */ = {
 			isa = PBXGroup;
 			children = (
+				A1F1F6FB1C155A1000229183 /* 三级界面 */,
 				A1F69D2B1C116FDE0095F66C /* 二级界面 */,
 				A199AA0A1C07E0B9002839CB /* PropertyViewController.h */,
 				A199AA0B1C07E0B9002839CB /* PropertyViewController.m */,
@@ -586,8 +610,24 @@
 				A199AA191C07E0B9002839CB /* NewsViewController.h */,
 				A199AA1A1C07E0B9002839CB /* NewsViewController.m */,
 				A199AA1B1C07E0B9002839CB /* NewsViewController.xib */,
+				A1F14AD01C16A685003D4923 /* BackMoneyViewController.h */,
+				A1F14AD11C16A685003D4923 /* BackMoneyViewController.m */,
+				A1F14AD21C16A685003D4923 /* BackMoneyViewController.xib */,
 			);
 			name = "账户中心";
+			sourceTree = "<group>";
+		};
+		A1F1F6FB1C155A1000229183 /* 三级界面 */ = {
+			isa = PBXGroup;
+			children = (
+				A1F1F7011C155A7B00229183 /* CityViewController.h */,
+				A1F1F7021C155A7B00229183 /* CityViewController.m */,
+				A1F1F7031C155A7B00229183 /* CityViewController.xib */,
+				A1F1F7061C155AD300229183 /* ProviceViewController.h */,
+				A1F1F7071C155AD300229183 /* ProviceViewController.m */,
+				A1F1F7081C155AD300229183 /* ProviceViewController.xib */,
+			);
+			name = "三级界面";
 			sourceTree = "<group>";
 		};
 		A1F69D2B1C116FDE0095F66C /* 二级界面 */ = {
@@ -669,6 +709,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1F14AD41C16A685003D4923 /* BackMoneyViewController.xib in Resources */,
 				042969131BCF804B00975279 /* MainViewController.xib in Resources */,
 				042969221BCF811900975279 /* MyViewController.xib in Resources */,
 				043E3E601BF9B09100FF5AAE /* MarkViewController.xib in Resources */,
@@ -687,7 +728,9 @@
 				04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */,
 				04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */,
 				A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */,
+				A1F1F70F1C1586E100229183 /* SureMoneyViewController.xib in Resources */,
 				A1F02FA41C12B5B800D6DB5A /* PhoneNumViewController.xib in Resources */,
+				A1F1F7051C155A7B00229183 /* CityViewController.xib in Resources */,
 				04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */,
 				A199AA1D1C07E0B9002839CB /* PropertyViewController.xib in Resources */,
 				04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */,
@@ -696,6 +739,7 @@
 				A1F02FAE1C12BA8500D6DB5A /* FirstRealNameViewController.xib in Resources */,
 				04041E4C1BF18A25009C6D2B /* sdRefeshView_arrow@2x.png in Resources */,
 				0429691D1BCF80F900975279 /* TreasureViewController.xib in Resources */,
+				A1F1F70A1C155AD300229183 /* ProviceViewController.xib in Resources */,
 				042969181BCF80D200975279 /* SpecialPerformanceViewController.xib in Resources */,
 				A1F02FA91C12B69400D6DB5A /* RealNameViewController.xib in Resources */,
 			);
@@ -734,11 +778,13 @@
 				042968DE1BCF792800975279 /* Circle.m in Sources */,
 				A1F69D2A1C1145760095F66C /* README.md in Sources */,
 				04B101671BFC6084008C6100 /* RegesterViewController.m in Sources */,
+				A1F1F7041C155A7B00229183 /* CityViewController.m in Sources */,
 				047106001BCB670700F558FF /* AppDelegate.m in Sources */,
 				04041EB81BF18EB3009C6D2B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				042969121BCF804B00975279 /* MainViewController.m in Sources */,
 				A1F02FA31C12B5B800D6DB5A /* PhoneNumViewController.m in Sources */,
 				045A59131BFC162E00771AE0 /* MoreTableViewCell.m in Sources */,
+				A1F14AD31C16A685003D4923 /* BackMoneyViewController.m in Sources */,
 				A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */,
 				0429691C1BCF80F900975279 /* TreasureViewController.m in Sources */,
 				04B101621BFC6070008C6100 /* UserProcrolViewController.m in Sources */,
@@ -768,6 +814,8 @@
 				A199AA1E1C07E0B9002839CB /* TradeViewController.m in Sources */,
 				04041EB71BF18EB3009C6D2B /* AFNetworkActivityIndicatorManager.m in Sources */,
 				0429690D1BCF7E9600975279 /* ShareMyData.m in Sources */,
+				A1F1F70E1C1586E100229183 /* SureMoneyViewController.m in Sources */,
+				A1F1F7091C155AD300229183 /* ProviceViewController.m in Sources */,
 				042968E31BCF792800975279 /* PublicMethod.mm in Sources */,
 				047105FD1BCB670700F558FF /* main.m in Sources */,
 				04041EA21BF18EA4009C6D2B /* AFURLRequestSerialization.m in Sources */,

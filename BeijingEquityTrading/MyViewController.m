@@ -15,6 +15,7 @@
 #import "MeansViewController.h"
 #import "NewsViewController.h"
 #import "LoginViewController.h"
+#import "AboutViewController.h"
 
 @interface MyViewController ()
 {
@@ -209,14 +210,23 @@
         [view addSubview:nameTitle];
         
         
-        
+        UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        searchBtn.frame = CGRectMake(ScreenWidth - 10 - 30, 25, 20, 20);
+        [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+        [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:searchBtn];
      
     }
     return view;
     
 }
 
+-(void)searchMthods{
+    AboutViewController *vc = [[AboutViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 
+}
 
 
 - (void)tableView:(UITableView *)tbleView

@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "MarkViewController.h"
+#import "ProviousViewController.h"
 
 @interface MainViewController ()
 {
@@ -217,11 +218,11 @@
         
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 220)];
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 270)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
                 //添加背景View
-                UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, ScreenWidth - 10, 210)];
+                UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, ScreenWidth - 10, 260)];
                 [backView setBackgroundColor:[UIColor whiteColor]];
                 backView.layer.cornerRadius = 2;
                 backView.layer.masksToBounds = YES;
@@ -232,13 +233,13 @@
                 
                 
                 
-                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 100)];
+                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 150)];
                  [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
                 [backView addSubview:image];
                 
                 
                 //品牌
-                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, ScreenWidth - 30, 15)];
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 160, ScreenWidth - 30, 15)];
                 brandLabel.font = [UIFont systemFontOfSize:15];
                 [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
@@ -247,13 +248,13 @@
                 [backView addSubview:brandLabel];
                 
                 //最新价
-                UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10 , 135, ScreenWidth - 30, 14)];
+                UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10 , 185, ScreenWidth - 30, 14)];
                 dayLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ZCQH"];
                 dayLabel.font = [UIFont systemFontOfSize:14];
                 dayLabel.textColor = [ConMethods colorWithHexString:@"999999"];
                 [backView addSubview:dayLabel];
                 
-                UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 155, ScreenWidth - 30, 14)];
+                UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 205, ScreenWidth - 30, 14)];
                 dateLabel.text = [NSString stringWithFormat:@"%@-%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"KSRQ"],[[dataList objectAtIndex:indexPath.row] objectForKey:@"JSRQ"]];
                 dateLabel.font = [UIFont systemFontOfSize:14];
                 dateLabel.textColor = [ConMethods colorWithHexString:@"333333"];
@@ -262,7 +263,7 @@
                 
                 
                 
-                UILabel *totalLabel= [[UILabel alloc] initWithFrame:CGRectMake(10, 183, 12, 12)];
+                UILabel *totalLabel= [[UILabel alloc] initWithFrame:CGRectMake(10, 233, 12, 12)];
                 totalLabel.text = @"共";
                 totalLabel.font = [UIFont systemFontOfSize:12];
                 totalLabel.textColor = [ConMethods colorWithHexString:@"999999"];
@@ -273,12 +274,12 @@
                 vuleLabel.text = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"COUNT_BDS"]];
                 vuleLabel.font = [UIFont systemFontOfSize:15];
                 vuleLabel.textColor = [ConMethods colorWithHexString:@"950401"];
-                vuleLabel.frame = CGRectMake( 24, 180, [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 15);
+                vuleLabel.frame = CGRectMake( 24, 230, [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 15);
                 [backView addSubview:vuleLabel];
                 
                 
                 
-                UILabel *labelTip= [[UILabel alloc] initWithFrame:CGRectMake(26 + [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 183, 12*3, 12)];
+                UILabel *labelTip= [[UILabel alloc] initWithFrame:CGRectMake(26 + [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 233, 12*3, 12)];
                 labelTip.text = @"件标物";
                 labelTip.font = [UIFont systemFontOfSize:12];
                 labelTip.textColor = [ConMethods colorWithHexString:@"999999"];
@@ -291,12 +292,12 @@
                 dateLabelMore.text = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"WGCS"]];
                 dateLabelMore.textAlignment = NSTextAlignmentCenter;
                 dateLabelMore.font = [UIFont systemFontOfSize:14];
-                dateLabelMore.frame = CGRectMake(2 + labelTip.frame.size.width + labelTip.frame.origin.x, 181, [PublicMethod getStringWidth:dateLabelMore.text font:dateLabelMore.font], 14);
+                dateLabelMore.frame = CGRectMake(2 + labelTip.frame.size.width + labelTip.frame.origin.x, 231, [PublicMethod getStringWidth:dateLabelMore.text font:dateLabelMore.font], 14);
                 dateLabelMore.textColor = [ConMethods colorWithHexString:@"950401"];
                 
                 [backView addSubview:dateLabelMore];
                 
-                UILabel *dayLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(dateLabelMore.frame.size.width + dateLabelMore.frame.origin.x, 182, 39, 13)];
+                UILabel *dayLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(dateLabelMore.frame.size.width + dateLabelMore.frame.origin.x, 232, 39, 13)];
                 dayLabelMore.text = @"次围观";
                 dayLabelMore.font = [UIFont systemFontOfSize:13];
                 dayLabelMore.textColor = [ConMethods colorWithHexString:@"999999"];
@@ -341,7 +342,7 @@
             
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 170)];
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenWidth/2 - 7.5 + 70)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
                 
@@ -355,19 +356,19 @@
             backView.tag = indexPath.row*2;
             backViewlast.tag = indexPath.row*2 + 1;
             
-                backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 0, ScreenWidth/2 - 7.5, 165)];
+                backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 0, ScreenWidth/2 - 7.5,ScreenWidth/2 - 7.5 + 60)];
                 [backView setBackgroundColor:[UIColor clearColor]];
                 backView.layer.cornerRadius = 2;
                 backView.layer.masksToBounds = YES;
             backView.layer.borderWidth = 1;
             backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
-                UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
+                UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
                 [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
                 [backView addSubview:image];
                 
                 //品牌
-                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 107.5, (ScreenWidth - 15)/2 - 10, 15)];
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(5,ScreenWidth/2 - 7.5 + 7.5, (ScreenWidth - 15)/2 - 10, 15)];
                 brandLabel.font = [UIFont systemFontOfSize:14];
                 [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
@@ -375,7 +376,7 @@
                 [backView addSubview:brandLabel];
                 
                 //当前价
-                UIView *lastView = [[UIView alloc] initWithFrame:CGRectMake(0, 135, (ScreenWidth - 15)/2, 30)];
+                UIView *lastView = [[UIView alloc] initWithFrame:CGRectMake(0,ScreenWidth/2 - 7.5 + 30, (ScreenWidth - 15)/2, 30)];
                 lastView.backgroundColor = [UIColor whiteColor];
                 
                 UILabel *fenLabTip = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, 30, 10)];
@@ -425,19 +426,19 @@
                 
                 
                 /**********  backViewlast  ************/
-                  backViewlast = [[UIView alloc] initWithFrame:CGRectMake(2.5 +ScreenWidth/2, 0, ScreenWidth/2 - 7.5, 165)];
+                  backViewlast = [[UIView alloc] initWithFrame:CGRectMake(2.5 +ScreenWidth/2, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5 + 60)];
                     [backViewlast setBackgroundColor:[UIColor clearColor]];
                     backViewlast.layer.cornerRadius = 2;
                     backViewlast.layer.masksToBounds = YES;
             backViewlast.layer.borderWidth = 1;
             backViewlast.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
-                    UIImageView *imagep = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
+                    UIImageView *imagep = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
                     [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                     [backViewlast addSubview:imagep];
                     
                     //品牌
-                    UILabel *brandLabelp = [[UILabel alloc] initWithFrame:CGRectMake(5, 107.5, (ScreenWidth - 15)/2 - 10, 15)];
+                    UILabel *brandLabelp = [[UILabel alloc] initWithFrame:CGRectMake(5,ScreenWidth/2 - 7.5 + 7.5, (ScreenWidth - 15)/2 - 10, 15)];
                     brandLabelp.font = [UIFont systemFontOfSize:14];
                     [brandLabelp setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     [brandLabelp setBackgroundColor:[UIColor clearColor]];
@@ -445,7 +446,7 @@
                     [backViewlast addSubview:brandLabelp];
                     
                 //当前价
-                UIView *lastViewp = [[UIView alloc] initWithFrame:CGRectMake(0, 135, (ScreenWidth - 15)/2, 30)];
+                UIView *lastViewp = [[UIView alloc] initWithFrame:CGRectMake(0,ScreenWidth/2 - 7.5 + 30, (ScreenWidth - 15)/2, 30)];
                 lastViewp.backgroundColor = [UIColor whiteColor];
                 
                 UILabel *fenLabTipP = [[UILabel alloc] initWithFrame:CGRectMake(5, 10, 30, 10)];
@@ -866,12 +867,12 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-       return 220;
+       return 270;
     } else if (indexPath.section == 1){
         return  30;
     }else if(indexPath.section == 2){
     
-    return 170;
+    return ScreenWidth/2 - 7.5 + 65;
     } else {
     return 60;
     }
@@ -1001,6 +1002,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
       
     } else if (indexPath.section == 1){
         
+    } else if (indexPath.section == 3){
+        ProviousViewController *cv = [[ProviousViewController alloc] init];
+        cv.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:cv animated:YES];
+    
     }
     
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];

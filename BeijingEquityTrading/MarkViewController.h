@@ -12,6 +12,11 @@
 
 @property(nonatomic,strong)NSString *strId;
 
+
+@property (nonatomic,strong) UIScrollView *scrollViewImg;
+@property (strong, nonatomic) UIPageControl *pageControl;   // 当前imageView
+@property (nonatomic,strong)NSTimer *timer;                 //设置动画
+
 @property (weak, nonatomic) IBOutlet UIView *headView;
 - (IBAction)back:(id)sender;
 - (IBAction)shareMethods:(id)sender;
