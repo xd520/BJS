@@ -35,6 +35,9 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/service/pay/qyt/app_applyOutMoney?id=%@&bzjbz=%@",SERVERURL,_strId,_markId]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    //NSURLConnection *req =
+    
+    
     
     //[request setAllH];
     [_webView loadRequest:request];

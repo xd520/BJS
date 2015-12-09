@@ -10,7 +10,11 @@
 #import "AppDelegate.h"
 
 @interface SureMoneyViewController ()
-
+{
+    NSURLConnection *_urlConnection;
+    NSURLRequest *_FailedRequest;
+    BOOL _authenticated;
+}
 @end
 
 @implementation SureMoneyViewController
@@ -26,7 +30,7 @@
         [self.view addSubview:statusBarView];
     }
 
-    _webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
+    //_webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     
     
     
@@ -55,6 +59,107 @@
 
 
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    
+    NSLog(@"%@",request.URL);
+    NSString* scheme = [[request URL] scheme];
+    // BOOL result = _authenticated;
+    
+    if ([scheme isEqualToString:@"https"]) {
+        _authenticated = NO;
+    _FailedRequest = request;
+     NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [conn start];
+    
+    }
+    return YES;
+}
+
+
+#pragma NSURLConnectionDelegate
+
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust])
+        //if ([trustedHosts containsObject:challenge.protectionSpace.host])
+        [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]
+             forAuthenticationChallenge:challenge];
+    
+    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+    
+    //[_webView loadRequest:_FailedRequest];
+    
+}
+
+
+
+
+/*
+#pragma NSURLConnectionDelegate
+
+-(void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        NSURL* baseURL = [NSURL URLWithString:@"your url"];
+        if ([challenge.protectionSpace.host isEqualToString:baseURL.host]) {
+            NSLog(@"trusting connection to host %@", challenge.protectionSpace.host);
+            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+        } else
+            NSLog(@"Not trusting connection to host %@", challenge.protectionSpace.host);
+    }
+    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)pResponse {
+    _authenticated = YES;
+    [connection cancel];
+    [self.webView loadRequest:_FailedRequest];
+}
+
+
+
+/////////
+
+#pragma mark - NURLConnection delegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
+{
+    NSLog(@"WebController Got auth challange via NSURLConnection");
+    
+    if ([challenge previousFailureCount] == 0)
+    {
+        _authenticated = YES;
+        
+        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+        
+        [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+        
+    } else
+    {
+        [[challenge sender] cancelAuthenticationChallenge:challenge];
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
+{
+    NSLog(@"WebController received response via NSURLConnection");
+    
+    // remake a webview call now that authentication has passed ok.
+    _authenticated = YES;
+    [_webView loadRequest:_request];
+    
+    // Cancel the URL connection otherwise we double up (webview + url connection, same url = no good!)
+    [_urlConnection cancel];
+}
+
+// We use this method is to accept an untrusted site which unfortunately we need to do, as our PVM servers are self signed.
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
+{
+    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+*/
 
 
 
