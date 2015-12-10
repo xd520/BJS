@@ -29,6 +29,12 @@
 
 @implementation CertifyViewController
 
+
+-(void)viewDidAppear:(BOOL)animated {
+
+    [self requestData];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -50,10 +56,10 @@
     
     [self requestData];
     
-    arrA = @[@"已认证",@"修改｜找回",@"修改｜找回",@"未绑定",@"修改｜找回"];
+    arrA = @[@"已认证",@"修改｜找回",@"修改｜找回"];
 
     
-    arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"银行卡认证",@"实名认证"];
+    arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"实名认证"];
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth,ScreenHeight - 65)];
     [table setDelegate:self];
     [table setDataSource:self];
@@ -94,10 +100,10 @@
             
             myDic = [responseObject objectForKey:@"object"];
             
-            if ([[[responseObject objectForKey:@"object"] objectForKey:@"isBingingCard"] boolValue]) {
-                labBank.text = @"已绑定";
+            if ([[[responseObject objectForKey:@"object"] objectForKey:@"isSetCert"] boolValue]) {
+                labBank.text = @"已认证";
             } else {
-                labBank.text = @"未绑定";
+                labBank.text = @"未认证";
             }
 
             
@@ -156,11 +162,11 @@
     if (indexPath.row == 3) {
         labBank = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 130, 12.5, 100, 15)];
         labBank.textColor = [ConMethods colorWithHexString:@"666666"];
-        labBank.text = [arrA objectAtIndex:indexPath.row];
+        labBank.text = @"未认证";
         labBank.font = [UIFont systemFontOfSize:15];
         labBank.textAlignment = NSTextAlignmentRight;
         [cell.contentView addSubview:labBank];
-    }
+    } else {
     
     
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 130, 12.5, 100, 15)];
@@ -169,7 +175,7 @@
     lab.font = [UIFont systemFontOfSize:15];
     lab.textAlignment = NSTextAlignmentRight;
     [cell.contentView addSubview:lab];
-    
+    }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -197,10 +203,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         ChangeLoginPWViewController *vc = [[ChangeLoginPWViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     
-    }else if (indexPath.row == 4){
+    }else if (indexPath.row == 3){
     
-        FirstRealNameViewController *vc = [[FirstRealNameViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        if ([[myDic objectForKey:@"isSetCert"] boolValue]) {
+           
+        } else {
+           
+            FirstRealNameViewController *vc = [[FirstRealNameViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        
+
     
     }
      [tbleView deselectRowAtIndexPath:indexPath animated:YES];

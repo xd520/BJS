@@ -211,8 +211,8 @@
         
         
         UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        searchBtn.frame = CGRectMake(ScreenWidth - 10 - 30, 25, 20, 20);
-        [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+        searchBtn.frame = CGRectMake(ScreenWidth - 10 - 30, 30, 25, 25);
+        [searchBtn setBackgroundImage:[UIImage imageNamed:@"message_title_setting"] forState:UIControlStateNormal];
         [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:searchBtn];
      

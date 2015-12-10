@@ -1017,18 +1017,24 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)reloadData:(NSMutableArray *)arr {
     imageArray = arr;
+    
+    //imageArray = [[NSMutableArray alloc] initWithArray:@[@"http://218.66.59.169:8400/LbFiles?type=zclogo&id=20", @"http://218.66.59.169:8400/LbFiles?type=zclogo&id=22", @"http://218.66.59.169:8400/LbFiles?type=zclogo&id=24"]];
+    
 
     CGRect bound=CGRectMake(0, 0, ScreenWidth, 150);
     
     scrollViewImage = [[UIScrollView alloc] initWithFrame:bound];
     
-    //scrollView.bounces = YES;
+    scrollViewImage.bounces = NO;
     scrollViewImage.pagingEnabled = YES;
     scrollViewImage.delegate = self;
     scrollViewImage.userInteractionEnabled = YES;
     //隐藏水平滑动条
     scrollViewImage.showsVerticalScrollIndicator = FALSE;
     scrollViewImage.showsHorizontalScrollIndicator = FALSE;
+    
+   // scrollViewImage.contentOffset = CGPointMake(ScreenWidth, 0);
+    
     [scrollViewImage flashScrollIndicators];
     [self.view addSubview:scrollViewImage];
     
@@ -1045,7 +1051,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
        for (int i = 0; i < imageArray.count; i++) {
         UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth * i) + ScreenWidth, 0, ScreenWidth, 150)];
         [imageView1 setTag:i + 10000];
-           [imageView1 setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+           [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
          [scrollViewImage addSubview:imageView1];
            
        }
@@ -1056,7 +1062,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
         imgView.tag = 4 + 10000;
         
-        [imgView setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:imageArray.count - 1]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+        [imgView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:imageArray.count - 1] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
         
         
         
@@ -1067,14 +1073,17 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         UIImageView *imgViewl = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth * ([imageArray count] + 1)) , 0, ScreenWidth, 150)];
         imgViewl.tag = 5 + 10000;
         
-         [imgView setImageWithURL:[NSURL URLWithString:[imageArray objectAtIndex:0]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+         //[imgView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:0] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+        
+        [imgViewl setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:0] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+        
         
         // 添加第1页在最后 循环
         [scrollViewImage addSubview:imgViewl];
         
         [scrollViewImage setContentSize:CGSizeMake(ScreenWidth * ([imageArray count] + 2), 150)]; //  +上第1页和第4页  原理：4-[1-2-3-4]-1
-        [scrollViewImage setContentOffset:CGPointMake(0, 0)];
-        [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth,0,ScreenWidth,150) animated:NO]; // 默认从序号1位置放第1页 ，序号0位置位置放第4页
+        //[scrollViewImage setContentOffset:CGPointMake(ScreenWidth, 0)];
+       // [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth,0,ScreenWidth,150) animated:NO]; // 默认从序号1位置放第1页 ，序号0位置位置放第4页
         
         
     } else {
@@ -1083,7 +1092,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [scrollViewImage addSubview:imageView1];
     }
     
-    
+    // 定时器 循环
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(runTimePage) userInfo:nil repeats:YES];
 }
 
 
@@ -1174,13 +1184,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
     }
 
-    } else {
-    
-    
+    } else  if(scrollView == scrollViewImage){
     
     CGFloat pagewidth = scrollViewImage.frame.size.width;
     int page = floor((scrollViewImage.contentOffset.x - pagewidth/([imageArray count]+2))/pagewidth)+1;
     page --;  // 默认从第二页开始
+        
+        
     pageControl.currentPage = page;
     }
 }
@@ -1189,20 +1199,21 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 // scrollview 委托函数
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollV
 {
+    if (scrollV == scrollViewImage) {
+        
     CGFloat pagewidth = scrollViewImage.frame.size.width;
     int currentPage = floor((scrollViewImage.contentOffset.x - pagewidth/ ([imageArray count]+2)) / pagewidth) + 1;
-    //    int currentPage_ = (int)self.scrollView.contentOffset.x/320; // 和上面两行效果一样
-    //    NSLog(@"currentPage_==%d",currentPage_);
+      
     if (currentPage==0)
     {
         [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth * [imageArray count],0,ScreenWidth,150) animated:NO]; // 序号0 最后1页
-    }
-    else if (currentPage==([imageArray count]+1))
+    }else if (currentPage==([imageArray count] + 1))
     {
-        [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth,0,ScreenWidth,150) animated:NO]; // 最后+1,循环第1页
+        [scrollViewImage scrollRectToVisible:CGRectMake(0,0,ScreenWidth,150) animated:NO]; // 最后+1,循环第1页
     }
+       
     //pageControl.currentPage = currentPage;
-    
+   }
 }
 
 

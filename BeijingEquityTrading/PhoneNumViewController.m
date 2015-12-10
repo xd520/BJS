@@ -21,6 +21,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
+        addHight = 20;
+        UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
+        
+        statusBarView.backgroundColor=[UIColor blackColor];
+        
+        [self.view addSubview:statusBarView];
+    } else {
+        
+        addHight = 0;
+    }
+
+    
+    
+    
     _commitBtn.layer.cornerRadius = 2;
     _commitBtn.layer.masksToBounds = YES;
     _commitBtn.userInteractionEnabled = YES;
@@ -200,6 +216,17 @@
         }
     }
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
+
+
+
 
 -(void)dealloc {
     

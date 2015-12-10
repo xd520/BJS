@@ -80,7 +80,7 @@
     _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
     
     
-    [self requestCodeData];
+    //[self requestCodeData];
 
 }
 
@@ -339,7 +339,7 @@
 
 -(void)dealloc {
     
-    [child removeObserver:self forKeyPath:@"age"];
+    //[child removeObserver:self forKeyPath:@"age"];
     
 }
 

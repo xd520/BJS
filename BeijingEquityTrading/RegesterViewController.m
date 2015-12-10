@@ -414,7 +414,8 @@
 
 
 -(void)requestRegestMethods{
-    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.navigationController.view displayInterval:2.0];
     
     NSMutableDictionary *paraDic = [[NSMutableDictionary alloc] init];
     
@@ -431,6 +432,8 @@
     //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
     [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSLog(@"%@%@",SERVERURL,USERpersonal);
+    
     
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpersonal] parameters:paraDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -442,7 +445,7 @@
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]
                                        MBProgressHUD:nil
-                                              target:self.view
+                                              target:self.navigationController.view
                                      displayInterval:3];
             
             [self.navigationController popViewControllerAnimated:YES];
@@ -507,7 +510,7 @@
 
 -(void)dealloc {
     
-    [child removeObserver:self forKeyPath:@"age"];
+    //[child removeObserver:self forKeyPath:@"age"];
     
 }
 

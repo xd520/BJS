@@ -704,7 +704,14 @@
                 ztLab.text = @"等待付款";
                     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
                     button.frame = CGRectMake(10, 5, 20, 20);
-                    [button setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+                    
+                    if ([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"selected"] isEqualToString:@"1"]) {
+                        [button setImage:[UIImage imageNamed:@"quan1"] forState:UIControlStateNormal];
+                    } else {
+                        [button setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+                    }
+                    
+                    //[button setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
                     button.tag = indexPath.row;
                     [button addTarget:self action:@selector(payForMoney:) forControlEvents:UIControlEventTouchUpInside];
                     [backView addSubview:button];
@@ -987,10 +994,38 @@
 
 -(void)payForMoney:(UIButton *)btn {
 
+    //[UIImage imageNamed:@"付款未勾选"]
+    
+    //[btn setImage:[UIImage imageNamed:@"quan1"] forState:UIControlStateNormal];
+    
+    NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:[dataListPast objectAtIndex:btn.tag]];
+    if ([[tempDic objectForKey:@"selected"] isEqualToString:@"1"]) {
+        [tempDic setObject:@"0" forKey:@"selected"];
+        [btn setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+    } else {
+        [tempDic setObject:@"1" forKey:@"selected"];
+        [btn setImage:[UIImage imageNamed:@"quan1"] forState:UIControlStateNormal];
+    }
+    
+    [dataListPast replaceObjectAtIndex:btn.tag withObject:tempDic];
+    
+    
+   // [self refreshPrice];
+    
+
+}
 
 
-
-
+- (void)refreshPrice
+{
+    int price = 0;
+    if ([dataListPast count] > 0) {
+        for (NSMutableDictionary *dic in dataListPast) {
+            if ([[dic objectForKey:@"selected"] isEqualToString:@"1"]) {
+               // price += [[dic objectForKey:@"KYJE"] integerValue];
+            }
+        }
+    }
 }
 
 

@@ -16,8 +16,9 @@
 //北交所
 //#define SERVERURL @"http://192.168.1.84:8089"
 
+
 //小乔通道
-#define SERVERURL @"http://192.168.2.207:8080"
+//#define SERVERURL @"http://192.168.2.207:8080"
 
 //这个是服务端的ws链接地址
 //http://192.168.1.84:8089/websocket/echoAnnotation
@@ -30,7 +31,7 @@
 //北交所客户外网1
 //#define SERVERURL @"http://111.205.25.78:8071"
 //北交所客户外网2
-//#define SERVERURL @"http://202.96.1.30"
+#define SERVERURL @"http://202.96.1.30"
 //银联外网地址
 //#define SERVERURL @"http://202.96.1.21"
 
@@ -51,7 +52,7 @@
 #define USERvalidateUsername @"/service/s/register/validateUsername"
 #define USERvalidateMobilePhone @"/service/s/register/validateMobilePhone"
 #define USERappSendVcode @"/service/s/register/appSendVcode"
-#define USERpersonal @"/service/s/register/personal"
+#define USERpersonal @"/service/s/register/appPersonal"
 
 /*首页模块*/
 #define USERappIndex @"/service/s/appIndex"

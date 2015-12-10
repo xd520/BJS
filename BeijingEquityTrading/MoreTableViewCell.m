@@ -46,7 +46,7 @@
     // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
     
-    [self layoutSubviews];
+   // [self layoutSubviews];
 }
 
 - (void)refreshLessTime:(NSTimer*)timer

@@ -28,6 +28,8 @@
     
     long long timeAll;
     
+    long long timeAllAgain;
+    
     UIButton *commitBtn;
     
     UIImageView *summitBackImg;
@@ -46,6 +48,9 @@
     UIButton *jianBtn;
     
     UILabel *newVauleLab;
+    
+    
+    NSDictionary *updataDic;
     
 }
 @end
@@ -336,8 +341,38 @@
     
 }
 
+- (void)timerFireMethod:(NSTimer*)theTimer{
+    
+    timeAllAgain = timeAllAgain - 1;
+    
+    if (timeAllAgain < 0) {
+        timeValue.hidden = YES;
+    } else {
+    
+    //day
+    long long dayCount = timeAllAgain%(3600*24);
+    long long day = (timeAllAgain - dayCount)/(3600*24);
+    
+    //hour
+    long long hourCount = dayCount%3600;
+    long long hour = (dayCount - hourCount)/3600;
+    //min
+    long long minCount = hourCount%60;
+    long long min = (hourCount - minCount)/60;
+    
+    long long miao = minCount;
+    
+    
+    
+    timeValue.text = [NSString stringWithFormat:@"%lld天%lld小时%lld分钟%lld秒",day, hour, min,miao];
+    }
+    
+}
 
-- (void)timerFireMethod1:(NSTimer*)theTimer{
+
+
+
+- (void)timerFireMethod1{
     
     timeAll = timeAll - 1;
     
@@ -355,26 +390,7 @@
     
     long long miao = minCount;
    
-    
-    if (day > 0) {
-        timeValue.text = [NSString stringWithFormat:@"%lld天%lld小时%lld分钟%lld秒",day, hour, min,miao];
-    } else {
-        
-        if (hour > 0) {
-            timeValue.text = [NSString stringWithFormat:@"%lld小时%lld分钟%lld秒", hour, min,miao];
-        } else {
-            if (min > 0) {
-                timeValue.text = [NSString stringWithFormat:@"%lld分钟%lld秒", min,miao];
-            } else {
-                if (miao == 0) {
-                    timeValue.text = @"0秒";
-                    
-                } else {
-                    timeValue.text = [NSString stringWithFormat:@"%lld秒",miao];
-                }
-            }
-        }
-    }
+    timeValue.text = [NSString stringWithFormat:@"%lld天%lld小时%lld分钟%lld秒",day, hour, min,miao];
     
 }
 
@@ -533,6 +549,7 @@
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,  addHight + 44, ScreenWidth, ScreenHeight - 49 - 20)];
     scrollView.bounces = NO;
     scrollView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    scrollView.delegate = self;
     [self.view addSubview:scrollView];
     
     arrImag = [[dic objectForKey:@"bdwxx"] objectForKey:@"F_XMTP_ARR"];
@@ -628,14 +645,16 @@
         [backView addSubview:timeValue];
         timeAll = [[[dic objectForKey:@"detail"] objectForKey:@"djs"] longLongValue];
         
-        if (timer.isValid) {
-            [timer invalidate];
-            timer = nil;
-        }
+        [self timerFireMethod1];
         
         
-       timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod1:) userInfo:nil repeats:YES];
+        //if (timer.isValid) {
+            //[timer invalidate];
+          //  timer = nil;
+      //  }
         
+      // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod1:) userInfo:nil repeats:YES];
+        [self requestdatafornew];
         
     } else {
     
@@ -694,7 +713,7 @@
     numLab.font = [UIFont systemFontOfSize:14];
     numLab.backgroundColor = [UIColor clearColor];
     numLab.textColor = [ConMethods colorWithHexString:@"808080"];
-    numLab.text = [NSString stringWithFormat:@"标的编号:%@",[[dic objectForKey:@"detail"] objectForKey:@"XMBH"]];
+    numLab.text = [NSString stringWithFormat:@"项目编号:%@",[[dic objectForKey:@"detail"] objectForKey:@"XMBH"]];
     [scrollView addSubview:numLab];
 
     UIView *img = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth - 61,ScreenWidth + 15, 1, 50)];
@@ -959,7 +978,7 @@
     serviceLab.textAlignment = NSTextAlignmentCenter;
     serviceLab.textColor = [ConMethods colorWithHexString:@"666666"];
    // serviceLab.text = [NSString stringWithFormat:@"服务费:￥%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]];
-    serviceLab.text = [NSString stringWithFormat:@"服务费:%@",[[dic objectForKey:@"detail"] objectForKey:@"FWF_BL_SRF"]];
+    serviceLab.text = [NSString stringWithFormat:@"服务费:%.2f%@",[[[dic objectForKey:@"detail"] objectForKey:@"FWF_BL_SRF"] floatValue]*100,@"%"];
     [scrollView addSubview:serviceLab];
 
     
@@ -1194,8 +1213,6 @@
     
     }else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"]){
     
-    
-    
     } else {
         if (timerNew.isValid) {
             [timerNew invalidate];
@@ -1228,33 +1245,54 @@
  }
 
 // scrollview滚动的时候调用
- - (void)scrollViewDidScroll:(UIScrollView *)scrollView
+ - (void)scrollViewDidScroll:(UIScrollView *)scrollV
  {
-         NSLog(@"滚动中");
+         NSLog(@"滚动中 %.2f",scrollView.contentOffset.y);
      //    计算页码
      //    页码 = (contentoffset.x + scrollView一半宽度)/scrollView宽度
+     
+     if (scrollV == scrollView) {
+         if (scrollView.contentOffset.y >= 246) {
+             if (summitBackImg) {
+                 [summitBackImg removeFromSuperview];
+                 summitBackImg = nil;
+             }
+             
+         }
+     } else {
+     
          CGFloat scrollviewW =  self.scrollViewImg.frame.size.width;
          CGFloat x = self.scrollViewImg.contentOffset.x;
          int page = (x + scrollviewW / 2) / scrollviewW;
          self.pageControl.currentPage = page;
      _pageControl.frame = CGRectMake(page*ScreenWidth, ScreenWidth - 20, ScreenWidth, 10);
      
-     
+     }
      
 }
 
 // 开始拖拽的时候调用
- - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+ - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollV
 {
     //    关闭定时器(注意点; 定时器一旦被关闭,无法再开启)
      //    [self.timer invalidate];
+    
+    if (scrollV == scrollView) {
+        
+    } else {
         [self removeTimer];
-     }
+    }
+}
 
- - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+ - (void)scrollViewDidEndDragging:(UIScrollView *)scrollV willDecelerate:(BOOL)decelerate
 {
      //    开启定时器
+    if (scrollV == scrollView) {
+        
+    } else {
+    
          [self addTimer];
+    }
 }
 
  /**
@@ -1335,9 +1373,25 @@
     
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[dic objectForKey:@"style"]]) {
        
-        NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"ZGJ"] floatValue]]]);
+        if (timer) {
+            [timer invalidate];
+            timer = nil;
+        }
         
-        newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"ZGJ"] floatValue]]]];
+        
+        if ([[dic objectForKey:@"style"] isEqualToString:@"jpz"]) {
+         
+            updataDic = dic;
+            
+         timeAllAgain = ([[dic objectForKey:@"STAMP"] longLongValue] - [[dic objectForKey:@"fixTakeTime"] longLongValue])/1000;
+        
+        
+         timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+        }
+        
+        NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"ZGJ"] floatValue]]]);
+        
+        newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[dic  objectForKey:@"ZGJ"] floatValue]]]];
         
     } else {
     
@@ -1458,16 +1512,31 @@
 
 #pragma mark - 提交报价按钮弹窗
 -(void)summitBackViewMehtods {
-    summitBackImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 170, ScreenWidth, 170)];
+    summitBackImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 200, ScreenWidth, 200)];
     summitBackImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
     summitBackImg.userInteractionEnabled = YES;
     
-    NSArray *arr = @[@"+100",@"+200",@"+300"];
+   // [[myDic objectForKey:@"detail"] objectForKey:@"JJFD"]
+    
+    //取消按钮
+    UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - 40)/2, 52.5, 40, 25)];
+    // [selectBtn setTitle:@"取消" forState:UIControlStateNormal];
+    
+    [selectBtn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
+    selectBtn.tag = 10002;
+    [selectBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [summitBackImg addSubview:selectBtn];
+    
+    
+    
+    
+    
+    NSArray *arr = @[[NSString stringWithFormat:@"¥%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]],[NSString stringWithFormat:@"¥%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2],[NSString stringWithFormat:@"¥%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3]];
     
     for (int i = 0; i < 3; i++) {
         
     
-    UILabel *starLabel1 = [[UILabel alloc] initWithFrame:CGRectMake((ScreenWidth - 260)/2 + 90*i,50, 80, 30)];
+    UILabel *starLabel1 = [[UILabel alloc] initWithFrame:CGRectMake((ScreenWidth - 260)/2 + 90*i,80, 80, 30)];
     starLabel1.font = [UIFont systemFontOfSize:14];
     starLabel1.text = [arr objectAtIndex:i];
         starLabel1.backgroundColor = [ConMethods colorWithHexString:@"f9f9f9"];
@@ -1492,7 +1561,7 @@
     }
     
     
-    UIView *btnView = [[UIView alloc] initWithFrame:CGRectMake(70, 85, ScreenWidth - 140, 35)];
+    UIView *btnView = [[UIView alloc] initWithFrame:CGRectMake(70, 115, ScreenWidth - 140, 35)];
     btnView.layer.cornerRadius = 4;
     btnView.layer.borderWidth = 1;
     btnView.layer.borderColor = [ConMethods colorWithHexString:@"cbcbcb"].CGColor;
@@ -1543,7 +1612,7 @@
     sureText = [[UITextField alloc] initWithFrame:CGRectMake(40, 0, ScreenWidth - 140 - 80, 35)];
     sureText.backgroundColor = [UIColor whiteColor];
     sureText.placeholder = @"输入转让数量";
-    sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]];
+    sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
     
     sureText.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     sureText.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -1556,7 +1625,7 @@
     
     [summitBackImg addSubview:btnView];
     
-   UIButton *commit = [[UIButton alloc] initWithFrame: CGRectMake(40, 125, ScreenWidth - 80, 35)];
+   UIButton *commit = [[UIButton alloc] initWithFrame: CGRectMake(40, 155, ScreenWidth - 80, 35)];
     
     commit.layer.masksToBounds = YES;
     commit.layer.cornerRadius = 4;
@@ -1574,6 +1643,13 @@
     [self.view addSubview:summitBackImg];
 
 }
+
+-(void)quitMethods:(UIButton *)btn {
+
+    [summitBackImg removeFromSuperview];
+}
+
+
 
 #pragma mark - 提交报价按钮
 
@@ -1748,6 +1824,9 @@
            [summitBackImg removeFromSuperview];
             summitBackImg = nil;
             
+            [self requestMethods];
+            
+            
         } else {
             
             
@@ -1784,13 +1863,13 @@
     
     UILabel *view = (UILabel *)[sender view];
     if (view.tag == 0) {
-        sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]];
+        sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
 
     } else if (view.tag == 1) {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
     
     }else if (view.tag == 2){
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
     
     
     }

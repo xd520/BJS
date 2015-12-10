@@ -68,7 +68,7 @@
     
     image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , 150)];
     image.userInteractionEnabled = YES;
-    image.image = [UIImage imageNamed:@"logo"];
+    //image.image = [UIImage imageNamed:@"logo"];
     
     UIButton *back = [[UIButton alloc] initWithFrame:CGRectMake(0, 22.5, 30, 25)];
    
@@ -95,7 +95,7 @@
     
     searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, ScreenWidth  - 75, 30)];
     searchText.delegate = self;
-    searchText.placeholder = @"搜索标的名称或编号";
+    searchText.placeholder = @"搜索项目名称或编号";
     searchText.textColor = [ConMethods colorWithHexString:@"333333"];
     searchText.font = [UIFont systemFontOfSize:15];
     searchText.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -148,7 +148,7 @@
     dayLabel.textColor = [ConMethods colorWithHexString:@"999999"];
     [backView addSubview:dayLabel];
     
-    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth -160, 60, 150, 14)];
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth -160, 60 - 5, 150, 14)];
     dateLabel.text = [NSString stringWithFormat:@"%@-%@",[strDic objectForKey:@"KSRQ"],[strDic objectForKey:@"JSRQ"]];
     dateLabel.font = [UIFont systemFontOfSize:14];
     dateLabel.textAlignment = NSTextAlignmentRight;
@@ -157,7 +157,7 @@
     [backView addSubview:dateLabel];
     
     
-    UILabel *totalLabel= [[UILabel alloc] initWithFrame:CGRectMake(10, 63, 12, 12)];
+    UILabel *totalLabel= [[UILabel alloc] initWithFrame:CGRectMake(10, 63 - 5, 12, 12)];
     totalLabel.text = @"共";
     totalLabel.font = [UIFont systemFontOfSize:12];
     totalLabel.textColor = [ConMethods colorWithHexString:@"999999"];
@@ -168,12 +168,12 @@
     vuleLabel.text = [NSString stringWithFormat:@"%d",[[strDic objectForKey:@"COUNT_BDS"] intValue]];
     vuleLabel.font = [UIFont systemFontOfSize:15];
     vuleLabel.textColor = [ConMethods colorWithHexString:@"950401"];
-    vuleLabel.frame = CGRectMake( 24, 60, [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 15);
+    vuleLabel.frame = CGRectMake( 24, 60 - 5, [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 15);
     [backView addSubview:vuleLabel];
     
     
     
-    UILabel *labelTip= [[UILabel alloc] initWithFrame:CGRectMake(24 + [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 63, 12*3, 12)];
+    UILabel *labelTip= [[UILabel alloc] initWithFrame:CGRectMake(24 + [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 63 - 5, 12*3, 12)];
     labelTip.text = @"件标物";
     labelTip.font = [UIFont systemFontOfSize:12];
     labelTip.textColor = [ConMethods colorWithHexString:@"999999"];
@@ -188,14 +188,14 @@
     dateLabelMore.text = [NSString stringWithFormat:@"%d",[[strDic objectForKey:@"WGCS"] intValue]];
     dateLabelMore.font = [UIFont systemFontOfSize:15];
     dateLabelMore.textColor = [ConMethods colorWithHexString:@"950401"];
-    dateLabelMore.frame = CGRectMake( labelTip.frame.origin.x + labelTip.frame.size.width, 60, [PublicMethod getStringWidth:dateLabelMore.text font:dateLabelMore.font], 15);
+    dateLabelMore.frame = CGRectMake( labelTip.frame.origin.x + labelTip.frame.size.width, 60 - 5, [PublicMethod getStringWidth:dateLabelMore.text font:dateLabelMore.font], 15);
     
     
     
     [backView addSubview:dateLabelMore];
     
    
-    UILabel *dayLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(dateLabelMore.frame.origin.x + dateLabelMore.frame.size.width, 63,36, 12)];
+    UILabel *dayLabelMore = [[UILabel alloc] initWithFrame:CGRectMake(dateLabelMore.frame.origin.x + dateLabelMore.frame.size.width, 63 - 5,36, 12)];
     dayLabelMore.text = @"次围观";
     dayLabelMore.font = [UIFont systemFontOfSize:12];
     dayLabelMore.textColor = [ConMethods colorWithHexString:@"999999"];

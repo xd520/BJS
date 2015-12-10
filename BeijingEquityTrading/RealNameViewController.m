@@ -78,7 +78,7 @@
     
     [self.cityView addGestureRecognizer:singleTap];
     
-    [self requestCodeData];
+   // [self requestCodeData];
     
 }
 
@@ -188,6 +188,11 @@
 
 -(void) requestData {
     
+    
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在认证..." MBProgressHUD:nil target:self.navigationController.view displayInterval:2.0];
+    
+    
+    
     NSString *str = [[Base64XD encodeBase64String:_password] strBase64];
     
     
@@ -211,7 +216,18 @@
                                               target:self.navigationController.view
                                      displayInterval:3];
             
-            [self.navigationController popViewControllerAnimated:YES];
+            
+           NSMutableArray * array =[[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
+             UIViewController *vc = [array objectAtIndex:array.count-2];
+            
+            
+            if ([vc.nibName isEqualToString:@"FirstRealNameViewController"]) {
+                [array removeObjectAtIndex:array.count-1];
+                [array removeObjectAtIndex:array.count-1];
+                [self.navigationController setViewControllers:array];
+            }
+            
+            //[self.navigationController popViewControllerAnimated:YES];
             
         } else {
             

@@ -74,7 +74,7 @@
     _passwordAgain.clearButtonMode = UITextFieldViewModeWhileEditing;
     
     
-    [self requestCodeData];
+    //[self requestCodeData];
     
     
 }

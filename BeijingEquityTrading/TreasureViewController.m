@@ -75,7 +75,7 @@
     NSMutableArray *arrLittle;
     NSMutableArray *arrMoney;
     
-    
+    NSRunLoop *myLoop;
     
 }
 
@@ -104,7 +104,7 @@
     endTime = @"0";
     price = @"0";
     
-    
+    [self enumerateFonts];
     
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
@@ -137,7 +137,7 @@
     
     searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 2.5, ScreenWidth - 10 - 30, 25)];
     searchText.delegate = self;
-    searchText.placeholder = @"搜索标的名称或编号";
+    searchText.placeholder = @"搜索项目名称或编号";
     searchText.textColor = [ConMethods colorWithHexString:@"333333"];
     searchText.font = [UIFont systemFontOfSize:15];
     searchText.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -1143,7 +1143,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
     //[tableView setScrollEnabled:NO]; tableView 不能滑动
     static NSString *RepairCellIdentifier = @"RepairCellIdentifier";
     UITableViewCell *cell;
-    cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+    
     
     if ([dataList count] == 0 ) {
         cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
@@ -1166,9 +1166,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
         
     } else{
         
-        //static NSString *ReCellIdentifier = @"cell";
-        
-        // cell = [tbleView dequeueReusableCellWithIdentifier:ReCellIdentifier];
+        cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
         
         if (cell == nil) {
             
@@ -1358,7 +1356,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             
             [cell.contentView addSubview:backView];
         }
-        
+      return cell;
     }
     
     return cell;
@@ -1385,6 +1383,17 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [self.navigationController pushViewController:vc animated:YES];
     
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+- (void)enumerateFonts{
+    for(NSString *familyName in [UIFont familyNames]){
+        NSLog(@"Font FamilyName = %@",familyName); //*输出字体族科名字
+        
+        for(NSString *fontName in [UIFont fontNamesForFamilyName:familyName]){
+            NSLog(@"\t%@",fontName);         //*输出字体族科下字样名字
+        }
+    }
 }
 
 
@@ -1425,7 +1434,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
     
     // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+    //[myLoop run];
+    [myLoop addTimer:timer forMode:NSRunLoopCommonModes];
+    
 }
 
 
@@ -1496,11 +1507,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
+            //[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+            
+            [timer invalidate];
+            
+            [myLoop cancelPerformSelector:@selector(refreshLessTime) target:timer argument:nil];
+            [myLoop cancelPerformSelectorsWithTarget:self];
+            myLoop = nil;
+            
+            
+            [totalLastTime removeAllObjects];
+            
             [dataList removeAllObjects];
-            
-            NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:[[NSBundle mainBundle] loadNibNamed:@"MoreTableViewCell" owner:self options:nil]];
-            [arr removeAllObjects];
-            
         }
         
     }
@@ -1512,7 +1530,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         dataList = [dataArray mutableCopy];
     }
     
-    
+   myLoop = [NSRunLoop currentRunLoop];
     
     if ([dataArray count] < 10) {
         hasMore = NO;
@@ -1527,6 +1545,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         }
     } else {
         [_refreshFooter removeFromSuperview];
+        _refreshFooter = nil;
+        
     }
     
     [table reloadData];
@@ -1587,11 +1607,79 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)dealloc {
+    [totalLastTime removeAllObjects];
+    totalLastTime = nil;
+    [timer invalidate];
+    timer = nil;
+    
+    table.delegate = nil;
+    table.dataSource = nil;
+    [table removeFromSuperview];
+    table = nil;
+    [dataList removeAllObjects];
+    dataList = nil;
+    
+    [moreCell removeFromSuperview];
+    moreCell = nil;
+    searchText.delegate = nil;
+    [searchText removeFromSuperview];
+    searchText = nil;
+    
+    
+    [lab1 removeFromSuperview];
+    lab1 = nil;
+    [lab2 removeFromSuperview];
+    lab2 = nil;
+    [lab3 removeFromSuperview];
+    lab3 = nil;
+    [lab4 removeFromSuperview];
+    lab4 = nil;
+    
+    
+    [MyView removeFromSuperview];
+    MyView = nil;
+    [backscrollView removeFromSuperview];
+    backscrollView = nil;
+    
+    [bigClassList removeAllObjects];
+    bigClassList = nil;
+    [littleClassList removeAllObjects];
+    littleClassList = nil;
+    
+    [bigView removeFromSuperview];
+    bigView = nil;
+   [littleView removeFromSuperview];
+    littleView = nil;
+    [moneyView removeFromSuperview];
+    moneyView = nil;
+    [moneyHide removeFromSuperview];
+    moneyHide = nil;
+   
+    
+    [lineViewLit removeFromSuperview];
+    lineViewLit = nil;
+    [lineViewBig removeFromSuperview];
+    lineViewBig = nil;
+    [selectlitBtn removeFromSuperview];
+    selectlitBtn = nil;
+    
+    //数组存按钮
+    [arrBig removeAllObjects];
+    arrBig = nil;
+    [arrLittle removeAllObjects];
+    arrLittle = nil;
+    [arrMoney removeAllObjects];
+    arrMoney = nil;
+    
+
+}
+
 
 
 @end

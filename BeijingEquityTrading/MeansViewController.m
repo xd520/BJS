@@ -19,6 +19,9 @@
     UILabel *realName;
     UIImageView *headView;
     
+    
+    NSDictionary *myDic;
+    
 }
 
 @end
@@ -42,7 +45,14 @@
     lineView1.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
     [self.view addSubview:lineView1];
     
+    
+    [self requestData];
+    
     arrTitle = @[@"头像",@"用户名",@"手机号",@"邮箱地址",@"真实姓名",@"身份证号码"];
+}
+
+
+-(void) initData{
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth,ScreenHeight - 65)];
     [table setDelegate:self];
     [table setDataSource:self];
@@ -53,9 +63,66 @@
     table.bounces = NO;
     
     [self.view addSubview:table];
+
+}
+
+
+
+-(void) requestData {
+    
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpwdManageappappIndex] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"加载完成"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            myDic = [responseObject objectForKey:@"object"];
+            [self initData];
+        } else {
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
     
     
 }
+
+
+
 
 #pragma mark - UITableView DataSource Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -118,13 +185,38 @@
                 [backView setBackgroundColor:[ConMethods colorWithHexString:@"fafafa"]];
                 //品牌
                 
-                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 120, 39)];
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 120, 39)];
                 brandLabel.backgroundColor = [UIColor clearColor];
                 brandLabel.font = [UIFont boldSystemFontOfSize:15];
                 [brandLabel setTextColor:[ConMethods colorWithHexString:@"646464"]];
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
                 brandLabel.text = [arrTitle objectAtIndex:indexPath.row];
                 [backView addSubview:brandLabel];
+                
+                
+                UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 0, ScreenWidth - 130, 39)];
+                endLabel.backgroundColor = [UIColor clearColor];
+                endLabel.font = [UIFont boldSystemFontOfSize:15];
+                [endLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                endLabel.textAlignment = NSTextAlignmentRight;
+                [endLabel setBackgroundColor:[UIColor clearColor]];
+                
+                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+               
+                if (indexPath.row == 1) {
+                    endLabel.text =  [[delegate.loginUser objectForKey:@"object"] objectForKey:@"username"];
+                } else if (indexPath.row == 2) {
+                    endLabel.text =  [myDic objectForKey:@"mobilePhone"];
+                } else if (indexPath.row == 3) {
+                   
+                    endLabel.text =  [myDic objectForKey:@"email"];
+                
+                }
+                
+                [backView addSubview:endLabel];
+                
+                
+                
                 [cell.contentView addSubview:backView];
             }
             
@@ -139,19 +231,44 @@
         [backView setBackgroundColor:[ConMethods colorWithHexString:@"fafafa"]];
         //品牌
         
-        UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 120, 39)];
+        UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 120, 39)];
         brandLabel.backgroundColor = [UIColor clearColor];
         brandLabel.font = [UIFont boldSystemFontOfSize:15];
         [brandLabel setTextColor:[ConMethods colorWithHexString:@"646464"]];
         [brandLabel setBackgroundColor:[UIColor clearColor]];
         brandLabel.text = [arrTitle objectAtIndex:indexPath.row + 4];
         [backView addSubview:brandLabel];
+        
+        UILabel *endLabel = [[UILabel alloc] initWithFrame:CGRectMake(115, 0, ScreenWidth - 125, 39)];
+        endLabel.backgroundColor = [UIColor clearColor];
+        endLabel.font = [UIFont boldSystemFontOfSize:15];
+        [endLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+        endLabel.textAlignment = NSTextAlignmentRight;
+        [endLabel setBackgroundColor:[UIColor clearColor]];
+        if (myDic.count > 0) {
+            if (indexPath.row == 0) {
+                endLabel.text = [myDic objectForKey:@"name"];
+            } else {
+            
+            endLabel.text = [myDic objectForKey:@"zjbh"];
+            }
+            
+        }
+       
+        [backView addSubview:endLabel];
+        
+ 
+        
+        
         [cell.contentView addSubview:backView];
     }
+        
     
     }
   
-     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (indexPath.row == 0&&indexPath.section == 0) {
+       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     
     return cell;
 }
@@ -478,7 +595,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     view.backgroundColor = [UIColor clearColor];
         
         realName = [[UILabel alloc] initWithFrame:CGRectMake(10, 5.5, ScreenWidth - 20, 24)];
+        if ([[myDic objectForKey:@"isSetCert"] boolValue]) {
+           realName.text = @"实名认证（已认证）";
+        } else {
+        
         realName.text = @"实名认证（未实名认证）";
+        }
         realName.textColor = [ConMethods colorWithHexString:@"999999"];
         realName.font = [UIFont systemFontOfSize:14];
         [view addSubview:realName];
