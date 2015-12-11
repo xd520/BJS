@@ -589,7 +589,7 @@
                 markLab.text = @"报价";
                 markLab.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
                 markLab.textColor = [UIColor whiteColor];
-                [self startTimer];
+                [self startThread];
                 dateLabelMore.textColor = [ConMethods colorWithHexString:@"bd0100"];
                 dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"bd0100"].CGColor;
                 
@@ -754,6 +754,28 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 //开启定时器方法：
+
+-(void)startThread
+{
+    
+    [self performSelectorInBackground:@selector(startTimer) withObject:nil];
+    
+}
+
+
+//开启定时器方法：
+- (void)startTimer
+{
+    
+    if (timer == nil) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+        [[NSRunLoop currentRunLoop] run];
+    }
+}
+
+
+/*
 - (void)startTimer
 {
     
@@ -764,7 +786,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
     }
 }
-
+*/
 
 
 - (void)refreshLessTime

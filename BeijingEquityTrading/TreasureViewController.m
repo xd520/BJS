@@ -1497,18 +1497,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 
 
-
-
-
-- (IBAction)callPhone:(UITouch *)sender
-{
-    
-    UIView *view = [sender view];
-}
-
-
-
-
 //处理品牌列表
 - (void)recivedCategoryList:(NSMutableArray *)dataArray
 {

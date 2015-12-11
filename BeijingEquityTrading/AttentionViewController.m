@@ -295,7 +295,7 @@
             backView.layer.masksToBounds = YES;
             
             //品牌
-            UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake((ScreenWidth - 200)/2, 0, 180, 30)];
+            UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, ScreenWidth - 50 - 70, 30)];
             brandLabel.font = [UIFont systemFontOfSize:12];
             [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
             [brandLabel setBackgroundColor:[UIColor clearColor]];
@@ -308,7 +308,7 @@
                 brandLabel.tag = indexPath.row + 1000;
                 NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime":[[dataList objectAtIndex:indexPath.row] objectForKey:@"djs"]};
                 [totalLastTime addObject:dic];
-                [self startTimer];
+                [self startThread];
                 
                 
             // brandLabel.text = [NSString stringWithFormat:@"剩余时间：%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"djs"]];
@@ -515,13 +515,32 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 
 #pragma mark - 开启定时器倒计时方法
+
+
+
+
+
+//开启定时器方法：
+
+-(void)startThread
+{
+    
+    [self performSelectorInBackground:@selector(startTimer) withObject:nil];
+    
+}
+
+
+//开启定时器方法：
 - (void)startTimer
 {
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
     
-    // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+    if (timer == nil) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+        [[NSRunLoop currentRunLoop] run];
+    }
 }
+
 
 
 
@@ -555,9 +574,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     int minCount = hourCount%60;
     int min = (hourCount - minCount)/60;
-    // int miao = minCount;
+     int miao = minCount;
     
-    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟",day,hour,min];
+    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
     return time;
     
 }
