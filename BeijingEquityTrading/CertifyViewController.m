@@ -91,13 +91,13 @@
         NSLog(@"JSON: %@", responseObject);
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             
-            
+            /*
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"加载完成"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
-            
+            */
             myDic = [responseObject objectForKey:@"object"];
             
             if ([[[responseObject objectForKey:@"object"] objectForKey:@"isSetCert"] boolValue]) {

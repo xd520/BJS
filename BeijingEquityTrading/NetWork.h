@@ -14,7 +14,7 @@
 #define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
 
 //北交所
-//#define SERVERURL @"http://192.168.1.84:8089"
+#define SERVERURL @"http://192.168.1.84:8089"
 
 
 //小乔通道
@@ -31,7 +31,7 @@
 //北交所客户外网1
 //#define SERVERURL @"http://111.205.25.78:8071"
 //北交所客户外网2
-#define SERVERURL @"http://202.96.1.30"
+//#define SERVERURL @"http://202.96.1.30"
 //银联外网地址
 //#define SERVERURL @"http://202.96.1.21"
 

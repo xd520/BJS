@@ -756,10 +756,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 //开启定时器方法：
 - (void)startTimer
 {
+    
+    if (timer == nil) {
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
     
     // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+    }
 }
 
 

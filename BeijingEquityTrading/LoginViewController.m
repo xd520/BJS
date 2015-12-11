@@ -70,10 +70,6 @@
     _loginBtn.layer.masksToBounds = YES;
     
     
-   // [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
-    
-   // [self.navigationController setNavigationBarHidden:YES];
-   
     
     UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, +  39.5, ScreenWidth - 20,1)];
      lineView1.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
@@ -226,7 +222,7 @@
     
     
     
-    CGRect frame = textField.frame;
+    CGRect frame = _allView.frame;
     int offset = frame.origin.y + 76 - (self.view.frame.size.height - 256.0);//键盘高度216
     //动画
     /*

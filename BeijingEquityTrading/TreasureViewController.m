@@ -75,7 +75,7 @@
     NSMutableArray *arrLittle;
     NSMutableArray *arrMoney;
     
-    NSRunLoop *myLoop;
+    //NSRunLoop *myLoop;
     
 }
 
@@ -135,7 +135,7 @@
    
     
     
-    searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 2.5, ScreenWidth - 10 - 30, 25)];
+    searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 2.5, ScreenWidth - 20 - 30, 25)];
     searchText.delegate = self;
     searchText.placeholder = @"搜索项目名称或编号";
     searchText.textColor = [ConMethods colorWithHexString:@"333333"];
@@ -265,7 +265,6 @@
     
     
     [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
-    
     
     [self setupHeader];
     [self setupFooter];
@@ -1017,6 +1016,8 @@
             
         [MyView removeFromSuperview];
             
+        start = @"1";
+            
         [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
         
         }
@@ -1071,12 +1072,6 @@
         
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
-            
-            [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"加载完成"
-                                       MBProgressHUD:nil
-                                              target:self.view
-                                     displayInterval:3];
             
             [self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"prjList"] objectForKey:@"object"]];
             
@@ -1278,9 +1273,14 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             
             if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]) {
                 
+                
                 timeYuLab.tag = indexPath.row + 1000;
                 NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [[dataList objectAtIndex:indexPath.row] objectForKey:@"djs"]};
                 [totalLastTime addObject:dic];
+                
+                
+             // timeYuLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:(int)[[[dataList objectAtIndex:indexPath.row] objectForKey:@"djs"] longLongValue]]];
+                
                 
             }
             
@@ -1318,7 +1318,9 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
                 markLab.text = @"报价";
                 markLab.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
                 markLab.textColor = [UIColor whiteColor];
-                [self startTimer];
+                [self startThread];
+                
+                
                 dateLabelMore.textColor = [ConMethods colorWithHexString:@"bd0100"];
                 dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"bd0100"].CGColor;
                 
@@ -1427,16 +1429,23 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 
 
+-(void)startThread
+{
+    
+    [self performSelectorInBackground:@selector(startTimer) withObject:nil];
+    
+}
+
 
 //开启定时器方法：
 - (void)startTimer
 {
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
     
-    // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
-    //[myLoop run];
-    [myLoop addTimer:timer forMode:NSRunLoopCommonModes];
-    
+    if (timer == nil) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+        [[NSRunLoop currentRunLoop] run];
+    }
 }
 
 
@@ -1471,9 +1480,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     int minCount = hourCount%60;
     int min = (hourCount - minCount)/60;
-    // int miao = minCount;
+     int miao = minCount;
     
-    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟",day,hour,min];
+    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
     return time;
     
 }
@@ -1507,16 +1516,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
-            //[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
             
-            [timer invalidate];
-            
-            [myLoop cancelPerformSelector:@selector(refreshLessTime) target:timer argument:nil];
-            [myLoop cancelPerformSelectorsWithTarget:self];
-            myLoop = nil;
-            
-            
-            [totalLastTime removeAllObjects];
+           // [totalLastTime removeAllObjects];
             
             [dataList removeAllObjects];
         }
@@ -1530,7 +1531,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         dataList = [dataArray mutableCopy];
     }
     
-   myLoop = [NSRunLoop currentRunLoop];
     
     if ([dataArray count] < 10) {
         hasMore = NO;
@@ -1551,6 +1551,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     [table reloadData];
     
+    
+  // [self performSelectorInBackground:@selector(startTimer) withObject:nil];
+    
 }
 
 
@@ -1570,6 +1573,17 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             start = @"1";
+            bddlStr = @"";
+            bdxlStr = @"";
+            downStr = @"";
+            upStr = @"";
+            endTime = @"0";
+            price = @"0";
+            
+            lab2.textColor = [ConMethods colorWithHexString:@"999999"];
+            lab3.textColor = [ConMethods colorWithHexString:@"999999"];
+            lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
+            
            
             [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
             [weakRefreshHeader endRefreshing];

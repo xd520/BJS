@@ -68,7 +68,13 @@
  {
  for (int i = 0; i < self.tabBar.items.count && i < images.count; ++i) {
      UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:i];
+      if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
+     
  tabBarItem.image = [[images objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+      }else {
+      
+          tabBarItem.image = [images objectAtIndex:i];
+      }
  }
  }
 
@@ -82,8 +88,17 @@
 {
     for (int i = 0; i < selectedImages.count; ++i) {
         UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:i];
+        
+        if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
+        
         tabBarItem.selectedImage = [[selectedImages objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-       
+        } else {
+           // tabBarItem.selectedImage = [[selectedImages objectAtIndex:i] imageWithAlignmentRectInsets:dgeInsetsMake(5, 5, 5, 5)];
+            tabBarItem.selectedImage = [selectedImages objectAtIndex:i];
+            
+            
+        
+        }
     }
 }
 

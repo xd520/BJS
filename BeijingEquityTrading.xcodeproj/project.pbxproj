@@ -224,7 +224,7 @@
 		045A59121BFC162E00771AE0 /* MoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreTableViewCell.xib; sourceTree = "<group>"; };
 		045A59171BFC2EB000771AE0 /* ListData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListData.h; sourceTree = "<group>"; };
 		045A59181BFC2EB000771AE0 /* ListData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListData.m; sourceTree = "<group>"; };
-		047105F81BCB670600F558FF /* 北交所.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "北交所.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		047105F81BCB670600F558FF /* 北交互联.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "北交互联.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		047105FC1BCB670700F558FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		047105FE1BCB670700F558FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		047105FF1BCB670700F558FF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -539,7 +539,7 @@
 		047105F91BCB670600F558FF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				047105F81BCB670600F558FF /* 北交所.app */,
+				047105F81BCB670600F558FF /* 北交互联.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -669,7 +669,7 @@
 			);
 			name = BeijingEquityTrading;
 			productName = BeijingEquityTrading;
-			productReference = 047105F81BCB670600F558FF /* 北交所.app */;
+			productReference = 047105F81BCB670600F558FF /* 北交互联.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -916,13 +916,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
-				PRODUCT_NAME = "北交所";
-				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
+				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
+				PRODUCT_NAME = "北交互联";
+				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -932,13 +932,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
-				PRODUCT_NAME = "北交所";
-				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
+				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
+				PRODUCT_NAME = "北交互联";
+				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

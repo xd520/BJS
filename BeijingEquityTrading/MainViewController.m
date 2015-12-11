@@ -364,7 +364,7 @@
             backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                 [backView addSubview:image];
                 
                 //品牌
@@ -534,7 +534,7 @@
                         backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
                         
                         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
-                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backView addSubview:image];
                         
                         //品牌
@@ -1100,7 +1100,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 //请求数据方法
 -(void)requestMethods {
-    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+   // [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
     NSDictionary *parameters = @{};
     
@@ -1117,13 +1117,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         if ([[responseObject objectForKey:@"success"] boolValue]){
             NSLog(@"JSON: %@", responseObject);
             
-            
+            /*
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"加载完成"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
-           
+           */
             [self recivedCategoryList:[responseObject objectForKey:@"object"]];
             
         } else {

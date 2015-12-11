@@ -370,9 +370,14 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 -(void) requestData:(NSString *)str {
     
     NSLog(@"start = %@",start);
+    //ios 6
+     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setObject:start forKey:@"pageNo"];
+    [parameters setObject:limit forKey:@"pageSize"];
+    [parameters setObject:str forKey:@"search"];
     
-    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"search":str};
-    
+   // NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"search":str};
+   // NSDictionary *parameters = @{};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
@@ -384,12 +389,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
-            
-            [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"加载完成"
-                                       MBProgressHUD:nil
-                                              target:self.view
-                                     displayInterval:3];
             
             [self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"zcPageResult"] objectForKey:@"object"]];
             

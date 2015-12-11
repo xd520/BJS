@@ -705,7 +705,12 @@
     qiLab.font = [UIFont systemFontOfSize:13];
     qiLab.backgroundColor = [UIColor clearColor];
     qiLab.textColor = [ConMethods colorWithHexString:@"c8c8ca"];
+    
+    if ([[dic objectForKey:@"zcxx"] objectForKey:@"ZCQH"] == [NSNull null]) {
+       qiLab.text =@"";
+    }else {
     qiLab.text = [[dic objectForKey:@"zcxx"] objectForKey:@"ZCQH"];
+    }
     [scrollView addSubview:qiLab];
     
  //标的编号
@@ -1643,6 +1648,55 @@
     [self.view addSubview:summitBackImg];
 
 }
+
+#pragma mark-文本框代理方法
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+    
+    
+    CGRect frame = summitBackImg.frame;
+    int offset = frame.origin.y + 76 - (self.view.frame.size.height - 256.0);//键盘高度216
+    //动画
+    /*
+     NSTimeInterval animationDuration = 0.3f;
+     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+     [UIView setAnimationDuration:animationDuration];
+     */
+    //将视图的Y坐标向上移动offset个单位，以使下面腾出地方用于软键盘的显示
+    if(offset > 0)
+        self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
+    // stutas = YES;
+    //[[UIApplication sharedApplication] setStatusBarHidden:YES];
+    // [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    //[[UIApplication sharedApplication]setStatusBarHidden:YES animated:YES];
+    [UIView commitAnimations];
+    
+    
+}
+
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    //    if (IOS_VERSION_7_OR_ABOVE) {
+    //        self.view.frame =CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
+    //    }else{
+    // [[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+    self.view.frame =CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    
+    
+    //    }
+}
+
+
+#pragma mark - 消除键盘
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)even{
+    [self.view endEditing:YES];
+}
+
+
+
 
 -(void)quitMethods:(UIButton *)btn {
 
