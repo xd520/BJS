@@ -81,6 +81,9 @@
 		04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40691BFDBE8900548EBA /* WebDetailViewController.xib */; };
 		04BC40731BFDC39700548EBA /* ProviousViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40711BFDC39700548EBA /* ProviousViewController.m */; };
 		04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40721BFDC39700548EBA /* ProviousViewController.xib */; };
+		A1425C141C1E7AAA0047270A /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1425C131C1E7AA90047270A /* libicucore.tbd */; };
+		A15CB2121C1EBC0000FEBB4C /* PayForViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A15CB2101C1EBC0000FEBB4C /* PayForViewController.m */; };
+		A15CB2131C1EBC0000FEBB4C /* PayForViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A15CB2111C1EBC0000FEBB4C /* PayForViewController.xib */; };
 		A199AA1C1C07E0B9002839CB /* PropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA0B1C07E0B9002839CB /* PropertyViewController.m */; };
 		A199AA1D1C07E0B9002839CB /* PropertyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA0C1C07E0B9002839CB /* PropertyViewController.xib */; };
 		A199AA1E1C07E0B9002839CB /* TradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA0E1C07E0B9002839CB /* TradeViewController.m */; };
@@ -93,6 +96,10 @@
 		A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA181C07E0B9002839CB /* MeansViewController.xib */; };
 		A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA1A1C07E0B9002839CB /* NewsViewController.m */; };
 		A199AA271C07E0B9002839CB /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA1B1C07E0B9002839CB /* NewsViewController.xib */; };
+		A1BD22531C1E5AEB00D17285 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BD22521C1E5AEB00D17285 /* Foundation.framework */; };
+		A1BD22551C1E5AF200D17285 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BD22541C1E5AF200D17285 /* CFNetwork.framework */; };
+		A1BD22571C1E5AFA00D17285 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BD22561C1E5AFA00D17285 /* Security.framework */; };
+		A1BD22991C1E6B6300D17285 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD22981C1E6B6300D17285 /* SRWebSocket.m */; };
 		A1F02FA31C12B5B800D6DB5A /* PhoneNumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F02FA11C12B5B800D6DB5A /* PhoneNumViewController.m */; };
 		A1F02FA41C12B5B800D6DB5A /* PhoneNumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F02FA21C12B5B800D6DB5A /* PhoneNumViewController.xib */; };
 		A1F02FA81C12B69400D6DB5A /* RealNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F02FA61C12B69400D6DB5A /* RealNameViewController.m */; };
@@ -251,6 +258,10 @@
 		04BC40701BFDC39700548EBA /* ProviousViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviousViewController.h; sourceTree = "<group>"; };
 		04BC40711BFDC39700548EBA /* ProviousViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviousViewController.m; sourceTree = "<group>"; };
 		04BC40721BFDC39700548EBA /* ProviousViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProviousViewController.xib; sourceTree = "<group>"; };
+		A1425C131C1E7AA90047270A /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		A15CB20F1C1EBC0000FEBB4C /* PayForViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForViewController.h; sourceTree = "<group>"; };
+		A15CB2101C1EBC0000FEBB4C /* PayForViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForViewController.m; sourceTree = "<group>"; };
+		A15CB2111C1EBC0000FEBB4C /* PayForViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PayForViewController.xib; sourceTree = "<group>"; };
 		A199AA0A1C07E0B9002839CB /* PropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyViewController.h; sourceTree = "<group>"; };
 		A199AA0B1C07E0B9002839CB /* PropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyViewController.m; sourceTree = "<group>"; };
 		A199AA0C1C07E0B9002839CB /* PropertyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PropertyViewController.xib; sourceTree = "<group>"; };
@@ -269,6 +280,11 @@
 		A199AA191C07E0B9002839CB /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		A199AA1A1C07E0B9002839CB /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		A199AA1B1C07E0B9002839CB /* NewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
+		A1BD22521C1E5AEB00D17285 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A1BD22541C1E5AF200D17285 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		A1BD22561C1E5AFA00D17285 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A1BD22971C1E6B6300D17285 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
+		A1BD22981C1E6B6300D17285 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
 		A1F02FA01C12B5B800D6DB5A /* PhoneNumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumViewController.h; sourceTree = "<group>"; };
 		A1F02FA11C12B5B800D6DB5A /* PhoneNumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumViewController.m; sourceTree = "<group>"; };
 		A1F02FA21C12B5B800D6DB5A /* PhoneNumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneNumViewController.xib; sourceTree = "<group>"; };
@@ -304,6 +320,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1425C141C1E7AAA0047270A /* libicucore.tbd in Frameworks */,
+				A1BD22571C1E5AFA00D17285 /* Security.framework in Frameworks */,
+				A1BD22551C1E5AF200D17285 /* CFNetwork.framework in Frameworks */,
+				A1BD22531C1E5AEB00D17285 /* Foundation.framework in Frameworks */,
 				042968E81BCF797700975279 /* AddressBook.framework in Frameworks */,
 				042968E61BCF796D00975279 /* CoreTelephony.framework in Frameworks */,
 			);
@@ -455,6 +475,7 @@
 		042A56931BF30CD2006032C5 /* 详情界面 */ = {
 			isa = PBXGroup;
 			children = (
+				A1BD224E1C1E5A5300D17285 /* WebSocket */,
 				042A56941BF30CF9006032C5 /* DetailViewController.h */,
 				042A56951BF30CF9006032C5 /* DetailViewController.m */,
 				042A56961BF30CF9006032C5 /* DetailViewController.xib */,
@@ -529,6 +550,10 @@
 		047105EF1BCB670600F558FF = {
 			isa = PBXGroup;
 			children = (
+				A1425C131C1E7AA90047270A /* libicucore.tbd */,
+				A1BD22561C1E5AFA00D17285 /* Security.framework */,
+				A1BD22541C1E5AF200D17285 /* CFNetwork.framework */,
+				A1BD22521C1E5AEB00D17285 /* Foundation.framework */,
 				042968E71BCF797700975279 /* AddressBook.framework */,
 				042968E51BCF796D00975279 /* CoreTelephony.framework */,
 				047105FA1BCB670700F558FF /* BeijingEquityTrading */,
@@ -587,9 +612,20 @@
 			name = "资讯界面";
 			sourceTree = "<group>";
 		};
+		A15CB20E1C1EBBCB00FEBB4C /* 付款界面 */ = {
+			isa = PBXGroup;
+			children = (
+				A15CB20F1C1EBC0000FEBB4C /* PayForViewController.h */,
+				A15CB2101C1EBC0000FEBB4C /* PayForViewController.m */,
+				A15CB2111C1EBC0000FEBB4C /* PayForViewController.xib */,
+			);
+			name = "付款界面";
+			sourceTree = "<group>";
+		};
 		A199AA091C07E096002839CB /* 账户中心 */ = {
 			isa = PBXGroup;
 			children = (
+				A15CB20E1C1EBBCB00FEBB4C /* 付款界面 */,
 				A1F1F6FB1C155A1000229183 /* 三级界面 */,
 				A1F69D2B1C116FDE0095F66C /* 二级界面 */,
 				A199AA0A1C07E0B9002839CB /* PropertyViewController.h */,
@@ -615,6 +651,15 @@
 				A1F14AD21C16A685003D4923 /* BackMoneyViewController.xib */,
 			);
 			name = "账户中心";
+			sourceTree = "<group>";
+		};
+		A1BD224E1C1E5A5300D17285 /* WebSocket */ = {
+			isa = PBXGroup;
+			children = (
+				A1BD22971C1E6B6300D17285 /* SRWebSocket.h */,
+				A1BD22981C1E6B6300D17285 /* SRWebSocket.m */,
+			);
+			name = WebSocket;
 			sourceTree = "<group>";
 		};
 		A1F1F6FB1C155A1000229183 /* 三级界面 */ = {
@@ -715,6 +760,7 @@
 				042969221BCF811900975279 /* MyViewController.xib in Resources */,
 				043E3E601BF9B09100FF5AAE /* MarkViewController.xib in Resources */,
 				044B54AC1BD9E74D00CC4CC5 /* LoginViewController.xib in Resources */,
+				A15CB2131C1EBC0000FEBB4C /* PayForViewController.xib in Resources */,
 				042A56981BF30CF9006032C5 /* DetailViewController.xib in Resources */,
 				043E446E1C06F309007CC3C4 /* MarkListViewController.xib in Resources */,
 				047106081BCB670700F558FF /* Assets.xcassets in Resources */,
@@ -770,6 +816,7 @@
 				A1F02FAD1C12BA8500D6DB5A /* FirstRealNameViewController.m in Sources */,
 				042968DF1BCF792800975279 /* CircleObject.m in Sources */,
 				042A56971BF30CF9006032C5 /* DetailViewController.m in Sources */,
+				A15CB2121C1EBC0000FEBB4C /* PayForViewController.m in Sources */,
 				042968E41BCF792800975279 /* UIKit+custom_.mm in Sources */,
 				04041EB91BF18EB3009C6D2B /* UIAlertView+AFNetworking.m in Sources */,
 				04041EBE1BF18EB3009C6D2B /* UIWebView+AFNetworking.m in Sources */,
@@ -795,6 +842,7 @@
 				A199AA201C07E0B9002839CB /* AttentionViewController.m in Sources */,
 				A1F69D321C116FFF0095F66C /* ChangeLoginPWViewController.m in Sources */,
 				04041EA31BF18EA4009C6D2B /* AFURLResponseSerialization.m in Sources */,
+				A1BD22991C1E6B6300D17285 /* SRWebSocket.m in Sources */,
 				045A59191BFC2EB100771AE0 /* ListData.m in Sources */,
 				A199AA241C07E0B9002839CB /* MeansViewController.m in Sources */,
 				A199AA221C07E0B9002839CB /* CertifyViewController.m in Sources */,
@@ -916,10 +964,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BeijingEquityTrading",
+					"\"$(SRCROOT)/BeijingEquityTrading/libSocketRocket.a\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
 				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
@@ -932,10 +987,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BeijingEquityTrading",
+					"\"$(SRCROOT)/BeijingEquityTrading/libSocketRocket.a\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
 				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";

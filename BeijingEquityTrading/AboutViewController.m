@@ -43,10 +43,16 @@
      addHight = 0;
     }
     
-    for (int i = 0; i < 3; i++) {
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 263 +addHight + 40*i, ScreenWidth, 1)];
-        lineView.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
-        //[self.view addSubview:lineView];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 1)];
+    lineView.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
+    [self.view addSubview:lineView];
+    
+    
+    for (int i = 0; i < 4; i++) {
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 209 +addHight + 40*i, ScreenWidth, 1)];
+        lineView.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
+        [self.view addSubview:lineView];
     }
     
     _imgView.frame = CGRectMake((ScreenWidth - 80)/2, 84, 80, 80);
@@ -70,7 +76,7 @@
     
     _logoutBtn.layer.cornerRadius = 4;
     _logoutBtn.layer.masksToBounds = YES;
-    _logoutBtn.layer.borderColor = [ConMethods colorWithHexString:@"eeeeee"].CGColor;
+    _logoutBtn.layer.borderColor = [ConMethods colorWithHexString:@"dedede"].CGColor;
     _logoutBtn.layer.borderWidth = 1;
     
 }

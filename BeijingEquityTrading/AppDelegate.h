@@ -19,7 +19,9 @@
 
 
 @class CPVTabViewController;
-@interface AppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>{
+    UIBackgroundTaskIdentifier bgTask;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic)CPVTabViewController *tabBarController;

@@ -12,6 +12,7 @@
 #import "DetailViewController.h"
 #import "MarkViewController.h"
 #import "ProviousViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface MainViewController ()
 {
@@ -25,6 +26,7 @@
     NSMutableArray *dataListPast;
     
     NSString *str;
+    UIImageView *imageViewHead;
     
 }
 @end
@@ -192,10 +194,10 @@
             [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
             //图标
             UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
-            [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
+            [iconImageView setImage:[UIImage imageNamed:@"wifi"]];
             [backView addSubview:iconImageView];
             //提示
-            UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
+            UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 10, ScreenWidth, 15)];
             [tipLabel setFont:[UIFont systemFontOfSize:15]];
             [tipLabel setTextAlignment:NSTextAlignmentCenter];
             [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
@@ -204,9 +206,15 @@
             [backView addSubview:tipLabel];
             
             
-            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - 100)/2, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27 + 25, 100, 30)];
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - 100)/2, iconImageView.frame.origin.y + iconImageView.frame.size.height + 17 + 25, 100, 30)];
             btn.backgroundColor = [UIColor lightTextColor];
-            btn.titleLabel.text = @"点击加载";
+           // btn.titleLabel.text = @"点击加载";
+            [btn setTitle:@"点击加载" forState:UIControlStateNormal];
+            btn.layer.borderColor = [ConMethods colorWithHexString:@"dedede"].CGColor;
+            btn.layer.borderWidth = 1;
+            btn.layer.masksToBounds = YES;
+            btn.layer.cornerRadius = 4;
+            [btn setTitleColor:[ConMethods colorWithHexString:@"333333"] forState:UIControlStateNormal];
             btn.titleLabel.font = [UIFont systemFontOfSize:15];
             [btn addTarget:self action:@selector(addData) forControlEvents:UIControlEventTouchUpInside];
             [backView addSubview:btn];
@@ -992,7 +1000,9 @@
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+   
+    if (dataList.count > 0) {
+        
     if (indexPath.section == 0) {
         
         DetailViewController *vc = [[DetailViewController alloc] init];
@@ -1008,7 +1018,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self.navigationController pushViewController:cv animated:YES];
     
     }
-    
+   } 
+        
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -1053,8 +1064,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [imageView1 setTag:i + 10000];
            [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
          [scrollViewImage addSubview:imageView1];
+          
+         
            
        }
+        
+        
         
         
         // 取数组最后一张图片 放在第0页
@@ -1087,9 +1102,14 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         
     } else {
-     UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
-        imageView1.image = [UIImage imageNamed:@"loading_failed_zc"];
-    [scrollViewImage addSubview:imageView1];
+        
+        if (imageViewHead) {
+            [imageViewHead removeFromSuperview];
+        }
+        
+     imageViewHead = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
+        imageViewHead.image = [UIImage imageNamed:@"loading_zc"];
+    [scrollViewImage addSubview:imageViewHead];
     }
     
     // 定时器 循环
@@ -1124,9 +1144,22 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                               target:self.view
                                      displayInterval:3];
            */
+            
+            if (imageViewHead) {
+                [imageViewHead removeFromSuperview];
+            }
+            
+            
             [self recivedCategoryList:[responseObject objectForKey:@"object"]];
             
         } else {
+            if (imageViewHead) {
+                [imageViewHead removeFromSuperview];
+            }
+            imageViewHead = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
+            imageViewHead.image = [UIImage imageNamed:@"loading_failed_zc"];
+            [self.view addSubview:imageViewHead];
+            
             
             
             [[HttpMethods Instance] activityIndicate:NO
@@ -1142,11 +1175,26 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
+        if (imageViewHead) {
+            [imageViewHead removeFromSuperview];
+        }
+        imageViewHead = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
+        imageViewHead.image = [UIImage imageNamed:@"loading_failed_zc"];
+        [self.view addSubview:imageViewHead];
+        
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:notNetworkConnetTip
                                    MBProgressHUD:nil
                                           target:self.view
                                  displayInterval:3];
+       
+      
+       
+        
+        
+      //dataList = [UIImageView sharedImageCache];
+        
+        
         
         NSLog(@"Error: %@", error);
     }];

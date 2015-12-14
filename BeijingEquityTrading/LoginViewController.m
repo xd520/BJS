@@ -158,7 +158,7 @@
     //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
     
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    
+    manager.requestSerializer.timeoutInterval = 5.0f;
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERLogin] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
          NSLog(@"JSON: %@", responseObject);

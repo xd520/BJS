@@ -11,9 +11,11 @@
 #import "LoginViewController.h"
 #import "MarkListViewController.h"
 #import "SureMoneyViewController.h"
+#import "SRWebSocket.h"
 
 
-@interface MarkViewController ()
+
+@interface MarkViewController ()<SRWebSocketDelegate>
 {
     UIScrollView *scrollView;
     float addHight;
@@ -48,9 +50,9 @@
     UIButton *jianBtn;
     
     UILabel *newVauleLab;
-    
-    
     NSDictionary *updataDic;
+    
+    SRWebSocket *_webSocket;
     
 }
 @end
@@ -58,6 +60,14 @@
 @implementation MarkViewController
 
 #pragma mark - 进入后刷新
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self _reconnect];
+}
+
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     //[self isGetPriceAndSure];
@@ -67,7 +77,73 @@
 
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    _webSocket.delegate = nil;
+    [_webSocket close];
+    _webSocket = nil;
+}
 
+
+/////SRWebSocket///////
+
+- (void)_reconnect;
+{
+    _webSocket.delegate = nil;
+    [_webSocket close];
+    
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://192.168.1.84:8089/websocket/bidInfoServer/%@",_strId]]]];
+    
+    //ws://192.168.1.84:8089/websocket/bidInfoServer/allMgr  ws://localhost:9000/chat
+    
+    _webSocket.delegate = self;
+    
+    self.title = @"Opening Connection...";
+    [_webSocket open];
+    
+}
+
+#pragma mark - SRWebSocketDelegate
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
+{
+    NSLog(@"Websocket Connected");
+    //self.title = @"Connected!";
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+{
+    NSLog(@":( Websocket Failed With Error %@", error);
+    
+    //self.title = @"Connection Failed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
+{
+    NSLog(@"Received \"%@\"", message);
+    NSLog(@"55555%@",message);
+    
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+{
+    NSLog(@"WebSocket closed");
+    self.title = @"Connection Closed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
+{
+    NSLog(@"Websocket received pong");
+}
+
+
+
+
+/////SRWebSocket//////
 
 
 - (void)viewDidLoad {

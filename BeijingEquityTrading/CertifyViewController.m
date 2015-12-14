@@ -100,13 +100,24 @@
             */
             myDic = [responseObject objectForKey:@"object"];
             
-            if ([[[responseObject objectForKey:@"object"] objectForKey:@"isSetCert"] boolValue]) {
-                labBank.text = @"已认证";
-            } else {
-                labBank.text = @"未认证";
+            if (table) {
+                table.delegate = nil;
+                table.dataSource = nil;
+                [table removeFromSuperview];
+                table = nil;
             }
-
             
+            table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth,ScreenHeight - 65)];
+            [table setDelegate:self];
+            [table setDataSource:self];
+            table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+            [table setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
+            table.tableFooterView = [[UIView alloc] init];
+            
+            table.bounces = NO;
+            
+            [self.view addSubview:table];
+
             
         } else {
             
@@ -160,9 +171,13 @@
     cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
     
     if (indexPath.row == 3) {
+        if (labBank) {
+            [labBank removeFromSuperview];
+        }
+        
         labBank = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 130, 12.5, 100, 15)];
         labBank.textColor = [ConMethods colorWithHexString:@"666666"];
-        labBank.text = @"未认证";
+       
         labBank.font = [UIFont systemFontOfSize:15];
         labBank.textAlignment = NSTextAlignmentRight;
         [cell.contentView addSubview:labBank];
@@ -177,7 +192,20 @@
     [cell.contentView addSubview:lab];
     }
     
+    if (indexPath.row == 3) {
+        
+        if ([[myDic objectForKey:@"isSetCert"] boolValue]) {
+             labBank.text = @"已认证";
+         cell.accessoryType = UITableViewCellAccessoryNone;
+        } else {
+             labBank.text = @"未认证";
+         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    } else {
+    
+    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     return cell;
 }
 
@@ -206,16 +234,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }else if (indexPath.row == 3){
     
         
-        if ([[myDic objectForKey:@"isSetCert"] boolValue]) {
-           
-        } else {
+        if (![[myDic objectForKey:@"isSetCert"] boolValue]){
            
             FirstRealNameViewController *vc = [[FirstRealNameViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
-        
-
-    
     }
      [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
