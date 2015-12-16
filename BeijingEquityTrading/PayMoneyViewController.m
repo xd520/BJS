@@ -1,15 +1,15 @@
 //
-//  SureMoneyViewController.m
+//  PayMoneyViewController.m
 //  BeijingEquityTrading
 //
-//  Created by 熊永辉 on 15/12/7.
+//  Created by 熊永辉 on 15/12/16.
 //  Copyright © 2015年 ApexSoft. All rights reserved.
 //
 
-#import "SureMoneyViewController.h"
+#import "PayMoneyViewController.h"
 #import "AppDelegate.h"
 
-@interface SureMoneyViewController ()
+@interface PayMoneyViewController ()
 {
     NSURLConnection *_urlConnection;
     NSURLRequest *_FailedRequest;
@@ -17,7 +17,7 @@
 }
 @end
 
-@implementation SureMoneyViewController
+@implementation PayMoneyViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,23 +29,20 @@
         
         [self.view addSubview:statusBarView];
     }
-
+    
     //_webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     
     
     
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/pay/qyt/app_applySaveMoney?id=%@&rmd=%i",SERVERURL,_strId,[self getRandomNumber:0 to:100000000]]];
+    NSLog(@"%@",[NSString stringWithFormat:@"%@/page/pay/qyt/app_applySaveMoney_jkzf?id=%@&rmd=%i",SERVERURL,_strId,[self getRandomNumber:0 to:100000000]]);
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/pay/qyt/app_applySaveMoney_jkzf?id=%@&rmd=%i",SERVERURL,_strId,[self getRandomNumber:0 to:100000000]]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [_webView loadRequest:request];
-    
 }
-
-
-#pragma mark - date change Metholds
-
 
 -(int)getRandomNumber:(int)from to:(int)to
 
@@ -65,10 +62,10 @@
     
     if ([scheme isEqualToString:@"https"]) {
         _authenticated = NO;
-    _FailedRequest = request;
-     NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [conn start];
-    
+        _FailedRequest = request;
+        NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        [conn start];
+        
     }
     return YES;
 }
@@ -94,72 +91,6 @@
 
 
 
-
-/*
-#pragma NSURLConnectionDelegate
-
--(void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        NSURL* baseURL = [NSURL URLWithString:@"your url"];
-        if ([challenge.protectionSpace.host isEqualToString:baseURL.host]) {
-            NSLog(@"trusting connection to host %@", challenge.protectionSpace.host);
-            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-        } else
-            NSLog(@"Not trusting connection to host %@", challenge.protectionSpace.host);
-    }
-    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
-}
-
--(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)pResponse {
-    _authenticated = YES;
-    [connection cancel];
-    [self.webView loadRequest:_FailedRequest];
-}
-
-
-
-/////////
-
-#pragma mark - NURLConnection delegate
-
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge;
-{
-    NSLog(@"WebController Got auth challange via NSURLConnection");
-    
-    if ([challenge previousFailureCount] == 0)
-    {
-        _authenticated = YES;
-        
-        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
-        
-        [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
-        
-    } else
-    {
-        [[challenge sender] cancelAuthenticationChallenge:challenge];
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
-{
-    NSLog(@"WebController received response via NSURLConnection");
-    
-    // remake a webview call now that authentication has passed ok.
-    _authenticated = YES;
-    [_webView loadRequest:_request];
-    
-    // Cancel the URL connection otherwise we double up (webview + url connection, same url = no good!)
-    [_urlConnection cancel];
-}
-
-// We use this method is to accept an untrusted site which unfortunately we need to do, as our PVM servers are self signed.
-- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
-{
-    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
-}
-*/
-
-
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
@@ -177,8 +108,6 @@
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    
     
 }
 
@@ -204,36 +133,15 @@
 
 
 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-   [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    // Dispose of any resources that can be recreated.
 }
+
 
 
 - (IBAction)back:(id)sender {
-    _webView.delegate = nil;
-    [_webView loadHTMLString:@"" baseURL:nil];
-    [_webView stopLoading];
-    [_webView removeFromSuperview];
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    _webView = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-
--(void)dealloc {
-    // webView 的缓存处理
-    
-    _webView.delegate = nil;
-    [_webView loadHTMLString:@"" baseURL:nil];
-    [_webView stopLoading];
-    [_webView removeFromSuperview];
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    _webView = nil;
-    
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-}
-
-
-
 @end

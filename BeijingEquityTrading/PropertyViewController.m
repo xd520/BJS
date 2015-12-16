@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "BackMoneyViewController.h"
+#import "PayForViewController.h"
 
 @interface PropertyViewController ()
 {
@@ -86,11 +87,11 @@
     
     
     
-    NSArray *arr = @[@"我的银行卡",@"我的保证金",@"交易记录"];
+    NSArray *arr = @[@"我的保证金",@"交易记录"];
     
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(ScreenWidth/3*i, 1, ScreenWidth/3, 30);
+        btn.frame = CGRectMake(ScreenWidth/2*i, 1, ScreenWidth/2, 30);
         btn.tag = i;
         if (i == 0) {
             [btn setTitleColor:[ConMethods colorWithHexString:@"950401"] forState:UIControlStateNormal];
@@ -109,7 +110,7 @@
         
         [allBtn addObject:btn];
     }
-    lineView = [[UIView alloc] initWithFrame:CGRectMake((ScreenWidth/3 - 75)/2, 28, 75, 2)];
+    lineView = [[UIView alloc] initWithFrame:CGRectMake((ScreenWidth/2 - 75)/2, 28, 75, 2)];
     lineView.backgroundColor = [ConMethods colorWithHexString:@"950401"];
     [headVeiw addSubview:lineView];
     [self.view addSubview:headVeiw];
@@ -123,7 +124,7 @@
     [self.scrollView setPagingEnabled:YES];
     self.scrollView.bounces = NO;
     [self.scrollView setShowsHorizontalScrollIndicator:NO];
-    [self.scrollView setContentSize:CGSizeMake(ScreenWidth*4, scrollViewHeight)];
+    [self.scrollView setContentSize:CGSizeMake(ScreenWidth*2, scrollViewHeight)];
     [self.scrollView scrollRectToVisible:CGRectMake(0, 32 + 44 + addHight, ScreenWidth, scrollViewHeight) animated:NO];
     [self.scrollView setDelegate:self];
     [self.view addSubview:self.scrollView];
@@ -131,7 +132,7 @@
     
     //添加tableView
     
-    table = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth,scrollViewHeight)];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth,scrollViewHeight)];
     [table setDelegate:self];
     [table setDataSource:self];
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -142,7 +143,7 @@
     
     //添加tableView
     
-    tablePast = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth*2,0, ScreenWidth, scrollViewHeight)];
+    tablePast = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth,0, ScreenWidth, scrollViewHeight)];
     [tablePast setDelegate:self];
     [tablePast setDataSource:self];
     tablePast.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -151,7 +152,7 @@
     
     [self.scrollView addSubview:tablePast];
     
-    
+    [self requestData];
     
     [self setupHeader];
     [self setupFooter];
@@ -175,7 +176,6 @@
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-          
                 start = @"1";
                 [self requestData];
             [weakRefreshHeader endRefreshing];
@@ -302,17 +302,12 @@
     __weak typeof(self) weakSelf = self;
     
     if (btn.tag == 0) {
-        
         [weakSelf.scrollView scrollRectToVisible:CGRectMake(0 , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
-        
-        
-    } else if (btn.tag == 1) {
-        [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
         start = @"1";
         [self requestData];
     }else {
         
-        [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth*2 , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
+        [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
         startPast = @"1";
         [self requestMyGqzcPaging];
     }
@@ -337,7 +332,7 @@
         [arrBtn addObject:btn];
         
         
-        lineView.frame = CGRectMake((ScreenWidth/3 - 75)/2 + ScreenWidth/3*countBtn, 28, 75, 2);
+        lineView.frame = CGRectMake((ScreenWidth/2 - 75)/2 + ScreenWidth/2*countBtn, 28, 75, 2);
         
     }
     
@@ -400,7 +395,7 @@
             [self requestMyGqzcPaging];
             
         }
-        lineView.frame = CGRectMake((ScreenWidth/3 - 75)/2 + ScreenWidth/3*page, 28, 75, 2);
+        lineView.frame = CGRectMake((ScreenWidth/2 - 75)/2 + ScreenWidth/2*page, 28, 75, 2);
     }
 }
 
@@ -518,7 +513,13 @@
                 quitBtn.titleLabel.font = [UIFont systemFontOfSize:14];
                 quitBtn.tag = indexPath.row;
                 [quitBtn addTarget:self action:@selector(payForMoney:) forControlEvents:UIControlEventTouchUpInside];
-                [backView addSubview:quitBtn];
+                
+                if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"BZJSQBZ"] isEqualToString:@"1"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"BZJSQBZ"] isEqualToString:@"2"]) {
+                   [backView addSubview:quitBtn];
+                }
+                
+                
+                
                 
                 
                 
@@ -724,14 +725,27 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     indexBtn = btn.tag;
     
+    
     if ([[[dataList objectAtIndex:btn.tag] objectForKey:@"XMID"] isEqualToString:@""]||[[dataList objectAtIndex:btn.tag] objectForKey:@"XMID"] == [NSNull null]) {
        
-        [self requestData:[[dataList objectAtIndex:btn.tag] objectForKey:@"TCID"] withMark:@"1"];
+       // [self requestData:[[dataList objectAtIndex:btn.tag] objectForKey:@"TCID"] withMark:@"1"];
         
-       
+        PayForViewController *vc = [[PayForViewController alloc] init];
+        vc.strId = [[dataList objectAtIndex:btn.tag] objectForKey:@"TCID"];
+        vc.markId = @"1";
+        [self.navigationController pushViewController:vc animated:YES];
+        
+
         
     } else {
-       [self requestData:[[dataList objectAtIndex:btn.tag] objectForKey:@"XMID"] withMark:@"0"];
+      // [self requestData:[[dataList objectAtIndex:btn.tag] objectForKey:@"XMID"] withMark:@"0"];
+        
+        PayForViewController *vc = [[PayForViewController alloc] init];
+        vc.strId = [[dataList objectAtIndex:btn.tag] objectForKey:@"XMID"];
+        vc.markId = @"0";
+        [self.navigationController pushViewController:vc animated:YES];
+        
+        
     }
 }
 
@@ -893,8 +907,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         if ([[[dataList objectAtIndex:indexBtn] objectForKey:@"XMID"] isEqualToString:@""]||[[dataList objectAtIndex:indexBtn] objectForKey:@"XMID"] == [NSNull null]) {
             
             [self sumimBaojia:[[dataList objectAtIndex:indexBtn] objectForKey:@"TCID"] withMark:@"1"];
-            
-            
             
         } else {
             [self sumimBaojia:[[dataList objectAtIndex:indexBtn] objectForKey:@"XMID"] withMark:@"0"];

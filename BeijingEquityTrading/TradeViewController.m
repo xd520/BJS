@@ -9,6 +9,9 @@
 #import "TradeViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "PayMoneyViewController.h"
+#import "SRWebSocket.h"
+#import "MarkViewController.h"
 
 @interface TradeViewController ()
 {
@@ -51,6 +54,17 @@
     BOOL hasMoreFinsh;
     UITableViewCell *moreCellFinsh;
     
+    UIView *MyBackView;
+    NSInteger count;
+    NSString *baojiaPrice;
+    UIView *endView;
+    NSInteger allBtnCount;
+    
+    NSMutableArray *allBtnArr;
+    BOOL allYES;
+    
+    SRWebSocket *_webSocket;
+    
 }
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -61,6 +75,92 @@
 @end
 
 @implementation TradeViewController
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    //[self _reconnect];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    _webSocket.delegate = nil;
+    [_webSocket close];
+    _webSocket = nil;
+}
+
+
+/////SRWebSocket///////
+
+- (void)_reconnect:(NSString *)str;
+{
+    
+    if (_webSocket) {
+        _webSocket.delegate = nil;
+        [_webSocket close];
+    }
+    
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/more?ids=%@",SERVERURL1,str]]]];
+    
+    
+    
+    //ws://192.168.1.84:8089/websocket/bidInfoServer/allMgr  ws://localhost:9000/chat
+    
+    _webSocket.delegate = self;
+    
+    self.title = @"Opening Connection...";
+    [_webSocket open];
+    
+}
+
+#pragma mark - SRWebSocketDelegate
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
+{
+    NSLog(@"Websocket Connected");
+    //self.title = @"Connected!";
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+{
+    NSLog(@":( Websocket Failed With Error %@", error);
+    
+    //self.title = @"Connection Failed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
+{
+    NSLog(@"Received \"%@\"", message);
+    NSLog(@"55555%@",message);
+    
+    start = @"1";
+    [self requestData];
+    
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+{
+    NSLog(@"WebSocket closed");
+    self.title = @"Connection Closed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
+{
+    NSLog(@"Websocket received pong");
+}
+
+
+
+
+/////SRWebSocket//////
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,6 +176,7 @@
     startBakFinsh = @"";
     
     totalLastTime = [NSMutableArray array];
+    allBtnArr = [NSMutableArray array];
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -140,7 +241,7 @@
     [self.scrollView setPagingEnabled:YES];
     self.scrollView.bounces = NO;
     [self.scrollView setShowsHorizontalScrollIndicator:NO];
-    [self.scrollView setContentSize:CGSizeMake(ScreenWidth*4, scrollViewHeight)];
+    [self.scrollView setContentSize:CGSizeMake(ScreenWidth*3, scrollViewHeight)];
     [self.scrollView scrollRectToVisible:CGRectMake(0, 32 + 44 + addHight, ScreenWidth, scrollViewHeight) animated:NO];
     [self.scrollView setDelegate:self];
     [self.view addSubview:self.scrollView];
@@ -179,6 +280,47 @@
     [self.scrollView addSubview:tableFinsh];
 
     
+    endView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth, scrollViewHeight - 40, ScreenWidth, 40)];
+    endView.backgroundColor = [ConMethods colorWithHexString:@"fbfbfb"];
+    endView.hidden = YES;
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(10, 10, 20, 20);
+   
+    [button setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+   
+    [button addTarget:self action:@selector(allBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [endView addSubview:button];
+    
+    
+    UILabel *allLab = [[UILabel alloc] initWithFrame:CGRectMake(35, 11, 40, 18)];
+    allLab.text = @"全选";
+    allLab.backgroundColor = [UIColor clearColor];
+    allLab.font = [UIFont systemFontOfSize:16];
+    allLab.textColor = [ConMethods colorWithHexString:@"666666"];
+    [endView addSubview:allLab];
+    
+    
+    //确定 取消
+    UIButton *commitB = [[UIButton alloc] initWithFrame: CGRectMake(ScreenWidth - 90, 5, 80, 30)];
+    commitB.layer.masksToBounds = YES;
+    commitB.layer.cornerRadius = 4;
+    commitB.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+    
+    [commitB setTitle:@"合并付款" forState:UIControlStateNormal];
+    [commitB setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    commitB.titleLabel.font = [UIFont systemFontOfSize:15];
+    commitB.tag = 10003;
+    [commitB addTarget:self action:@selector(summitBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [endView addSubview:commitB];
+
+    
+    
+    
+    [self.scrollView addSubview:endView];
+    
+    allBtnCount = 0;
     
     
     [self requestData];
@@ -559,7 +701,7 @@
                 brandLabel.tag = indexPath.row + 1000;
                 NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime":[[dataList objectAtIndex:indexPath.row] objectForKey:@"SYSJ"]};
                 [totalLastTime addObject:dic];
-                [self startTimer];
+                [self startThread];
                 
                // brandLabel.text = [NSString stringWithFormat:@"剩余时间：%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"SYSJ"]];
                 [backView addSubview:brandLabel];
@@ -570,7 +712,9 @@
                 [backView addSubview:lineV];
                 
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 35, 95, 95)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+               
+                NSString *baseStr = [[Base64XD encodeBase64String:@"95,95"] strBase64];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                 [backView addSubview:image];
                 
                 
@@ -625,6 +769,7 @@
                 starLabel1.layer.masksToBounds = YES;
                 starLabel1.layer.borderWidth = 1;
                 starLabel1.layer.borderColor = [ConMethods colorWithHexString:@"c7c7c7"].CGColor;
+                starLabel1.userInteractionEnabled = YES;
                 
                 UITapGestureRecognizer *singleTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone:)];
                 starLabel1.tag = indexPath.row;
@@ -704,18 +849,35 @@
                 ztLab.text = @"等待付款";
                     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
                     button.frame = CGRectMake(10, 5, 20, 20);
+                 
+                 
+                    if (allYES) {
+                        NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:[dataListPast objectAtIndex:indexPath.row]];
+                        
+                        [tempDic setObject:@"1" forKey:@"selected"];
+                        [button setImage:[UIImage imageNamed:@"quan1"] forState:UIControlStateNormal];
+                        [dataListPast replaceObjectAtIndex:indexPath.row withObject:tempDic];
+                        
+                    } else {
                     
                     if ([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"selected"] isEqualToString:@"1"]) {
                         [button setImage:[UIImage imageNamed:@"quan1"] forState:UIControlStateNormal];
-                    } else {
+                    } else if([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"selected"] isEqualToString:@"0"]){
                         [button setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
-                    }
+                    } else {
+                        NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:[dataListPast objectAtIndex:indexPath.row]];
+                       
+                            [tempDic setObject:@"0" forKey:@"selected"];
+                            [button setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+                        [dataListPast replaceObjectAtIndex:indexPath.row withObject:tempDic];
                     
+                    }
+                }
                     //[button setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
                     button.tag = indexPath.row;
                     [button addTarget:self action:@selector(payForMoney:) forControlEvents:UIControlEventTouchUpInside];
                     [backView addSubview:button];
-                    
+                    [allBtnArr addObject:button];
                 
                 } else if ([[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"CJZT"] isEqualToString:@"3"]){
                 
@@ -739,7 +901,9 @@
                 [backView addSubview:lineV];
                 
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 35, 95, 95)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                
+                NSString *baseStr = [[Base64XD encodeBase64String:@"95,95"] strBase64];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                 [backView addSubview:image];
                 
                 
@@ -855,7 +1019,8 @@
                 [backView addSubview:lineV];
                 
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 35, 95, 95)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListFinsh objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                 NSString *baseStr = [[Base64XD encodeBase64String:@"95,95"] strBase64];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListFinsh objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                 [backView addSubview:image];
                 
                 
@@ -940,14 +1105,255 @@
 }
 
 
+- (void)tableView:(UITableView *)tbleView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tbleView == table) {
+        MarkViewController *vc = [[MarkViewController alloc] init];
+        //vc.hidesBottomBarWhenPushed = YES;
+        vc.strId = [[dataList objectAtIndex:indexPath.row] objectForKey:@"XMID"];
+        
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if(tbleView == tablePast){
+        MarkViewController *vc = [[MarkViewController alloc] init];
+        //vc.hidesBottomBarWhenPushed = YES;
+        vc.strId = [[dataListPast objectAtIndex:indexPath.row] objectForKey:@"XMID"];
+        
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } else {
+    
+        MarkViewController *vc = [[MarkViewController alloc] init];
+        //vc.hidesBottomBarWhenPushed = YES;
+        vc.strId = [[dataListFinsh objectAtIndex:indexPath.row] objectForKey:@"XMID"];
+        
+        [self.navigationController pushViewController:vc animated:YES];
+    
+    }
+    
+    
+    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+
+
+
+#pragma mark - 提交报价弹窗
+
+-(void)callPhone:(UITouch *)touch{
+    UIView *labView = [touch view];
+    
+    count = labView.tag;
+    
+    [self summitBaoJianWindows:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:labView.tag] objectForKey:@"JJFD"] floatValue] + [[[dataList objectAtIndex:labView.tag] objectForKey:@"WTJE"] floatValue]]];
+    
+    baojiaPrice = [NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:labView.tag] objectForKey:@"JJFD"] floatValue] + [[[dataList objectAtIndex:labView.tag] objectForKey:@"WTJE"] floatValue]];
+}
+
+
+
+-(void)summitBaoJianWindows:(NSString *)str{
+    if (MyBackView) {
+        [MyBackView removeFromSuperview];
+    }
+    
+    
+    MyBackView  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    MyBackView.backgroundColor = [ConMethods colorWithHexString:@"bfbfbf" withApla:0.8];
+    MyBackView.layer.masksToBounds = YES;
+    MyBackView.layer.cornerRadius = 4;
+    
+    UIView *litleView = [[UIView alloc] initWithFrame:CGRectMake(20, (ScreenHeight - 200)/2, ScreenWidth - 40, 200)];
+    litleView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    
+    
+    UILabel *nameLabTip = [[UILabel alloc] init];
+    nameLabTip.text = @"您的报价为：";
+    nameLabTip.textColor = [ConMethods colorWithHexString:@"333333"];
+    nameLabTip.font = [UIFont systemFontOfSize:15];
+    nameLabTip.frame = CGRectMake(20, 50, [PublicMethod getStringWidth:nameLabTip.text font:nameLabTip.font], 15);
+    [litleView addSubview:nameLabTip];
+    
+    
+    UILabel *vauleLab = [[UILabel alloc] init];
+    vauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:str]];
+    vauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
+    vauleLab.font = [UIFont systemFontOfSize:16];
+    vauleLab.frame = CGRectMake(nameLabTip.frame.origin.x + nameLabTip.frame.size.width, 49, [PublicMethod getStringWidth:vauleLab.text font:vauleLab.font], 16);
+    [litleView addSubview:vauleLab];
+    
+    
+    UILabel *nameLTip = [[UILabel alloc] init];
+    nameLTip.text = @",";
+    nameLTip.textColor = [ConMethods colorWithHexString:@"333333"];
+    nameLTip.font = [UIFont systemFontOfSize:15];
+    nameLTip.frame = CGRectMake(vauleLab.frame.origin.x + vauleLab.frame.size.width, 50, 15, 15);
+    [litleView addSubview:nameLTip];
+    
+    
+    
+    
+    
+    
+    UILabel *nameLab = [[UILabel alloc] init];
+    nameLab.text = @"服务费：";
+    nameLab.textColor = [ConMethods colorWithHexString:@"333333"];
+    nameLab.font = [UIFont systemFontOfSize:15];
+    nameLab.frame = CGRectMake(20, 85, [PublicMethod getStringWidth:nameLab.text font:nameLab.font], 15);
+    
+    [litleView addSubview:nameLab];
+    
+    
+    UILabel *vauleLabTip = [[UILabel alloc] init];
+    vauleLabTip.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[str floatValue]*[[[dataList objectAtIndex:count] objectForKey:@"FWF_BL_SRF"] floatValue]]]];
+   // vauleLabTip.text = @"0.00";
+    vauleLabTip.textColor = [ConMethods colorWithHexString:@"bd0100"];
+    vauleLabTip.font = [UIFont systemFontOfSize:15];
+    vauleLabTip.frame = CGRectMake(nameLab.frame.origin.x + nameLab.frame.size.width, 85, [PublicMethod getStringWidth:vauleLab.text font:vauleLab.font], 15);
+    [litleView addSubview:vauleLabTip];
+    
+    
+    
+    
+    
+    //确定 取消
+    UIButton *commitB = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 - 95, 130, 80, 30)];
+    commitB.layer.masksToBounds = YES;
+    commitB.layer.cornerRadius = 4;
+    commitB.backgroundColor = [ConMethods colorWithHexString:@"850301"];
+    
+    [commitB setTitle:@"确定" forState:UIControlStateNormal];
+    [commitB setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    commitB.titleLabel.font = [UIFont systemFontOfSize:15];
+    commitB.tag = 10004;
+    [commitB addTarget:self action:@selector(summitBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [litleView addSubview:commitB];
+    
+    
+    
+    UIButton *quitBtn = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 + 15, 130, 80, 30)];
+    quitBtn.layer.masksToBounds = YES;
+    quitBtn.layer.cornerRadius = 4;
+    quitBtn.backgroundColor = [ConMethods colorWithHexString:@"aaaaaa"];
+    
+    [quitBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [quitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    quitBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    quitBtn.tag = 10005;
+    [quitBtn addTarget:self action:@selector(summitBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [litleView addSubview:quitBtn];
+    
+    [MyBackView addSubview:litleView];
+    [self.view addSubview:MyBackView];
+    
+    
+}
+
+-(void)summitBtnMethods:(UIButton *)btn {
+    if (btn.tag == 10004) {
+        [self sumimBaojia];
+    } else if(btn.tag == 10005){
+        
+        [MyBackView removeFromSuperview];
+        MyBackView = nil;
+    
+    } else {
+        NSLog(@"%@",[self refreshPrice]);
+        
+        PayMoneyViewController *vc = [[PayMoneyViewController alloc] init];
+        vc.strId = [self refreshPrice];
+        [self.navigationController pushViewController:vc animated:YES];
+    
+    }
+}
+
+-(void)sumimBaojia {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在提交..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    NSDictionary *parameters = @{@"id":[[dataList objectAtIndex:count] objectForKey:@"XMID"],@"wtjg":baojiaPrice};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERsubmitWt] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"提交成功"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            
+            [MyBackView removeFromSuperview];
+            MyBackView = nil;
+            start = @"1";
+            [self requestData];
+            
+            
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+}
+
+
+
+
+
+
 #pragma mark - 开启定时器倒计时方法
+
+//开启定时器方法：
+
+-(void)startThread
+{
+    
+    [self performSelectorInBackground:@selector(startTimer) withObject:nil];
+    
+}
+
+
+//开启定时器方法：
 - (void)startTimer
 {
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
     
-    // 如果不添加下面这条语句，在UITableView拖动的时候，会阻塞定时器的调用
-    [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+    if (timer == nil) {
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshLessTime) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];
+        [[NSRunLoop currentRunLoop] run];
+    }
 }
+
 
 
 
@@ -981,9 +1387,9 @@
     
     int minCount = hourCount%60;
     int min = (hourCount - minCount)/60;
-    // int miao = minCount;
+    int miao = minCount;
     
-    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟",day,hour,min];
+    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
     return time;
     
 }
@@ -1009,50 +1415,93 @@
     
     [dataListPast replaceObjectAtIndex:btn.tag withObject:tempDic];
     
+    [self refreshPrice];
+    [self refreshBtnstuts];
     
-   // [self refreshPrice];
-    
-
 }
 
 
-- (void)refreshPrice
-{
-    int price = 0;
-    if ([dataListPast count] > 0) {
-        for (NSMutableDictionary *dic in dataListPast) {
-            if ([[dic objectForKey:@"selected"] isEqualToString:@"1"]) {
-               // price += [[dic objectForKey:@"KYJE"] integerValue];
-            }
+-(void)refreshBtnstuts{
+    
+    int alltotal = 0;
+    for (NSMutableDictionary *dic in dataListPast) {
+        if ([[dic objectForKey:@"selected"] isEqualToString:@"1"]) {
+            alltotal++;
         }
     }
-}
-
-
-
-
-- (void)tableView:(UITableView *)tbleView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+    
+    float scrollViewHeight = 0;
+    scrollViewHeight = ScreenHeight  - 64 - 32;
     
     
-    if (tbleView == table) {
+    if (alltotal > 0) {
+        endView.hidden = NO;
+        tablePast.frame = CGRectMake(ScreenWidth,0, ScreenWidth, scrollViewHeight - 40);
         
-        [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-        
-        
-        
-    }else if (tbleView == tablePast){
-        [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-        
-        
-        
-    } else if (tbleView == tableFinsh){
-        [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-        
+    } else {
+     endView.hidden = YES;
+    tablePast.frame = CGRectMake(ScreenWidth,0, ScreenWidth, scrollViewHeight);
     }
 }
 
+
+-(void)allBtn:(UIButton *)btn {
+    allBtnCount++;
+    
+    if (allBtnCount%2 == 0){
+         allYES = NO;
+      for (UIButton *button in allBtnArr) {
+       [button setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+      }
+      [btn setImage:[UIImage imageNamed:@"付款未勾选"] forState:UIControlStateNormal];
+     
+        for (NSMutableDictionary *dic in dataListPast) {
+            if ([[dic objectForKey:@"selected"] isEqualToString:@"1"]) {
+                [dic setObject:@"0" forKey:@"selected"];
+            }
+        }
+        float scrollViewHeight = 0;
+        scrollViewHeight = ScreenHeight  - 64 - 32;
+        endView.hidden = YES;
+        tablePast.frame = CGRectMake(ScreenWidth,0, ScreenWidth, scrollViewHeight);
+        
+    } else {
+        allYES = YES;
+        
+     for (UIButton *button in allBtnArr) {
+    [button setImage:[UIImage imageNamed:@"quan1"] forState:UIControlStateNormal];
+     }
+        
+        for (NSMutableDictionary *dic in dataListPast) {
+            if ([[dic objectForKey:@"selected"] isEqualToString:@"0"]) {
+                [dic setObject:@"1" forKey:@"selected"];
+            }
+        }
+   
+        
+    [btn setImage:[UIImage imageNamed:@"quan1"] forState:UIControlStateNormal];
+    }
+}
+
+
+
+- (NSString *)refreshPrice
+{
+    NSString *price = @"";
+   
+        for (NSMutableDictionary *dic in dataListPast) {
+            if ([[dic objectForKey:@"selected"] isEqualToString:@"1"]) {
+               
+                if ([price isEqualToString:@""]) {
+                    price = [NSString stringWithFormat:@"%@",[dic objectForKey:@"CJJLH"]];
+                }else {
+                
+                price = [NSString stringWithFormat:@"%@,%@",price,[dic objectForKey:@"CJJLH"]];
+                }
+            }
+        }
+    return price;
+}
 
 
 
@@ -1426,8 +1875,25 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     [table reloadData];
     
+    [self _reconnect:[self refreshList]];
+    
 }
 
+- (NSString *)refreshList
+{
+    NSString *price = @"";
+    
+    for (NSMutableDictionary *dic in dataList) {
+        
+            if ([price isEqualToString:@""]) {
+                price = [NSString stringWithFormat:@"%@",[dic objectForKey:@"XMID"]];
+            }else {
+                
+                price = [NSString stringWithFormat:@"%@,%@",price,[dic objectForKey:@"XMID"]];
+            }
+    }
+    return price;
+}
 
 
 

@@ -121,7 +121,7 @@
     //专场列表
     
     
-    [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[strDic objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+    [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo_app/%@.jpg",SERVERURL,[strDic objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
     
     
     
@@ -454,7 +454,9 @@
             
             //专场列表
             UIImageView *image1 = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 90, 90)];
-            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+            
+             NSString *baseStr = [[Base64XD encodeBase64String:@"90,90"] strBase64];
+            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
             [backView addSubview:image1];
             
             

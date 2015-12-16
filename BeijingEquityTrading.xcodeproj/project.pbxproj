@@ -114,6 +114,8 @@
 		A1F1F70A1C155AD300229183 /* ProviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F1F7081C155AD300229183 /* ProviceViewController.xib */; };
 		A1F1F70E1C1586E100229183 /* SureMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1F70C1C1586E100229183 /* SureMoneyViewController.m */; };
 		A1F1F70F1C1586E100229183 /* SureMoneyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F1F70D1C1586E100229183 /* SureMoneyViewController.xib */; };
+		A1F4FFC51C20FC1E004B732F /* PayMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F4FFC31C20FC1E004B732F /* PayMoneyViewController.m */; };
+		A1F4FFC61C20FC1E004B732F /* PayMoneyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F4FFC41C20FC1E004B732F /* PayMoneyViewController.xib */; };
 		A1F69D2A1C1145760095F66C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D291C1145760095F66C /* README.md */; };
 		A1F69D321C116FFF0095F66C /* ChangeLoginPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */; };
 		A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */; };
@@ -306,6 +308,9 @@
 		A1F1F70B1C1586E100229183 /* SureMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SureMoneyViewController.h; sourceTree = "<group>"; };
 		A1F1F70C1C1586E100229183 /* SureMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SureMoneyViewController.m; sourceTree = "<group>"; };
 		A1F1F70D1C1586E100229183 /* SureMoneyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SureMoneyViewController.xib; sourceTree = "<group>"; };
+		A1F4FFC21C20FC1E004B732F /* PayMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayMoneyViewController.h; sourceTree = "<group>"; };
+		A1F4FFC31C20FC1E004B732F /* PayMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayMoneyViewController.m; sourceTree = "<group>"; };
+		A1F4FFC41C20FC1E004B732F /* PayMoneyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PayMoneyViewController.xib; sourceTree = "<group>"; };
 		A1F69D291C1145760095F66C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A1F69D2C1C116FFF0095F66C /* ChangeLoginPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeLoginPWViewController.h; sourceTree = "<group>"; };
 		A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeLoginPWViewController.m; sourceTree = "<group>"; };
@@ -493,6 +498,9 @@
 				A1F1F70B1C1586E100229183 /* SureMoneyViewController.h */,
 				A1F1F70C1C1586E100229183 /* SureMoneyViewController.m */,
 				A1F1F70D1C1586E100229183 /* SureMoneyViewController.xib */,
+				A1F4FFC21C20FC1E004B732F /* PayMoneyViewController.h */,
+				A1F4FFC31C20FC1E004B732F /* PayMoneyViewController.m */,
+				A1F4FFC41C20FC1E004B732F /* PayMoneyViewController.xib */,
 			);
 			name = "详情界面";
 			sourceTree = "<group>";
@@ -784,6 +792,7 @@
 				04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */,
 				A199AA211C07E0B9002839CB /* AttentionViewController.xib in Resources */,
 				A1F02FAE1C12BA8500D6DB5A /* FirstRealNameViewController.xib in Resources */,
+				A1F4FFC61C20FC1E004B732F /* PayMoneyViewController.xib in Resources */,
 				04041E4C1BF18A25009C6D2B /* sdRefeshView_arrow@2x.png in Resources */,
 				0429691D1BCF80F900975279 /* TreasureViewController.xib in Resources */,
 				A1F1F70A1C155AD300229183 /* ProviceViewController.xib in Resources */,
@@ -867,6 +876,7 @@
 				A1F1F7091C155AD300229183 /* ProviceViewController.m in Sources */,
 				042968E31BCF792800975279 /* PublicMethod.mm in Sources */,
 				047105FD1BCB670700F558FF /* main.m in Sources */,
+				A1F4FFC51C20FC1E004B732F /* PayMoneyViewController.m in Sources */,
 				04041EA21BF18EA4009C6D2B /* AFURLRequestSerialization.m in Sources */,
 				04041E4D1BF18A25009C6D2B /* SDRefreshView.m in Sources */,
 				04041EC61BF18ED8009C6D2B /* HttpMethods.m in Sources */,

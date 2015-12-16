@@ -163,6 +163,11 @@
     
     self.view.frame =CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
+    
+    if (textField == _password||textField == _passwordAgain) {
+        
+    
+    
     NSString *emailRegex = @"^(?=.{6,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     bool sfzNo = [emailTest evaluateWithObject:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
@@ -175,8 +180,8 @@
                                  displayInterval:3];
         
         textField.text = @"";
-    }
-    
+        }
+   }
 }
 
 -(void) requestData {
@@ -325,7 +330,10 @@
 
 -(void)dealloc {
     
-    [child removeObserver:self forKeyPath:@"age"];
+    if (child.age > 0) {
+       [child removeObserver:self forKeyPath:@"age"];
+    }
+   
     
 }
 

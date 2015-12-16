@@ -225,11 +225,14 @@
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpwdManageModify] parameters:paraDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         child.age = 0;
+        
+          NSLog(@"JSON: %@", responseObject);
+        
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
-            NSLog(@"JSON: %@", responseObject);
+          
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"修改登录密码成功"
+                                          tipContent:@"修改交易密码成功"
                                        MBProgressHUD:nil
                                               target:self.navigationController.view
                                      displayInterval:3];
@@ -339,7 +342,10 @@
 
 -(void)dealloc {
     
-    //[child removeObserver:self forKeyPath:@"age"];
+    if (child.age > 0) {
+        [child removeObserver:self forKeyPath:@"age"];
+    }
+
     
 }
 

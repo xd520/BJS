@@ -120,9 +120,10 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    /*
+    
     bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
         // 10分钟后执行这里，应该进行一些清理工作，如断开和服务器的连接等
-        // ...
         // stopped or ending the task outright.
         [application endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
@@ -135,7 +136,7 @@
         // Do the work associated with the task, preferably in chunks.
         NSTimeInterval timeRemain = 0;
         do{
-            [NSThread sleepForTimeInterval:5];
+            [NSThread sleepForTimeInterval:1];
             if (bgTask!= UIBackgroundTaskInvalid) {
                 timeRemain = [application backgroundTimeRemaining];
                 NSLog(@"Time remaining: %f",timeRemain);
@@ -154,7 +155,7 @@
             }
         });
     });
-
+     */
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

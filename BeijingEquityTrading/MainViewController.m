@@ -242,7 +242,7 @@
                 
                 
                  UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 150)];
-                 [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+                 [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo_app/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
                 [backView addSubview:image];
                 
                 
@@ -372,7 +372,11 @@
             backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+            NSString *baseStr = [[Base64XD encodeBase64String:@"200,200"] strBase64];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+            
+            NSLog(@"%@",[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"],baseStr]);
+            
                 [backView addSubview:image];
                 
                 //品牌
@@ -442,7 +446,9 @@
             backViewlast.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
                     UIImageView *imagep = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
-                    [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+            
+            
+                    [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                     [backViewlast addSubview:imagep];
                     
                     //品牌
@@ -541,8 +547,10 @@
                         backView.layer.borderWidth = 1;
                         backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
                         
-                        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
-                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
+                         NSString *baseStr = [[Base64XD encodeBase64String:@"200,200"] strBase64];
+                        
+                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backView addSubview:image];
                         
                         //品牌
@@ -637,7 +645,9 @@
                         backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
                         
                         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
-                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                       NSString *baseStr = [[Base64XD encodeBase64String:@"200,200"] strBase64];
+                        
+                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backView addSubview:image];
                         
                         //品牌
@@ -699,7 +709,7 @@
                         
                         
                         /**********  backViewlast  ************/
-                        backViewlast = [[UIView alloc] initWithFrame:CGRectMake(2.5 +ScreenWidth/2, 0, ScreenWidth/2 - 7.5, 165)];
+                        backViewlast = [[UIView alloc] initWithFrame:CGRectMake(2.5 +ScreenWidth/2, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
                         [backViewlast setBackgroundColor:[UIColor clearColor]];
                         backViewlast.layer.cornerRadius = 2;
                         backViewlast.layer.masksToBounds = YES;
@@ -707,7 +717,10 @@
                         backViewlast.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
                         
                         UIImageView *imagep = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
-                        [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                        
+                        
+                        
+                        [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backViewlast addSubview:imagep];
                         
                         //品牌
@@ -1062,7 +1075,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
        for (int i = 0; i < imageArray.count; i++) {
         UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth * i) + ScreenWidth, 0, ScreenWidth, 150)];
         [imageView1 setTag:i + 10000];
-           [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+           [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw_app/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
          [scrollViewImage addSubview:imageView1];
           
          

@@ -963,8 +963,9 @@
         countMoney++;
         if (countMoney%2 == 0) {
             moneyHide.hidden = NO;
+           [btn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
         } else {
-        
+        [btn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
         moneyHide.hidden = YES;
         }
     } else if (btn.tag == 10005){
@@ -1178,7 +1179,8 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             
             //专场列表
             UIImageView *image1 = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 90, 90)];
-            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+             NSString *baseStr = [[Base64XD encodeBase64String:@"90,90"] strBase64];
+            [image1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
             [backView addSubview:image1];
             
             

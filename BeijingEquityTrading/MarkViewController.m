@@ -12,6 +12,7 @@
 #import "MarkListViewController.h"
 #import "SureMoneyViewController.h"
 #import "SRWebSocket.h"
+#import "MarkViewController.h"
 
 
 
@@ -64,7 +65,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self _reconnect];
+    //[self _reconnect];
 }
 
 
@@ -73,9 +74,9 @@
     //[self isGetPriceAndSure];
     
     [self requestMethods];
-    
-
 }
+
+
 
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -125,6 +126,33 @@
 {
     NSLog(@"Received \"%@\"", message);
     NSLog(@"55555%@",message);
+    
+    NSDictionary *messDic = [message objectForKey:@"object"];
+    
+    
+    if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[messDic objectForKey:@"style"]]) {
+        
+        
+        if ([[messDic objectForKey:@"style"] isEqualToString:@"jpz"]) {
+            
+            updataDic = messDic;
+            
+            timeAllAgain = ([[messDic objectForKey:@"STAMP"] longLongValue] - [[messDic objectForKey:@"fixTakeTime"] longLongValue])/1000;
+            timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+        }
+        
+        NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[messDic objectForKey:@"ZGJ"] floatValue]]]);
+        
+        newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[messDic  objectForKey:@"ZGJ"] floatValue]]]];
+        
+    } else {
+        
+        [self requestMethods];
+    }
+    
+    
+   [self requestBaojiaMethods:[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]];
+    
     
 }
 
@@ -241,10 +269,8 @@
             NSString *nameStr;
             
             
-            
-            
             if (i == 0) {
-                if ([myDic objectForKey:@""]) {
+                if ([[myDic objectForKey:@"style"] objectForKey:@"cj"]) {
                    nameStr = @"成交";
                  colorStr = @"850301";
                 } else {
@@ -619,7 +645,9 @@
 
 -(void)recivedList:(NSDictionary *)dic {
     if (scrollView) {
+        scrollView.delegate = nil;
         [scrollView removeFromSuperview];
+        scrollView = nil;
     }
     
     scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,  addHight + 44, ScreenWidth, ScreenHeight - 49 - 20)];
@@ -637,11 +665,14 @@
     if (arrImag.count < 2) {
         UIImageView *imagelogo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , ScreenWidth)];
         imagelogo.userInteractionEnabled = YES;
-        [imagelogo setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dic objectForKey:@"detail"] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+         NSString *baseStr = [[Base64XD encodeBase64String:@"400,400"] strBase64];
+        
+        [imagelogo setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dic objectForKey:@"detail"] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
         [scrollView addSubview:imagelogo];
     } else {
         
         if (_scrollViewImg) {
+             _scrollViewImg.delegate = nil;
             [_scrollViewImg removeFromSuperview];
             [self removeTimer];
         }
@@ -675,6 +706,11 @@
         
         
         [scrollView addSubview:_scrollViewImg];
+        
+        
+        if (self.timer) {
+            [self removeTimer];
+        }
         
         [self addTimer];
    
@@ -1020,7 +1056,7 @@
         sureVauleLab.font = [UIFont systemFontOfSize:15];
         sureVauleLab.backgroundColor = [UIColor clearColor];
         sureVauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
-        sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[[dic objectForKey:@"detail"] objectForKey:@"ZGCJJ"]];
+        sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[[dic objectForKey:@"detail"] objectForKey:@"ZXJG"]];
         [scrollView addSubview:sureVauleLab];
         
         
@@ -1050,7 +1086,7 @@
     addLabx.font = [UIFont systemFontOfSize:12];
     addLabx.backgroundColor = [UIColor clearColor];
     addLabx.textColor = [ConMethods colorWithHexString:@"666666"];
-    addLabx.text = [NSString stringWithFormat:@"加价幅:￥%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]];
+    addLabx.text = [NSString stringWithFormat:@"加价幅度:￥%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]];
     [scrollView addSubview:addLabx];
 
     UILabel *serviceLab = [[UILabel alloc] initWithFrame:CGRectMake((ScreenWidth - 80)/2, lineView2.frame.origin.y + lineView2.frame.size.height + 10, 80, 12)];
@@ -1090,7 +1126,7 @@
     xianTipLab.font = [UIFont systemFontOfSize:12];
     xianTipLab.backgroundColor = [UIColor clearColor];
     xianTipLab.textColor = [ConMethods colorWithHexString:@"666666"];
-    xianTipLab.text = [NSString stringWithFormat:@"自由报价开始时间:%@",[[dic objectForKey:@"detail"] objectForKey:@"XSBJKSSJ"]];
+    xianTipLab.text = [NSString stringWithFormat:@"限时报价开始时间:%@",[[dic objectForKey:@"detail"] objectForKey:@"XSBJKSSJ"]];
     [scrollView addSubview:xianTipLab];
     
     
@@ -1301,10 +1337,26 @@
         }
         
         
-    timerNew = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(updateDatafornew:) userInfo:nil repeats:YES];
+    timerNew = [NSTimer scheduledTimerWithTimeInterval:300.0 target:self selector:@selector(updateDatafornew:) userInfo:nil repeats:YES];
     
     
     }
+    /*
+    if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"cj"]) {
+        
+    } else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"]){
+    
+    } else {
+    
+        [self _reconnect];
+    }
+    */
+    
+    if (!([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"cj"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"])){
+    
+     [self _reconnect];
+    }
+    
 }
 
 #pragma mark - 轮播图片
@@ -1388,7 +1440,8 @@
 */
  - (void)removeTimer
  {
-         [self.timer invalidate];
+    [self.timer invalidate];
+     self.timer = nil;
 }
 
 
@@ -1692,7 +1745,7 @@
     
     sureText = [[UITextField alloc] initWithFrame:CGRectMake(40, 0, ScreenWidth - 140 - 80, 35)];
     sureText.backgroundColor = [UIColor whiteColor];
-    sureText.placeholder = @"输入转让数量";
+    sureText.placeholder = @"输入报价金额";
     sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
     
     sureText.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -2196,7 +2249,9 @@
 
 -(void)payMehtods:(UIButton *)btn {
 
-
+    MarkViewController *vc = [[MarkViewController alloc] init];
+    vc.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
+    [self.navigationController pushViewController:vc animated:YES];
 
 }
 
@@ -2217,10 +2272,15 @@
     timerNew = nil;
     [timer invalidate];
     timer = nil;
+    [self removeTimer];
     
     scrollView.delegate = nil;
     [scrollView removeFromSuperview];
     scrollView = nil;
+    _scrollViewImg.delegate = nil;
+    [_scrollViewImg removeFromSuperview];
+
+    
    
     [timeValue removeFromSuperview];
     timeValue = nil;

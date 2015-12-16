@@ -15,10 +15,14 @@
 
 //北交所
 #define SERVERURL @"http://192.168.1.84:8089"
-
+#define SERVERURL1 @"192.168.1.84:8089"
 
 //小乔通道
 //#define SERVERURL @"http://192.168.2.207:8080"
+//晨达通道
+//#define SERVERURL @"http://192.168.2.11:8080/bid"
+
+
 
 //这个是服务端的ws链接地址
 //http://192.168.1.84:8089/websocket/echoAnnotation
@@ -136,6 +140,9 @@
 #define USERpwdManageappKh @"/service/psncenter/kh/appKh"
 
 
+#define USERqytsendVcode @"/service/pay/qyt/sendVcode"
+#define USERqytsubmitApplyOutMoney @"/service/pay/qyt/app_submitApplyOutMoney"
+#define USERqytcheckBindCardResult @"/service/pay/qyt/checkBindCardResult"
 
 
 #endif /* NetWork_h */

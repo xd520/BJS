@@ -78,6 +78,8 @@
     _logoutBtn.layer.masksToBounds = YES;
     _logoutBtn.layer.borderColor = [ConMethods colorWithHexString:@"dedede"].CGColor;
     _logoutBtn.layer.borderWidth = 1;
+    _logoutBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
+    
     
 }
 

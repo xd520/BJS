@@ -341,7 +341,9 @@
             [backView addSubview:lineV];
             
             UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 35, 95, 95)];
-            [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"]]] placeholderImage:[UIImage imageNamed:@"logo"]];
+             NSString *baseStr = [[Base64XD encodeBase64String:@"150,150"] strBase64];
+            
+            [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"logo"]];
             [backView addSubview:image];
             
             
@@ -515,10 +517,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 
 #pragma mark - 开启定时器倒计时方法
-
-
-
-
 
 //开启定时器方法：
 

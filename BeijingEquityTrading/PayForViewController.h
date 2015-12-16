@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface PayForViewController : UIViewController
+
+
+@property(nonatomic,strong)NSString *strId;
+@property(nonatomic,strong)NSString *markId;
+
+
 - (IBAction)back:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *payMoney;
 @property (weak, nonatomic) IBOutlet UILabel *payBigMoney;
