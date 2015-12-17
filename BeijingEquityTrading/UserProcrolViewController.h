@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface UserProcrolViewController : UIViewController
+
+@property(nonatomic,strong)NSString *strId;
+@property(nonatomic,strong)NSString *strName;
+@property (weak, nonatomic) IBOutlet UILabel *titleLab;
+
 - (IBAction)back:(id)sender;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 

@@ -13,7 +13,8 @@
 {
     float addHight;
     
-    NSArray *arrTitle;
+    NSMutableArray *dataList;
+    UITableViewCell *moreCell;
     UITableView *table;
 }
 @end
@@ -34,25 +35,53 @@
     }
 
     UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 1)];
-    lineView1.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
+    lineView1.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
     [self.view addSubview:lineView1];
     
-    arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"银行卡认证",@"安全保护问题"];
+    
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth,ScreenHeight - 65)];
     [table setDelegate:self];
     [table setDataSource:self];
-    table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    table.separatorStyle = UITableViewCellSeparatorStyleNone;
     [table setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
     table.tableFooterView = [[UIView alloc] init];
     
-    table.bounces = NO;
+    //table.bounces = NO;
     
     [self.view addSubview:table];
+    
+    
+    
+    [self setupHeader];
     
     [self requestData];
     
     
 }
+
+- (void)setupHeader
+{
+    
+    SDRefreshHeaderView *refreshHeader = [SDRefreshHeaderView refreshView];
+    
+    
+    // 默认是在navigationController环境下，如果不是在此环境下，请设置 refreshHeader.isEffectedByNavigationController = NO;
+    [refreshHeader addToScrollView:table];
+    
+    __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
+    refreshHeader.beginRefreshingOperation = ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [self requestData];
+            [weakRefreshHeader endRefreshing];
+        });
+    };
+    
+    // 进入页面自动加载一次数据
+    // [refreshHeader beginRefreshing];
+}
+
+
 
 
 -(void) requestData {
@@ -78,7 +107,7 @@
                                               target:self.view
                                      displayInterval:3];
             
-            //[self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"wdbzjPageResult"] objectForKey:@"object"]];
+            [self recivedCategoryList:[responseObject objectForKey:@"object"]];
             
         } else {
             
@@ -109,6 +138,25 @@
 }
 
 
+//处理品牌列表
+- (void)recivedCategoryList:(NSMutableArray *)dataArray
+{
+    NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理品牌列表数据");
+        if (dataList.count > 0) {
+            [dataList removeAllObjects];
+        }
+    
+    if(dataList){
+        
+        [dataList addObjectsFromArray:[dataArray mutableCopy]];
+    } else {
+        dataList = [dataArray mutableCopy];
+    }
+    
+    [table reloadData];
+    
+}
+
 
 
 
@@ -120,29 +168,109 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return arrTitle.count;
+    return dataList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tbleView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //[tableView setScrollEnabled:NO]; tableView 不能滑动
     static NSString *RepairCellIdentifier = @"RepairCellIdentifier";
-    UITableViewCell *cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+    UITableViewCell *cell;
+    
+    cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
+    
+    
+    if ([dataList count] == 0) {
+        
+            cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
+            [backView setBackgroundColor:[ConMethods colorWithHexString:@"ececec"]];
+            //图标
+            UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
+            [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
+            [backView addSubview:iconImageView];
+            //提示
+            UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
+            [tipLabel setFont:[UIFont systemFontOfSize:15]];
+            [tipLabel setTextAlignment:NSTextAlignmentCenter];
+            [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
+            tipLabel.backgroundColor = [UIColor clearColor];
+            [tipLabel setText:@"没有任何消息哦~"];
+            [backView addSubview:tipLabel];
+            [cell.contentView addSubview:backView];
+        
+    }else {
+     cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:RepairCellIdentifier];
+     
+        float totalHigh;
+        
+        totalHigh = [PublicMethod getStringHeight:[[dataList objectAtIndex:indexPath.row] objectForKey:@"FSNR"] font:[UIFont systemFontOfSize:13] with:ScreenWidth - 30] + 45;
+        
+        cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, totalHigh + 10)];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
+       
+        //添加背景View
+        UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, ScreenWidth - 10, totalHigh)];
+        [backView setBackgroundColor:[UIColor whiteColor]];
+        backView.layer.cornerRadius = 2;
+        backView.layer.masksToBounds = YES;
+        
+       
+        //品牌
+        UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, ScreenWidth - 140, 20)];
+        brandLabel.font = [UIFont systemFontOfSize:15];
+        [brandLabel setTextColor:[ConMethods colorWithHexString:@"bd0100"]];
+        [brandLabel setBackgroundColor:[UIColor clearColor]];
+        // brandLabel.numberOfLines = 0;
+        brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FROMUSERNAME"];
+        [backView addSubview:brandLabel];
+        
+        
+        UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth - 135, 15, 120, 10)];
+        dayLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FSRQ"];
+        dayLabel.font = [UIFont systemFontOfSize:12];
+        dayLabel.textAlignment = NSTextAlignmentRight;
+        dayLabel.textColor = [ConMethods colorWithHexString:@"999999"];
+        [backView addSubview:dayLabel];
+        
+        UIView *firstVeiw = [[UIView alloc] init];
+        firstVeiw.backgroundColor = [ConMethods colorWithHexString:@"eeeeee"];
+        
+        UILabel *dateLabel = [[UILabel alloc] init];
+        dateLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FSNR"];
+        dateLabel.font = [UIFont systemFontOfSize:13];
+        dateLabel.textColor = [ConMethods colorWithHexString:@"333333"];
+        dateLabel.numberOfLines = 0;
+        dateLabel.frame = CGRectMake(5,0, ScreenWidth - 30, [PublicMethod getStringHeight:dateLabel.text font: dateLabel.font with:ScreenWidth - 30]);
+        firstVeiw.frame = CGRectMake(5, 35, ScreenWidth - 20, [PublicMethod getStringHeight:dateLabel.text font: dateLabel.font with:ScreenWidth - 30]);
+        [firstVeiw addSubview:dateLabel];
+        [backView addSubview:firstVeiw];
+    [cell.contentView addSubview:backView];
     }
-    
-    
-    cell.textLabel.text = [arrTitle objectAtIndex:indexPath.row];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
     
     return cell;
+    
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 40;
+    if (dataList.count == 0) {
+        
+        return 95;
+    } else {
+    
+        float totalHigh;
+        
+        totalHigh = [PublicMethod getStringHeight:[[dataList objectAtIndex:indexPath.row] objectForKey:@"FSNR"] font:[UIFont systemFontOfSize:13] with:ScreenWidth - 30] + 45 + 10;
+        return totalHigh;
+    }
+    
 }
 
 

@@ -14,8 +14,8 @@
 #define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
 
 //北交所
-#define SERVERURL @"http://192.168.1.84:8089"
-#define SERVERURL1 @"192.168.1.84:8089"
+//#define SERVERURL @"http://192.168.1.84:8089"
+//#define SERVERURL1 @"192.168.1.84:8089"
 
 //小乔通道
 //#define SERVERURL @"http://192.168.2.207:8080"
@@ -35,7 +35,8 @@
 //北交所客户外网1
 //#define SERVERURL @"http://111.205.25.78:8071"
 //北交所客户外网2
-//#define SERVERURL @"http://202.96.1.30"
+#define SERVERURL @"http://202.96.1.30"
+#define SERVERURL1 @"202.96.1.30"
 //银联外网地址
 //#define SERVERURL @"http://202.96.1.21"
 
@@ -43,9 +44,6 @@
 //连接失败提示语
 #define notNetworkConnetTip @"网络不稳定，请检查网络是否连接；或者服务器是否开启。"
 #define NUMBERS @"0123456789\n"
-
-
-
 
 /*登录模块*/
 #define USERLogin @"/service/appCheckLogin"

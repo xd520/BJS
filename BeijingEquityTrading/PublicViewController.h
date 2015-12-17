@@ -11,6 +11,7 @@
 
 @interface PublicViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLab;
 
 @property(nonatomic,strong)NSString *strId;
 

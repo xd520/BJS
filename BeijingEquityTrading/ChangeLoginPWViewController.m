@@ -40,7 +40,7 @@
     _sureBtn.layer.masksToBounds = YES;
     
     _sureBtn.layer.cornerRadius = 4;
-    _sureBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
+    _sureBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
    // [_sureBtn setBackgroundImage:[UIImage imageNamed:@"title_bg"] forState:UIControlStateNormal];
     
     UIView *view0 = [[UIView alloc] initWithFrame:CGRectMake(0, 44 + addHight, ScreenWidth , 1)];

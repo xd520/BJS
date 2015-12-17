@@ -65,7 +65,7 @@
     _sureBtn.layer.masksToBounds = YES;
     
     _sureBtn.layer.cornerRadius = 4;
-    _sureBtn.backgroundColor = [ConMethods colorWithHexString:@"fe8103"];
+    _sureBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
     
     _oldPW.clearButtonMode = UITextFieldViewModeWhileEditing;
     _password.clearButtonMode = UITextFieldViewModeWhileEditing;

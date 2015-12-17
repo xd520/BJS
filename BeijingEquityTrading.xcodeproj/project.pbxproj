@@ -116,6 +116,10 @@
 		A1F1F70F1C1586E100229183 /* SureMoneyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F1F70D1C1586E100229183 /* SureMoneyViewController.xib */; };
 		A1F4FFC51C20FC1E004B732F /* PayMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F4FFC31C20FC1E004B732F /* PayMoneyViewController.m */; };
 		A1F4FFC61C20FC1E004B732F /* PayMoneyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F4FFC41C20FC1E004B732F /* PayMoneyViewController.xib */; };
+		A1F5D8AC1C2282A800BF1FEB /* UserHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F5D8AA1C2282A800BF1FEB /* UserHelpViewController.m */; };
+		A1F5D8AD1C2282A800BF1FEB /* UserHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F5D8AB1C2282A800BF1FEB /* UserHelpViewController.xib */; };
+		A1F5D8B11C2282C000BF1FEB /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F5D8AF1C2282C000BF1FEB /* AboutUsViewController.m */; };
+		A1F5D8B21C2282C000BF1FEB /* AboutUsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F5D8B01C2282C000BF1FEB /* AboutUsViewController.xib */; };
 		A1F69D2A1C1145760095F66C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D291C1145760095F66C /* README.md */; };
 		A1F69D321C116FFF0095F66C /* ChangeLoginPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */; };
 		A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */; };
@@ -311,6 +315,12 @@
 		A1F4FFC21C20FC1E004B732F /* PayMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayMoneyViewController.h; sourceTree = "<group>"; };
 		A1F4FFC31C20FC1E004B732F /* PayMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayMoneyViewController.m; sourceTree = "<group>"; };
 		A1F4FFC41C20FC1E004B732F /* PayMoneyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PayMoneyViewController.xib; sourceTree = "<group>"; };
+		A1F5D8A91C2282A800BF1FEB /* UserHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHelpViewController.h; sourceTree = "<group>"; };
+		A1F5D8AA1C2282A800BF1FEB /* UserHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHelpViewController.m; sourceTree = "<group>"; };
+		A1F5D8AB1C2282A800BF1FEB /* UserHelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserHelpViewController.xib; sourceTree = "<group>"; };
+		A1F5D8AE1C2282C000BF1FEB /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		A1F5D8AF1C2282C000BF1FEB /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		A1F5D8B01C2282C000BF1FEB /* AboutUsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutUsViewController.xib; sourceTree = "<group>"; };
 		A1F69D291C1145760095F66C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A1F69D2C1C116FFF0095F66C /* ChangeLoginPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeLoginPWViewController.h; sourceTree = "<group>"; };
 		A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeLoginPWViewController.m; sourceTree = "<group>"; };
@@ -604,6 +614,7 @@
 		04F706311BFD6A9C0036F8A6 /* 资讯界面 */ = {
 			isa = PBXGroup;
 			children = (
+				A1F5D8A81C22828100BF1FEB /* 设置界面 */,
 				04BC40701BFDC39700548EBA /* ProviousViewController.h */,
 				04BC40711BFDC39700548EBA /* ProviousViewController.m */,
 				04BC40721BFDC39700548EBA /* ProviousViewController.xib */,
@@ -681,6 +692,19 @@
 				A1F1F7081C155AD300229183 /* ProviceViewController.xib */,
 			);
 			name = "三级界面";
+			sourceTree = "<group>";
+		};
+		A1F5D8A81C22828100BF1FEB /* 设置界面 */ = {
+			isa = PBXGroup;
+			children = (
+				A1F5D8A91C2282A800BF1FEB /* UserHelpViewController.h */,
+				A1F5D8AA1C2282A800BF1FEB /* UserHelpViewController.m */,
+				A1F5D8AB1C2282A800BF1FEB /* UserHelpViewController.xib */,
+				A1F5D8AE1C2282C000BF1FEB /* AboutUsViewController.h */,
+				A1F5D8AF1C2282C000BF1FEB /* AboutUsViewController.m */,
+				A1F5D8B01C2282C000BF1FEB /* AboutUsViewController.xib */,
+			);
+			name = "设置界面";
 			sourceTree = "<group>";
 		};
 		A1F69D2B1C116FDE0095F66C /* 二级界面 */ = {
@@ -781,6 +805,7 @@
 				04BC406B1BFDBE8900548EBA /* AboutViewController.xib in Resources */,
 				A1F69D351C116FFF0095F66C /* ChangerPassWordViewController.xib in Resources */,
 				04BC406D1BFDBE8900548EBA /* PublicViewController.xib in Resources */,
+				A1F5D8AD1C2282A800BF1FEB /* UserHelpViewController.xib in Resources */,
 				04B101681BFC6084008C6100 /* RegesterViewController.xib in Resources */,
 				A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */,
 				A1F1F70F1C1586E100229183 /* SureMoneyViewController.xib in Resources */,
@@ -791,6 +816,7 @@
 				04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */,
 				04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */,
 				A199AA211C07E0B9002839CB /* AttentionViewController.xib in Resources */,
+				A1F5D8B21C2282C000BF1FEB /* AboutUsViewController.xib in Resources */,
 				A1F02FAE1C12BA8500D6DB5A /* FirstRealNameViewController.xib in Resources */,
 				A1F4FFC61C20FC1E004B732F /* PayMoneyViewController.xib in Resources */,
 				04041E4C1BF18A25009C6D2B /* sdRefeshView_arrow@2x.png in Resources */,
@@ -832,6 +858,7 @@
 				04041EA41BF18EA4009C6D2B /* AFURLSessionManager.m in Sources */,
 				04041EBB1BF18EB3009C6D2B /* UIImageView+AFNetworking.m in Sources */,
 				04041EC51BF18ED8009C6D2B /* MBProgressHUD.mm in Sources */,
+				A1F5D8AC1C2282A800BF1FEB /* UserHelpViewController.m in Sources */,
 				042968DE1BCF792800975279 /* Circle.m in Sources */,
 				A1F69D2A1C1145760095F66C /* README.md in Sources */,
 				04B101671BFC6084008C6100 /* RegesterViewController.m in Sources */,
@@ -857,6 +884,7 @@
 				A199AA221C07E0B9002839CB /* CertifyViewController.m in Sources */,
 				04041E9D1BF18EA4009C6D2B /* AFHTTPRequestOperationManager.m in Sources */,
 				04041E9C1BF18EA4009C6D2B /* AFHTTPRequestOperation.m in Sources */,
+				A1F5D8B11C2282C000BF1FEB /* AboutUsViewController.m in Sources */,
 				042968E01BCF792800975279 /* CPVTabViewController.m in Sources */,
 				042969171BCF80D200975279 /* SpecialPerformanceViewController.m in Sources */,
 				042968E11BCF792800975279 /* ConMethods.m in Sources */,
@@ -975,7 +1003,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -985,9 +1013,9 @@
 					"\"$(SRCROOT)/BeijingEquityTrading/libSocketRocket.a\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
+				PRODUCT_BUNDLE_IDENTIFIER = InHouse.com.apex.TouGou;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
+				PROVISIONING_PROFILE = "55e6434a-121d-477c-b681-cbeb42751acc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -998,7 +1026,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1008,9 +1036,9 @@
 					"\"$(SRCROOT)/BeijingEquityTrading/libSocketRocket.a\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
+				PRODUCT_BUNDLE_IDENTIFIER = InHouse.com.apex.TouGou;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
+				PROVISIONING_PROFILE = "55e6434a-121d-477c-b681-cbeb42751acc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

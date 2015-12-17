@@ -298,7 +298,7 @@
     
     searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, ScreenWidth - 10 - 40, 30)];
     searchText.delegate = self;
-    searchText.placeholder = @"搜索项目名称或编号";
+    searchText.placeholder = @"搜索专场名称";
     searchText.textColor = [ConMethods colorWithHexString:@"333333"];
     searchText.font = [UIFont systemFontOfSize:15];
     searchText.clearButtonMode = UITextFieldViewModeWhileEditing;

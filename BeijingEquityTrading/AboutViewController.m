@@ -9,6 +9,9 @@
 #import "AboutViewController.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import "UserHelpViewController.h"
+#import "AboutUsViewController.h"
+#import "WebDetailViewController.h"
 
 @interface AboutViewController ()
 {
@@ -80,8 +83,52 @@
     _logoutBtn.layer.borderWidth = 1;
     _logoutBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
     
+   
+    UITapGestureRecognizer *singleTap1;
+    
+    singleTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone:)];
+    //单点触摸
+    singleTap1.numberOfTouchesRequired = 1;
+    //点击几次，如果是1就是单击
+    singleTap1.numberOfTapsRequired = 1;
+    [_userLab addGestureRecognizer:singleTap1];
+    
+    
+    UITapGestureRecognizer *singleTap;
+    
+    singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone:)];
+    
+    //单点触摸
+    singleTap.numberOfTouchesRequired = 1;
+    //点击几次，如果是1就是单击
+    singleTap.numberOfTapsRequired = 1;
+    [_aboutLab addGestureRecognizer:singleTap];
     
 }
+
+
+- (IBAction)callPhone:(UITouch *)sender
+{
+    
+    UIView *view = [sender view];
+    
+    if (view.tag == 1) {
+        UserHelpViewController *vc = [[UserHelpViewController alloc] init];
+        //vc.strId = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:view.tag] objectForKey:@"XMID"]];
+        vc.strName = @"使用帮助";
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+    UserHelpViewController *vc = [[UserHelpViewController alloc] init];
+    //vc.strId = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:view.tag] objectForKey:@"XMID"]];
+     vc.strName = @"关于我们";
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    
+    }
+    
+}
+
+
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {

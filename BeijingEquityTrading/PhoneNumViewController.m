@@ -136,12 +136,12 @@
             NSLog(@"JSON: %@", responseObject);
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"加载完成"
+                                          tipContent:@"修改手机号码成功"
                                        MBProgressHUD:nil
-                                              target:self.view
+                                              target:self.navigationController.view
                                      displayInterval:3];
             
-          
+            [self.navigationController popViewControllerAnimated:YES];
             
         } else {
             

@@ -452,7 +452,7 @@
             [tipLabel setTextAlignment:NSTextAlignmentCenter];
             [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
             tipLabel.backgroundColor = [UIColor clearColor];
-            [tipLabel setText:@"没有任何商品哦~"];
+            [tipLabel setText:@"没有任何保证金记录哦~"];
             [backView addSubview:tipLabel];
             [cell.contentView addSubview:backView];
             
@@ -588,7 +588,7 @@
             [tipLabel setFont:[UIFont systemFontOfSize:15]];
             [tipLabel setTextAlignment:NSTextAlignmentCenter];
             [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
-            [tipLabel setText:@"没有任何商品哦~"];
+            [tipLabel setText:@"没有任何交易记录哦~"];
             tipLabel.backgroundColor = [UIColor clearColor];
             [backView addSubview:tipLabel];
             [cell.contentView addSubview:backView];

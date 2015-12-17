@@ -11,8 +11,7 @@
 
 @interface WebDetailViewController ()
 {
-    MBProgressHUD *hud;
-    NSString *filePath;
+    float addHight;
 }
 
 @end
@@ -32,12 +31,14 @@
 {
     [super viewDidLoad];
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
-        
+        addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
         statusBarView.backgroundColor=[UIColor blackColor];
         
         [self.view addSubview:statusBarView];
+    } else {
+        addHight = 0;
     }
     
     
@@ -46,6 +47,7 @@
     lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
     [self.headView addSubview:lineView1];
     
+    NSLog(@"%@",_name);
     
     _titleLab.text = _name;
     
@@ -55,7 +57,7 @@
     
      [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
-         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",SERVERURL,USERinfodetail,_Id]];
+         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?id=%@",SERVERURL,USERinfodetail,_Id]];
         
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [_webView loadRequest:request];

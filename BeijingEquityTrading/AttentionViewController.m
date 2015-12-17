@@ -24,6 +24,7 @@
     
     BOOL hasMore;
     UITableViewCell *moreCell;
+    UITextField *searchText;
 }
 
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
@@ -61,7 +62,7 @@
     [self.view addSubview:table];
     
     
-    [self requestData];
+    [self requestData:@""];
     
     [self setupHeader];
     [self setupFooter];
@@ -70,11 +71,11 @@
 }
 
 
--(void) requestData {
+-(void) requestData:(NSString *)str{
     
     NSLog(@"start = %@",start);
     
-    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"search":@""};
+    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"search":str};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -190,10 +191,9 @@
     __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            
+            searchText.text = @"";
             start = @"1";
-            [self requestData];
+            [self requestData:@""];
             [weakRefreshHeader endRefreshing];
         });
     };
@@ -221,7 +221,7 @@
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            [self requestData];
+            [self requestData:searchText.text];
             [self.refreshFooter endRefreshing];
         });
     }
@@ -297,7 +297,7 @@
             //品牌
             UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, ScreenWidth - 50 - 70, 30)];
             brandLabel.font = [UIFont systemFontOfSize:12];
-            [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+            [brandLabel setTextColor:[ConMethods colorWithHexString:@"666666"]];
             [brandLabel setBackgroundColor:[UIColor clearColor]];
             brandLabel.textAlignment = NSTextAlignmentCenter;
             
@@ -325,7 +325,7 @@
             [quitBtn setTitle:@"取消关注" forState:UIControlStateNormal];
             quitBtn.titleLabel.font = [UIFont systemFontOfSize:13];
             quitBtn.backgroundColor = [UIColor clearColor];
-            [quitBtn setTitleColor:[ConMethods colorWithHexString:@"999999"] forState:UIControlStateNormal];
+            [quitBtn setTitleColor:[ConMethods colorWithHexString:@"333333"] forState:UIControlStateNormal];
             quitBtn.tag = indexPath.row;
             [quitBtn addTarget:self action:@selector(focuscancelMethods:) forControlEvents:UIControlEventTouchUpInside];
             [backView addSubview:quitBtn];
@@ -343,7 +343,7 @@
             UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(5, 35, 95, 95)];
              NSString *baseStr = [[Base64XD encodeBase64String:@"150,150"] strBase64];
             
-            [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"logo"]];
+            [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
             [backView addSubview:image];
             
             
@@ -365,37 +365,87 @@
             sureLab.backgroundColor = [UIColor clearColor];
             sureLab.textColor = [ConMethods colorWithHexString:@"716f70"];
             
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"wks"]) {
-            sureLab.text = @"起始价：";
-            }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
-            sureLab.text = @"当前价：";
-            }else {
-            sureLab.text = @"结束价：";
-            
-            }
-                
-                
-            [backView addSubview:sureLab];
-            
-            
-            
             UILabel *sureVauleLab = [[UILabel alloc] initWithFrame:CGRectMake(155, 65, ScreenWidth/2 - 50, 15)];
             sureVauleLab.font = [UIFont systemFontOfSize:15];
             sureVauleLab.backgroundColor = [UIColor clearColor];
             
+            UILabel *nextLab = [[UILabel alloc] initWithFrame:CGRectMake(105, 85, 50, 12)];
+            nextLab.font = [UIFont systemFontOfSize:12];
+            nextLab.backgroundColor = [UIColor clearColor];
+            nextLab.textColor = [ConMethods colorWithHexString:@"716f70"];
+            
+            
+            UILabel *nextVauleLab = [[UILabel alloc] initWithFrame:CGRectMake(155, 85, ScreenWidth/2 - 50, 15)];
+            nextVauleLab.font = [UIFont systemFontOfSize:15];
+            nextVauleLab.backgroundColor = [UIColor clearColor];
+            
+            
+            
+            
             if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"wks"]) {
+            sureLab.text = @"起始价：";
+            sureVauleLab.textColor = [ConMethods colorWithHexString:@"333333"];
+            sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"QPJ"] floatValue]]]];
                 
-                sureVauleLab.textColor = [ConMethods colorWithHexString:@"333333"];
-                sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"QPJ"] floatValue]]]];
                 
             }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+            sureLab.text = @"当前价：";
+            sureVauleLab.textColor = [ConMethods colorWithHexString:@"ae4a5d"];
+            sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZXJG"] floatValue]]]];
+            nextLab.text = @"起始价：";
+                nextVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"QPJ"] floatValue]]]];
                 
-                sureVauleLab.textColor = [ConMethods colorWithHexString:@"ae4a5d"];
-                sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZXJG"] floatValue]]]];
                 
-            }else {
-                sureVauleLab.textColor = [ConMethods colorWithHexString:@"ae4a5d"];
-                sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZGCJJ"] floatValue]]]];
+            }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]){
+            sureLab.text = @"起始价：";
+            sureVauleLab.textColor = [ConMethods colorWithHexString:@"333333"];
+            sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"QPJ"] floatValue]]]];
+            
+            }  else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]){
+             sureLab.text = @"结束价：";
+            sureVauleLab.textColor = [ConMethods colorWithHexString:@"ae4a5d"];
+            sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZGCJJ"] floatValue]]]];
+                nextLab.text = @"起始价：";
+                nextVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"QPJ"] floatValue]]]];
+                
+            } else {
+            sureLab.text = @"当前价：";
+            sureVauleLab.textColor = [ConMethods colorWithHexString:@"ae4a5d"];
+            sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZXJG"] floatValue]]]];
+                nextLab.text = @"起始价：";
+                nextVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"QPJ"] floatValue]]]];
+            
+            }
+            [backView addSubview:sureLab];
+            [backView addSubview:sureVauleLab];
+            [backView addSubview:nextLab];
+            [backView addSubview:nextVauleLab];
+            
+
+            
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+                
+                UILabel *starLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(105,102, 80, 25)];
+                starLabel1.font = [UIFont systemFontOfSize:14];
+                starLabel1.text = [NSString stringWithFormat:@"+%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"JJFD"]];
+                starLabel1.backgroundColor = [ConMethods colorWithHexString:@"f9f9f9"];
+                starLabel1.textColor = [ConMethods colorWithHexString:@"c2ae7f"];
+                starLabel1.textAlignment = NSTextAlignmentCenter;
+                starLabel1.layer.cornerRadius = 2;
+                starLabel1.layer.masksToBounds = YES;
+                starLabel1.layer.borderWidth = 1;
+                starLabel1.layer.borderColor = [ConMethods colorWithHexString:@"c7c7c7"].CGColor;
+                starLabel1.userInteractionEnabled = YES;
+                
+                UITapGestureRecognizer *singleTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone:)];
+                starLabel1.tag = indexPath.row;
+                //单点触摸
+                singleTap1.numberOfTouchesRequired = 1;
+                //点击几次，如果是1就是单击
+                singleTap1.numberOfTapsRequired = 1;
+                [starLabel1 addGestureRecognizer:singleTap1];
+                
+                //[backView addSubview:starLabel1];
                 
             }
             
@@ -460,6 +510,69 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 35;
+}
+
+
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    UIView *view1,*view;
+    
+    view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , 35)];
+    view.backgroundColor = [UIColor clearColor];
+    
+    
+    view1 = [[UIView alloc] initWithFrame:CGRectMake(5, 5, ScreenWidth - 10, 30)];
+    view1.backgroundColor = [UIColor whiteColor];
+    view1.layer.masksToBounds = YES;
+    view1.layer.cornerRadius = 4;
+    view1.layer.borderWidth = 1;
+    view1.layer.borderColor = [ConMethods colorWithHexString:@"d8d8d8"].CGColor;
+    
+    UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(2, 1, ScreenWidth - 14, 1)];
+    lineview.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
+    [view1 addSubview:lineview];
+    
+    
+    searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, ScreenWidth - 10 - 40, 30)];
+    searchText.delegate = self;
+    searchText.placeholder = @"搜索项目名称或编号";
+    searchText.textColor = [ConMethods colorWithHexString:@"333333"];
+    searchText.font = [UIFont systemFontOfSize:15];
+    searchText.clearButtonMode = UITextFieldViewModeWhileEditing;
+    searchText.backgroundColor = [UIColor clearColor];
+    [view1 addSubview:searchText];
+    
+    
+    UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 30, 5, 20, 20);
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
+    [view1 addSubview:searchBtn];
+    [view addSubview:view1];
+    
+    return view;
+    
+}
+
+-(void)searchMthods {
+    [self.view endEditing:YES];
+    
+    start = @"1";
+    [self requestData:searchText.text];
+    
+}
+
+
+
+#pragma mark - 消除键盘
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)even{
+    [self.view endEditing:YES];
+}
 
 
 
@@ -486,7 +599,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                      displayInterval:3];
             
             start = @"1";
-            [self requestData];
+            [self requestData:searchText.text];
             
         } else {
             

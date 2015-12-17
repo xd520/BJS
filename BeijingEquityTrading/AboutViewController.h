@@ -14,5 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
 @property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
 - (IBAction)logOutMethods:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *userLab;
+@property (weak, nonatomic) IBOutlet UILabel *aboutLab;
 
 @end

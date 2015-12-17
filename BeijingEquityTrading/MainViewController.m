@@ -13,6 +13,7 @@
 #import "MarkViewController.h"
 #import "ProviousViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "CPVTabViewController.h"
 
 @interface MainViewController ()
 {
@@ -362,7 +363,7 @@
                 //添加背景View
                 UIView *backView,*backViewlast;
             backView.tag = indexPath.row*2;
-            backViewlast.tag = indexPath.row*2 + 1;
+           
             
                 backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 0, ScreenWidth/2 - 7.5,ScreenWidth/2 - 7.5 + 60)];
                 [backView setBackgroundColor:[UIColor clearColor]];
@@ -439,6 +440,7 @@
                 
                 /**********  backViewlast  ************/
                   backViewlast = [[UIView alloc] initWithFrame:CGRectMake(2.5 +ScreenWidth/2, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5 + 60)];
+             backViewlast.tag = indexPath.row*2 + 1;
                     [backViewlast setBackgroundColor:[UIColor clearColor]];
                     backViewlast.layer.cornerRadius = 2;
                     backViewlast.layer.masksToBounds = YES;
@@ -504,7 +506,7 @@
             baoL.text = @"报价";
             [lastViewp addSubview:baoL];
             
-                [backViewlast addSubview:lastViewp];
+            [backViewlast addSubview:lastViewp];
             
             
             UITapGestureRecognizer *singleTap1;
@@ -921,6 +923,7 @@
     
     UIView *view = [sender view];
     
+    NSLog(@"%ld",view.tag);
    
         MarkViewController *vc = [[MarkViewController alloc] init];
         vc.strId = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:view.tag] objectForKey:@"XMID"]];
@@ -1024,6 +1027,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self.navigationController pushViewController:vc animated:YES];
       
     } else if (indexPath.section == 1){
+        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        delegate.tabBarController.selectedIndex = 1;
+        CPVTabViewController *osTabbarVC = delegate.tabBarController;
+        UINavigationController *navVC = [osTabbarVC viewControllers][1];
+        [navVC popViewControllerAnimated:NO];
+        osTabbarVC.selectedViewController = navVC;
         
     } else if (indexPath.section == 3){
         ProviousViewController *cv = [[ProviousViewController alloc] init];

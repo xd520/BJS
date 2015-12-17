@@ -8,6 +8,7 @@
 
 #import "UserProcrolViewController.h"
 #import "AppDelegate.h"
+#import "MarkViewController.h"
 
 @interface UserProcrolViewController ()
 
@@ -38,9 +39,9 @@
     }
     
     //_webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    
+    _titleLab.text = _strName;
   
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/app/register/personalAgreement",SERVERURL]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/s/agreement/index_app?code=%@",SERVERURL,_strId]];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [_webView loadRequest:request];
     
@@ -91,6 +92,7 @@
     [_webView removeFromSuperview];
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     _webView = nil;
+    
     
     [self.navigationController popViewControllerAnimated:YES];
 }

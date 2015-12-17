@@ -12,8 +12,8 @@
 #import "MarkListViewController.h"
 #import "SureMoneyViewController.h"
 #import "SRWebSocket.h"
-#import "MarkViewController.h"
-
+#import "PayMoneyViewController.h"
+#import "UserProcrolViewController.h"
 
 
 @interface MarkViewController ()<SRWebSocketDelegate>
@@ -59,6 +59,7 @@
 @end
 
 @implementation MarkViewController
+@synthesize isUpDate;
 
 #pragma mark - 进入后刷新
 
@@ -73,7 +74,10 @@
     [super viewDidAppear:animated];
     //[self isGetPriceAndSure];
     
-    [self requestMethods];
+    if (isUpDate) {
+     [self requestMethods];
+    }
+    
 }
 
 
@@ -177,7 +181,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    isUpDate = YES;
+    
     count = 0;
+    _shareBtn.hidden = YES;
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -1065,14 +1072,21 @@
  //点击付款
         if ([[[dic objectForKey:@"user"] objectForKey:@"isZgbjr"] boolValue] == 1) {
             
-            UIButton *fukuanBtn = [[UIButton alloc] initWithFrame:CGRectMake(sureVauleLab.frame.origin.x + sureVauleLab.frame.size.height + 10,  endVauleLab.frame.origin.y + endVauleLab.frame.size.height + 10 - 5, 80, 20)];
+            UIButton *fukuanBtn = [[UIButton alloc] initWithFrame:CGRectMake( ScreenWidth - 100,  endVauleLab.frame.origin.y + endVauleLab.frame.size.height + 10 - 10, 80, 25)];
             fukuanBtn.layer.borderWidth = 1;
             fukuanBtn.layer.borderColor = [ConMethods colorWithHexString:@"eeeeee"].CGColor;
-            fukuanBtn.titleLabel.text = @"确认付款";
+           // fukuanBtn.titleLabel.text = @"确认付款";
+            [fukuanBtn setTitle:@"确认付款" forState:UIControlStateNormal];
+            [fukuanBtn setTitleColor:[ConMethods colorWithHexString:@"333333"] forState:UIControlStateNormal];
+            
             fukuanBtn.titleLabel.font = [UIFont systemFontOfSize:14];
             [fukuanBtn addTarget:self action:@selector(payMehtods:) forControlEvents:UIControlEventTouchUpInside];
             
-            [scrollView addSubview:fukuanBtn];
+            if (![[dic objectForKey:@"enableFK"] boolValue]) {
+               [scrollView addSubview:fukuanBtn];
+            }
+            
+           
         }
         
     }
@@ -1589,8 +1603,9 @@
        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
            
-            
            [self initBackViewMehtods];
+            isUpDate = NO;
+            
         } else {
         
             LoginViewController *vc = [[LoginViewController alloc] init];
@@ -1625,6 +1640,7 @@
         } else {
 
             [MyBackView removeFromSuperview];
+            isUpDate = YES;
             SureMoneyViewController *vc = [[SureMoneyViewController alloc] init];
             vc.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
             
@@ -1636,6 +1652,8 @@
     } else if(btn.tag == 10006){
         
         [MyBackView removeFromSuperview];
+        MyBackView = nil;
+        isUpDate = YES;
     }
     
 }
@@ -1872,6 +1890,7 @@
     }else if (btn.tag == 10005){
     
     [MyBackView removeFromSuperview];
+        isUpDate = YES;
     MyBackView = nil;
     
     }
@@ -2127,6 +2146,17 @@
         agreeUserTip.text = @"用户竞价协议";
         agreeUserTip.textColor = [ConMethods colorWithHexString:@"bd0100"];
         agreeUserTip.font = [UIFont systemFontOfSize:10];
+    agreeUserTip.tag = 10001;
+    agreeUserTip.userInteractionEnabled = YES;
+    UITapGestureRecognizer *singleTap1;
+    
+    singleTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushProcoalVC:)];
+    
+    //单点触摸
+    singleTap1.numberOfTouchesRequired = 1;
+    //点击几次，如果是1就是单击
+    singleTap1.numberOfTapsRequired = 1;
+    [agreeUserTip addGestureRecognizer:singleTap1];
         [litleView addSubview:agreeUserTip];
         
         
@@ -2142,16 +2172,28 @@
         agreeUser.text = @"《保证金详细规则》";
         agreeUser.textColor = [ConMethods colorWithHexString:@"bd0100"];
         agreeUser.font = [UIFont systemFontOfSize:10];
+     agreeUser.tag = 10002;
         agreeUser.frame = CGRectMake(agree.frame.origin.x + agree.frame.size.width , 100, [PublicMethod getStringWidth:agreeUser.text font:agreeUser.font], 10);
-        
+    agreeUser.userInteractionEnabled = YES;
+     UITapGestureRecognizer *singleTap;
+    
+    singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushProcoalVC:)];
+    
+    //单点触摸
+    singleTap.numberOfTouchesRequired = 1;
+    //点击几次，如果是1就是单击
+    singleTap.numberOfTapsRequired = 1;
+    [agreeUser addGestureRecognizer:singleTap];
+    
+    
         [litleView addSubview:agreeUser];
-        
+    
   //确定 取消
         UIButton *commitB = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 - 95, 130, 80, 30)];
         commitB.layer.masksToBounds = YES;
         commitB.layer.cornerRadius = 4;
         commitB.backgroundColor = [ConMethods colorWithHexString:@"850301"];
-        
+    
         [commitB setTitle:@"确定" forState:UIControlStateNormal];
         [commitB setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
@@ -2177,9 +2219,36 @@
         
         [MyBackView addSubview:litleView];
         [self.view addSubview:MyBackView];
-        
-
+    
 }
+
+
+
+- (void)pushProcoalVC:(UITouch *)sender {
+    UIView *view = [sender view];
+    
+    if (view.tag == 10001) {
+        
+        isUpDate = NO;
+        
+        UserProcrolViewController *cv = [[UserProcrolViewController alloc] init];
+        cv.strId = @"YHXY";
+        cv.strName = @"用户竞价协议";
+        
+        [self.navigationController pushViewController:cv animated:YES];
+        
+    } else {
+    
+     isUpDate = NO;   
+    UserProcrolViewController *cv = [[UserProcrolViewController alloc] init];
+    cv.strId = @"BZYXXGZ";
+    cv.strName = @"保证金详细规则";
+    
+    [self.navigationController pushViewController:cv animated:YES];
+    }
+}
+
+
 
 -(void)summitBaozhenJin{
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在提交..." MBProgressHUD:nil target:self.view displayInterval:2.0];
@@ -2204,6 +2273,7 @@
                                      displayInterval:3];
             
             [MyBackView removeFromSuperview];
+            isUpDate = YES;
             
             
             /*
@@ -2249,7 +2319,7 @@
 
 -(void)payMehtods:(UIButton *)btn {
 
-    MarkViewController *vc = [[MarkViewController alloc] init];
+    PayMoneyViewController *vc = [[PayMoneyViewController alloc] init];
     vc.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
     [self.navigationController pushViewController:vc animated:YES];
 

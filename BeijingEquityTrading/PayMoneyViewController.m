@@ -14,6 +14,7 @@
     NSURLConnection *_urlConnection;
     NSURLRequest *_FailedRequest;
     BOOL _authenticated;
+    float addHight;
 }
 @end
 
@@ -22,16 +23,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
-        
+        addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
         statusBarView.backgroundColor=[UIColor blackColor];
         
         [self.view addSubview:statusBarView];
+    } else {
+        addHight = 0;
     }
     
     //_webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 1)];
+    lineView1.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
+    [self.view addSubview:lineView1];
     
     
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
@@ -40,7 +45,11 @@
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/pay/qyt/app_applySaveMoney_jkzf?id=%@&rmd=%i",SERVERURL,_strId,[self getRandomNumber:0 to:100000000]]];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+   // NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    
+    NSURLRequest *request =[NSURLRequest requestWithURL:url
+            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                        timeoutInterval:5.0];
     [_webView loadRequest:request];
 }
 

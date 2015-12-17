@@ -66,7 +66,8 @@
     lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
     [self.headView addSubview:lineView1];
     
-   
+    _titleLab.text = self.title;
+    
     float scrollViewHeight = 0;
     scrollViewHeight = ScreenHeight  - 64 - 50;
     
@@ -266,20 +267,32 @@
         } else {
                 cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
                 if (cell == nil) {
-                    cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+                    
+                    float lineHight;
+                    
+                    lineHight = 40 - 15 + [PublicMethod getStringHeight:[[dataList objectAtIndex:[indexPath row]] objectForKey:@"TITLE"] font:[UIFont systemFontOfSize:15] with:ScreenWidth - 120];
+                    
+                    
+                    
+                    cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, lineHight)];
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     [cell setBackgroundColor:[UIColor clearColor]];
                     //添加背景View
-                    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+                    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, lineHight)];
                     [backView setBackgroundColor:[ConMethods colorWithHexString:@"fafafa"]];
                     //品牌
                     
-                    UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, ScreenWidth - 120, 39)];
+                    UILabel *brandLabel = [[UILabel alloc] init];
                     brandLabel.backgroundColor = [UIColor clearColor];
                     brandLabel.font = [UIFont boldSystemFontOfSize:15];
                     [brandLabel setTextColor:[ConMethods colorWithHexString:@"646464"]];
+                    brandLabel.numberOfLines = 0;
                     [brandLabel setBackgroundColor:[UIColor clearColor]];
+                   
                     brandLabel.text = [[dataList objectAtIndex:[indexPath row]] objectForKey:@"TITLE"];
+                    
+                     brandLabel.frame = CGRectMake(10, 12, ScreenWidth - 120, [PublicMethod getStringHeight:brandLabel.text font:brandLabel.font with:ScreenWidth - 120]);
+                    
                     [backView addSubview:brandLabel];
                     
                     
@@ -296,13 +309,11 @@
                     //[strDate insertString:@"-" atIndex:(strDate.length - 2)];
                     timeLabel.text = [NSString stringWithFormat:@"%@",strDate];
                     
-                    
-                    
                     [backView addSubview:timeLabel];
                     
                     
                     
-                        UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(0, 39, ScreenWidth, 1)];
+                        UIView *subView = [[UIView alloc] initWithFrame:CGRectMake(0, backView.frame.size.height - 1, ScreenWidth, 1)];
                         [subView setBackgroundColor:[ConMethods colorWithHexString:@"dedede"]];
                       [backView addSubview:subView];
                     
@@ -323,7 +334,12 @@
         if ([dataList count] == 0) {
             return 95;
         } else {
-            return 40;
+            
+            float lineHight;
+            
+            lineHight = 40 - 15 + [PublicMethod getStringHeight:[[dataList objectAtIndex:[indexPath row]] objectForKey:@"TITLE"] font:[UIFont systemFontOfSize:15] with:ScreenWidth - 120];
+            
+            return lineHight;
         }
     
     return 95;
@@ -341,10 +357,20 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             goodsDetailViewController.name = [[dataList objectAtIndex:indexPath.row] objectForKey:@"TITLE"];
             goodsDetailViewController.Id = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"];
-            
-            goodsDetailViewController.hidesBottomBarWhenPushed = YES;
-            [tbleView deselectRowAtIndexPath:indexPath animated:YES];
-            [self.navigationController pushViewController:goodsDetailViewController animated:NO];
+     [self.navigationController pushViewController:goodsDetailViewController animated:YES];
+    
+        [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
 }
 
 

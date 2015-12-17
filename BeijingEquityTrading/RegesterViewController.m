@@ -316,7 +316,7 @@
             
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:[responseObject objectForKey:@"msg"]
+                                          tipContent:[responseObject objectForKey:@"短信发送成功"]
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
@@ -523,7 +523,9 @@
 
 - (IBAction)pushProcoalVC:(id)sender {
     UserProcrolViewController *cv = [[UserProcrolViewController alloc] init];
-    cv.hidesBottomBarWhenPushed = YES;
+    cv.strId = @"YHXY";
+    cv.strName = @"用户竞价协议";
+   
     [self.navigationController pushViewController:cv animated:YES];
 }
 

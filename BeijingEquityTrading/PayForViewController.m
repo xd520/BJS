@@ -9,6 +9,7 @@
 #import "PayForViewController.h"
 #import "AppDelegate.h"
 #import "Child.h"
+#import "UserProcrolViewController.h"
 
 @interface PayForViewController ()
 {
@@ -366,7 +367,13 @@
 }
 
 - (IBAction)ProctalMethods:(id)sender {
+    UserProcrolViewController *vc = [[UserProcrolViewController alloc] init];
+    vc.strName = @"退款协议";
+    vc.strId = @"QKXY";
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
+
 - (IBAction)sureMethods:(id)sender {
     [self.view endEditing:YES];
     

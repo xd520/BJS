@@ -153,7 +153,7 @@
         [tipLabel setTextAlignment:NSTextAlignmentCenter];
         [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
         tipLabel.backgroundColor = [UIColor clearColor];
-        [tipLabel setText:@"没有任何商品哦~"];
+        [tipLabel setText:@"没有任何出价记录哦~"];
         [backView addSubview:tipLabel];
         [cell.contentView addSubview:backView];
         

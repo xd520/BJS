@@ -86,14 +86,14 @@
             reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/res/prj/default/images/avatar_default.jpg",SERVERURL]]];
         } else {
             
-            reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tx_app/%@.jpg",SERVERURL,[[delegate.loginUser objectForKey:@"object"] objectForKey:@"USERID"]]]];
+            reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tx/%@.jpg",SERVERURL,[[delegate.loginUser objectForKey:@"object"] objectForKey:@"USERID"]]]];
         }
     }
 
     
     //reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/captcha",SERVERURL]]];
     
-    [imgHeadVeiw setImageWithURLRequest:reqest placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image){
+    [imgHeadVeiw setImageMoreWithURLRequest:reqest placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image){
         NSLog(@"JSON: %@  %@ %@", request,response,image);
         //self.codeImgve.image = nil;
         
@@ -104,6 +104,7 @@
         
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error){
         
+        imgHeadVeiw.image = [UIImage imageNamed:@"loading_failed_bd"];
         NSLog(@"JSON: %@  %@ %@", request,response,error);
     }];
     
@@ -201,7 +202,7 @@
         
         
         
-        nameTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 150, ScreenWidth - 100, 17)];
+        nameTitle = [[UILabel alloc] initWithFrame:CGRectMake(50, 145, ScreenWidth - 100, 20)];
         nameTitle.text = @"我的账户";
         nameTitle.backgroundColor = [UIColor clearColor];
         nameTitle.textAlignment = NSTextAlignmentCenter;

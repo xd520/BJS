@@ -212,6 +212,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     PublicViewController *vc = [[PublicViewController alloc] init];
     vc.strId = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"];
+    vc.title = [[dataList objectAtIndex:[indexPath row]] objectForKey:@"NAME"];
+    
     [self.navigationController pushViewController:vc animated:YES];
     
     

@@ -69,7 +69,7 @@
     _loginBtn.layer.cornerRadius = 4;
     _loginBtn.layer.masksToBounds = YES;
     
-    
+    _allView.backgroundColor = [ConMethods colorWithHexString:@"f2f3f5"];
     
     UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, +  39.5, ScreenWidth - 20,1)];
      lineView1.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
@@ -375,6 +375,13 @@
    // [self.navigationController pushViewController:vc animated:YES];
     
    // [self.view makeToast:@"该功能还未实现，请先到PC端操作"];
+   
+    [[HttpMethods Instance] activityIndicate:NO
+                                  tipContent:@"该功能延后，请先到PC端操作"
+                               MBProgressHUD:nil
+                                      target:self.view
+                             displayInterval:3];
+    
     
 }
 
