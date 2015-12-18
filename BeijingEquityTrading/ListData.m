@@ -37,7 +37,7 @@
         
     }else if ([[_dic objectForKey:@"style"] isEqualToString:@"cj"]){
         listData.moneyLab = [NSString stringWithFormat:@"￥%@",[_dic objectForKey:@"ZGCJJ"]];
-        listData.timeLab = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
+        listData.timeLab = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJJSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         listData.classLab = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
         listData.timeNmaeL = @"结束时间";
         

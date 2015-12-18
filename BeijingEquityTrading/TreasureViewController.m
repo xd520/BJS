@@ -1184,7 +1184,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             [backView addSubview:image1];
             
             
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]){
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]){
                 UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(100 - 50, 105 - 35, 50, 35)];
                 img.image = [UIImage imageNamed:@"end"];
                 [backView addSubview:img];
@@ -1431,7 +1431,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
     }else if ([str isEqualToString:@"cj"]){
         _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZGCJJ"] floatValue]]]];
-        _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
+        _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJJSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
     }else if ([str isEqualToString:@"lp"]){
         _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"QPJ"] floatValue]]]];
