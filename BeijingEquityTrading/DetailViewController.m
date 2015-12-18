@@ -70,7 +70,7 @@
     image.userInteractionEnabled = YES;
     //image.image = [UIImage imageNamed:@"logo"];
     
-    UIButton *back = [[UIButton alloc] initWithFrame:CGRectMake(0, 22.5, 30, 25)];
+    UIButton *back = [[UIButton alloc] initWithFrame:CGRectMake(0, 18.5, 30, 33)];
    
     [back setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
     

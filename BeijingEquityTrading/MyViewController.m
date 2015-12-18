@@ -272,7 +272,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 
 
-/*
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -280,7 +280,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
     //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
 }
-*/
+
+
 
 
 - (void)didReceiveMemoryWarning {

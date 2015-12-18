@@ -40,7 +40,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Bmc-gJ-heK">
-                    <rect key="frame" x="14" y="30" width="12" height="22"/>
+                    <rect key="frame" x="0.0" y="25" width="30" height="33"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                     <state key="normal" image="返回">
