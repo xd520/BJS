@@ -58,7 +58,8 @@
        
     }
     
-   // _logoView.frame = CGRectMake((ScreenWidth - 180)/2, 90 + addHight, 180, 85);
+    _logoView.frame = CGRectMake((ScreenWidth - 90)/2, 66 + addHight, 90, 90);
+    _headLab.frame = CGRectMake((ScreenWidth - 105)/2, 187, 105, 25);
     
     UIView *lineView0 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 1)];
     lineView0.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];

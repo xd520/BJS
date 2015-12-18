@@ -45,11 +45,12 @@
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/pay/qyt/app_applySaveMoney_jkzf?id=%@&rmd=%i",SERVERURL,_strId,[self getRandomNumber:0 to:100000000]]];
     
-   // NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    /*
     NSURLRequest *request =[NSURLRequest requestWithURL:url
             cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                         timeoutInterval:5.0];
+     */
     [_webView loadRequest:request];
 }
 

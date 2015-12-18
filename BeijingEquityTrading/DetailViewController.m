@@ -745,7 +745,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
         
     }else if ([str isEqualToString:@"cj"]){
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZGCJJ"] floatValue]]]];
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZXJG"] floatValue]]]];
         _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
     }else if ([str isEqualToString:@"lp"]){

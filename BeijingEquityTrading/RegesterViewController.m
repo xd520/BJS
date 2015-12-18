@@ -316,7 +316,7 @@
             
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:[responseObject objectForKey:@"短信发送成功"]
+                                          tipContent:@"短信发送成功"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];

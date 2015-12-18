@@ -34,7 +34,9 @@
         addHight = 0;
     }
 
-    
+    UIView *view0 = [[UIView alloc] initWithFrame:CGRectMake(0, 44 + addHight, ScreenWidth , 1)];
+    view0.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
+    [self.view addSubview:view0];
     
     
     _commitBtn.layer.cornerRadius = 2;

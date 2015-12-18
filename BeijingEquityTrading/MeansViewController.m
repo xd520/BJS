@@ -209,8 +209,12 @@
                     endLabel.text =  [myDic objectForKey:@"mobilePhone"];
                 } else if (indexPath.row == 3) {
                    
-                    endLabel.text =  [myDic objectForKey:@"email"];
-                
+                    if ([[myDic objectForKey:@"isSetEmail"] boolValue]) {
+                        endLabel.text =  [myDic objectForKey:@"email"];
+                    } else {
+                    
+                     endLabel.text = @"未设置";
+                    }
                 }
                 
                 [backView addSubview:endLabel];
@@ -246,13 +250,20 @@
         endLabel.textAlignment = NSTextAlignmentRight;
         [endLabel setBackgroundColor:[UIColor clearColor]];
         if (myDic.count > 0) {
-            if (indexPath.row == 0) {
-                endLabel.text = [myDic objectForKey:@"name"];
-            } else {
             
-            endLabel.text = [myDic objectForKey:@"zjbh"];
-            }
+             if ([[myDic objectForKey:@"isSetCert"] boolValue]) {
+                 if (indexPath.row == 0) {
+                     endLabel.text = [myDic objectForKey:@"name"];
+                 } else {
+                     
+                     endLabel.text = [myDic objectForKey:@"zjbh"];
+                     }
+             }else {
             
+               endLabel.text = @"--";
+           
+            
+             }
         }
        
         [backView addSubview:endLabel];

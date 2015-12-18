@@ -1013,9 +1013,9 @@
 					"\"$(SRCROOT)/BeijingEquityTrading/libSocketRocket.a\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = InHouse.com.apex.TouGou;
+				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "55e6434a-121d-477c-b681-cbeb42751acc";
+				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1036,9 +1036,9 @@
 					"\"$(SRCROOT)/BeijingEquityTrading/libSocketRocket.a\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = InHouse.com.apex.TouGou;
+				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "55e6434a-121d-477c-b681-cbeb42751acc";
+				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

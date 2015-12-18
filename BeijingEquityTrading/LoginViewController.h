@@ -31,4 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UIView *headVeiw;
 
+@property (weak, nonatomic) IBOutlet UIImageView *headLab;
+
+
 @end

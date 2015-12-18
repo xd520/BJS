@@ -236,7 +236,7 @@
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]
                                        MBProgressHUD:nil
-                                              target:self.view
+                                              target:self.navigationController.view
                                      displayInterval:3];
             
             NSLog(@"JSON: %@", responseObject);
@@ -249,7 +249,7 @@
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:notNetworkConnetTip
                                    MBProgressHUD:nil
-                                          target:self.view
+                                          target:self.navigationController.view
                                  displayInterval:2];
         
         NSLog(@"Error: %@", error);

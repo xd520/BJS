@@ -33,7 +33,7 @@
     
     
     
-    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 1)];
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0,addHight + 43, ScreenWidth, 1)];
     lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
     [self.view addSubview:lineView1];
     

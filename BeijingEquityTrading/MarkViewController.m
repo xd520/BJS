@@ -131,7 +131,15 @@
     NSLog(@"Received \"%@\"", message);
     NSLog(@"55555%@",message);
     
-    NSDictionary *messDic = [message objectForKey:@"object"];
+    NSData *jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    
+    
+    
+    NSDictionary *messDic = [dic objectForKey:@"object"];
     
     
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[messDic objectForKey:@"style"]]) {
@@ -1764,7 +1772,12 @@
     sureText = [[UITextField alloc] initWithFrame:CGRectMake(40, 0, ScreenWidth - 140 - 80, 35)];
     sureText.backgroundColor = [UIColor whiteColor];
     sureText.placeholder = @"输入报价金额";
-    sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
+    
+    if ([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue]) {
+      sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
+    } else {
+    sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[myDic objectForKey:@"QPJ"] floatValue]];
+    }
     
     sureText.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     sureText.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -2065,13 +2078,39 @@
     
     UILabel *view = (UILabel *)[sender view];
     if (view.tag == 0) {
-        sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
+        
+        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue])) {
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
+        } else {
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[myDic objectForKey:@"QPJ"] floatValue]];
+        }
+
+        
+        
+       // sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
 
     } else if (view.tag == 1) {
+        
+        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
+        } else {
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[myDic objectForKey:@"QPJ"] floatValue]];
+        }
+ 
+        
+           // sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
     
     }else if (view.tag == 2){
+        
+        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
+        } else {
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[myDic objectForKey:@"QPJ"] floatValue]];
+        }
+
+        
+        
+           // sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
     
     
     }

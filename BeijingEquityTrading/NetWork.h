@@ -37,6 +37,14 @@
 //北交所客户外网2
 #define SERVERURL @"http://202.96.1.30"
 #define SERVERURL1 @"202.96.1.30"
+
+//北交所客户外网3
+//#define SERVERURL @"http://111.205.25.78:8071"
+//#define SERVERURL1 @"111.205.25.78:8071"
+
+
+
+
 //银联外网地址
 //#define SERVERURL @"http://202.96.1.21"
 

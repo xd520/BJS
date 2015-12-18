@@ -27,7 +27,7 @@
         addHight = 20;
         UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
         
-        statusBarView.backgroundColor= [UIColor blackColor];
+        statusBarView.backgroundColor= UIColor.greenColor;
         
         [self.view addSubview:statusBarView];
     } else {
