@@ -340,10 +340,19 @@
 
 -(void)searchMthods{
     
+    if ([searchText.text isEqualToString:@""]) {
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"请输入专场名称"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+    } else {
+    
     [self.view endEditing:YES];
     
     start = @"1";
     [self requestData:searchText.text];
+    }
 }
 
 

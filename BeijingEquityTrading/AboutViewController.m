@@ -82,7 +82,7 @@
     _logoutBtn.layer.borderColor = [ConMethods colorWithHexString:@"dedede"].CGColor;
     _logoutBtn.layer.borderWidth = 1;
     _logoutBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
-    
+    _logoutBtn.hidden = YES;
    
     UITapGestureRecognizer *singleTap1;
     
