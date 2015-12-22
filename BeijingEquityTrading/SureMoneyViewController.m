@@ -15,6 +15,7 @@
     NSURLRequest *_FailedRequest;
     BOOL _authenticated;
    float addHight;
+    NSURLRequest *httpsRequest;
 }
 @end
 
@@ -65,6 +66,7 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     
     NSLog(@"%@",request.URL);
+    httpsRequest = request;
     NSString* scheme = [[request URL] scheme];
     // BOOL result = _authenticated;
     
@@ -172,18 +174,7 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     
-    [[HttpMethods Instance] activityIndicate:NO
-                                  tipContent:@"加载成功"
-                               MBProgressHUD:nil
-                                      target:self.view
-                             displayInterval:2];
-    
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    
+     [webView loadRequest:httpsRequest];
     
 }
 

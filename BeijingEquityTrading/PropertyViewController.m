@@ -485,8 +485,8 @@
                 
               
                 //品牌
-                UILabel *brandName = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, ScreenWidth - 40, 15)];
-                brandName.font = [UIFont systemFontOfSize:15];
+                UILabel *brandName = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, ScreenWidth - 140, 15)];
+                brandName.font = [UIFont systemFontOfSize:14];
                 [brandName setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandName setBackgroundColor:[UIColor clearColor]];
                 
@@ -495,7 +495,7 @@
                 
   //支付类型
                 
-                UILabel *brandClass = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 130, 43, 120, 12)];
+                UILabel *brandClass = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 135, 43, 120, 12)];
                 brandClass.font = [UIFont systemFontOfSize:12];
                 [brandClass setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandClass setBackgroundColor:[UIColor clearColor]];

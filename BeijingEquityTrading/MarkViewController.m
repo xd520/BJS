@@ -54,6 +54,8 @@
     NSDictionary *updataDic;
     
     SRWebSocket *_webSocket;
+    //溢价率
+    UILabel *priceVauleLab;
     
 }
 @end
@@ -150,12 +152,21 @@
             updataDic = messDic;
             
             timeAllAgain = ([[messDic objectForKey:@"STAMP"] longLongValue] - [[messDic objectForKey:@"fixTakeTime"] longLongValue])/1000;
+            
+            
+            
             timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
         }
         
         NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[messDic objectForKey:@"ZGJ"] floatValue]]]);
         
         newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[messDic  objectForKey:@"ZGJ"] floatValue]]]];
+        
+        float yijianlv = ([[messDic  objectForKey:@"ZGJ"] floatValue] - [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])*100;
+        priceVauleLab.text = [NSString stringWithFormat:@"%.2f%@",yijianlv,@"%"];
+        
+        
+        
         
     } else {
         
@@ -977,11 +988,21 @@
         [scrollView addSubview:priceLab];
         
         
-        UILabel *priceVauleLab = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth/2 + 60, newVauleLab.frame.origin.y + newVauleLab.frame.size.height + 10, ScreenWidth/2 - 70, 12)];
+        priceVauleLab = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth/2 + 60, newVauleLab.frame.origin.y + newVauleLab.frame.size.height + 10, ScreenWidth/2 - 70, 12)];
         priceVauleLab.font = [UIFont systemFontOfSize:12];
         priceVauleLab.backgroundColor = [UIColor clearColor];
         priceVauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
-        priceVauleLab.text = [[dic objectForKey:@"detail"] objectForKey:@"YJL"];
+        
+        float yijianlv = ([[[myDic objectForKey:@"detail"]  objectForKey:@"ZXJG"] floatValue] - [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])/[[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]*100;
+        if ([[[myDic objectForKey:@"detail"]  objectForKey:@"ZXJG"] floatValue] - [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue] > 0) {
+           priceVauleLab.text = [NSString stringWithFormat:@"%.2f%@",yijianlv,@"%"];
+        } else {
+        
+         priceVauleLab.text = @"0.00%";
+        }
+       
+        
+        //priceVauleLab.text = [[dic objectForKey:@"detail"] objectForKey:@"YJL"];
         [scrollView addSubview:priceVauleLab];
         
         
@@ -1104,14 +1125,17 @@
     [scrollView addSubview:lineView2];
 //加价幅度  服务费  限时报价期
    
-    UILabel *addLabx = [[UILabel alloc] initWithFrame:CGRectMake(10, lineView2.frame.origin.y + lineView2.frame.size.height + 10, ScreenWidth - 70, 12)];
+    UILabel *addLabx = [[UILabel alloc] init];
     addLabx.font = [UIFont systemFontOfSize:12];
     addLabx.backgroundColor = [UIColor clearColor];
     addLabx.textColor = [ConMethods colorWithHexString:@"666666"];
     addLabx.text = [NSString stringWithFormat:@"加价幅度:￥%.2f",[[[dic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]];
+    
+    addLabx.frame = CGRectMake(10, lineView2.frame.origin.y + lineView2.frame.size.height + 10, [PublicMethod getStringWidth:addLabx.text font: addLabx.font], 12);
+    
     [scrollView addSubview:addLabx];
 
-    UILabel *serviceLab = [[UILabel alloc] initWithFrame:CGRectMake((ScreenWidth - 80)/2, lineView2.frame.origin.y + lineView2.frame.size.height + 10, 80, 12)];
+    UILabel *serviceLab = [[UILabel alloc] initWithFrame:CGRectMake(addLabx.frame.origin.x + addLabx.frame.size.width + 5, lineView2.frame.origin.y + lineView2.frame.size.height + 10, 90, 12)];
     serviceLab.font = [UIFont systemFontOfSize:12];
     serviceLab.backgroundColor = [UIColor clearColor];
     serviceLab.textAlignment = NSTextAlignmentCenter;
@@ -1597,6 +1621,12 @@
 -(void)pushDec:(UIButton *)btn {
     
     if (btn.tag == 10001) {
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"该功能延后"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
        
     } else if (btn.tag == 10002) {
     

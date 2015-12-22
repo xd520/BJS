@@ -15,6 +15,8 @@
     NSURLRequest *_FailedRequest;
     BOOL _authenticated;
     float addHight;
+    
+    NSURLRequest *httpsRequest;
 }
 @end
 
@@ -67,6 +69,7 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     
     NSLog(@"%@",request.URL);
+    httpsRequest = request;
     NSString* scheme = [[request URL] scheme];
     // BOOL result = _authenticated;
     
@@ -123,11 +126,15 @@
 
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    
+    /*
     [[HttpMethods Instance] activityIndicate:NO
                                   tipContent:@"加载失败"
                                MBProgressHUD:nil
                                       target:self.view
                              displayInterval:2];
+    */
+    [webView loadRequest:httpsRequest];
     
 }
 
