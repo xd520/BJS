@@ -298,6 +298,7 @@
 
 
 -(void)requestPhoneMethods:(NSString *)str {
+    
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
     NSDictionary *parameters = @{@"mobilePhone":str};
@@ -316,7 +317,7 @@
             
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"短信发送成功"
+                                          tipContent:@"该手机号码可以注册"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
@@ -371,7 +372,7 @@
             
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:[responseObject objectForKey:@"msg"]
+                                          tipContent:@"短信发送成功"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
@@ -456,7 +457,7 @@
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]
                                        MBProgressHUD:nil
-                                              target:self.view
+                                              target:self.navigationController.view
                                      displayInterval:3];
             
             NSLog(@"JSON: %@", responseObject);
@@ -470,7 +471,7 @@
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:notNetworkConnetTip
                                    MBProgressHUD:nil
-                                          target:self.view
+                                          target:self.navigationController.view
                                  displayInterval:3];
         
         NSLog(@"Error: %@", error);
@@ -510,7 +511,7 @@
 
 -(void)dealloc {
     
-    //[child removeObserver:self forKeyPath:@"age"];
+    
     
 }
 
@@ -565,6 +566,12 @@
  }
 
 - (IBAction)back:(id)sender {
+    
+    if (child.age > 0) {
+        child.age = 0;
+    }
+
+    
     [self.navigationController popViewControllerAnimated:YES];
     
     

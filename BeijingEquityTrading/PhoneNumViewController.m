@@ -232,13 +232,18 @@
 
 -(void)dealloc {
     
-    [child removeObserver:self forKeyPath:@"age"];
+    //[child removeObserver:self forKeyPath:@"age"];
     
 }
 
 
 
 - (IBAction)back:(id)sender {
+    
+    if (child.age != 0) {
+        child.age = 0;
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)codeMethods:(id)sender {

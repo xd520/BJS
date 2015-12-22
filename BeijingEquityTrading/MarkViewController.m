@@ -844,11 +844,14 @@
     qiLab.backgroundColor = [UIColor clearColor];
     qiLab.textColor = [ConMethods colorWithHexString:@"c8c8ca"];
     
+    if ([dic objectForKey:@"zcxx"] != [NSNull null]) {
+    
     if ([[dic objectForKey:@"zcxx"] objectForKey:@"ZCQH"] == [NSNull null]) {
        qiLab.text =@"";
     }else {
     qiLab.text = [[dic objectForKey:@"zcxx"] objectForKey:@"ZCQH"];
     }
+    }    
     [scrollView addSubview:qiLab];
     
  //标的编号
@@ -947,7 +950,7 @@
         
         hight = sureVauleLab.frame.origin.y + sureVauleLab.frame.size.height;
         
-    } else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]){
+    } else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]){
         UILabel *newLab = [[UILabel alloc] initWithFrame:CGRectMake(10, numLab.frame.origin.y + numLab.frame.size.height + 23, 50, 12)];
         newLab.font = [UIFont systemFontOfSize:12];
         newLab.backgroundColor = [UIColor clearColor];
@@ -1273,6 +1276,9 @@
             
         } else {
             
+            if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]) {
+                
+            
             baoBtn.enabled = YES;
             UIImageView *endViewImg = [[UIImageView alloc] initWithFrame:CGRectMake(0,  ScreenHeight - 75 , ScreenWidth, 75)];
             endViewImg.image = [UIImage imageNamed:@"详情页按钮阴影底边"];
@@ -1302,13 +1308,17 @@
             [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55 + 55)];
             
             [self requestBaojiaMethods:[[dic objectForKey:@"detail"] objectForKey:@"KEYID"]];
-            
+            } else {
+             [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55)];
+            }
         }
         
     }else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]){
     
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES && [[[dic objectForKey:@"bzjInfo"] objectForKey:@"isSubmitBzj"] boolValue] == YES) {
+            
+           
             baoBackView = [[UIView alloc] initWithFrame:CGRectMake(0, baoBtn.frame.origin.y + baoBtn.frame.size.height, ScreenWidth, 55)];
             baoBackView.backgroundColor = [ConMethods colorWithHexString:@"f8f8f8"];
             [scrollView addSubview:baoBackView];

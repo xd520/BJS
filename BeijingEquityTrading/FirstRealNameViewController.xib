@@ -110,7 +110,7 @@
                     <rect key="frame" x="0.0" y="144" width="320" height="40"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入交易密码" minimumFontSize="17" clearButtonMode="whileEditing" id="P4A-Bi-oWU">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入6位数字交易密码" minimumFontSize="17" clearButtonMode="whileEditing" id="P4A-Bi-oWU">
                             <rect key="frame" x="109" y="0.0" width="195" height="40"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -160,6 +160,6 @@
         </view>
     </objects>
     <resources>
-        <image name="返回" width="12" height="20"/>
+        <image name="返回" width="31" height="31"/>
     </resources>
 </document>

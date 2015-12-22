@@ -154,6 +154,13 @@
                                    MBProgressHUD:nil
                                           target:self.view
                                  displayInterval:2];
+    }else if ([_passWord.text length] != 6){
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"请输入6位数字的交易密码"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:2];
     } else {
     
     RealNameViewController *vc = [[RealNameViewController alloc] init];

@@ -174,17 +174,18 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     
-     [webView loadRequest:httpsRequest];
+    [[HttpMethods Instance] activityIndicate:NO
+                                  tipContent:@"加载完成"
+                               MBProgressHUD:nil
+                                      target:self.view
+                             displayInterval:2];
     
 }
 
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    [[HttpMethods Instance] activityIndicate:NO
-                                  tipContent:@"加载失败"
-                               MBProgressHUD:nil
-                                      target:self.view
-                             displayInterval:2];
+    
+     [webView loadRequest:httpsRequest];
     
 }
 
