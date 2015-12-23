@@ -15,6 +15,7 @@
 #import "Base64XD.h"
 #import "RegesterViewController.h"
 #import "CPVTabViewController.h"
+#import "ForgetPWDViewController.h"
 
 
 @interface LoginViewController ()
@@ -371,18 +372,18 @@
 - (IBAction)foggoterPW:(id)sender {
     [self.view endEditing:YES];
    
-   // ForgetPWDViewController *vc = [[ForgetPWDViewController alloc] init];
-   // vc.hidesBottomBarWhenPushed = YES;
-   // [self.navigationController pushViewController:vc animated:YES];
-    
-   // [self.view makeToast:@"该功能还未实现，请先到PC端操作"];
+    ForgetPWDViewController *vc = [[ForgetPWDViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    /*
+    [self.view makeToast:@"该功能还未实现，请先到PC端操作"];
    
     [[HttpMethods Instance] activityIndicate:NO
                                   tipContent:@"该功能延后，请先到PC端操作"
                                MBProgressHUD:nil
                                       target:self.view
                              displayInterval:3];
-    
+    */
     
 }
 

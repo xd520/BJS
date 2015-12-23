@@ -166,7 +166,7 @@
 
 -(void) requestSummitData {
     
-    NSDictionary *parameters = @{@"bzjbz":_strId,@"jymm":[[Base64XD encodeBase64String:_jiaoyiPassword.text] strBase64],@"id":_markId,@"yzm":_code.text};
+    NSDictionary *parameters = @{@"bzjbz":_markId,@"jymm":[[Base64XD encodeBase64String:_jiaoyiPassword.text] strBase64],@"id":_strId,@"yzm":_code.text};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -188,7 +188,7 @@
                                               target:self.view
                                      displayInterval:3];
             
-            [self requestDatacheckBindCardResult:nil];
+            [self requestDatacheckBindCardResult:[[responseObject objectForKey:@"object"] objectForKey:@"FID_SQH"]];
             
         } else {
             

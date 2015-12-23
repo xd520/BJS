@@ -14,11 +14,12 @@
 #define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
 
 //北交所
-//#define SERVERURL @"http://192.168.1.84:8089"
-//#define SERVERURL1 @"192.168.1.84:8089"
+#define SERVERURL @"http://192.168.1.84:8089"
+#define SERVERURL1 @"192.168.1.84:8089"
 
 //小乔通道
 //#define SERVERURL @"http://192.168.2.207:8080"
+//#define SERVERURL1 @"192.168.2.207:8080"
 //晨达通道
 //#define SERVERURL @"http://192.168.2.11:8080/bid"
 
@@ -35,8 +36,8 @@
 //北交所客户外网1
 //#define SERVERURL @"http://111.205.25.78:8071"
 //北交所客户外网2
-#define SERVERURL @"http://202.96.1.30"
-#define SERVERURL1 @"202.96.1.30"
+//#define SERVERURL @"http://202.96.1.30"
+//#define SERVERURL1 @"202.96.1.30"
 
 //北交所客户外网3
 //#define SERVERURL @"http://111.205.25.78:8071"
@@ -149,6 +150,13 @@
 #define USERqytsendVcode @"/service/pay/qyt/sendVcode"
 #define USERqytsubmitApplyOutMoney @"/service/pay/qyt/app_submitApplyOutMoney"
 #define USERqytcheckBindCardResult @"/service/pay/qyt/checkBindCardResult"
+
+#define USERtransRecordList @"/service/pay/bank/app_transRecordList"
+
+/***忘记密码***/
+#define USERforgetpwdstep1 @"/service/forgetpwd/app_step1"
+#define USERforgetpwdstep2 @"/service/forgetpwd/app_step2"
+#define USERforgetpwdsendVcode @"/service/forgetpwd/sendVcode"
 
 
 #endif /* NetWork_h */

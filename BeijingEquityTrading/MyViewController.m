@@ -16,6 +16,7 @@
 #import "NewsViewController.h"
 #import "LoginViewController.h"
 #import "AboutViewController.h"
+#import "PaymentRecordViewController.h"
 
 @interface MyViewController ()
 {
@@ -130,8 +131,8 @@
         
     }
 
-      arrTitle = @[@"我的资产",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心"];
-    arrImg = @[@"grzx_icon_2",@"grzx_icon_3",@"grzx_icon_4",@"grzx_icon_5",@"grzx_icon_1",@"grzx_icon_6"];
+      arrTitle = @[@"我的资产",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心",@"支付记录"];
+    arrImg = @[@"grzx_icon_2",@"grzx_icon_3",@"grzx_icon_4",@"grzx_icon_5",@"grzx_icon_1",@"grzx_icon_6",@"grzx_icon_6"];
     
     
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth,ScreenHeight - 49)];
@@ -233,7 +234,7 @@
 
 -(void)requestData{
     
-    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在注销..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在注销..." MBProgressHUD:nil target:self.navigationController.view displayInterval:2.0];
     
     
     /*
@@ -295,7 +296,7 @@
                 [[HttpMethods Instance] activityIndicate:NO
                                               tipContent:[responseObject objectForKey:@"msg"]
                                            MBProgressHUD:nil
-                                                  target:self.view
+                                                  target:self.navigationController.view
                                          displayInterval:3];
             }
             
@@ -367,8 +368,8 @@
         
         
         UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        searchBtn.frame = CGRectMake(ScreenWidth - 10 - 40, 30, 30, 30);
-        [searchBtn setBackgroundImage:[UIImage imageNamed:@"message_title_setting"] forState:UIControlStateNormal];
+        searchBtn.frame = CGRectMake(ScreenWidth - 10 - 23, 25, 23, 23);
+        [searchBtn setBackgroundImage:[UIImage imageNamed:@"grzx_setting"] forState:UIControlStateNormal];
         [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:searchBtn];
      
@@ -418,6 +419,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.row == 5){
         NewsViewController *vc = [[NewsViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if (indexPath.row == 6){
+    
+        PaymentRecordViewController *vc = [[PaymentRecordViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }

@@ -45,6 +45,7 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/pay/qyt/app_applySaveMoney?id=%@&rmd=%i",SERVERURL,_strId,[self getRandomNumber:0 to:100000000]]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setValue:@"webview" forHTTPHeaderField:@"Request-By"];
     [_webView loadRequest:request];
     
 }

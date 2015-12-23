@@ -146,8 +146,8 @@
     
     
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 30, 5, 20, 20);
-    [searchBtn setBackgroundImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 35, 0, 30, 30);
+    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:searchBtn];
     
@@ -1033,10 +1033,19 @@
 
 -(void)searchMthods{
     
+    if ([searchText.text isEqualToString:@""]) {
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:@"请输入专场名称"
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+    } else {
+    
     [self.view endEditing:YES];
     
     start = @"1";
     [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
+    }
 }
 
 

@@ -82,6 +82,12 @@
 		04BC40731BFDC39700548EBA /* ProviousViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC40711BFDC39700548EBA /* ProviousViewController.m */; };
 		04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC40721BFDC39700548EBA /* ProviousViewController.xib */; };
 		A1425C141C1E7AAA0047270A /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1425C131C1E7AA90047270A /* libicucore.tbd */; };
+		A14EF7591C2A7E81001FBA58 /* PaymentRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A14EF7571C2A7E81001FBA58 /* PaymentRecordViewController.m */; };
+		A14EF75A1C2A7E81001FBA58 /* PaymentRecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A14EF7581C2A7E81001FBA58 /* PaymentRecordViewController.xib */; };
+		A14EF75E1C2AA270001FBA58 /* ForgetPWDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A14EF75C1C2AA270001FBA58 /* ForgetPWDViewController.m */; };
+		A14EF75F1C2AA270001FBA58 /* ForgetPWDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A14EF75D1C2AA270001FBA58 /* ForgetPWDViewController.xib */; };
+		A14EF7681C2AA979001FBA58 /* FoggterAgainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A14EF7661C2AA979001FBA58 /* FoggterAgainViewController.m */; };
+		A14EF7691C2AA979001FBA58 /* FoggterAgainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A14EF7671C2AA979001FBA58 /* FoggterAgainViewController.xib */; };
 		A15CB2121C1EBC0000FEBB4C /* PayForViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A15CB2101C1EBC0000FEBB4C /* PayForViewController.m */; };
 		A15CB2131C1EBC0000FEBB4C /* PayForViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A15CB2111C1EBC0000FEBB4C /* PayForViewController.xib */; };
 		A199AA1C1C07E0B9002839CB /* PropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA0B1C07E0B9002839CB /* PropertyViewController.m */; };
@@ -265,6 +271,15 @@
 		04BC40711BFDC39700548EBA /* ProviousViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviousViewController.m; sourceTree = "<group>"; };
 		04BC40721BFDC39700548EBA /* ProviousViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProviousViewController.xib; sourceTree = "<group>"; };
 		A1425C131C1E7AA90047270A /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		A14EF7561C2A7E81001FBA58 /* PaymentRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentRecordViewController.h; sourceTree = "<group>"; };
+		A14EF7571C2A7E81001FBA58 /* PaymentRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentRecordViewController.m; sourceTree = "<group>"; };
+		A14EF7581C2A7E81001FBA58 /* PaymentRecordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentRecordViewController.xib; sourceTree = "<group>"; };
+		A14EF75B1C2AA270001FBA58 /* ForgetPWDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPWDViewController.h; sourceTree = "<group>"; };
+		A14EF75C1C2AA270001FBA58 /* ForgetPWDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPWDViewController.m; sourceTree = "<group>"; };
+		A14EF75D1C2AA270001FBA58 /* ForgetPWDViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgetPWDViewController.xib; sourceTree = "<group>"; };
+		A14EF7651C2AA979001FBA58 /* FoggterAgainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoggterAgainViewController.h; sourceTree = "<group>"; };
+		A14EF7661C2AA979001FBA58 /* FoggterAgainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoggterAgainViewController.m; sourceTree = "<group>"; };
+		A14EF7671C2AA979001FBA58 /* FoggterAgainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FoggterAgainViewController.xib; sourceTree = "<group>"; };
 		A15CB20F1C1EBC0000FEBB4C /* PayForViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayForViewController.h; sourceTree = "<group>"; };
 		A15CB2101C1EBC0000FEBB4C /* PayForViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayForViewController.m; sourceTree = "<group>"; };
 		A15CB2111C1EBC0000FEBB4C /* PayForViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PayForViewController.xib; sourceTree = "<group>"; };
@@ -527,6 +542,12 @@
 				044B54A81BD9E74D00CC4CC5 /* LoginViewController.h */,
 				044B54A91BD9E74D00CC4CC5 /* LoginViewController.m */,
 				044B54AA1BD9E74D00CC4CC5 /* LoginViewController.xib */,
+				A14EF75B1C2AA270001FBA58 /* ForgetPWDViewController.h */,
+				A14EF75C1C2AA270001FBA58 /* ForgetPWDViewController.m */,
+				A14EF75D1C2AA270001FBA58 /* ForgetPWDViewController.xib */,
+				A14EF7651C2AA979001FBA58 /* FoggterAgainViewController.h */,
+				A14EF7661C2AA979001FBA58 /* FoggterAgainViewController.m */,
+				A14EF7671C2AA979001FBA58 /* FoggterAgainViewController.xib */,
 			);
 			name = "登录界面";
 			sourceTree = "<group>";
@@ -659,15 +680,18 @@
 				A199AA131C07E0B9002839CB /* CertifyViewController.h */,
 				A199AA141C07E0B9002839CB /* CertifyViewController.m */,
 				A199AA151C07E0B9002839CB /* CertifyViewController.xib */,
+				A199AA191C07E0B9002839CB /* NewsViewController.h */,
 				A199AA161C07E0B9002839CB /* MeansViewController.h */,
 				A199AA171C07E0B9002839CB /* MeansViewController.m */,
 				A199AA181C07E0B9002839CB /* MeansViewController.xib */,
-				A199AA191C07E0B9002839CB /* NewsViewController.h */,
 				A199AA1A1C07E0B9002839CB /* NewsViewController.m */,
 				A199AA1B1C07E0B9002839CB /* NewsViewController.xib */,
 				A1F14AD01C16A685003D4923 /* BackMoneyViewController.h */,
 				A1F14AD11C16A685003D4923 /* BackMoneyViewController.m */,
 				A1F14AD21C16A685003D4923 /* BackMoneyViewController.xib */,
+				A14EF7561C2A7E81001FBA58 /* PaymentRecordViewController.h */,
+				A14EF7571C2A7E81001FBA58 /* PaymentRecordViewController.m */,
+				A14EF7581C2A7E81001FBA58 /* PaymentRecordViewController.xib */,
 			);
 			name = "账户中心";
 			sourceTree = "<group>";
@@ -795,6 +819,7 @@
 				A15CB2131C1EBC0000FEBB4C /* PayForViewController.xib in Resources */,
 				042A56981BF30CF9006032C5 /* DetailViewController.xib in Resources */,
 				043E446E1C06F309007CC3C4 /* MarkListViewController.xib in Resources */,
+				A14EF75F1C2AA270001FBA58 /* ForgetPWDViewController.xib in Resources */,
 				047106081BCB670700F558FF /* Assets.xcassets in Resources */,
 				A199AA231C07E0B9002839CB /* CertifyViewController.xib in Resources */,
 				A199AA1F1C07E0B9002839CB /* TradeViewController.xib in Resources */,
@@ -814,7 +839,9 @@
 				04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */,
 				A199AA1D1C07E0B9002839CB /* PropertyViewController.xib in Resources */,
 				04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */,
+				A14EF7691C2AA979001FBA58 /* FoggterAgainViewController.xib in Resources */,
 				04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */,
+				A14EF75A1C2A7E81001FBA58 /* PaymentRecordViewController.xib in Resources */,
 				A199AA211C07E0B9002839CB /* AttentionViewController.xib in Resources */,
 				A1F5D8B21C2282C000BF1FEB /* AboutUsViewController.xib in Resources */,
 				A1F02FAE1C12BA8500D6DB5A /* FirstRealNameViewController.xib in Resources */,
@@ -854,6 +881,7 @@
 				A15CB2121C1EBC0000FEBB4C /* PayForViewController.m in Sources */,
 				042968E41BCF792800975279 /* UIKit+custom_.mm in Sources */,
 				04041EB91BF18EB3009C6D2B /* UIAlertView+AFNetworking.m in Sources */,
+				A14EF75E1C2AA270001FBA58 /* ForgetPWDViewController.m in Sources */,
 				04041EBE1BF18EB3009C6D2B /* UIWebView+AFNetworking.m in Sources */,
 				04041EA41BF18EA4009C6D2B /* AFURLSessionManager.m in Sources */,
 				04041EBB1BF18EB3009C6D2B /* UIImageView+AFNetworking.m in Sources */,
@@ -883,6 +911,7 @@
 				A199AA241C07E0B9002839CB /* MeansViewController.m in Sources */,
 				A199AA221C07E0B9002839CB /* CertifyViewController.m in Sources */,
 				04041E9D1BF18EA4009C6D2B /* AFHTTPRequestOperationManager.m in Sources */,
+				A14EF7681C2AA979001FBA58 /* FoggterAgainViewController.m in Sources */,
 				04041E9C1BF18EA4009C6D2B /* AFHTTPRequestOperation.m in Sources */,
 				A1F5D8B11C2282C000BF1FEB /* AboutUsViewController.m in Sources */,
 				042968E01BCF792800975279 /* CPVTabViewController.m in Sources */,
@@ -906,6 +935,7 @@
 				047105FD1BCB670700F558FF /* main.m in Sources */,
 				A1F4FFC51C20FC1E004B732F /* PayMoneyViewController.m in Sources */,
 				04041EA21BF18EA4009C6D2B /* AFURLRequestSerialization.m in Sources */,
+				A14EF7591C2A7E81001FBA58 /* PaymentRecordViewController.m in Sources */,
 				04041E4D1BF18A25009C6D2B /* SDRefreshView.m in Sources */,
 				04041EC61BF18ED8009C6D2B /* HttpMethods.m in Sources */,
 				04041E9E1BF18EA4009C6D2B /* AFHTTPSessionManager.m in Sources */,
