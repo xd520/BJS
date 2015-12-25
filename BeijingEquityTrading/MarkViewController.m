@@ -14,6 +14,7 @@
 #import "SRWebSocket.h"
 #import "PayMoneyViewController.h"
 #import "UserProcrolViewController.h"
+#import "MarkDetailViewController.h"
 
 
 @interface MarkViewController ()<SRWebSocketDelegate>
@@ -1631,12 +1632,9 @@
 -(void)pushDec:(UIButton *)btn {
     
     if (btn.tag == 10001) {
-        [[HttpMethods Instance] activityIndicate:NO
-                                      tipContent:@"该功能延后"
-                                   MBProgressHUD:nil
-                                          target:self.view
-                                 displayInterval:3];
-        
+        MarkDetailViewController *vc = [[MarkDetailViewController alloc] init];
+        vc.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
+        [self.navigationController pushViewController:vc animated:YES];
        
     } else if (btn.tag == 10002) {
     

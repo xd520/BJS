@@ -120,7 +120,7 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    /*
+    
     
     bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
         // 10分钟后执行这里，应该进行一些清理工作，如断开和服务器的连接等
@@ -155,7 +155,7 @@
             }
         });
     });
-     */
+     
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

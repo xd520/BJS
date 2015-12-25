@@ -1,22 +1,21 @@
 //
-//  UserHelpViewController.m
+//  MarkDetailViewController.m
 //  BeijingEquityTrading
 //
-//  Created by 熊永辉 on 15/12/17.
+//  Created by 熊永辉 on 15/12/24.
 //  Copyright © 2015年 ApexSoft. All rights reserved.
 //
 
-#import "UserHelpViewController.h"
+#import "MarkDetailViewController.h"
 #import "AppDelegate.h"
 
-@interface UserHelpViewController ()
+@interface MarkDetailViewController ()
 {
     float addHight;
 }
-
 @end
 
-@implementation UserHelpViewController
+@implementation MarkDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,32 +30,20 @@
         addHight = 0;
     }
     
-    
-    
-    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0,addHight + 43, ScreenWidth, 1)];
-    lineView1.backgroundColor = [ConMethods  colorWithHexString:@"a5a5a5"];
+    //_webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 44, ScreenWidth, 1)];
+    lineView1.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
     [self.view addSubview:lineView1];
-    
-    
-    _titleLab.text = _strName;
-    
-    _webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    
     
     
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
-   // NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?id=%@",SERVERURL,USERinfodetail,_strId]];
-    
-   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/s/agreement/index_app?code=%@",SERVERURL,_strId]]; 
-    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/s/prj/appBdwDetail?id=%@",SERVERURL,_strId]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setValue:@"webview" forHTTPHeaderField:@"Request-By"];
     [_webView loadRequest:request];
-    
-
 }
-
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     
@@ -66,20 +53,16 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     
     [[HttpMethods Instance] activityIndicate:NO
-                                  tipContent:@"加载成功"
+                                  tipContent:@"加载完成"
                                MBProgressHUD:nil
                                       target:self.view
                              displayInterval:2];
     
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    
-    
 }
+
+
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    
     [[HttpMethods Instance] activityIndicate:NO
                                   tipContent:@"加载失败"
                                MBProgressHUD:nil
@@ -101,24 +84,11 @@
 
 
 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
--(void)dealloc {
-    // webView 的缓存处理
-    
-    _webView.delegate = nil;
-    [_webView loadHTMLString:@"" baseURL:nil];
-    [_webView stopLoading];
-    [_webView removeFromSuperview];
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    _webView = nil;
-    
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-}
-
 
 
 - (IBAction)back:(id)sender {

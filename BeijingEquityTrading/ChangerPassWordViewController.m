@@ -9,6 +9,7 @@
 #import "ChangerPassWordViewController.h"
 #import "AppDelegate.h"
 #import "Child.h"
+#import "ReSetPassWordViewController.h"
 
 
 @interface ChangerPassWordViewController ()
@@ -77,7 +78,7 @@
     _codeBtn.layer.cornerRadius = 2;
     _codeBtn.layer.masksToBounds = YES;
     _codeBtn.userInteractionEnabled = YES;
-    _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
+    _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
     
     
     //[self requestCodeData];
@@ -151,7 +152,7 @@
         
         [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
         _codeBtn.enabled = YES;
-        _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
+        _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
         [child removeObserver:self forKeyPath:@"age"];
     } else {
         
@@ -350,9 +351,14 @@
 }
 
 
-
 - (IBAction)pushVC:(id)sender {
    
+}
+
+- (IBAction)changePasswordMethods:(id)sender {
+    ReSetPassWordViewController *vc = [[ReSetPassWordViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 - (IBAction)codeMethods:(id)sender {
     _codeBtn.enabled = NO;

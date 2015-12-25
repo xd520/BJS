@@ -102,6 +102,8 @@
 		A199AA251C07E0B9002839CB /* MeansViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA181C07E0B9002839CB /* MeansViewController.xib */; };
 		A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199AA1A1C07E0B9002839CB /* NewsViewController.m */; };
 		A199AA271C07E0B9002839CB /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A199AA1B1C07E0B9002839CB /* NewsViewController.xib */; };
+		A1A418C71C2B9F5F008AC633 /* MarkDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A418C51C2B9F5F008AC633 /* MarkDetailViewController.m */; };
+		A1A418C81C2B9F5F008AC633 /* MarkDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1A418C61C2B9F5F008AC633 /* MarkDetailViewController.xib */; };
 		A1BD22531C1E5AEB00D17285 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BD22521C1E5AEB00D17285 /* Foundation.framework */; };
 		A1BD22551C1E5AF200D17285 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BD22541C1E5AF200D17285 /* CFNetwork.framework */; };
 		A1BD22571C1E5AFA00D17285 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BD22561C1E5AFA00D17285 /* Security.framework */; };
@@ -131,6 +133,8 @@
 		A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */; };
 		A1F69D341C116FFF0095F66C /* ChangerPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */; };
 		A1F69D351C116FFF0095F66C /* ChangerPassWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */; };
+		A1FCE1CD1C2B91CB00B88BFA /* ReSetPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FCE1CB1C2B91CB00B88BFA /* ReSetPassWordViewController.m */; };
+		A1FCE1CE1C2B91CB00B88BFA /* ReSetPassWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1FCE1CC1C2B91CB00B88BFA /* ReSetPassWordViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -301,6 +305,9 @@
 		A199AA191C07E0B9002839CB /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		A199AA1A1C07E0B9002839CB /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		A199AA1B1C07E0B9002839CB /* NewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
+		A1A418C41C2B9F5F008AC633 /* MarkDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkDetailViewController.h; sourceTree = "<group>"; };
+		A1A418C51C2B9F5F008AC633 /* MarkDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkDetailViewController.m; sourceTree = "<group>"; };
+		A1A418C61C2B9F5F008AC633 /* MarkDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkDetailViewController.xib; sourceTree = "<group>"; };
 		A1BD22521C1E5AEB00D17285 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A1BD22541C1E5AF200D17285 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		A1BD22561C1E5AFA00D17285 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -343,6 +350,9 @@
 		A1F69D2F1C116FFF0095F66C /* ChangerPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangerPassWordViewController.h; sourceTree = "<group>"; };
 		A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangerPassWordViewController.m; sourceTree = "<group>"; };
 		A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangerPassWordViewController.xib; sourceTree = "<group>"; };
+		A1FCE1CA1C2B91CB00B88BFA /* ReSetPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReSetPassWordViewController.h; sourceTree = "<group>"; };
+		A1FCE1CB1C2B91CB00B88BFA /* ReSetPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReSetPassWordViewController.m; sourceTree = "<group>"; };
+		A1FCE1CC1C2B91CB00B88BFA /* ReSetPassWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReSetPassWordViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -517,6 +527,9 @@
 				045A59121BFC162E00771AE0 /* MoreTableViewCell.xib */,
 				045A59171BFC2EB000771AE0 /* ListData.h */,
 				045A59181BFC2EB000771AE0 /* ListData.m */,
+				A1A418C41C2B9F5F008AC633 /* MarkDetailViewController.h */,
+				A1A418C51C2B9F5F008AC633 /* MarkDetailViewController.m */,
+				A1A418C61C2B9F5F008AC633 /* MarkDetailViewController.xib */,
 				043E446A1C06F309007CC3C4 /* MarkListViewController.h */,
 				043E446B1C06F309007CC3C4 /* MarkListViewController.m */,
 				043E446C1C06F309007CC3C4 /* MarkListViewController.xib */,
@@ -734,6 +747,9 @@
 		A1F69D2B1C116FDE0095F66C /* 二级界面 */ = {
 			isa = PBXGroup;
 			children = (
+				A1FCE1CA1C2B91CB00B88BFA /* ReSetPassWordViewController.h */,
+				A1FCE1CB1C2B91CB00B88BFA /* ReSetPassWordViewController.m */,
+				A1FCE1CC1C2B91CB00B88BFA /* ReSetPassWordViewController.xib */,
 				A1F69D2C1C116FFF0095F66C /* ChangeLoginPWViewController.h */,
 				A1F69D2D1C116FFF0095F66C /* ChangeLoginPWViewController.m */,
 				A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */,
@@ -837,7 +853,9 @@
 				A1F02FA41C12B5B800D6DB5A /* PhoneNumViewController.xib in Resources */,
 				A1F1F7051C155A7B00229183 /* CityViewController.xib in Resources */,
 				04BC40741BFDC39700548EBA /* ProviousViewController.xib in Resources */,
+				A1FCE1CE1C2B91CB00B88BFA /* ReSetPassWordViewController.xib in Resources */,
 				A199AA1D1C07E0B9002839CB /* PropertyViewController.xib in Resources */,
+				A1A418C81C2B9F5F008AC633 /* MarkDetailViewController.xib in Resources */,
 				04B101631BFC6070008C6100 /* UserProcrolViewController.xib in Resources */,
 				A14EF7691C2AA979001FBA58 /* FoggterAgainViewController.xib in Resources */,
 				04BC406F1BFDBE8900548EBA /* WebDetailViewController.xib in Resources */,
@@ -895,10 +913,12 @@
 				04041EB81BF18EB3009C6D2B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				042969121BCF804B00975279 /* MainViewController.m in Sources */,
 				A1F02FA31C12B5B800D6DB5A /* PhoneNumViewController.m in Sources */,
+				A1A418C71C2B9F5F008AC633 /* MarkDetailViewController.m in Sources */,
 				045A59131BFC162E00771AE0 /* MoreTableViewCell.m in Sources */,
 				A1F14AD31C16A685003D4923 /* BackMoneyViewController.m in Sources */,
 				A199AA261C07E0B9002839CB /* NewsViewController.m in Sources */,
 				0429691C1BCF80F900975279 /* TreasureViewController.m in Sources */,
+				A1FCE1CD1C2B91CB00B88BFA /* ReSetPassWordViewController.m in Sources */,
 				04B101621BFC6070008C6100 /* UserProcrolViewController.m in Sources */,
 				04041E501BF18A25009C6D2B /* SDRefreshFooterView.m in Sources */,
 				04041EBD1BF18EB3009C6D2B /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -1033,7 +1053,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1043,9 +1063,9 @@
 					"\"$(SRCROOT)/BeijingEquityTrading/libSocketRocket.a\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
+				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
+				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1056,7 +1076,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Fujian Apex Software Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1066,9 +1086,9 @@
 					"\"$(SRCROOT)/BeijingEquityTrading/libSocketRocket.a\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = inHouse.com.apex.testXiong;
+				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "0ffdd4f0-1ee2-434a-83cf-2632bb87ec0b";
+				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

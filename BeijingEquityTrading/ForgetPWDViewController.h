@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 - (IBAction)nextMethods:(id)sender;
 
+- (IBAction)sheetCodeMethods:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *codeBtn;
 
 
 

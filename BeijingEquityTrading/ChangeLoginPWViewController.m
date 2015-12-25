@@ -44,7 +44,7 @@
    // [_sureBtn setBackgroundImage:[UIImage imageNamed:@"title_bg"] forState:UIControlStateNormal];
     
     UIView *view0 = [[UIView alloc] initWithFrame:CGRectMake(0, 44 + addHight, ScreenWidth , 1)];
-    view0.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
+    view0.backgroundColor = [ConMethods colorWithHexString:@"a5a5a5"];
     [self.view addSubview:view0];
     
     
@@ -66,7 +66,7 @@
     _codeBtn.layer.cornerRadius = 2;
     _codeBtn.layer.masksToBounds = YES;
     _codeBtn.userInteractionEnabled = YES;
-    _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
+    _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
     
     
     _oldPW.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -145,7 +145,7 @@
         
         [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
         _codeBtn.enabled = YES;
-        _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
+        _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
         [child removeObserver:self forKeyPath:@"age"];
     } else {
         

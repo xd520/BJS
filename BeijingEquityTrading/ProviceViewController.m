@@ -232,12 +232,12 @@
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+     if (dataList.count > 0) {
         
         [self.delegate reloadProviousTableView:[dataList objectAtIndex:indexPath.row]];
         [self.navigationController popViewControllerAnimated:YES];
         
-    
+     }
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle

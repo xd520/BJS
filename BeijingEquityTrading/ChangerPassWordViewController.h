@@ -21,5 +21,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 - (IBAction)sureMehtods:(id)sender;
 - (IBAction)pushVC:(id)sender;
+- (IBAction)changePasswordMethods:(id)sender;
 
 @end
