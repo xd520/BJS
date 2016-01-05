@@ -133,6 +133,8 @@
 		A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */; };
 		A1F69D341C116FFF0095F66C /* ChangerPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */; };
 		A1F69D351C116FFF0095F66C /* ChangerPassWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */; };
+		A1FB6F921C3B54A90043F4A5 /* SetEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FB6F901C3B54A90043F4A5 /* SetEmailViewController.m */; };
+		A1FB6F931C3B54A90043F4A5 /* SetEmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1FB6F911C3B54A90043F4A5 /* SetEmailViewController.xib */; };
 		A1FCE1CD1C2B91CB00B88BFA /* ReSetPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FCE1CB1C2B91CB00B88BFA /* ReSetPassWordViewController.m */; };
 		A1FCE1CE1C2B91CB00B88BFA /* ReSetPassWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1FCE1CC1C2B91CB00B88BFA /* ReSetPassWordViewController.xib */; };
 /* End PBXBuildFile section */
@@ -350,6 +352,9 @@
 		A1F69D2F1C116FFF0095F66C /* ChangerPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangerPassWordViewController.h; sourceTree = "<group>"; };
 		A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangerPassWordViewController.m; sourceTree = "<group>"; };
 		A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangerPassWordViewController.xib; sourceTree = "<group>"; };
+		A1FB6F8F1C3B54A90043F4A5 /* SetEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetEmailViewController.h; sourceTree = "<group>"; };
+		A1FB6F901C3B54A90043F4A5 /* SetEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetEmailViewController.m; sourceTree = "<group>"; };
+		A1FB6F911C3B54A90043F4A5 /* SetEmailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetEmailViewController.xib; sourceTree = "<group>"; };
 		A1FCE1CA1C2B91CB00B88BFA /* ReSetPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReSetPassWordViewController.h; sourceTree = "<group>"; };
 		A1FCE1CB1C2B91CB00B88BFA /* ReSetPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReSetPassWordViewController.m; sourceTree = "<group>"; };
 		A1FCE1CC1C2B91CB00B88BFA /* ReSetPassWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReSetPassWordViewController.xib; sourceTree = "<group>"; };
@@ -765,6 +770,9 @@
 				A1F02FA51C12B69400D6DB5A /* RealNameViewController.h */,
 				A1F02FA61C12B69400D6DB5A /* RealNameViewController.m */,
 				A1F02FA71C12B69400D6DB5A /* RealNameViewController.xib */,
+				A1FB6F8F1C3B54A90043F4A5 /* SetEmailViewController.h */,
+				A1FB6F901C3B54A90043F4A5 /* SetEmailViewController.m */,
+				A1FB6F911C3B54A90043F4A5 /* SetEmailViewController.xib */,
 			);
 			name = "二级界面";
 			sourceTree = "<group>";
@@ -864,6 +872,7 @@
 				A1F5D8B21C2282C000BF1FEB /* AboutUsViewController.xib in Resources */,
 				A1F02FAE1C12BA8500D6DB5A /* FirstRealNameViewController.xib in Resources */,
 				A1F4FFC61C20FC1E004B732F /* PayMoneyViewController.xib in Resources */,
+				A1FB6F931C3B54A90043F4A5 /* SetEmailViewController.xib in Resources */,
 				04041E4C1BF18A25009C6D2B /* sdRefeshView_arrow@2x.png in Resources */,
 				0429691D1BCF80F900975279 /* TreasureViewController.xib in Resources */,
 				A1F1F70A1C155AD300229183 /* ProviceViewController.xib in Resources */,
@@ -920,6 +929,7 @@
 				0429691C1BCF80F900975279 /* TreasureViewController.m in Sources */,
 				A1FCE1CD1C2B91CB00B88BFA /* ReSetPassWordViewController.m in Sources */,
 				04B101621BFC6070008C6100 /* UserProcrolViewController.m in Sources */,
+				A1FB6F921C3B54A90043F4A5 /* SetEmailViewController.m in Sources */,
 				04041E501BF18A25009C6D2B /* SDRefreshFooterView.m in Sources */,
 				04041EBD1BF18EB3009C6D2B /* UIRefreshControl+AFNetworking.m in Sources */,
 				04BC406E1BFDBE8900548EBA /* WebDetailViewController.m in Sources */,
@@ -1065,7 +1075,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
+				PROVISIONING_PROFILE = "3502a7b2-0d1b-4dbb-b316-4f22895dfe7c";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1088,7 +1098,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
+				PROVISIONING_PROFILE = "3502a7b2-0d1b-4dbb-b316-4f22895dfe7c";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

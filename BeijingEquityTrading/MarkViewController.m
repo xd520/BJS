@@ -795,6 +795,29 @@
       // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod1:) userInfo:nil repeats:YES];
         [self requestdatafornew];
         
+    } else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]){
+        image.image = [UIImage imageNamed:@"正在竞价"];
+        UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 85, 14)];
+        timeLab.font = [UIFont systemFontOfSize:14];
+        timeLab.backgroundColor = [UIColor clearColor];
+        timeLab.textColor = [UIColor whiteColor];
+        timeLab.text = @"暂停报价期";
+        [image addSubview:timeLab];
+        
+        //剩余时间
+        UILabel *timeValueLab = [[UILabel alloc] initWithFrame:CGRectMake(110, 0, ScreenWidth - 120, 30)];
+        timeValueLab.font = [UIFont systemFontOfSize:14];
+        timeValueLab.backgroundColor = [UIColor clearColor];
+        timeValueLab.textColor = [ConMethods colorWithHexString:@"333333"];
+        
+        if(![[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"]){
+            
+            timeValueLab.text = [NSString stringWithFormat:@"结束时间:%@  %@",[[dic objectForKey:@"detail"] objectForKey:@"SJJSRQ"],[[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"]];
+        }
+        
+        
+        [backView addSubview:timeValueLab];
+        
     } else {
     
         image.image = [UIImage imageNamed:@"已结束"];
@@ -1648,9 +1671,8 @@
     
        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
-           
-           [self initBackViewMehtods];
-            isUpDate = NO;
+            //判定是否实名认证
+            [self requestDataISUserName];
             
         } else {
         
@@ -1811,11 +1833,19 @@
     sureText.backgroundColor = [UIColor whiteColor];
     sureText.placeholder = @"输入报价金额";
     
-    if ([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue]) {
-      sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
+    if (updataDic.count > 0) {
+        if ([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue]) {
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
+        } else {
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+        }
+   
     } else {
-    sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[myDic objectForKey:@"QPJ"] floatValue]];
+     sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+    
     }
+    
+    
     
     sureText.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     sureText.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -1853,8 +1883,8 @@
     
     
     
-    CGRect frame = summitBackImg.frame;
-    int offset = frame.origin.y + 76 - (self.view.frame.size.height - 256.0);//键盘高度216
+   // CGRect frame = summitBackImg.frame;
+    int offset = 216;//键盘高度216
     //动画
     /*
      NSTimeInterval animationDuration = 0.3f;
@@ -2324,6 +2354,73 @@
     [self.navigationController pushViewController:cv animated:YES];
     }
 }
+
+//
+-(void) requestDataISUserName {
+    
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpwdManageappappIndex] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            
+            /*
+             [[HttpMethods Instance] activityIndicate:NO
+             tipContent:@"加载完成"
+             MBProgressHUD:nil
+             target:self.view
+             displayInterval:3];
+             */
+          //  myDic = [responseObject objectForKey:@"object"];
+            if ([[[responseObject objectForKey:@"object"] objectForKey:@"isSetCert"] boolValue]) {
+                [self initBackViewMehtods];
+                isUpDate = NO;
+            } else {
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:@"请先进行实名认证"
+                                           MBProgressHUD:nil
+                                                  target:self.view
+                                         displayInterval:3];
+            
+            }
+            
+        } else {
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
+
 
 
 

@@ -545,6 +545,8 @@
             }else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]){
                
                 starLab.text = @"已结束";
+            } else {
+                starLab.text = @"已结束";
             }
             
             starLab.font = [UIFont systemFontOfSize:10];
@@ -620,6 +622,15 @@
                 
                 dateLabelMore.textColor = [ConMethods colorWithHexString:@"9b9b9b"];
                 dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9b9b9b"].CGColor;
+            }else {
+                markLab.text = @"报价";
+                markLab.backgroundColor = [ConMethods colorWithHexString:@"9b9b9b"];
+                markLab.textColor = [UIColor whiteColor];
+                
+                dateLabelMore.textColor = [ConMethods colorWithHexString:@"9b9b9b"];
+                dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9b9b9b"].CGColor;
+                
+                
             }
             
             
@@ -762,6 +773,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"QPJ"] floatValue]]]];
        // _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJSSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
+    }else {
+        
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZXJG"] floatValue]]]];
+        
+        
+        
+        _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
+        
+        
+        
     }
 }
 

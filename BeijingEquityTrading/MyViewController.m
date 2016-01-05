@@ -80,18 +80,18 @@
     
     NSURLRequest *reqest;
     
-    
+   /*
     if ([[delegate.loginUser objectForKey:@"object"] objectForKey:@"isTX"] == [NSNull null]) {
         reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/res/prj/default/images/avatar_default.jpg",SERVERURL]]];
     } else {
-        
+       */
         if ([[[delegate.loginUser objectForKey:@"object"] objectForKey:@"haveAvatar"] boolValue] == 0 ) {
             reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/res/prj/default/images/avatar_default.jpg",SERVERURL]]];
         } else {
             
             reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tx/%@.jpg",SERVERURL,[[delegate.loginUser objectForKey:@"object"] objectForKey:@"USERID"]]]];
         }
-    }
+    //}
 
     
     //reqest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/captcha",SERVERURL]]];

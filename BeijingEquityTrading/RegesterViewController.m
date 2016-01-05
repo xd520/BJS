@@ -297,6 +297,61 @@
 }
 
 
+-(void)requestValidateMobilePhoneMethods:(NSString *)str {
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
+    NSDictionary *parameters = @{@"mobilePhone":str};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERvalidateMobilePhone] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            NSLog(@"JSON: %@", responseObject);
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"该手机号有效，可以注册"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            [self requestPhoneCodeMethods:_phoneNum.text];
+            
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
+
 
 
 -(void)requestPhoneCodeMethods:(NSString *)str {
@@ -384,10 +439,10 @@
     
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpersonal] parameters:paraDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+        child.age = 0;
         if ([[responseObject objectForKey:@"success"] boolValue]){
             NSLog(@"JSON: %@", responseObject);
-            child.age = 0;
+            
             
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]
@@ -412,7 +467,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        child.age = 0;
+       // child.age = 0;
         
         [[HttpMethods Instance] activityIndicate:NO
                                       tipContent:notNetworkConnetTip
@@ -504,7 +559,7 @@
                 _phoneNum.text = @"";
             } else {
                 
-                [self requestPhoneCodeMethods:_phoneNum.text];
+                [self requestValidateMobilePhoneMethods:_phoneNum.text];
                 
             }
        
@@ -578,11 +633,8 @@
                                  displayInterval:3];
         
     } else {
-        
         [self requestRegestMethods];
    
-        
-       
     }
 }
 

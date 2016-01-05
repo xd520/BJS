@@ -12,6 +12,7 @@
 #import "ChangerPassWordViewController.h"
 #import "PhoneNumViewController.h"
 #import "FirstRealNameViewController.h"
+#import "SetEmailViewController.h"
 
 @interface CertifyViewController ()
 {
@@ -22,6 +23,7 @@
     NSDictionary *myDic;
     NSArray *arrA;
     UILabel *labBank;
+    UILabel *emailLab;
     
     
 }
@@ -59,7 +61,7 @@
     arrA = @[@"已认证",@"修改｜找回",@"修改｜找回"];
 
     
-    arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"实名认证"];
+    arrTitle = @[@"手机认证",@"登录密码",@"交易密码",@"实名认证",@"邮箱认证"];
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth,ScreenHeight - 65)];
     [table setDelegate:self];
     [table setDataSource:self];
@@ -181,7 +183,18 @@
         labBank.font = [UIFont systemFontOfSize:15];
         labBank.textAlignment = NSTextAlignmentRight;
         [cell.contentView addSubview:labBank];
-    } else {
+    } else if (indexPath.row == 4) {
+        if (emailLab) {
+            [emailLab removeFromSuperview];
+        }
+        
+        emailLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 130, 12.5, 100, 15)];
+        emailLab.textColor = [ConMethods colorWithHexString:@"666666"];
+        
+        emailLab.font = [UIFont systemFontOfSize:15];
+        emailLab.textAlignment = NSTextAlignmentRight;
+        [cell.contentView addSubview:emailLab];
+    }else {
     
     
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 130, 12.5, 100, 15)];
@@ -201,7 +214,16 @@
              labBank.text = @"未认证";
          cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-    } else {
+    } else  if (indexPath.row == 4) {
+        
+        if ([[myDic objectForKey:@"isSetEmail"] boolValue]) {
+            emailLab.text = @"已设置";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else {
+            emailLab.text = @"未设置";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }else {
     
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -239,7 +261,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             FirstRealNameViewController *vc = [[FirstRealNameViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
+    } else {
+        SetEmailViewController *vc = [[SetEmailViewController alloc] init];
+         [self.navigationController pushViewController:vc animated:YES];
+    
     }
+    
      [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

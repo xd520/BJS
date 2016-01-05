@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AboutViewController">
             <connections>
-                <outlet property="aboutLab" destination="06I-Gs-ddd" id="WMb-9W-5JD"/>
                 <outlet property="imgView" destination="IuP-37-CvI" id="1zp-6N-4aX"/>
                 <outlet property="logoutBtn" destination="Oee-PR-QfM" id="yCw-dK-8ay"/>
                 <outlet property="userLab" destination="G2q-cX-gef" id="37e-JO-vqW"/>
@@ -57,26 +56,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    使用帮助" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="G2q-cX-gef">
-                    <rect key="frame" x="0.0" y="229" width="320" height="39"/>
+                    <rect key="frame" x="0.0" y="270" width="320" height="39"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    关于我们" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="06I-Gs-ddd">
-                    <rect key="frame" x="0.0" y="269" width="320" height="39"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next" id="VKL-PM-TEk">
-                    <rect key="frame" x="292" y="279" width="13" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    客服电话 400-6022-836" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MCG-Im-Nvf">
                     <rect key="frame" x="0.0" y="309" width="320" height="39"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -99,7 +85,7 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next" id="vCW-UN-WbN">
-                    <rect key="frame" x="292" y="239" width="13" height="22"/>
+                    <rect key="frame" x="292" y="279" width="13" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                 </imageView>
             </subviews>
@@ -110,6 +96,6 @@
     <resources>
         <image name="logo" width="88" height="88"/>
         <image name="next" width="6" height="11"/>
-        <image name="返回" width="12" height="20"/>
+        <image name="返回" width="31" height="31"/>
     </resources>
 </document>

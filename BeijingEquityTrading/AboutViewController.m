@@ -52,7 +52,7 @@
     [self.view addSubview:lineView];
     
     
-    for (int i = 0; i < 4; i++) {
+    for (int i = 1; i < 4; i++) {
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 209 +addHight + 40*i, ScreenWidth, 1)];
         lineView.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
         [self.view addSubview:lineView];
@@ -114,13 +114,13 @@
     
     if (view.tag == 1) {
         UserHelpViewController *vc = [[UserHelpViewController alloc] init];
-        //vc.strId = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:view.tag] objectForKey:@"XMID"]];
+        vc.strId = @"SYBZ";
         vc.strName = @"使用帮助";
         [self.navigationController pushViewController:vc animated:YES];
     } else {
     UserHelpViewController *vc = [[UserHelpViewController alloc] init];
-    //vc.strId = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:view.tag] objectForKey:@"XMID"]];
-     vc.strName = @"关于我们";
+    vc.strId = @"SYBZ";
+     vc.strName = @"使用帮助";
     [self.navigationController pushViewController:vc animated:YES];
     
     
