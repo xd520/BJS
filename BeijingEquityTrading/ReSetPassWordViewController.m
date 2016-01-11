@@ -198,7 +198,7 @@
        
     }else {
        
-        
+        [self requestData];
     }
 
 }
@@ -221,6 +221,7 @@
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERforgetpwdresetJyPWD] parameters:paraDic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
+        child.age = 0;
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
             

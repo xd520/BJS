@@ -39,7 +39,7 @@
     
     
     
-    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    //[[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/service/pay/qyt/app_applyOutMoney?id=%@&bzjbz=%@",SERVERURL,_strId,_markId]];
     

@@ -237,12 +237,12 @@
             NSLog(@"JSON: %@", responseObject);
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"获取成功"
+                                          tipContent:[responseObject objectForKey:@"msg"]
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
             
-         
+            [self.navigationController popViewControllerAnimated:YES];
             
         } else {
             

@@ -197,7 +197,7 @@
          btn.layer.borderWidth = 1;
          btn.titleLabel.font = [UIFont systemFontOfSize:18];
          btn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
-         [btn setTitle:@"退出当前账号" forState:UIControlStateNormal];
+         [btn setTitle:@"退出登录" forState:UIControlStateNormal];
          [btn addTarget:self action:@selector(logOutMethods:) forControlEvents:UIControlEventTouchUpInside];
     
          [cell addSubview:btn];
@@ -351,8 +351,8 @@
         imgHeadVeiw.layer.cornerRadius = imgHeadVeiw.frame.size.width / 2;
         imgHeadVeiw.clipsToBounds = YES;
         imgHeadVeiw.layer.borderWidth = 4.0f;
-        imgHeadVeiw.layer.borderColor = [ConMethods colorWithHexString:@"d23838"].CGColor;
-        imgHeadVeiw.image = [UIImage imageNamed:@"logo"];
+        imgHeadVeiw.layer.borderColor = [ConMethods colorWithHexString:@"fbfbfb"].CGColor;
+        imgHeadVeiw.image = [UIImage imageNamed:@"loading_bd"];
         [view addSubview:imgHeadVeiw];
         
         

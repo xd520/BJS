@@ -320,8 +320,17 @@
 #pragma mark - 消除键盘
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)even{
-    [self.view endEditing:YES];
+    [table endEditing:YES];
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == searchText) {
+        [theTextField resignFirstResponder];
+    }
+    return YES;
+}
+
+
 
 /*
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

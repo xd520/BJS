@@ -124,7 +124,7 @@
 
 -(void)requestData{
     
-    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在登录..." MBProgressHUD:nil target:self.view displayInterval:3.0];
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在登录..." MBProgressHUD:nil target:self.navigationController.view displayInterval:3.0];
     
 
     /*
@@ -169,7 +169,7 @@
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]
                                        MBProgressHUD:nil
-                                              target:self.view
+                                              target:self.navigationController.view
                                      displayInterval:3];
             
         } else {
@@ -194,7 +194,7 @@
         [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"登录失败"
                                        MBProgressHUD:nil
-                                              target:self.view
+                                              target:self.navigationController.view
                                      displayInterval:3];
         
         NSLog(@"Error: %@", error);

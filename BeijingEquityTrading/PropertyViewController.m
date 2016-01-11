@@ -51,6 +51,18 @@
 
 @implementation PropertyViewController
 
+
+
+-(void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    
+    start = @"1";
+    [self requestData];
+}
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
