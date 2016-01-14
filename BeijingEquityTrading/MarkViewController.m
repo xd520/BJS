@@ -1138,7 +1138,7 @@
             fukuanBtn.titleLabel.font = [UIFont systemFontOfSize:14];
             [fukuanBtn addTarget:self action:@selector(payMehtods:) forControlEvents:UIControlEventTouchUpInside];
             
-            if (![[dic objectForKey:@"enableFK"] boolValue]) {
+            if ([[dic objectForKey:@"enableFK"] boolValue]) {
                [scrollView addSubview:fukuanBtn];
             }
             

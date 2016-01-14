@@ -185,10 +185,13 @@
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"退款申请提交成功"
                                        MBProgressHUD:nil
-                                              target:self.view
+                                              target:self.navigationController.view
                                      displayInterval:3];
-            
+            if ([responseObject objectForKey:@"object"] == [NSNull null]) {
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
             [self requestDatacheckBindCardResult:[[responseObject objectForKey:@"object"] objectForKey:@"FID_SQH"]];
+            }
             
         } else {
             

@@ -48,7 +48,7 @@
     _codeBtn.layer.cornerRadius = 2;
     _codeBtn.layer.masksToBounds = YES;
     _codeBtn.userInteractionEnabled = YES;
-    _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"087dcd"];
+    _codeBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
     
     
     

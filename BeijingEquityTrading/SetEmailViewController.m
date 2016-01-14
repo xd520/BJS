@@ -33,6 +33,13 @@
     UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 43, ScreenWidth, 1)];
     lineView1.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
     [self.view addSubview:lineView1];
+    
+    
+    _commitBtn.layer.cornerRadius = 2;
+    _commitBtn.layer.masksToBounds = YES;
+    _commitBtn.userInteractionEnabled = YES;
+    _commitBtn.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
+    
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle

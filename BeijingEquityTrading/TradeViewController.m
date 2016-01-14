@@ -65,6 +65,10 @@
     
     SRWebSocket *_webSocket;
     
+    BOOL finshMore;
+    BOOL notFinshMore;
+    
+    
 }
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -174,6 +178,11 @@
     startFinsh = @"1";
     limitFinsh = @"10";
     startBakFinsh = @"";
+    
+    finshMore = YES;
+    notFinshMore = YES;
+    
+    
     
     totalLastTime = [NSMutableArray array];
     allBtnArr = [NSMutableArray array];
@@ -512,15 +521,19 @@
     } else if (btn.tag == 1) {
     [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
     
-        startPast = @"1";
-        [self requestMyGqzcPaging];
+        if (finshMore) {
+            startPast = @"1";
+            [self requestMyGqzcPaging];
+        }
         
     }else {
     
      [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth*2 , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
+        if (notFinshMore) {
+            startFinsh = @"1";
+            [self requestMethods];
+        }
         
-        startFinsh = @"1";
-        [self requestMethods];
     }
     
     
@@ -588,9 +601,13 @@
             [btn setTitleColor:[ConMethods colorWithHexString:@"950401"] forState:UIControlStateNormal];
             [arrBtn removeAllObjects];
             [arrBtn addObject:btn];
+           
             
-            startPast = @"1";
-            [self requestMyGqzcPaging];
+            if (finshMore) {
+                startPast = @"1";
+                [self requestMyGqzcPaging];
+            }
+            
             
         } else {
             
@@ -605,8 +622,11 @@
             [arrBtn removeAllObjects];
             [arrBtn addObject:btn];
         
-            startFinsh = @"1";
-            [self requestMethods];
+            if (notFinshMore) {
+                startFinsh = @"1";
+                [self requestMethods];
+            }
+            
         
         }
          lineView.frame = CGRectMake((ScreenWidth/3 - 45)/2 + ScreenWidth/3*page, 28, 45, 2);
@@ -697,11 +717,14 @@
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
                 brandLabel.textAlignment = NSTextAlignmentCenter;
                 
+                if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"SYSJ"] floatValue] > 0) {
+                    brandLabel.tag = indexPath.row + 1000;
+                    NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime":[[dataList objectAtIndex:indexPath.row] objectForKey:@"SYSJ"]};
+                    [totalLastTime addObject:dic];
+                    [self startThread];
+                }
                 
-                brandLabel.tag = indexPath.row + 1000;
-                NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime":[[dataList objectAtIndex:indexPath.row] objectForKey:@"SYSJ"]};
-                [totalLastTime addObject:dic];
-                [self startThread];
+               
                 
                // brandLabel.text = [NSString stringWithFormat:@"剩余时间：%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"SYSJ"]];
                 [backView addSubview:brandLabel];
@@ -1301,6 +1324,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
         } else {
             
+           
             
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]
@@ -1310,6 +1334,19 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+    
+            if ([[responseObject objectForKey:@"object"] isMemberOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+               
+                
+                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                [delegate.loginUser removeAllObjects];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+             }
             
         }
         
@@ -1541,6 +1578,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERappwcj] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if ([[responseObject objectForKey:@"success"] boolValue]){
+            
+            notFinshMore = NO;
+            
             NSLog(@"JSON: %@", responseObject);
             
             [[HttpMethods Instance] activityIndicate:NO
@@ -1563,6 +1603,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                
+                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                [delegate.loginUser removeAllObjects];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            
             
         }
         
@@ -1599,6 +1648,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     
     [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERappycj] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        finshMore = NO;
         
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
@@ -1628,9 +1678,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                     [delegate.loginUser removeAllObjects];
                     
-                    LoginViewController *vc = [[LoginViewController alloc] init];
-                    vc.hidesBottomBarWhenPushed = YES;
-                    [self.navigationController pushViewController:vc animated:YES];
+                    [self.navigationController popToRootViewControllerAnimated:YES];
                 }
             } else {
                 
@@ -1735,6 +1783,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                
+                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                [delegate.loginUser removeAllObjects];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            
+  
+            
+            
             
         }
         

@@ -39,6 +39,11 @@
 //#define SERVERURL @"http://202.96.1.30"
 //#define SERVERURL1 @"202.96.1.30"
 
+/*
+ Batman8151
+ Batman
+ */
+
 //北交所客户外网3
 //#define SERVERURL @"http://111.205.25.78:8071"
 //#define SERVERURL1 @"111.205.25.78:8071"
@@ -97,11 +102,15 @@
 //guanzhu
 #define USERappguanzhu @"/service/psncenter/wdgz/app_wdgz"
 //xiaoxizhongxin
-#define USERinboxList @"/service/psncenter/message/inboxList"
+#define USERinboxList @"/service/psncenter/message/list"
+
 //上传头像
 #define USERappUploadPhotoSubmit @"/service/psncenter/grzl/appUploadPhotoSubmit"
 //显示头像
-#define USERinboxList @"/service/psncenter/message/inboxList"
+#define USERdelete @"/service/psncenter/message/delete"
+
+
+
 
 /*寻宝模块*/
 #define USERsearchappIndexli @"/service/s/search/app_index"

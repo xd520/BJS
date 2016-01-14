@@ -698,10 +698,10 @@
 				A199AA131C07E0B9002839CB /* CertifyViewController.h */,
 				A199AA141C07E0B9002839CB /* CertifyViewController.m */,
 				A199AA151C07E0B9002839CB /* CertifyViewController.xib */,
-				A199AA191C07E0B9002839CB /* NewsViewController.h */,
 				A199AA161C07E0B9002839CB /* MeansViewController.h */,
 				A199AA171C07E0B9002839CB /* MeansViewController.m */,
 				A199AA181C07E0B9002839CB /* MeansViewController.xib */,
+				A199AA191C07E0B9002839CB /* NewsViewController.h */,
 				A199AA1A1C07E0B9002839CB /* NewsViewController.m */,
 				A199AA1B1C07E0B9002839CB /* NewsViewController.xib */,
 				A1F14AD01C16A685003D4923 /* BackMoneyViewController.h */,
@@ -808,7 +808,7 @@
 				TargetAttributes = {
 					047105F71BCB670600F558FF = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = 54M5V5R5HK;
+						DevelopmentTeam = 4S5SE8M26V;
 					};
 				};
 			};
@@ -1063,7 +1063,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: CHINA BEIJING EQUITY EXCHANGE CO.,LTD (4S5SE8M26V)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1075,7 +1075,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "3502a7b2-0d1b-4dbb-b316-4f22895dfe7c";
+				PROVISIONING_PROFILE = "451a427e-cc3c-439e-b381-44ab1524e58f";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1086,7 +1086,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: CHINA BEIJING EQUITY EXCHANGE CO.,LTD (4S5SE8M26V)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1098,7 +1098,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "3502a7b2-0d1b-4dbb-b316-4f22895dfe7c";
+				PROVISIONING_PROFILE = "451a427e-cc3c-439e-b381-44ab1524e58f";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

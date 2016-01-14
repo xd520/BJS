@@ -83,6 +83,70 @@
 
 
 
+-(void) requestDataDetel:(NSString *)str {
+    
+    NSDictionary *parameters = @{@"id":str};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERdelete] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:@"删除成功"
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+           
+            [self requestData];
+        } else {
+            
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+          
+            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                
+                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                [delegate.loginUser removeAllObjects];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            
+
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
+
+
+
 
 -(void) requestData {
 
@@ -107,7 +171,7 @@
                                               target:self.view
                                      displayInterval:3];
             
-            [self recivedCategoryList:[responseObject objectForKey:@"object"]];
+            [self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"message"] objectForKey:@"object"]];
             
         } else {
             
@@ -120,6 +184,16 @@
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                
+                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                [delegate.loginUser removeAllObjects];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            
+
             
         }
         
@@ -226,7 +300,7 @@
         [brandLabel setTextColor:[ConMethods colorWithHexString:@"bd0100"]];
         [brandLabel setBackgroundColor:[UIColor clearColor]];
         // brandLabel.numberOfLines = 0;
-        brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FROMUSERNAME"];
+        brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"TITLE"];
         [backView addSubview:brandLabel];
         
         
@@ -273,6 +347,29 @@
     
 }
 
+
+- (void)tableView:(UITableView *)tbleView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UIAlertView *outAlert = [[UIAlertView alloc] initWithTitle:[[dataList objectAtIndex:indexPath.row] objectForKey:@"TITLE"] message:@"是否要删除该消息" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    outAlert.tag = indexPath.row;
+    [outAlert show];
+    
+    [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+        if (buttonIndex != 0) {
+            
+            [self requestDataDetel:[[dataList objectAtIndex:alertView.tag] objectForKey:@"KEYID"]];
+        }
+}
 
 
 

@@ -229,6 +229,16 @@
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
+            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                
+                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                [delegate.loginUser removeAllObjects];
+                
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
+            
+
+            
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
