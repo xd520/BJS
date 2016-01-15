@@ -167,7 +167,7 @@
                         <action selector="next:" destination="-1" eventType="touchUpInside" id="h8F-YP-7fd"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击开始，即表示您同意" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fhB-ag-pQZ">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击注册，即表示您同意" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fhB-ag-pQZ">
                     <rect key="frame" x="17" y="350" width="150" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -181,6 +181,6 @@
         </view>
     </objects>
     <resources>
-        <image name="返回" width="12" height="20"/>
+        <image name="返回" width="31" height="31"/>
     </resources>
 </document>

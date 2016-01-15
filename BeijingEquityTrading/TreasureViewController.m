@@ -165,7 +165,7 @@
     
     //默认选择按钮
     
-    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"价格▲",@"类别▲"];
+    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"报价次数▲",@"类别▲"];
     
     for (int i = 0; i < 4; i++) {
         UIButton *btn = [[UIButton alloc] init];
@@ -204,9 +204,9 @@
             img.image = [UIImage imageNamed:@"line_iocn"];
             [btn addSubview:img];
         } else if(i == 2){
-            btn.frame = CGRectMake(180, 0, 60, 30);
+            btn.frame = CGRectMake(180, 0, 80, 30);
             lab3 = [[UILabel alloc] init];
-            lab3.frame = CGRectMake(0, 0,60 - 0.5, 30);
+            lab3.frame = CGRectMake(0, 0,80 - 0.5, 30);
             lab3.text = [titleArrTranfer objectAtIndex:i];
             lab3.font = [UIFont systemFontOfSize:13];
             lab3.textAlignment = NSTextAlignmentCenter;
@@ -214,13 +214,13 @@
             //lab3.userInteractionEnabled = YES;
             lab3.textColor = [UIColor grayColor];
             [btn addSubview:lab3];
-            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(60- 0.5, 7.5, 0.5, 15)];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(80- 0.5, 7.5, 0.5, 15)];
             img.image = [UIImage imageNamed:@"line_iocn"];
             [btn addSubview:img];
         } else {
-            btn.frame = CGRectMake(240, 0, ScreenWidth - 240, 30);
+            btn.frame = CGRectMake(260, 0, ScreenWidth - 260, 30);
             lab4 = [[UILabel alloc] init];
-            lab4.frame = CGRectMake(0, 0,ScreenWidth - 240 - 0.5, 30);
+            lab4.frame = CGRectMake(0, 0,ScreenWidth - 260 - 0.5, 30);
             lab4.text = [titleArrTranfer objectAtIndex:i];
             lab4.font = [UIFont systemFontOfSize:13];
             lab4.textAlignment = NSTextAlignmentCenter;
@@ -228,7 +228,7 @@
             //lab3.userInteractionEnabled = YES;
             lab4.textColor = [UIColor grayColor];
             [btn addSubview:lab4];
-            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 240 - 0.5, 7.5, 0.5, 15)];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 260 - 0.5, 7.5, 0.5, 15)];
             img.image = [UIImage imageNamed:@"line_iocn"];
             [btn addSubview:img];
         
@@ -330,12 +330,12 @@
         
         if (indext%2 == 0) {
             lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
-            lab3.text = @"价格▲";
+            lab3.text = @"报价次数▲";
             price = @"1";
         } else {
             
             lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
-            lab3.text = @"价格▼";
+            lab3.text = @"报价次数▼";
             price = @"2";
         }
        
@@ -1069,7 +1069,7 @@
     
     NSLog(@"start = %@",start);
     
-    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"endTime":_endTime,@"price":_price,@"keyWord":search,@"bddl":bddl,@"bdxl":bdxl,@"jgfwdown":_down,@"jgfwup":_up};
+    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"endTime":_endTime,@"jjcs":_price,@"keyWord":search,@"bddl":bddl,@"bdxl":bdxl,@"jgfwdown":_down,@"jgfwup":_up};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -1193,7 +1193,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             [backView addSubview:image1];
             
             
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]){
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"qt"]){
                 UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(100 - 50, 105 - 35, 50, 35)];
                 img.image = [UIImage imageNamed:@"end"];
                 [backView addSubview:img];

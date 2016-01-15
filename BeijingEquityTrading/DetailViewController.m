@@ -470,7 +470,7 @@
             
             
             
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]){
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"lp"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"qt"]){
                 UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(100 - 50, 105 - 35, 50, 35)];
                 img.image = [UIImage imageNamed:@"end"];
                 [backView addSubview:img];
@@ -1017,14 +1017,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
+             if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+            
             if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
                 
                 AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                 [delegate.loginUser removeAllObjects];
                 
                 [self.navigationController popToRootViewControllerAnimated:YES];
-            }
-            
+                }
+             }
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -227,25 +227,30 @@
             
         } else {
             
-            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
-                
-                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                [delegate.loginUser removeAllObjects];
-                
-                LoginViewController *cv = [[LoginViewController alloc] init];
-                cv.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:cv animated:YES];
-            } else {
+           
                 
                 [[HttpMethods Instance] activityIndicate:NO
                                               tipContent:[responseObject objectForKey:@"msg"]
                                            MBProgressHUD:nil
                                                   target:self.view
                                          displayInterval:3];
-            }
+            
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                    cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                }
+            }
             
         }
         

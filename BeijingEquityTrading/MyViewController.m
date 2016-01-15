@@ -283,6 +283,8 @@
             
         } else {
             
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+            
             if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
                 
                 AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -291,6 +293,9 @@
                 LoginViewController *cv = [[LoginViewController alloc] init];
                 cv.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:cv animated:YES];
+                
+            }
+                
             } else {
                 
                 [[HttpMethods Instance] activityIndicate:NO

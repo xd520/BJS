@@ -39,7 +39,12 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
   
-    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (delegate.loginUser.count > 0) {
+        if ([[delegate.loginUser objectForKey:@"success"] boolValue] == YES) {
+             [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
 }
 
 

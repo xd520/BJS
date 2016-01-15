@@ -12,6 +12,7 @@
 #import "PayMoneyViewController.h"
 #import "SRWebSocket.h"
 #import "MarkViewController.h"
+#import "HMSegmentedControlLast.h"
 
 @interface TradeViewController ()
 {
@@ -72,6 +73,7 @@
 }
 
 @property (strong, nonatomic) UIScrollView *scrollView;
+@property(strong,nonatomic)HMSegmentedControlLast *segmentedControl;
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooterPast;
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooterFinsh;
@@ -239,7 +241,32 @@
     lineView = [[UIView alloc] initWithFrame:CGRectMake((ScreenWidth/3 - 45)/2, 28, 45, 2)];
     lineView.backgroundColor = [ConMethods colorWithHexString:@"950401"];
     [headVeiw addSubview:lineView];
-    [self.view addSubview:headVeiw];
+    //[self.view addSubview:headVeiw];
+    
+    
+    _segmentedControl = [[HMSegmentedControlLast alloc] initWithFrame:CGRectMake(0, 45 + addHight, ScreenWidth , 30)];
+    
+    _segmentedControl.font = [UIFont systemFontOfSize:16];
+    
+    _segmentedControl.sectionTitles = @[@"报价中",@"已成交",@"未成交"];
+    
+    _segmentedControl.selectedSegmentIndex = 0;
+    
+    _segmentedControl.selectedTextColor = [ConMethods colorWithHexString:@"bd0100"];
+    
+    _segmentedControl.selectionLocation =  HMSegmentedControlSelectionLocationDown;
+    
+    _segmentedControl.type = HMSegmentedControlTypeText;
+    
+    _segmentedControl.selectionIndicatorHeight = 2;
+    
+    _segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleTextWidthStrip;
+    
+    _segmentedControl.selectionIndicatorColor = [ConMethods colorWithHexString:@"c40000"];
+    
+    [self.view addSubview:_segmentedControl];
+
+    
     
     
     float scrollViewHeight = 0;
@@ -254,6 +281,32 @@
     [self.scrollView scrollRectToVisible:CGRectMake(0, 32 + 44 + addHight, ScreenWidth, scrollViewHeight) animated:NO];
     [self.scrollView setDelegate:self];
     [self.view addSubview:self.scrollView];
+    
+    
+    
+    __weak typeof(self) weakSelf = self;
+    [self.segmentedControl setIndexChangeBlock:^(NSInteger index) {
+        
+        [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth*index, 0, ScreenWidth, scrollViewHeight) animated:YES];
+        
+        if (index == 1) {
+            if (finshMore) {
+                startPast = @"1";
+                [self requestMyGqzcPaging];
+            }
+
+        } else if (index == 2) {
+            if (notFinshMore) {
+                startFinsh = @"1";
+                [self requestMethods];
+            }
+        
+        }
+        
+        
+    }];
+    
+
     
     
     //添加tableView
@@ -526,7 +579,7 @@
             [self requestMyGqzcPaging];
         }
         
-    }else {
+    }else if(btn.tag == 2){
     
      [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth*2 , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
         if (notFinshMore) {
@@ -536,29 +589,28 @@
         
     }
     
+    if (btn.tag != countBtn) {
+        
+        if (arrBtn.count > 0) {
+            
+            UIButton *btnfirst = [arrBtn objectAtIndex:0];
+            
+            [btnfirst setTitleColor:[ConMethods colorWithHexString:@"333333"] forState:UIControlStateNormal];
+            
+            countBtn = btn.tag;
+            [btn setTitleColor:[ConMethods colorWithHexString:@"950401"] forState:UIControlStateNormal];
+            if (arrBtn.count > 0) {
+                [arrBtn removeLastObject];
+            }
+            
+            [arrBtn addObject:btn];
+        }
+    }
     
-    
-    
-    if (btn.tag == countBtn) {
-        //[btn setTitleColor:[ConMethods colorWithHexString:@"950401"] forState:UIControlStateNormal];
-        
-        //lineView.frame = CGRectMake((ScreenWidth/3 - 75)/2 + ScreenWidth/3*countBtn, 28, 75, 2);
-        
-        
-    } else {
-        UIButton *btnfirst = [arrBtn objectAtIndex:0];
-        
-        [btnfirst setTitleColor:[ConMethods colorWithHexString:@"333333"] forState:UIControlStateNormal];
-        
-        countBtn = btn.tag;
-        [btn setTitleColor:[ConMethods colorWithHexString:@"950401"] forState:UIControlStateNormal];
-        [arrBtn removeAllObjects];
-        [arrBtn addObject:btn];
-        
-        
+
         lineView.frame = CGRectMake((ScreenWidth/3 - 45)/2 + ScreenWidth/3*countBtn, 28, 45, 2);
         
-    }
+   
     
 }
 
@@ -571,11 +623,9 @@
         CGFloat pageWidth = ScreenWidth;
         NSInteger page = _scrollView.contentOffset.x / pageWidth ;
        
-      
-        
+       _segmentedControl.selectedSegmentIndex = page;
+        /*
         if (page == 0) {
-            
-            
             
             UIButton *btnfirst = [arrBtn objectAtIndex:0];
             
@@ -630,7 +680,9 @@
         
         }
          lineView.frame = CGRectMake((ScreenWidth/3 - 45)/2 + ScreenWidth/3*page, 28, 45, 2);
+          */
     }
+        
 }
 
 
@@ -1604,14 +1656,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
-            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
                 
-                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                [delegate.loginUser removeAllObjects];
-                
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
             }
-            
             
         }
         
@@ -1663,16 +1717,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
         } else {
             
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.navigationController.view
+                                     displayInterval:3];
+            
+
+            
             
             if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
                 
                 if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
-                    
-                    [[HttpMethods Instance] activityIndicate:NO
-                                                  tipContent:[responseObject objectForKey:@"msg"]
-                                               MBProgressHUD:nil
-                                                      target:self.navigationController.view
-                                             displayInterval:3];
                     
                     
                     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -1680,18 +1736,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                     
                     [self.navigationController popToRootViewControllerAnimated:YES];
                 }
-            } else {
-                
-                [[HttpMethods Instance] activityIndicate:NO
-                                              tipContent:[responseObject objectForKey:@"msg"]
-                                           MBProgressHUD:nil
-                                                  target:self.view
-                                         displayInterval:3];
-                
             }
-            
-            NSLog(@"JSON: %@", responseObject);
-            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
         }
         
@@ -1783,18 +1828,17 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
-            
-            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
                 
-                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                [delegate.loginUser removeAllObjects];
-                
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
             }
-            
-  
-            
-            
             
         }
         

@@ -65,16 +65,13 @@
     
     
 
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 150 , ScreenWidth,ScreenHeight  - 49 - 150)];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0, 130 , ScreenWidth,ScreenHeight  - 130)];
     [table setDelegate:self];
     [table setDataSource:self];
-    table.bounces = YES;
+    //table.bounces = YES;
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
     [table setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-   // table.tableFooterView = [[UIView alloc] init];
-   // table.bounces = NO;
-
-    table.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
+    table.tableFooterView = [[UIView alloc] init];
     
     [self.view addSubview:table];
     
@@ -142,11 +139,7 @@
 
 #pragma mark - UITableView DataSource Methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (dataList.count > 0) {
-        return 4;
-    } else {
      return 1;
-    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -154,25 +147,18 @@
     NSInteger count;
     
      if (dataList.count > 0) {
-    if (section == 0) {
-        count = dataList.count;
-    }else if (section == 1) {
-    
-        count = 1;
-        
-    } else if (section == 2) {
+   
+        if (dataListPast.count > 0) {
+            
         if (dataListPast.count % 2 == 0) {
-           count = dataListPast.count/2;
+           count =  dataList.count + 4 + dataListPast.count/2;
         } else {
-        count = (dataListPast.count + 1)/2;
+        count =  dataList.count + 4 + (dataListPast.count + 1)/2;
         }
-    }else if(section == 1){
-        
-        count = 1;
-    } else if(section == 3){
-        
-        count = 1;
-    }
+        } else {
+            count =  dataList.count + 3;
+        }
+         
     }else {
     
     count = 1;
@@ -197,8 +183,6 @@
     UITableViewCell *cell;
     cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
     
-    if (indexPath.section == 0) {
-        
         if ([dataList count] == 0 ) {
             
             if (hasMore) {
@@ -257,8 +241,62 @@
             [cell.contentView addSubview:backView];
             }
         } else{
+           
+            NSInteger countAll = 0;
             
-        
+            if (dataListPast.count > 0) {
+                
+                if (dataListPast.count % 2 == 0) {
+                    countAll = dataListPast.count/2;
+                } else {
+                    countAll = (dataListPast.count + 1)/2;
+                }
+            }
+            
+            
+            if (indexPath.row == 0) {
+               
+                cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+                if (cell == nil) {
+                    cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+                    //添加背景View
+                    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+                    [backView setBackgroundColor:[UIColor clearColor]];
+                  
+ 
+                
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(5, 19, ScreenWidth/2 - 10 - 30, 2)];
+                lineView.backgroundColor = [UIColor blackColor];
+                [backView addSubview:lineView];
+                
+                UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth/2 + 35, 19, ScreenWidth/2 - 10 - 30, 2)];
+                lineView1.backgroundColor = [UIColor blackColor];
+                [backView addSubview:lineView1];
+                
+                
+                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 30, 12.5, 30, 15)];
+                lab.text = @"专场";
+                lab.textColor = [UIColor redColor];
+                lab.font = [UIFont systemFontOfSize:15];
+                lab.backgroundColor = [UIColor clearColor];
+                [backView addSubview:lab];
+                
+                
+                UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2, 12.5, 30, 15)];
+                lab1.text = @"列表";
+                lab1.font = [UIFont systemFontOfSize:15];
+                lab1.textColor = [UIColor blackColor];
+                lab1.backgroundColor = [UIColor clearColor];
+                [backView addSubview:lab1];
+                
+                [cell.contentView addSubview:backView];
+                
+                }
+                return cell;
+            }else if (indexPath.row >0 &&indexPath.row <= dataList.count){
+
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
                 cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 270)];
@@ -277,7 +315,7 @@
                 
                 
                  UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 150)];
-                 [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo_app/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+                 [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/zclogo_app/%@.jpg",SERVERURL,[[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
                 [backView addSubview:image];
                 
                 
@@ -287,18 +325,18 @@
                 [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
                 // brandLabel.numberOfLines = 0;
-                brandLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ZCMC"];
+                brandLabel.text = [[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"ZCMC"];
                 [backView addSubview:brandLabel];
                 
                 //最新价
                 UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake(10 , 185, ScreenWidth - 30, 14)];
-                dayLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ZCQH"];
+                dayLabel.text = [[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"ZCQH"];
                 dayLabel.font = [UIFont systemFontOfSize:14];
                 dayLabel.textColor = [ConMethods colorWithHexString:@"999999"];
                 [backView addSubview:dayLabel];
                 
                 UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 205, ScreenWidth - 30, 14)];
-                dateLabel.text = [NSString stringWithFormat:@"%@-%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"KSRQ"],[[dataList objectAtIndex:indexPath.row] objectForKey:@"JSRQ"]];
+                dateLabel.text = [NSString stringWithFormat:@"%@-%@",[[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"KSRQ"],[[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"JSRQ"]];
                 dateLabel.font = [UIFont systemFontOfSize:14];
                 dateLabel.textColor = [ConMethods colorWithHexString:@"333333"];
                 
@@ -314,7 +352,7 @@
                 
                 
                 UILabel *vuleLabel = [[UILabel alloc] init];
-                vuleLabel.text = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"COUNT_BDS"]];
+                vuleLabel.text = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"COUNT_BDS"]];
                 vuleLabel.font = [UIFont systemFontOfSize:15];
                 vuleLabel.textColor = [ConMethods colorWithHexString:@"950401"];
                 vuleLabel.frame = CGRectMake( 24, 230, [PublicMethod getStringWidth:vuleLabel.text font:vuleLabel.font], 15);
@@ -332,7 +370,7 @@
                 //围观
                
                 UILabel *dateLabelMore = [[UILabel alloc] init];
-                dateLabelMore.text = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"WGCS"]];
+                dateLabelMore.text = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"WGCS"]];
                 dateLabelMore.textAlignment = NSTextAlignmentCenter;
                 dateLabelMore.font = [UIFont systemFontOfSize:14];
                 dateLabelMore.frame = CGRectMake(2 + labelTip.frame.size.width + labelTip.frame.origin.x, 231, [PublicMethod getStringWidth:dateLabelMore.text font:dateLabelMore.font], 14);
@@ -350,38 +388,74 @@
                 [cell.contentView addSubview:backView];
             }
         
-    }
-    }else if (indexPath.section == 2){
-        if ( [dataListPast count] == 0) {
-            cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 50)];
-            [backView setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-            //图标
-            UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 57)/2, 100, 57, 57)];
-            [iconImageView setImage:[UIImage imageNamed:@"icon_none"]];
-            [backView addSubview:iconImageView];
-            //提示
-            UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27, ScreenWidth, 15)];
-            [tipLabel setFont:[UIFont systemFontOfSize:15]];
-            [tipLabel setTextAlignment:NSTextAlignmentCenter];
-            [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
-            tipLabel.backgroundColor = [UIColor clearColor];
-            [tipLabel setText:@"网络不给力哦~"];
-            [backView addSubview:tipLabel];
+        }else if ( indexPath.row == dataList.count + 1){
             
-            
-            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - 100)/2, iconImageView.frame.origin.y + iconImageView.frame.size.height + 27 + 25, 100, 30)];
-            btn.backgroundColor = [UIColor lightTextColor];
-            btn.titleLabel.text = @"点击加载";
-            btn.titleLabel.font = [UIFont systemFontOfSize:15];
-            [btn addTarget:self action:@selector(addData) forControlEvents:UIControlEventTouchUpInside];
-            [backView addSubview:btn];
-            
-            [cell.contentView addSubview:backView];
-            
-        } else{
-
+                
+                cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+                if (cell == nil) {
+                    cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+                    
+                    UIView  *backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 10, ScreenWidth - 10, 30)];
+                    [backView setBackgroundColor:[UIColor whiteColor]];
+                    backView.layer.cornerRadius = 2;
+                    backView.layer.masksToBounds = YES;
+                    backView.layer.borderWidth = 1;
+                    backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
+                    
+                    //品牌
+                    UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 7.5, ScreenWidth - 30, 15)];
+                    brandLabel.font = [UIFont systemFontOfSize:15];
+                    [brandLabel setTextColor:[UIColor redColor]];
+                    [brandLabel setBackgroundColor:[UIColor clearColor]];
+                    brandLabel.textAlignment = NSTextAlignmentCenter;
+                    brandLabel.text = str;
+                    [backView addSubview:brandLabel];
+                    
+                    [cell.contentView addSubview:backView];
+                    
+                }
+        } else if (dataListPast.count > 0 && indexPath.row == dataList.count + 2){
+        
+            cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+                //添加背景View
+                UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+                [backView setBackgroundColor:[UIColor clearColor]];
+               
+                
+                
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(5,19, ScreenWidth/2 - 10 - 30, 2)];
+                lineView.backgroundColor = [UIColor blackColor];
+                [backView addSubview:lineView];
+                
+                UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth/2 + 35,19, ScreenWidth/2 - 10 - 30, 2)];
+                lineView1.backgroundColor = [UIColor blackColor];
+                [backView addSubview:lineView1];
+                
+                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 30, 12.5, 30, 15)];
+                lab.text = @"最热";
+                lab.textColor = [UIColor redColor];
+                lab.font = [UIFont systemFontOfSize:15];
+                lab.backgroundColor = [UIColor clearColor];
+                [backView addSubview:lab];
+                UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2, 12.5, 30, 15)];
+                lab1.text = @"拍品";
+                lab1.font = [UIFont systemFontOfSize:15];
+                lab1.textColor = [UIColor blackColor];
+                lab1.backgroundColor = [UIColor clearColor];
+                [backView addSubview:lab1];
+                
+                [cell.contentView addSubview:backView];
+                
+            }
+        
+        
+        }else if (dataListPast.count > 0 && indexPath.row > dataList.count + 2 && indexPath.row < dataList.count + 3 + countAll){
             
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
@@ -390,13 +464,13 @@
                 [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
                 
                 
-        if (dataListPast.count % 2 == 0) {
+                if (dataListPast.count % 2 == 0) {
                     
                 
                 
                 //添加背景View
                 UIView *backView,*backViewlast;
-            backView.tag = indexPath.row*2;
+            backView.tag = (indexPath.row - dataList.count - 3)*2;
            
             
                 backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 0, ScreenWidth/2 - 7.5,ScreenWidth/2 - 7.5 + 60)];
@@ -408,9 +482,9 @@
             
                 UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
             NSString *baseStr = [[Base64XD encodeBase64String:@"200,200"] strBase64];
-                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
             
-            NSLog(@"%@",[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"],baseStr]);
+            NSLog(@"%@",[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"F_XMLOGO"],baseStr]);
             
                 [backView addSubview:image];
                 
@@ -419,7 +493,7 @@
                 brandLabel.font = [UIFont systemFontOfSize:14];
                 [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
-                brandLabel.text = [[dataListPast objectAtIndex:indexPath.row] objectForKey:@"BDMC"];
+                brandLabel.text = [[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)] objectForKey:@"BDMC"];
                 [backView addSubview:brandLabel];
                 
                 //当前价
@@ -436,7 +510,7 @@
                 UILabel *fenLabel = [[UILabel alloc] init];
                 fenLabel.font = [UIFont systemFontOfSize:10];
                 [fenLabel setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                fenLabel.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"ZXJG"] doubleValue]];
+                fenLabel.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"ZXJG"] doubleValue]];
             
             fenLabel.frame = CGRectMake(35,10, [PublicMethod getStringWidth:fenLabel.text font:fenLabel.font], 10);
             
@@ -456,7 +530,7 @@
                 UILabel *priceLabel = [[UILabel alloc] init];
                 priceLabel.font = [UIFont systemFontOfSize:10];
                 [priceLabel setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                priceLabel.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"COUNT_JJCS"]];
+                priceLabel.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"COUNT_JJCS"]];
             priceLabel.textAlignment = NSTextAlignmentRight;
             priceLabel.frame = CGRectMake(lastView.frame.size.width - 15 - [PublicMethod getStringWidth:priceLabel.text font:priceLabel.font], 10, [PublicMethod getStringWidth:priceLabel.text font:priceLabel.font], 10);
             
@@ -474,7 +548,7 @@
                 
                 /**********  backViewlast  ************/
                   backViewlast = [[UIView alloc] initWithFrame:CGRectMake(2.5 +ScreenWidth/2, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5 + 60)];
-             backViewlast.tag = indexPath.row*2 + 1;
+             backViewlast.tag = (indexPath.row - dataList.count - 3)*2 + 1;
                     [backViewlast setBackgroundColor:[UIColor clearColor]];
                     backViewlast.layer.cornerRadius = 2;
                     backViewlast.layer.masksToBounds = YES;
@@ -484,7 +558,7 @@
                     UIImageView *imagep = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
             
             
-                    [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                    [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2 + 1] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                     [backViewlast addSubview:imagep];
                     
                     //品牌
@@ -492,7 +566,7 @@
                     brandLabelp.font = [UIFont systemFontOfSize:14];
                     [brandLabelp setTextColor:[ConMethods colorWithHexString:@"333333"]];
                     [brandLabelp setBackgroundColor:[UIColor clearColor]];
-                    brandLabelp.text = [[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"BDMC"];
+                    brandLabelp.text = [[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2 + 1] objectForKey:@"BDMC"];
                     [backViewlast addSubview:brandLabelp];
                     
                 //当前价
@@ -509,7 +583,7 @@
                 UILabel *fenLabelp = [[UILabel alloc] init];
                 fenLabelp.font = [UIFont systemFontOfSize:10];
                 [fenLabelp setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                fenLabelp.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"ZXJG"] doubleValue]];
+                fenLabelp.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2 + 1] objectForKey:@"ZXJG"] doubleValue]];
             fenLabelp.frame = CGRectMake(35,10, [PublicMethod getStringWidth:fenLabelp.text font:fenLabelp.font], 10);
             [lastViewp addSubview:fenLabelp];
             
@@ -526,7 +600,7 @@
                 UILabel *priceLabelp = [[UILabel alloc] init];
                 priceLabelp.font = [UIFont systemFontOfSize:10];
                 [priceLabelp setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                priceLabelp.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:indexPath.row*2 +1] objectForKey:@"COUNT_JJCS"]];
+                priceLabelp.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2 +1] objectForKey:@"COUNT_JJCS"]];
                 priceLabelp.textAlignment = NSTextAlignmentRight;
             
             priceLabelp.frame = CGRectMake(lastViewp.frame.size.width - 15 - [PublicMethod getStringWidth:priceLabelp.text font:priceLabelp.font], 10, [PublicMethod getStringWidth:priceLabelp.text font:priceLabelp.font], 10);;
@@ -569,12 +643,12 @@
             
                 } else {
                 
-                    if (indexPath.row*2 + 1 == dataListPast.count) {
+                    if ((indexPath.row - dataList.count - 3)*2 + 1 == dataListPast.count) {
                         
                     
                     //添加背景View
                     UIView *backView;
-                    backView.tag = indexPath.row*2;
+                    backView.tag = (indexPath.row - dataList.count - 3)*2;
                     
                     backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 0, ScreenWidth/2 - 7.5, 165)];
                         [backView setBackgroundColor:[UIColor clearColor]];
@@ -586,7 +660,7 @@
                         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, ScreenWidth/2 - 7.5)];
                          NSString *baseStr = [[Base64XD encodeBase64String:@"200,200"] strBase64];
                         
-                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backView addSubview:image];
                         
                         //品牌
@@ -594,7 +668,7 @@
                         brandLabel.font = [UIFont systemFontOfSize:14];
                         [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                         [brandLabel setBackgroundColor:[UIColor clearColor]];
-                        brandLabel.text = [[dataListPast objectAtIndex:indexPath.row] objectForKey:@"BDMC"];
+                        brandLabel.text = [[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)] objectForKey:@"BDMC"];
                         [backView addSubview:brandLabel];
                         
                         //当前价
@@ -611,7 +685,7 @@
                         UILabel *fenLabel = [[UILabel alloc] init];
                         fenLabel.font = [UIFont systemFontOfSize:10];
                         [fenLabel setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                        fenLabel.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"ZXJG"] doubleValue]];
+                        fenLabel.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"ZXJG"] doubleValue]];
                         
                         fenLabel.frame = CGRectMake(35,10, [PublicMethod getStringWidth:fenLabel.text font:fenLabel.font], 10);
                         
@@ -631,7 +705,7 @@
                         UILabel *priceLabel = [[UILabel alloc] init];
                         priceLabel.font = [UIFont systemFontOfSize:10];
                         [priceLabel setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                        priceLabel.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"COUNT_JJCS"]];
+                        priceLabel.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"COUNT_JJCS"]];
                         priceLabel.textAlignment = NSTextAlignmentRight;
                         priceLabel.frame = CGRectMake(lastView.frame.size.width - 15 - [PublicMethod getStringWidth:priceLabel.text font:priceLabel.font], 10, [PublicMethod getStringWidth:priceLabel.text font:priceLabel.font], 10);
                         
@@ -683,7 +757,7 @@
                         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth/2 - 7.5, 100)];
                        NSString *baseStr = [[Base64XD encodeBase64String:@"200,200"] strBase64];
                         
-                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                        [image setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backView addSubview:image];
                         
                         //品牌
@@ -691,7 +765,7 @@
                         brandLabel.font = [UIFont systemFontOfSize:14];
                         [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                         [brandLabel setBackgroundColor:[UIColor clearColor]];
-                        brandLabel.text = [[dataListPast objectAtIndex:indexPath.row] objectForKey:@"BDMC"];
+                        brandLabel.text = [[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)] objectForKey:@"BDMC"];
                         [backView addSubview:brandLabel];
                         
                         //当前价
@@ -708,7 +782,7 @@
                         UILabel *fenLabel = [[UILabel alloc] init];
                         fenLabel.font = [UIFont systemFontOfSize:10];
                         [fenLabel setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                        fenLabel.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"ZXJG"] doubleValue]];
+                        fenLabel.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"ZXJG"] doubleValue]];
                         
                         fenLabel.frame = CGRectMake(35,10, [PublicMethod getStringWidth:fenLabel.text font:fenLabel.font], 10);
                         
@@ -728,7 +802,7 @@
                         UILabel *priceLabel = [[UILabel alloc] init];
                         priceLabel.font = [UIFont systemFontOfSize:10];
                         [priceLabel setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                        priceLabel.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:indexPath.row*2] objectForKey:@"COUNT_JJCS"]];
+                        priceLabel.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2] objectForKey:@"COUNT_JJCS"]];
                         priceLabel.textAlignment = NSTextAlignmentRight;
                         priceLabel.frame = CGRectMake(lastView.frame.size.width - 15 - [PublicMethod getStringWidth:priceLabel.text font:priceLabel.font], 10, [PublicMethod getStringWidth:priceLabel.text font:priceLabel.font], 10);
                         
@@ -756,7 +830,7 @@
                         
                         
                         
-                        [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+                        [imagep setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2 + 1] objectForKey:@"F_XMLOGO"],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
                         [backViewlast addSubview:imagep];
                         
                         //品牌
@@ -764,7 +838,7 @@
                         brandLabelp.font = [UIFont systemFontOfSize:14];
                         [brandLabelp setTextColor:[ConMethods colorWithHexString:@"333333"]];
                         [brandLabelp setBackgroundColor:[UIColor clearColor]];
-                        brandLabelp.text = [[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"BDMC"];
+                        brandLabelp.text = [[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2 + 1] objectForKey:@"BDMC"];
                         [backViewlast addSubview:brandLabelp];
                         
                         //当前价
@@ -781,7 +855,7 @@
                         UILabel *fenLabelp = [[UILabel alloc] init];
                         fenLabelp.font = [UIFont systemFontOfSize:10];
                         [fenLabelp setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                        fenLabelp.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:indexPath.row*2 + 1] objectForKey:@"ZXJG"] doubleValue]];
+                        fenLabelp.text = [NSString stringWithFormat:@"￥%.2f",[[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2 + 1] objectForKey:@"ZXJG"] doubleValue]];
                         fenLabelp.frame = CGRectMake(35,10, [PublicMethod getStringWidth:fenLabelp.text font:fenLabelp.font], 10);
                         [lastViewp addSubview:fenLabelp];
                         
@@ -798,7 +872,7 @@
                         UILabel *priceLabelp = [[UILabel alloc] init];
                         priceLabelp.font = [UIFont systemFontOfSize:10];
                         [priceLabelp setTextColor:[ConMethods colorWithHexString:@"950401"]];
-                        priceLabelp.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:indexPath.row*2 +1] objectForKey:@"COUNT_JJCS"]];
+                        priceLabelp.text = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:(indexPath.row - dataList.count - 3)*2 +1] objectForKey:@"COUNT_JJCS"]];
                         priceLabelp.textAlignment = NSTextAlignmentRight;
                         
                         priceLabelp.frame = CGRectMake(lastViewp.frame.size.width - 15 - [PublicMethod getStringWidth:priceLabelp.text font:priceLabelp.font], 10, [PublicMethod getStringWidth:priceLabelp.text font:priceLabelp.font], 10);;
@@ -842,45 +916,9 @@
                         
                     }
 
-                
-                }
-                
-        
-    }
-    }
-    } else if(indexPath.section == 1){
-        if (dataListPast.count > 0) {
-            
-        
-        
-            cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-                
-                UIView  *backView = [[UIView alloc] initWithFrame:CGRectMake(5 , 0, ScreenWidth - 10, 30)];
-                [backView setBackgroundColor:[UIColor whiteColor]];
-                backView.layer.cornerRadius = 2;
-                backView.layer.masksToBounds = YES;
-                backView.layer.borderWidth = 1;
-                backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
-                
-                //品牌
-                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 7.5, ScreenWidth - 30, 15)];
-                brandLabel.font = [UIFont systemFontOfSize:15];
-                [brandLabel setTextColor:[UIColor redColor]];
-                [brandLabel setBackgroundColor:[UIColor clearColor]];
-                brandLabel.textAlignment = NSTextAlignmentCenter;
-                brandLabel.text = str;
-                [backView addSubview:brandLabel];
-                
-                [cell.contentView addSubview:backView];
-                
                 }
             }
-    } else if(indexPath.section == 3){
-        if (dataListPast.count > 0) {
+        } else if(dataListPast.count > 0 && indexPath.row < dataList.count + 3 + countAll){
             
             cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
             if (cell == nil) {
@@ -913,43 +951,125 @@
                 [cell.contentView addSubview:backView];
                 
             }
+        } else if(dataListPast.count > 0 && indexPath.row == dataList.count + 3 + countAll){
+            
+            cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 60)];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+                
+                UIView  *backView = [[UIView alloc] initWithFrame:CGRectMake(0 , 0, ScreenWidth , 50)];
+                [backView setBackgroundColor:[UIColor whiteColor]];
+                
+                UIImageView *zixunview = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 60, 40)];
+                zixunview.image = [UIImage imageNamed:@"zx_title"];
+                [backView addSubview:zixunview];
+                
+                UIView *shuView = [[UIView alloc] initWithFrame:CGRectMake(75, 5, 1, 40)];
+                shuView.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
+                [backView addSubview:shuView];
+                
+                
+                
+                //品牌
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 18, ScreenWidth - 90, 14)];
+                brandLabel.font = [UIFont systemFontOfSize:14];
+                [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                [brandLabel setBackgroundColor:[UIColor clearColor]];
+                
+                brandLabel.text = @"关于平台充值、提现额度调整的公告";
+                [backView addSubview:brandLabel];
+                
+                [cell.contentView addSubview:backView];
+                
+            }
+        } else if(indexPath.row == dataList.count + 2){
+            
+            cell = [tbleView dequeueReusableCellWithIdentifier:RepairCellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 60)];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
+                
+                UIView  *backView = [[UIView alloc] initWithFrame:CGRectMake(0 , 10, ScreenWidth , 50)];
+                [backView setBackgroundColor:[UIColor whiteColor]];
+                
+                UIImageView *zixunview = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 60, 40)];
+                zixunview.image = [UIImage imageNamed:@"zx_title"];
+                [backView addSubview:zixunview];
+                
+                UIView *shuView = [[UIView alloc] initWithFrame:CGRectMake(75, 5, 1, 40)];
+                shuView.backgroundColor = [ConMethods colorWithHexString:@"dedede"];
+                [backView addSubview:shuView];
+                
+                
+                
+                //品牌
+                UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 18, ScreenWidth - 90, 14)];
+                brandLabel.font = [UIFont systemFontOfSize:14];
+                [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                [brandLabel setBackgroundColor:[UIColor clearColor]];
+                
+                brandLabel.text = @"关于平台充值、提现额度调整的公告";
+                [backView addSubview:brandLabel];
+                
+                [cell.contentView addSubview:backView];
+                
+            }
         }
+    
     }
-    
-    
     
     return cell;
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-       return 270;
-    } else if (indexPath.section == 1){
-        return  30;
-    }else if(indexPath.section == 2){
     
-    return ScreenWidth/2 - 7.5 + 65;
+    if (dataList.count == 0) {
+        return 90;
     } else {
-    return 60;
+        if (indexPath.row == 0) {
+            return 40;
+        } else if (indexPath.row > 0&&indexPath.row <= dataList.count) {
+        return 270;
+        } else if(indexPath.row == dataList.count + 1){
+        
+            return 40;
+        }else {
+            if (dataListPast.count > 0) {
+                if (indexPath.row == dataList.count + 1) {
+                    return 40;
+                } else if(indexPath.row == dataList.count + 2){
+                return 40 ;
+                } else {
+                    NSInteger countAll;
+                     if (dataListPast.count % 2 == 0) {
+                         countAll = dataListPast.count/2;
+                     }else {
+                         
+                       countAll = (dataListPast.count + 1)/2;
+                     }
+                    
+                    if (indexPath.row > dataList.count + 2 && indexPath.row < dataList.count + 3 + countAll ) {
+                        return ScreenWidth/2 - 7.5 + 65;
+                    } else {
+                   return 60;
+                    }
+                }
+                
+            } else {
+            
+            return 60;
+            }
+        
+        }
     }
     
 }
 
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    float count;
-    if (section == 0) {
-        count = 40;
-    } else if(section == 1){
-      count = 5;
-    }else if(section == 2){
-        count = 40;
-    } else {
-    count = 5;
-    }
-    return count;
-}
 
 
 - (IBAction)callPhone:(UITouch *)sender
@@ -963,106 +1083,35 @@
         vc.strId = [NSString stringWithFormat:@"%@",[[dataListPast objectAtIndex:view.tag] objectForKey:@"XMID"]];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-        
-    
-    
     
 }
 
 
-
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
-     
-    UIView *view;
-    
-    if (section == 2) {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 19, ScreenWidth, 40)];
-       // view.backgroundColor = [UIColor clearColor];
-        [view setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-        
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(5,19, ScreenWidth/2 - 10 - 30, 2)];
-        lineView.backgroundColor = [UIColor blackColor];
-        [view addSubview:lineView];
-        
-        UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth/2 + 35,19, ScreenWidth/2 - 10 - 30, 2)];
-        lineView1.backgroundColor = [UIColor blackColor];
-        [view addSubview:lineView1];
-        
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 30, 12.5, 30, 15)];
-        lab.text = @"最热";
-        lab.textColor = [UIColor redColor];
-        lab.font = [UIFont systemFontOfSize:15];
-        lab.backgroundColor = [UIColor clearColor];
-        [view addSubview:lab];
-        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2, 12.5, 30, 15)];
-        lab1.text = @"拍品";
-        lab1.font = [UIFont systemFontOfSize:15];
-        lab1.textColor = [UIColor blackColor];
-        lab1.backgroundColor = [UIColor clearColor];
-        [view addSubview:lab1];
-       
-
-        
-        
-        
-    } else if (section == 0){
-    
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
-    
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(5, 19, ScreenWidth/2 - 10 - 30, 2)];
-        lineView.backgroundColor = [UIColor blackColor];
-        [view addSubview:lineView];
-        
-        UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth/2 + 35, 19, ScreenWidth/2 - 10 - 30, 2)];
-        lineView1.backgroundColor = [UIColor blackColor];
-        [view addSubview:lineView1];
-        
-        
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2 - 30, 12.5, 30, 15)];
-        lab.text = @"专场";
-        lab.textColor = [UIColor redColor];
-        lab.font = [UIFont systemFontOfSize:15];
-        lab.backgroundColor = [UIColor clearColor];
-        [view addSubview:lab];
-        
-    
-        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2, 12.5, 30, 15)];
-        lab1.text = @"列表";
-        lab1.font = [UIFont systemFontOfSize:15];
-        lab1.textColor = [UIColor blackColor];
-        lab1.backgroundColor = [UIColor clearColor];
-        [view addSubview:lab1];
-        
-    
-    } else{
-     view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 5)];
-    [view setBackgroundColor:[ConMethods colorWithHexString:@"f7f7f5"]];
-    
-    }
-    
-    
-    return view;
-    
-}
 
 
 
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
+    
+    NSInteger countA;
+    if (dataListPast.count % 2 == 0) {
+        countA = dataListPast.count /2;
+    } else {
+    
+    countA = (dataListPast.count + 1 )/2;
+    }
+    
     if (dataList.count > 0) {
         
-    if (indexPath.section == 0) {
+    if (indexPath.row > 0 && indexPath.row <= dataList.count) {
         
         DetailViewController *vc = [[DetailViewController alloc] init];
-        vc.strId = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"]];
+        vc.strId = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"ID"]];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
       
-    } else if (indexPath.section == 1){
+    } else if (indexPath.row == dataList.count + 1){
         
         AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         delegate.tabBarController.selectedIndex = 1;
@@ -1071,7 +1120,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [navVC popViewControllerAnimated:NO];
         osTabbarVC.selectedViewController = navVC;
         
-    } else if (indexPath.section == 3){
+    } else if (indexPath.row == dataList.count + 2&&dataListPast.count == 0){
+        ProviousViewController *cv = [[ProviousViewController alloc] init];
+        cv.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:cv animated:YES];
+    
+    } else if(indexPath.row == dataList.count + 3 + countA && dataListPast.count > 0){
         ProviousViewController *cv = [[ProviousViewController alloc] init];
         cv.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:cv animated:YES];
@@ -1289,6 +1343,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    /*
     if (scrollView == table) {
         
     //去掉UItableview headerview黏性(sticky)
@@ -1299,7 +1354,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
     }
 
-    } else  if(scrollView == scrollViewImage){
+    } else
+     */
+     if(scrollView == scrollViewImage){
     
     CGFloat pagewidth = scrollViewImage.frame.size.width;
     int page = floor((scrollViewImage.contentOffset.x - pagewidth/([imageArray count]+2))/pagewidth)+1;

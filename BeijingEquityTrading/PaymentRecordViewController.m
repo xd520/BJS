@@ -113,6 +113,8 @@
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
             if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
                 
                 AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -121,7 +123,7 @@
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
             
-
+            }
             
         }
         
@@ -177,7 +179,7 @@
 {
     NSLog(@"%s %d %@", __FUNCTION__, __LINE__, @"处理品牌列表数据");
     
-    if ([start isEqualToString:@"1"]) {
+    if ([start isEqualToString:@"0"]) {
         if (dataList.count > 0) {
             [dataList removeAllObjects];
         }

@@ -17,12 +17,24 @@
 #define SERVERURL @"http://192.168.1.84:8089"
 #define SERVERURL1 @"192.168.1.84:8089"
 
+//上架appstore地址
+
+//#define SERVERURL @"http://211.167.66.245"
+//#define SERVERURL1 @"211.167.66.245"
+
+//北交所客户外网2
+//#define SERVERURL @"http://202.96.1.30"
+//#define SERVERURL1 @"202.96.1.30"
+
+
+
+
 //小乔通道
 //#define SERVERURL @"http://192.168.2.207:8080"
 //#define SERVERURL1 @"192.168.2.207:8080"
 //晨达通道
-//#define SERVERURL @"http://192.168.2.11:8080/bid"
-
+//#define SERVERURL @"http://192.168.2.219:8080/bid"
+//#define SERVERURL1 @"192.168.2.219:8080/bid"
 
 
 //这个是服务端的ws链接地址
@@ -35,9 +47,6 @@
 
 //北交所客户外网1
 //#define SERVERURL @"http://111.205.25.78:8071"
-//北交所客户外网2
-//#define SERVERURL @"http://202.96.1.30"
-//#define SERVERURL1 @"202.96.1.30"
 
 /*
  Batman8151

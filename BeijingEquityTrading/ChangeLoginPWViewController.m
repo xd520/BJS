@@ -228,6 +228,7 @@
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+             if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
             
             if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
                 
@@ -237,7 +238,7 @@
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
             
-
+            }
             
         }
         

@@ -151,6 +151,8 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField == _userName) {
    
+     textField.text = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+        
         
    // NSString *emailRegex = @"^[a-zA-Z]\\w{5,17}$";
         
@@ -579,6 +581,10 @@
 }
 
 
+
+
+
+
 - (IBAction)next:(id)sender {
     
     [self.view endEditing:YES];
@@ -611,7 +617,7 @@
     } else if (![self.passwordAgain.text isEqualToString:self.password.text]){
         
         [[HttpMethods Instance] activityIndicate:NO
-                                      tipContent:@"两者密码不一致"
+                                      tipContent:@"两次输入密码不一致"
                                    MBProgressHUD:nil
                                           target:self.view
                                  displayInterval:3];

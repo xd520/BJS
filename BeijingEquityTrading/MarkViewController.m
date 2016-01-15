@@ -810,13 +810,12 @@
         timeValueLab.backgroundColor = [UIColor clearColor];
         timeValueLab.textColor = [ConMethods colorWithHexString:@"333333"];
         
-        if(![[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"]){
+       
             
-            timeValueLab.text = [NSString stringWithFormat:@"结束时间:%@  %@",[[dic objectForKey:@"detail"] objectForKey:@"SJJSRQ"],[[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"]];
-        }
+           // timeValueLab.text = [NSString stringWithFormat:@"结束时间:%@  %@",[[dic objectForKey:@"detail"] objectForKey:@"SJJSRQ"],[[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"]];
         
         
-        [backView addSubview:timeValueLab];
+        //[backView addSubview:timeValueLab];
         
     } else {
     
@@ -2494,7 +2493,9 @@
 -(void)payMehtods:(UIButton *)btn {
 
     PayMoneyViewController *vc = [[PayMoneyViewController alloc] init];
-    vc.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
+    
+    //[dic objectForKey:@"CJJLH"]
+    vc.strId = [myDic objectForKey:@"cjjlh"];
     [self.navigationController pushViewController:vc animated:YES];
 
 }

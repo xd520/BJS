@@ -786,21 +786,25 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
         } else {
             
-            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
-                
-                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                [delegate.loginUser removeAllObjects];
-                
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            } else {
-                
+            
+          
                 [[HttpMethods Instance] activityIndicate:NO
                                               tipContent:[responseObject objectForKey:@"msg"]
                                            MBProgressHUD:nil
                                                   target:self.navigationController.view
                                          displayInterval:3];
-            }
             
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                
+            }
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
@@ -1048,21 +1052,23 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
         } else {
             
-            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
-                
-                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                [delegate.loginUser removeAllObjects];
-                
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            } else {
+
                 
                 [[HttpMethods Instance] activityIndicate:NO
                                               tipContent:[responseObject objectForKey:@"msg"]
                                            MBProgressHUD:nil
                                                   target:self.navigationController.view
                                          displayInterval:3];
-            }
             
+             if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                 if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                     
+                     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                     [delegate.loginUser removeAllObjects];
+                     
+                     [self.navigationController popToRootViewControllerAnimated:YES];
+                 }
+             }
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
@@ -1112,21 +1118,23 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
         } else {
             
-            if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
-                
-                AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                [delegate.loginUser removeAllObjects];
-                
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            } else {
+           
                 
                 [[HttpMethods Instance] activityIndicate:NO
                                               tipContent:[responseObject objectForKey:@"msg"]
                                            MBProgressHUD:nil
                                                   target:self.navigationController.view
                                          displayInterval:3];
-            }
-            
+         if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+             
+             if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                 
+                 AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                 [delegate.loginUser removeAllObjects];
+                 
+                 [self.navigationController popToRootViewControllerAnimated:YES];
+             }
+         }
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
@@ -1179,15 +1187,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         } else {
             
             
-                
-                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
-                    
-                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-                    [delegate.loginUser removeAllObjects];
-                    
-                    [self.navigationController popToRootViewControllerAnimated:YES];
-                } else {
-                    
+            
                     NSMutableArray *arr = [NSMutableArray array];
                     [self recivedCategoryList:arr];
                     
@@ -1200,7 +1200,17 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                     NSLog(@"JSON: %@", responseObject);
                     NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
                
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
             }
+
             
         }
         

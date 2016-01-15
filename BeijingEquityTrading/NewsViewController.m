@@ -119,7 +119,8 @@
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
-          
+          if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+            
             if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
                 
                 AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -127,7 +128,7 @@
                 
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
-            
+          }
 
         }
         
@@ -184,6 +185,7 @@
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
             
             if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
                 
@@ -191,9 +193,9 @@
                 [delegate.loginUser removeAllObjects];
                 
                 [self.navigationController popToRootViewControllerAnimated:YES];
-            }
+                }
             
-
+            }
             
         }
         
