@@ -63,7 +63,8 @@
     
     NSLog(@"%f %f",ScreenWidth,ScreenHeight);
     
-    
+    // 定时器 循环
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(runTimePage) userInfo:nil repeats:YES];
 
     table = [[UITableView alloc] initWithFrame:CGRectMake(0, 130 , ScreenWidth,ScreenHeight  - 130)];
     [table setDelegate:self];
@@ -1173,11 +1174,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     if (imageArray.count > 0) {
        for (int i = 0; i < imageArray.count; i++) {
-        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth *i, 0, ScreenWidth, 150)];
+        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth *i + ScreenWidth, 0, ScreenWidth, 150)];
         [imageView1 setTag:i + 10000];
            [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw_app/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
         imageView1.userInteractionEnabled = YES;
-           imageView1.tag = i;
+         
            UITapGestureRecognizer *singleTap;
            
            singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhoneTab:)];
@@ -1190,11 +1191,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
            
          [scrollViewImage addSubview:imageView1];
           
-         
-           
        }
-        
-        
         
         
         // 取数组最后一张图片 放在第0页
@@ -1206,7 +1203,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         
         imgView.userInteractionEnabled = YES;
-        imgView.tag = imageArray.count - 1;
+       
         UITapGestureRecognizer *singleTap;
         
         singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhoneTab:)];
@@ -1223,10 +1220,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         // 取数组第一张图片 放在最后1页
         
         UIImageView *imgViewl = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth * ([imageArray count] + 1)) , 0, ScreenWidth, 150)];
-       // imgViewl.tag = 5 + 10000;
+        imgViewl.tag = 5 + 10000;
         
         imgViewl.userInteractionEnabled = YES;
-        imgViewl.tag = 0;
+       
        // UITapGestureRecognizer *singleTap;
         
         singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhoneTab:)];
@@ -1247,8 +1244,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [scrollViewImage addSubview:imgViewl];
         
         [scrollViewImage setContentSize:CGSizeMake(ScreenWidth * ([imageArray count] + 2), 150)]; //  +上第1页和第4页  原理：4-[1-2-3-4]-1
-        //[scrollViewImage setContentOffset:CGPointMake(ScreenWidth, 0)];
-       // [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth,0,ScreenWidth,150) animated:NO]; // 默认从序号1位置放第1页 ，序号0位置位置放第4页
+        [scrollViewImage setContentOffset:CGPointMake(0, 0)];
+        [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth,0,ScreenWidth,150) animated:NO]; // 默认从序号1位置放第1页 ，序号0位置位置放第4页
         
         
     } else {
@@ -1262,21 +1259,42 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [scrollViewImage addSubview:imageViewHead];
     }
     
-    // 定时器 循环
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(runTimePage) userInfo:nil repeats:YES];
 }
 
 
 - (IBAction)callPhoneTab:(UITouch *)sender
 {
     
-    UIView *view = [sender view];
+    //UIView *view = [sender view];
+    NSLog(@"%ld",pageControl.currentPage);
+    NSLog(@"%@",[[imageArray objectAtIndex:pageControl.currentPage] objectForKey:@"LINK_ADDR"]);
     
-    if ([imageArray objectAtIndex:view.tag]) {
+    if ([[imageArray objectAtIndex:pageControl.currentPage] objectForKey:@"LINK_ADDR"] != [NSNull null]) {
+        if ([[[imageArray objectAtIndex:pageControl.currentPage] objectForKey:@"LINK_ADDR"] hasPrefix:@"ZC"]) {
+           NSString *string = [[[imageArray objectAtIndex:pageControl.currentPage] objectForKey:@"LINK_ADDR"] substringFromIndex:3];
+            
+            DetailViewController *vc = [[DetailViewController alloc] init];
+            vc.strId = string;
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+            
+        } else {
+         NSString *string = [[[imageArray objectAtIndex:pageControl.currentPage] objectForKey:@"LINK_ADDR"] substringFromIndex:3];
+            MarkViewController *vc = [[MarkViewController alloc] init];
+            vc.strId = string;
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        
+        }
         
     }
 
 }
+
+
+
 
 //请求数据方法
 -(void)requestMethods {
@@ -1371,6 +1389,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
+/*
+
 // pagecontrol 选择器的方法
 - (void)turnPage
 {
@@ -1390,19 +1410,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    /*
-    if (scrollView == table) {
-        
-    //去掉UItableview headerview黏性(sticky)
-    CGFloat sectionHeaderHeight = 40;
-    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
-        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-    } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
-        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-    }
-
-    } else
-     */
+ 
      if(scrollView == scrollViewImage){
     
     CGFloat pagewidth = scrollViewImage.frame.size.width;
@@ -1435,7 +1443,51 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
    }
 }
 
+*/
 
+- (void)scrollViewDidScroll:(UIScrollView *)sender
+{
+    CGFloat pagewidth = scrollViewImage.frame.size.width;
+    int page = floor((scrollViewImage.contentOffset.x - pagewidth/([imageArray count]+2))/pagewidth)+1;
+    page --;  // 默认从第二页开始
+    pageControl.currentPage = page;
+}
+
+
+// scrollview 委托函数
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollV
+{
+    CGFloat pagewidth = scrollViewImage.frame.size.width;
+    int currentPage = floor((scrollViewImage.contentOffset.x - pagewidth/ ([imageArray count]+2)) / pagewidth) + 1;
+    //    int currentPage_ = (int)self.scrollView.contentOffset.x/320; // 和上面两行效果一样
+    //    NSLog(@"currentPage_==%d",currentPage_);
+    if (currentPage==0)
+    {
+        [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth * [imageArray count],0,ScreenWidth,150) animated:NO]; // 序号0 最后1页
+    }
+    else if (currentPage==([imageArray count]+1))
+    {
+        [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth,0,ScreenWidth,150) animated:NO]; // 最后+1,循环第1页
+    }
+    //pageControl.currentPage = currentPage;
+    
+}
+
+// pagecontrol 选择器的方法
+- (void)turnPage
+{
+    int page = (int)pageControl.currentPage; // 获取当前的page
+    [scrollViewImage scrollRectToVisible:CGRectMake(ScreenWidth*(page+1),0,ScreenWidth,150) animated:NO]; // 触摸pagecontroller那个点点 往后翻一页 +1
+}
+// 定时器 绑定的方法
+- (void)runTimePage
+{
+    int page = (int)pageControl.currentPage; // 获取当前的page
+    page++;
+    page = page > (imageArray.count - 1) ? 0 : page ;
+    pageControl.currentPage = page;
+    [self turnPage];
+}
 
 
 
