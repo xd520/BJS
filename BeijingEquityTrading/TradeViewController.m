@@ -86,22 +86,21 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //[self _reconnect];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     
-    _webSocket.delegate = nil;
-    [_webSocket close];
-    _webSocket = nil;
+   // _webSocket.delegate = nil;
+   // [_webSocket close];
+    //_webSocket = nil;
 }
 
 
 /////SRWebSocket///////
 
-- (void)_reconnect:(NSString *)str;
+- (void)_reconnect;
 {
     
     if (_webSocket) {
@@ -109,7 +108,7 @@
         [_webSocket close];
     }
     
-    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/more?ids=%@",SERVERURL1,str]]]];
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/all",SERVERURL1]]]];
     
     
     
@@ -117,7 +116,7 @@
     
     _webSocket.delegate = self;
     
-    self.title = @"Opening Connection...";
+   // self.title = @"Opening Connection...";
     [_webSocket open];
     
 }
@@ -199,6 +198,8 @@
         addHight = 0;
     }
 
+    [self _reconnect];
+    
     arrBtn = [NSMutableArray array];
     allBtn = [NSMutableArray array];
     
@@ -215,7 +216,7 @@
     
     
     
-    NSArray *arr = @[@"报价中",@"已成交",@"未成交"];
+    NSArray *arr = [[NSArray alloc] initWithObjects:@"报价中",@"已成交",@"未成交", nil];
     
     for (int i = 0; i < 3; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -241,32 +242,7 @@
     lineView = [[UIView alloc] initWithFrame:CGRectMake((ScreenWidth/3 - 45)/2, 28, 45, 2)];
     lineView.backgroundColor = [ConMethods colorWithHexString:@"950401"];
     [headVeiw addSubview:lineView];
-    //[self.view addSubview:headVeiw];
-    
-    
-    _segmentedControl = [[HMSegmentedControlLast alloc] initWithFrame:CGRectMake(0, 45 + addHight, ScreenWidth , 30)];
-    
-    _segmentedControl.font = [UIFont systemFontOfSize:16];
-    
-    _segmentedControl.sectionTitles = @[@"报价中",@"已成交",@"未成交"];
-    
-    _segmentedControl.selectedSegmentIndex = 0;
-    
-    _segmentedControl.selectedTextColor = [ConMethods colorWithHexString:@"bd0100"];
-    
-    _segmentedControl.selectionLocation =  HMSegmentedControlSelectionLocationDown;
-    
-    _segmentedControl.type = HMSegmentedControlTypeText;
-    
-    _segmentedControl.selectionIndicatorHeight = 2;
-    
-    _segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleTextWidthStrip;
-    
-    _segmentedControl.selectionIndicatorColor = [ConMethods colorWithHexString:@"c40000"];
-    
-    [self.view addSubview:_segmentedControl];
-
-    
+    [self.view addSubview:headVeiw];
     
     
     float scrollViewHeight = 0;
@@ -275,38 +251,12 @@
     //初始化scrollView
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 32 + 44 + addHight, ScreenWidth, scrollViewHeight)];
     [self.scrollView setPagingEnabled:YES];
-    self.scrollView.bounces = NO;
+   // self.scrollView.bounces = NO;
     [self.scrollView setShowsHorizontalScrollIndicator:NO];
     [self.scrollView setContentSize:CGSizeMake(ScreenWidth*3, scrollViewHeight)];
-    [self.scrollView scrollRectToVisible:CGRectMake(0, 32 + 44 + addHight, ScreenWidth, scrollViewHeight) animated:NO];
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, ScreenWidth, scrollViewHeight) animated:NO];
     [self.scrollView setDelegate:self];
     [self.view addSubview:self.scrollView];
-    
-    
-    
-    __weak typeof(self) weakSelf = self;
-    [self.segmentedControl setIndexChangeBlock:^(NSInteger index) {
-        
-        [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth*index, 0, ScreenWidth, scrollViewHeight) animated:YES];
-        
-        if (index == 1) {
-            if (finshMore) {
-                startPast = @"1";
-                [self requestMyGqzcPaging];
-            }
-
-        } else if (index == 2) {
-            if (notFinshMore) {
-                startFinsh = @"1";
-                [self requestMethods];
-            }
-        
-        }
-        
-        
-    }];
-    
-
     
     
     //添加tableView
@@ -377,15 +327,15 @@
     [commitB addTarget:self action:@selector(summitBtnMethods:) forControlEvents:UIControlEventTouchUpInside];
     [endView addSubview:commitB];
 
-    
-    
-    
     [self.scrollView addSubview:endView];
     
     allBtnCount = 0;
     
     
     [self requestData];
+    [self requestMyGqzcPaging];
+    [self requestMethods];
+    
     
     [self setupHeader];
     [self setupFooter];
@@ -564,16 +514,44 @@
 
 -(void)selectMethods:(UIButton *)btn {
     
-     __weak typeof(self) weakSelf = self;
     
     if (btn.tag == 0) {
-      
-       [weakSelf.scrollView scrollRectToVisible:CGRectMake(0 , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
-        
+       [_scrollView scrollRectToVisible:CGRectMake(0 , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
+        if (arrBtn.count > 0) {
+            
+            UIButton *btnfirst = [arrBtn objectAtIndex:0];
+            
+            [btnfirst setTitleColor:[ConMethods colorWithHexString:@"333333"] forState:UIControlStateNormal];
+            
+            countBtn = btn.tag;
+            [btn setTitleColor:[ConMethods colorWithHexString:@"950401"] forState:UIControlStateNormal];
+            if (arrBtn.count > 0) {
+                [arrBtn removeLastObject];
+            }
+            
+            [arrBtn addObject:btn];
+        }
+ 
         
     } else if (btn.tag == 1) {
-    [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
+    [_scrollView scrollRectToVisible:CGRectMake(ScreenWidth , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
     
+        if (arrBtn.count > 0) {
+            
+            UIButton *btnfirst = [arrBtn objectAtIndex:0];
+            
+            [btnfirst setTitleColor:[ConMethods colorWithHexString:@"333333"] forState:UIControlStateNormal];
+            
+            countBtn = btn.tag;
+            [btn setTitleColor:[ConMethods colorWithHexString:@"950401"] forState:UIControlStateNormal];
+            if (arrBtn.count > 0) {
+                [arrBtn removeLastObject];
+            }
+            
+            [arrBtn addObject:btn];
+        }
+
+        
         if (finshMore) {
             startPast = @"1";
             [self requestMyGqzcPaging];
@@ -581,15 +559,7 @@
         
     }else if(btn.tag == 2){
     
-     [weakSelf.scrollView scrollRectToVisible:CGRectMake(ScreenWidth*2 , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
-        if (notFinshMore) {
-            startFinsh = @"1";
-            [self requestMethods];
-        }
-        
-    }
-    
-    if (btn.tag != countBtn) {
+     [_scrollView scrollRectToVisible:CGRectMake(ScreenWidth*2 , 0, ScreenWidth, ScreenHeight  - 64 - 32) animated:YES];
         
         if (arrBtn.count > 0) {
             
@@ -605,12 +575,17 @@
             
             [arrBtn addObject:btn];
         }
+
+        
+        if (notFinshMore) {
+            startFinsh = @"1";
+            [self requestMethods];
+        }
+        
     }
     
 
         lineView.frame = CGRectMake((ScreenWidth/3 - 45)/2 + ScreenWidth/3*countBtn, 28, 45, 2);
-        
-   
     
 }
 
@@ -624,7 +599,7 @@
         NSInteger page = _scrollView.contentOffset.x / pageWidth ;
        
        _segmentedControl.selectedSegmentIndex = page;
-        /*
+        
         if (page == 0) {
             
             UIButton *btnfirst = [arrBtn objectAtIndex:0];
@@ -680,7 +655,7 @@
         
         }
          lineView.frame = CGRectMake((ScreenWidth/3 - 45)/2 + ScreenWidth/3*page, 28, 45, 2);
-          */
+        
     }
         
 }
@@ -1949,6 +1924,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             [dataList removeAllObjects];
+            [totalLastTime removeAllObjects];
         }
         
     }
@@ -1979,7 +1955,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     [table reloadData];
     
-    [self _reconnect:[self refreshList]];
+   // [self _reconnect:[self refreshList]];
     
 }
 

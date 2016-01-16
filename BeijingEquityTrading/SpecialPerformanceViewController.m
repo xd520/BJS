@@ -48,11 +48,49 @@
         addHight = 0;
     }
 
+    UIView *view1,*view;
+    
+    view = [[UIView alloc] initWithFrame:CGRectMake(0, addHight, ScreenWidth , 35)];
+    view.backgroundColor = [UIColor clearColor];
+    
+    
+    view1 = [[UIView alloc] initWithFrame:CGRectMake(5, 5, ScreenWidth - 10, 30)];
+    view1.backgroundColor = [UIColor whiteColor];
+    view1.layer.masksToBounds = YES;
+    view1.layer.cornerRadius = 4;
+    view1.layer.borderWidth = 1;
+    view1.layer.borderColor = [ConMethods colorWithHexString:@"d8d8d8"].CGColor;
+    
+    UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(2, 1, ScreenWidth - 14, 1)];
+    lineview.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
+    [view1 addSubview:lineview];
+    
+    
+    searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, ScreenWidth - 10 - 40, 30)];
+    searchText.delegate = self;
+    searchText.placeholder = @"搜索专场名称";
+    searchText.textColor = [ConMethods colorWithHexString:@"333333"];
+    searchText.font = [UIFont systemFontOfSize:15];
+    searchText.clearButtonMode = UITextFieldViewModeWhileEditing;
+    searchText.backgroundColor = [UIColor clearColor];
+    [view1 addSubview:searchText];
+    
+    
+    UIButton *searchBtn = [[UIButton alloc] init];
+    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 40, 0, 40, 30);
+    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
+    [view1 addSubview:searchBtn];
+    [view addSubview:view1];
+    
+    [self.view addSubview:view];
+
+    
     
     
     //添加tableView
     
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0,addHight , ScreenWidth,ScreenHeight - 20 - 49)];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0,addHight + 35 , ScreenWidth,ScreenHeight - 55 - 49)];
     [table setDelegate:self];
     [table setDataSource:self];
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -269,53 +307,6 @@
 }
 
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
-    return 35;
-}
-
-
-
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
-    UIView *view1,*view;
-    
-     view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , 35)];
-    view.backgroundColor = [UIColor clearColor];
-    
-   
-    view1 = [[UIView alloc] initWithFrame:CGRectMake(5, 5, ScreenWidth - 10, 30)];
-    view1.backgroundColor = [UIColor whiteColor];
-    view1.layer.masksToBounds = YES;
-    view1.layer.cornerRadius = 4;
-    view1.layer.borderWidth = 1;
-    view1.layer.borderColor = [ConMethods colorWithHexString:@"d8d8d8"].CGColor;
-    
-  UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(2, 1, ScreenWidth - 14, 1)];
-    lineview.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
-    [view1 addSubview:lineview];
-    
-    
-    searchText = [[UITextField alloc] initWithFrame:CGRectMake(5, 0, ScreenWidth - 10 - 40, 30)];
-    searchText.delegate = self;
-    searchText.placeholder = @"搜索专场名称";
-    searchText.textColor = [ConMethods colorWithHexString:@"333333"];
-    searchText.font = [UIFont systemFontOfSize:15];
-    searchText.clearButtonMode = UITextFieldViewModeWhileEditing;
-    searchText.backgroundColor = [UIColor clearColor];
-    [view1 addSubview:searchText];
-    
-    
-    UIButton *searchBtn = [[UIButton alloc] init];
-    searchBtn.frame = CGRectMake(ScreenWidth - 10 - 40, 0, 40, 30);
-    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
-    [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
-    [view1 addSubview:searchBtn];
-    [view addSubview:view1];
-    
-    return view;
-    
-}
 
 #pragma mark - 消除键盘
 

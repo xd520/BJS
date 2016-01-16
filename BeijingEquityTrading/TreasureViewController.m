@@ -89,6 +89,31 @@
 
 @implementation TreasureViewController
 
+#pragma mark - 进入后刷新
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    start = @"1";
+    bddlStr = @"";
+    bdxlStr = @"";
+    downStr = @"";
+    upStr = @"";
+    endTime = @"0";
+    price = @"0";
+    
+    lab2.textColor = [ConMethods colorWithHexString:@"999999"];
+    lab3.textColor = [ConMethods colorWithHexString:@"999999"];
+    lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
+    
+    
+    [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
+    
+    
+}
+
+
 
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -102,7 +127,7 @@
 
 /////SRWebSocket///////
 
-- (void)_reconnect:(NSString *)str;
+- (void)_reconnect;
 {
     
     if (_webSocket) {
@@ -110,7 +135,7 @@
         [_webSocket close];
     }
     
-    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/more?ids=%@",SERVERURL1,str]]]];
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/all",SERVERURL1]]]];
     
     
     
@@ -118,7 +143,7 @@
     
     _webSocket.delegate = self;
     
-    self.title = @"Opening Connection...";
+   // self.title = @"Opening Connection...";
     [_webSocket open];
     
 }
@@ -212,6 +237,8 @@
     } else {
         addHight = 0;
     }
+    
+    [self _reconnect];
     
     
     UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 0.5)];
@@ -1582,13 +1609,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         UITableViewCell *cell = (UITableViewCell *)[table cellForRowAtIndexPath:indexPath];
         UILabel *textLab = [cell viewWithTag:indexPath.row + 1000];
-        if (time > 0) {
-            textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
-        } else {
-        textLab.text = @"0秒";
-        }
         
-        //textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+        textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
         NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [NSString stringWithFormat:@"%i",time]};
         [totalLastTime replaceObjectAtIndex:i withObject:dic];
     }
@@ -1672,7 +1694,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [table reloadData];
     
    //订阅项目
-  //[self _reconnect:[self refreshList]];
+  [self _reconnect];
     
 }
 

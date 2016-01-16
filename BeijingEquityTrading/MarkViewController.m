@@ -69,7 +69,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    //[self _reconnect];
+    [self _reconnect];
 }
 
 
@@ -102,13 +102,13 @@
     _webSocket.delegate = nil;
     [_webSocket close];
     
-    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://192.168.1.84:8089/websocket/bidInfoServer/%@",_strId]]]];
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/%@",SERVERURL1,_strId]]]];
     
     //ws://192.168.1.84:8089/websocket/bidInfoServer/allMgr  ws://localhost:9000/chat
     
     _webSocket.delegate = self;
     
-    self.title = @"Opening Connection...";
+    //self.title = @"Opening Connection...";
     [_webSocket open];
     
 }
@@ -1433,7 +1433,6 @@
     
     if (!([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"cj"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"])){
     
-     [self _reconnect];
     }
     
 }
@@ -1857,7 +1856,7 @@
     sureText.clearButtonMode = UITextFieldViewModeWhileEditing;
     sureText.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     sureText.font = [UIFont systemFontOfSize:15];
-    
+     sureText.autocorrectionType = UITextAutocorrectionTypeNo;
     sureText.delegate = self;
     
     [btnView addSubview:sureText];
@@ -2102,7 +2101,7 @@
            
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:@"提交成功"
+                                          tipContent:@"报价提交成功"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];

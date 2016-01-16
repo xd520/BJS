@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "MarkViewController.h"
 #import "ListData.h"
+#import "SRWebSocket.h"
 
 @interface DetailViewController ()
 {
@@ -42,6 +43,8 @@
     //所有剩余时间数组
     NSMutableArray *totalLastTime;
     NSTimer *timer;
+    
+     SRWebSocket *_webSocket;
 
 }
 
@@ -51,8 +54,111 @@
 
 @implementation DetailViewController
 
+
+#pragma mark - 进入后刷新
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    start = @"1";
+    endTime = @"0";
+    price = @"0";
+    searchText.text = @"";
+    [self requestData:endTime withprice:price with:searchText.text];
+}
+
+
+/*
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    _webSocket.delegate = nil;
+    [_webSocket close];
+    _webSocket = nil;
+}
+*/
+
+/////SRWebSocket///////
+
+- (void)_reconnect;
+{
+    
+    if (_webSocket) {
+        _webSocket.delegate = nil;
+        [_webSocket close];
+    }
+    
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/all",SERVERURL1]]]];
+    
+    
+    
+    //ws://192.168.1.84:8089/websocket/bidInfoServer/allMgr  ws://localhost:9000/chat
+    
+    _webSocket.delegate = self;
+    
+   // self.title = @"Opening Connection...";
+    [_webSocket open];
+    
+}
+#pragma mark - SRWebSocketDelegate
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
+{
+    NSLog(@"Websocket Connected");
+    //self.title = @"Connected!";
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+{
+    NSLog(@":( Websocket Failed With Error %@", error);
+    
+    //self.title = @"Connection Failed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
+{
+    NSLog(@"Received \"%@\"", message);
+    NSLog(@"55555%@",message);
+    
+    start = @"1";
+    endTime = @"0";
+    price = @"0";
+    searchText.text = @"";
+    [self requestData:endTime withprice:price with:searchText.text];
+    
+    
+}
+
+
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+{
+    NSLog(@"WebSocket closed");
+    self.title = @"Connection Closed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
+{
+    NSLog(@"Websocket received pong");
+}
+
+
+
+
+/////SRWebSocket//////
+
+
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+     [self _reconnect];
     
     start = @"1";
     limit = @"10";
@@ -832,13 +938,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         UITableViewCell *cell = (UITableViewCell *)[table cellForRowAtIndexPath:indexPath];
         UILabel *textLab = [cell viewWithTag:indexPath.row + 1000];
-        if (time > 0) {
-            textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
-        } else {
-            textLab.text = @"0秒";
-        }
         
-        //textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+        textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
         NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [NSString stringWithFormat:@"%i",time]};
         [totalLastTime replaceObjectAtIndex:i withObject:dic];
     }
@@ -847,7 +948,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (NSString *)lessSecondToDay:(int)seconds
 {
-    if (seconds > 0) {
+   
         int dayCount = seconds%(3600*24);
         int day = (seconds - dayCount)/(3600*24);
         
@@ -861,18 +962,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
         return time;
         
-    } else {
-        
-        start = @"1";
-        endTime = @"0";
-        price = @"0";
-        searchText.text = @"";
-        [self requestData:endTime withprice:price with:searchText.text];
-        
-        return @"";
-        
-    }
-}
+  }
 
 
 
@@ -892,15 +982,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             [dataList removeAllObjects];
-        }
-        
-        if (totalLastTime.count > 0) {
-            [timer invalidate];
             [totalLastTime removeAllObjects];
-            
         }
-
-        
     }
     
     if(dataList){
@@ -929,6 +1012,27 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     [table reloadData];
     
+    //订阅项目
+    [self _reconnect];
+    
+}
+
+
+
+- (NSString *)refreshList
+{
+    NSString *priceBid = @"";
+    
+    for (NSMutableDictionary *dic in dataList) {
+        
+        if ([priceBid isEqualToString:@""]) {
+            priceBid = [NSString stringWithFormat:@"%@",[dic objectForKey:@"KEYID"]];
+        }else {
+            
+            priceBid = [NSString stringWithFormat:@"%@,%@",priceBid,[dic objectForKey:@"KEYID"]];
+        }
+    }
+    return priceBid;
 }
 
 
