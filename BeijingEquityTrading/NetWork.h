@@ -14,13 +14,19 @@
 #define ScreenWidth  [[UIScreen mainScreen] bounds].size.width
 
 //北交所
-#define SERVERURL @"http://192.168.1.84:8089"
-#define SERVERURL1 @"192.168.1.84:8089"
+//#define SERVERURL @"http://192.168.1.84:8089"
+//#define SERVERURL1 @"192.168.1.84:8089"
 
 //上架appstore地址
 
-//#define SERVERURL @"http://211.167.66.245"
-//#define SERVERURL1 @"211.167.66.245"
+#define SERVERURL @"http://211.167.66.245"
+#define SERVERURL1 @"211.167.66.245"
+
+//#define SERVERURL @"http://otc.cbex.com"
+//#define SERVERURL1 @"otc.cbex.com"
+
+//http://otc.cbex.com
+
 
 //北交所客户外网2
 //#define SERVERURL @"http://202.96.1.30"

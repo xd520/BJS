@@ -17,6 +17,7 @@
 #import "LoginViewController.h"
 #import "AboutViewController.h"
 #import "PaymentRecordViewController.h"
+#import "FirstRealNameViewController.h"
 
 @interface MyViewController ()
 {
@@ -24,9 +25,9 @@
     NSArray *arrTitle;
     NSArray *arrImg;
     
-     UITableView *table;
-     UILabel *nameTitle;
-   UIImageView *imgHeadVeiw;
+    UITableView *table;
+    UILabel *nameTitle;
+    UIImageView *imgHeadVeiw;
 }
 @end
 
@@ -36,6 +37,8 @@
     [super viewDidAppear:animated];
         [self getUIFirst];
 }
+
+
 
 
 
@@ -131,7 +134,7 @@
         
     }
 
-      arrTitle = @[@"我的资产",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心",@"支付记录"];
+    arrTitle = @[@"我的资产",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心",@"支付记录"];
     arrImg = @[@"grzx_icon_2",@"grzx_icon_3",@"grzx_icon_4",@"grzx_icon_5",@"grzx_icon_1",@"grzx_icon_6",@"grzx_icon_9"];
     
     
@@ -428,15 +431,79 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self.navigationController pushViewController:vc animated:YES];
     } else if (indexPath.row == 6){
     
-        PaymentRecordViewController *vc = [[PaymentRecordViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self requestDataForIdentfy];
     }
     
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
+-(void)requestDataForIdentfy {
+    
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    [manager.requestSerializer setValue:@"ios" forHTTPHeaderField:@"Request-By"];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERpwdManageappappIndex] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue] == YES){
+            
+            if ( [[[responseObject objectForKey:@"object"] objectForKey:@"isSetCert"] boolValue]){
+                PaymentRecordViewController *vc = [[PaymentRecordViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+                
+            } else {
+                
+                FirstRealNameViewController *vc = [[FirstRealNameViewController alloc] init];
+               
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            
+            }
+            
+        } else {
+            
+            [[HttpMethods Instance] activityIndicate:NO
+                                          tipContent:[responseObject objectForKey:@"msg"]
+                                       MBProgressHUD:nil
+                                              target:self.view
+                                     displayInterval:3];
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+            }
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+}
 
 
 - (UIStatusBarStyle)preferredStatusBarStyle

@@ -436,8 +436,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             
             AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
             
-            NSNumber *num = [NSNumber numberWithBool:1];
-            [delegate.loginUser setObject:num forKey:@"haveAvatar"];
+           // NSNumber *num = [NSNumber numberWithBool:1];
+            //[delegate.loginUser setObject:num forKey:@"haveAvatar"];
+            
+            [delegate.loginUser setValue:@"1" forKey:@"haveAvatar"];
             
             //[[delegate.loginUser objectForKey:@"object"] objectForKey:@"haveAvatar"]
             

@@ -12,5 +12,6 @@
 - (IBAction)back:(id)sender;
 
 @property(nonatomic,strong)NSString *strId;
+@property(nonatomic,strong)NSDictionary *myDic;
 
 @end

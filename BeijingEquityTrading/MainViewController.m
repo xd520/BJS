@@ -1173,9 +1173,21 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     if (imageArray.count > 0) {
        for (int i = 0; i < imageArray.count; i++) {
-        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth * i) + ScreenWidth, 0, ScreenWidth, 150)];
+        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth *i, 0, ScreenWidth, 150)];
         [imageView1 setTag:i + 10000];
            [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw_app/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+        imageView1.userInteractionEnabled = YES;
+           imageView1.tag = i;
+           UITapGestureRecognizer *singleTap;
+           
+           singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhoneTab:)];
+           
+           //单点触摸
+           singleTap.numberOfTouchesRequired = 1;
+           //点击几次，如果是1就是单击
+           singleTap.numberOfTapsRequired = 1;
+           [imageView1 addGestureRecognizer:singleTap];
+           
          [scrollViewImage addSubview:imageView1];
           
          
@@ -1188,10 +1200,22 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         // 取数组最后一张图片 放在第0页
         
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 150)];
-        imgView.tag = 4 + 10000;
+       // imgView.tag = 4 + 10000;
         
         [imgView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:imageArray.count - 1] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
         
+        
+        imgView.userInteractionEnabled = YES;
+        imgView.tag = imageArray.count - 1;
+        UITapGestureRecognizer *singleTap;
+        
+        singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhoneTab:)];
+        
+        //单点触摸
+        singleTap.numberOfTouchesRequired = 1;
+        //点击几次，如果是1就是单击
+        singleTap.numberOfTapsRequired = 1;
+        [imgView addGestureRecognizer:singleTap];
         
         
         [scrollViewImage addSubview:imgView];
@@ -1199,7 +1223,20 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         // 取数组第一张图片 放在最后1页
         
         UIImageView *imgViewl = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth * ([imageArray count] + 1)) , 0, ScreenWidth, 150)];
-        imgViewl.tag = 5 + 10000;
+       // imgViewl.tag = 5 + 10000;
+        
+        imgViewl.userInteractionEnabled = YES;
+        imgViewl.tag = 0;
+       // UITapGestureRecognizer *singleTap;
+        
+        singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhoneTab:)];
+        
+        //单点触摸
+        singleTap.numberOfTouchesRequired = 1;
+        //点击几次，如果是1就是单击
+        singleTap.numberOfTapsRequired = 1;
+        [imgViewl addGestureRecognizer:singleTap];
+        
         
          //[imgView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:0] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
         
@@ -1230,6 +1267,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 
+- (IBAction)callPhoneTab:(UITouch *)sender
+{
+    
+    UIView *view = [sender view];
+    
+    if ([imageArray objectAtIndex:view.tag]) {
+        
+    }
+
+}
 
 //请求数据方法
 -(void)requestMethods {

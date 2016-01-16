@@ -11,6 +11,7 @@
 #import "MoreTableViewCell.h"
 #import "ListData.h"
 #import "MarkViewController.h"
+#import "SRWebSocket.h"
 
 @interface TreasureViewController ()
 {
@@ -77,6 +78,8 @@
     
     //NSRunLoop *myLoop;
     
+     SRWebSocket *_webSocket;
+    
 }
 
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
@@ -85,6 +88,98 @@
 @end
 
 @implementation TreasureViewController
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    _webSocket.delegate = nil;
+    [_webSocket close];
+    _webSocket = nil;
+}
+
+
+/////SRWebSocket///////
+
+- (void)_reconnect:(NSString *)str;
+{
+    
+    if (_webSocket) {
+        _webSocket.delegate = nil;
+        [_webSocket close];
+    }
+    
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/more?ids=%@",SERVERURL1,str]]]];
+    
+    
+    
+    //ws://192.168.1.84:8089/websocket/bidInfoServer/allMgr  ws://localhost:9000/chat
+    
+    _webSocket.delegate = self;
+    
+    self.title = @"Opening Connection...";
+    [_webSocket open];
+    
+}
+#pragma mark - SRWebSocketDelegate
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
+{
+    NSLog(@"Websocket Connected");
+    //self.title = @"Connected!";
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+{
+    NSLog(@":( Websocket Failed With Error %@", error);
+    
+    //self.title = @"Connection Failed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
+{
+    NSLog(@"Received \"%@\"", message);
+    NSLog(@"55555%@",message);
+    
+        start = @"1";
+        bddlStr = @"";
+        bdxlStr = @"";
+        downStr = @"";
+        upStr = @"";
+        endTime = @"0";
+        price = @"0";
+        
+        lab2.textColor = [ConMethods colorWithHexString:@"999999"];
+        lab3.textColor = [ConMethods colorWithHexString:@"999999"];
+        lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
+    
+        [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
+    
+}
+
+
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+{
+    NSLog(@"WebSocket closed");
+    self.title = @"Connection Closed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
+{
+    NSLog(@"Websocket received pong");
+}
+
+
+
+
+/////SRWebSocket//////
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -165,7 +260,7 @@
     
     //默认选择按钮
     
-    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"报价次数▲",@"类别▲"];
+    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"竞价次数▲",@"类别▲"];
     
     for (int i = 0; i < 4; i++) {
         UIButton *btn = [[UIButton alloc] init];
@@ -330,12 +425,12 @@
         
         if (indext%2 == 0) {
             lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
-            lab3.text = @"报价次数▲";
+            lab3.text = @"竞价次数▲";
             price = @"1";
         } else {
             
             lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
-            lab3.text = @"报价次数▼";
+            lab3.text = @"竞价次数▼";
             price = @"2";
         }
        
@@ -1487,9 +1582,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         UITableViewCell *cell = (UITableViewCell *)[table cellForRowAtIndexPath:indexPath];
         UILabel *textLab = [cell viewWithTag:indexPath.row + 1000];
+        if (time > 0) {
+            textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+        } else {
+        textLab.text = @"0秒";
+        }
         
-        
-        textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+        //textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
         NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [NSString stringWithFormat:@"%i",time]};
         [totalLastTime replaceObjectAtIndex:i withObject:dic];
     }
@@ -1499,18 +1598,19 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (NSString *)lessSecondToDay:(int)seconds
 {
     
-    int dayCount = seconds%(3600*24);
-    int day = (seconds - dayCount)/(3600*24);
-    
-    int hourCount = dayCount%3600;
-    int hour = (dayCount - hourCount)/3600;
-    
-    int minCount = hourCount%60;
-    int min = (hourCount - minCount)/60;
-     int miao = minCount;
-    
-    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
-    return time;
+        int dayCount = seconds%(3600*24);
+        int day = (seconds - dayCount)/(3600*24);
+        
+        int hourCount = dayCount%3600;
+        int hour = (dayCount - hourCount)/3600;
+        
+        int minCount = hourCount%60;
+        int min = (hourCount - minCount)/60;
+        int miao = minCount;
+        
+        NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
+        return time;
+  
     
 }
 
@@ -1537,7 +1637,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             
-           // [totalLastTime removeAllObjects];
+            [totalLastTime removeAllObjects];
             
             [dataList removeAllObjects];
         }
@@ -1571,11 +1671,28 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     [table reloadData];
     
-    
-  // [self performSelectorInBackground:@selector(startTimer) withObject:nil];
+   //订阅项目
+  //[self _reconnect:[self refreshList]];
     
 }
 
+
+
+- (NSString *)refreshList
+{
+    NSString *priceBid = @"";
+    
+    for (NSMutableDictionary *dic in dataList) {
+        
+        if ([priceBid isEqualToString:@""]) {
+            priceBid = [NSString stringWithFormat:@"%@",[dic objectForKey:@"KEYID"]];
+        }else {
+            
+            priceBid = [NSString stringWithFormat:@"%@,%@",priceBid,[dic objectForKey:@"KEYID"]];
+        }
+    }
+    return priceBid;
+}
 
 
 

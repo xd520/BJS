@@ -832,9 +832,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         UITableViewCell *cell = (UITableViewCell *)[table cellForRowAtIndexPath:indexPath];
         UILabel *textLab = [cell viewWithTag:indexPath.row + 1000];
+        if (time > 0) {
+            textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+        } else {
+            textLab.text = @"0秒";
+        }
         
-        
-        textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+        //textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
         NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [NSString stringWithFormat:@"%i",time]};
         [totalLastTime replaceObjectAtIndex:i withObject:dic];
     }
@@ -843,21 +847,33 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (NSString *)lessSecondToDay:(int)seconds
 {
-    
-    int dayCount = seconds%(3600*24);
-    int day = (seconds - dayCount)/(3600*24);
-    
-    int hourCount = dayCount%3600;
-    int hour = (dayCount - hourCount)/3600;
-    
-    int minCount = hourCount%60;
-    int min = (hourCount - minCount)/60;
-   // int miao = minCount;
-    
-    NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟",day,hour,min];
-    return time;
-    
+    if (seconds > 0) {
+        int dayCount = seconds%(3600*24);
+        int day = (seconds - dayCount)/(3600*24);
+        
+        int hourCount = dayCount%3600;
+        int hour = (dayCount - hourCount)/3600;
+        
+        int minCount = hourCount%60;
+        int min = (hourCount - minCount)/60;
+        int miao = minCount;
+        
+        NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
+        return time;
+        
+    } else {
+        
+        start = @"1";
+        endTime = @"0";
+        price = @"0";
+        searchText.text = @"";
+        [self requestData:endTime withprice:price with:searchText.text];
+        
+        return @"";
+        
+    }
 }
+
 
 
 #pragma mark - 消除键盘

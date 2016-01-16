@@ -1077,7 +1077,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: CHINA BEIJING EQUITY EXCHANGE CO.,LTD (4S5SE8M26V)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1089,7 +1089,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
+				PROVISIONING_PROFILE = "a4142cdf-b1b8-4623-a03c-1921d0f03455";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1100,7 +1100,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libstdc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer: You Dan (449A6M9E7M)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: CHINA BEIJING EQUITY EXCHANGE CO.,LTD (4S5SE8M26V)";
 				INFOPLIST_FILE = BeijingEquityTrading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1112,7 +1112,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
+				PROVISIONING_PROFILE = "a4142cdf-b1b8-4623-a03c-1921d0f03455";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

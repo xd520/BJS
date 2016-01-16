@@ -1602,9 +1602,15 @@
          timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
         }
         
-        NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"ZGJ"] floatValue]]]);
+       // NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"ZGJ"] floatValue]]]);
+        
+        if ([[dic  objectForKey:@"ZGJ"] floatValue] < [[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]) {
+            newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]]]];
+            
+        } else {
         
         newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[dic  objectForKey:@"ZGJ"] floatValue]]]];
+        }
         
     } else {
     
@@ -1661,6 +1667,7 @@
     } else if (btn.tag == 10002) {
     
         MarkListViewController *vc = [[MarkListViewController alloc] init];
+        vc.myDic = myDic;
         vc.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
         [self.navigationController pushViewController:vc animated:YES];
         
@@ -2002,7 +2009,7 @@
     
     
     UILabel *vauleLab = [[UILabel alloc] init];
-    vauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:sureText.text]];
+    vauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[sureText.text floatValue]]]];
     vauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
     vauleLab.font = [UIFont systemFontOfSize:16];
     vauleLab.frame = CGRectMake(nameLabTip.frame.origin.x + nameLabTip.frame.size.width, 49, [PublicMethod getStringWidth:vauleLab.text font:vauleLab.font], 16);
@@ -2034,7 +2041,7 @@
     vauleLabTip.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[sureText.text floatValue]*[[[myDic objectForKey:@"detail"] objectForKey:@"FWF_BL_SRF"] floatValue]]]];
     vauleLabTip.textColor = [ConMethods colorWithHexString:@"bd0100"];
     vauleLabTip.font = [UIFont systemFontOfSize:15];
-    vauleLabTip.frame = CGRectMake(nameLab.frame.origin.x + nameLab.frame.size.width, 85, [PublicMethod getStringWidth:vauleLab.text font:vauleLab.font], 15);
+    vauleLabTip.frame = CGRectMake(nameLab.frame.origin.x + nameLab.frame.size.width, 85, 200, 15);
     [litleView addSubview:vauleLabTip];
     
    
@@ -2146,10 +2153,10 @@
     UILabel *view = (UILabel *)[sender view];
     if (view.tag == 0) {
         
-        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue])) {
+        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[myDic objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
 
         
@@ -2158,10 +2165,10 @@
 
     } else if (view.tag == 1) {
         
-        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue])) {
+        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[myDic objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
  
         
@@ -2169,10 +2176,10 @@
     
     }else if (view.tag == 2){
         
-        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue])) {
+        if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[myDic objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
 
         

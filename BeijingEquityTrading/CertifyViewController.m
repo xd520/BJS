@@ -256,8 +256,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         PhoneNumViewController *vc = [[PhoneNumViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     } else if (indexPath.row == 2) {
+         if ([[myDic objectForKey:@"isSetCert"] boolValue]){
         ChangerPassWordViewController *vc = [[ChangerPassWordViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
+         }else {
+             [[HttpMethods Instance] activityIndicate:NO
+                                           tipContent:@"请先实名认证"
+                                        MBProgressHUD:nil
+                                               target:self.view
+                                      displayInterval:3];
+         
+         }
+             
     } else if(indexPath.row == 1){
         ChangeLoginPWViewController *vc = [[ChangeLoginPWViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];

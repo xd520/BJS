@@ -173,7 +173,12 @@
         
         
         if (indexPath.row == 0) {
-            strName = @"成交";
+            if ([[[_myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"cj"]) {
+                strName = @"成交";
+            } else {
+            
+            strName = @"领先";
+            }
            strColor = @"850301";
           [backView setBackgroundColor:[ConMethods colorWithHexString:@"fdfec4"]];
         } else {
