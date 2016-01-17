@@ -371,7 +371,13 @@
                 //围观
                
                 UILabel *dateLabelMore = [[UILabel alloc] init];
+                
+                if ([[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"WGCS"] == [NSNull null]) {
+                    dateLabelMore.text = @"0";
+                } else {
+                
                 dateLabelMore.text = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row - 1] objectForKey:@"WGCS"]];
+                }
                 dateLabelMore.textAlignment = NSTextAlignmentCenter;
                 dateLabelMore.font = [UIFont systemFontOfSize:14];
                 dateLabelMore.frame = CGRectMake(2 + labelTip.frame.size.width + labelTip.frame.origin.x, 231, [PublicMethod getStringWidth:dateLabelMore.text font:dateLabelMore.font], 14);
