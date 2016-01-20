@@ -140,10 +140,7 @@
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
     
-    
-    
     NSDictionary *messDic = [dic objectForKey:@"object"];
-    
     
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[messDic objectForKey:@"style"]]) {
         
@@ -168,17 +165,12 @@
         float yijianlv = ([[messDic  objectForKey:@"ZGJ"] floatValue] - [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])/[[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]*100;
         priceVauleLab.text = [NSString stringWithFormat:@"%.2f%@",yijianlv,@"%"];
         
-        
-        
-        
     } else {
         
         [self requestMethods];
     }
     
-    
    [self requestBaojiaMethods:[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]];
-    
     
 }
 
@@ -2128,7 +2120,7 @@
            [summitBackImg removeFromSuperview];
             summitBackImg = nil;
             
-            [self requestMethods];
+           // [self requestMethods];
             
             
         } else {
