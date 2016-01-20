@@ -18,6 +18,8 @@
     NSString *limit;
     BOOL hasMore;
     UITableViewCell *moreCell;
+    NSString *khhStr;
+    
 }
 
 @property (nonatomic, weak) SDRefreshFooterView *refreshFooter;
@@ -30,6 +32,8 @@
     
     start = @"1";
     limit = @"20";
+    khhStr = @"";
+    
     
     if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
         addHight = 20;
@@ -202,7 +206,7 @@
         lab.text = strName;
         lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [UIColor whiteColor];
-        lab.font = [UIFont systemFontOfSize:14];
+        lab.font = [UIFont systemFontOfSize:13];
         lab.backgroundColor = [ConMethods colorWithHexString:strColor];
         [backView addSubview:lab];
         
@@ -211,7 +215,7 @@
         lab1.text = [NSString stringWithFormat:@"%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"WTH"]];
         lab1.textAlignment = NSTextAlignmentCenter;
         lab1.textColor = [ConMethods colorWithHexString:strColor];
-        lab1.font = [UIFont systemFontOfSize:14];
+        lab1.font = [UIFont systemFontOfSize:12];
         lab1.backgroundColor = [UIColor clearColor];
         [backView addSubview:lab1];
         
@@ -220,17 +224,26 @@
         lab2.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"WTJG"] floatValue]]]];
         lab2.textAlignment = NSTextAlignmentCenter;
         lab2.textColor = [ConMethods colorWithHexString:strColor];
-        lab2.font = [UIFont systemFontOfSize:14];
+        lab2.font = [UIFont systemFontOfSize:12];
         lab2.backgroundColor = [UIColor clearColor];
         [backView addSubview:lab2];
         
-        UILabel *lab3 = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 140, 5, 135, 20)];
+        UILabel *lab3 = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 140, 5, 120, 20)];
         lab3.text = [NSString stringWithFormat:@"%@ %@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTRQ"],[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_WTSJ"]];
-        lab3.textAlignment = NSTextAlignmentCenter;
+        lab3.textAlignment = NSTextAlignmentRight;
         lab3.textColor = [ConMethods colorWithHexString:strColor];
-        lab3.font = [UIFont systemFontOfSize:14];
+        lab3.font = [UIFont systemFontOfSize:12];
         lab3.backgroundColor = [UIColor clearColor];
         [backView addSubview:lab3];
+        
+        
+        if ([khhStr isEqualToString:[[dataList objectAtIndex:indexPath.row] objectForKey:@"KHH_YXF"]]) {
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 15, 8.5, 10, 13)];
+            imgView.image = [UIImage imageNamed:@"icon_me"];
+            [backView addSubview:imgView];
+        }
+        
+       
         
         [cell.contentView addSubview:backView];
         
@@ -274,13 +287,13 @@
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
-            
+            khhStr = [[responseObject objectForKey:@"object"] objectForKey:@"KHH"];
             [self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"wtResult"] objectForKey:@"object"]];
             
         } else {
             
-            NSMutableArray *arr = [NSMutableArray array];
-            [self recivedCategoryList:arr];
+           // NSMutableArray *arr = [NSMutableArray array];
+           // [self recivedCategoryList:arr];
             
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:[responseObject objectForKey:@"msg"]

@@ -91,7 +91,7 @@
     singleTap1.numberOfTouchesRequired = 1;
     //点击几次，如果是1就是单击
     singleTap1.numberOfTapsRequired = 1;
-    [_userLab addGestureRecognizer:singleTap1];
+   // [_userLab addGestureRecognizer:singleTap1];
     
     
     UITapGestureRecognizer *singleTap;
@@ -102,7 +102,7 @@
     singleTap.numberOfTouchesRequired = 1;
     //点击几次，如果是1就是单击
     singleTap.numberOfTapsRequired = 1;
-    [_aboutLab addGestureRecognizer:singleTap];
+    //[_aboutLab addGestureRecognizer:singleTap];
     
 }
 

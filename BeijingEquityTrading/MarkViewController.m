@@ -152,18 +152,20 @@
             
             updataDic = messDic;
             
-            timeAllAgain = ([[messDic objectForKey:@"STAMP"] longLongValue] - [[messDic objectForKey:@"fixTakeTime"] longLongValue])/1000;
             
+            timeAll = ([[messDic objectForKey:@"STAMP"] longLongValue] - [[messDic objectForKey:@"fixTakeTime"] longLongValue])/1000;
             
+           // timeAllAgain = ([[messDic objectForKey:@"STAMP"] longLongValue] - [[messDic objectForKey:@"fixTakeTime"] longLongValue])/1000;
             
-            timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+                       
+           // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
         }
         
         NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[messDic objectForKey:@"ZGJ"] floatValue]]]);
         
         newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[messDic  objectForKey:@"ZGJ"] floatValue]]]];
         
-        float yijianlv = ([[messDic  objectForKey:@"ZGJ"] floatValue] - [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])*100;
+        float yijianlv = ([[messDic  objectForKey:@"ZGJ"] floatValue] - [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])/[[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]*100;
         priceVauleLab.text = [NSString stringWithFormat:@"%.2f%@",yijianlv,@"%"];
         
         
@@ -246,13 +248,13 @@
         
         if ([[responseObject objectForKey:@"success"] boolValue]){
             NSLog(@"JSON: %@", responseObject);
-            
+            /*
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"加载完成"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
-            
+            */
             [self getDataForList:[[[responseObject objectForKey:@"object"] objectForKey:@"wtResult"] objectForKey:@"object"]];
             
         } else {
@@ -418,7 +420,7 @@
 
 #pragma mark - 请求数据方法
 -(void)requestMethods {
-    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    //[[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
     NSDictionary *parameters = @{@"id":_strId};
     
@@ -434,13 +436,13 @@
         
         if ([[responseObject objectForKey:@"success"] boolValue]){
             NSLog(@"JSON: %@", responseObject);
-            
+            /*
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"加载完成"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
-            
+            */
             [self recivedList:[responseObject objectForKey:@"object"]];
             
         } else {
@@ -470,10 +472,12 @@
     
 }
 
+
+/*
+
 - (void)timerFireMethod:(NSTimer*)theTimer{
     
     timeAllAgain = timeAllAgain - 1;
-    
     if (timeAllAgain < 0) {
         timeValue.hidden = YES;
     } else {
@@ -481,7 +485,6 @@
     //day
     long long dayCount = timeAllAgain%(3600*24);
     long long day = (timeAllAgain - dayCount)/(3600*24);
-    
     //hour
     long long hourCount = dayCount%3600;
     long long hour = (dayCount - hourCount)/3600;
@@ -491,13 +494,11 @@
     
     long long miao = minCount;
     
-    
-    
     timeValue.text = [NSString stringWithFormat:@"%lld天%lld小时%lld分钟%lld秒",day, hour, min,miao];
     }
     
 }
-
+*/
 
 
 
@@ -505,6 +506,8 @@
     
     timeAll = timeAll - 1;
     
+    if (timeAll > 0) {
+     timeValue.hidden = NO;
     
     //day
     long long dayCount = timeAll%(3600*24);
@@ -520,7 +523,10 @@
     long long miao = minCount;
    
     timeValue.text = [NSString stringWithFormat:@"%lld天%lld小时%lld分钟%lld秒",day, hour, min,miao];
+    } else {
     
+        timeValue.hidden = YES;
+    }
 }
 
 
@@ -784,15 +790,15 @@
         [backView addSubview:timeValue];
         timeAll = [[[dic objectForKey:@"detail"] objectForKey:@"djs"] longLongValue];
         
-        [self timerFireMethod1];
+        //[self timerFireMethod1];
         
         
-        //if (timer.isValid) {
-            //[timer invalidate];
-          //  timer = nil;
-      //  }
+        if (timer.isValid) {
+            [timer invalidate];
+            timer = nil;
+        }
         
-      // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod1:) userInfo:nil repeats:YES];
+       timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod1) userInfo:nil repeats:YES];
         [self requestdatafornew];
         
     } else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]){
@@ -834,8 +840,10 @@
         timeValueLab.textColor = [ConMethods colorWithHexString:@"333333"];
         
         if(![[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"]){
-        
-        timeValueLab.text = [NSString stringWithFormat:@"结束时间:%@  %@",[[dic objectForKey:@"detail"] objectForKey:@"SJJSRQ"],[[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"]];
+            if ([[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"] != [NSNull null]) {
+                 timeValueLab.text = [NSString stringWithFormat:@"结束时间:%@  %@",[[dic objectForKey:@"detail"] objectForKey:@"SJJSRQ"],[[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"]];
+            }
+       
         }
             
             
@@ -1584,27 +1592,35 @@
 -(void)getreciedforupdatenew:(NSDictionary *)dic{
     
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[dic objectForKey:@"style"]]) {
-       
+       /*
         if (timer) {
             [timer invalidate];
             timer = nil;
         }
-        
+        */
         
         if ([[dic objectForKey:@"style"] isEqualToString:@"jpz"]) {
          
             updataDic = dic;
             
-         timeAllAgain = ([[dic objectForKey:@"STAMP"] longLongValue] - [[dic objectForKey:@"fixTakeTime"] longLongValue])/1000;
+         timeAll = ([[dic objectForKey:@"STAMP"] longLongValue] - [[dic objectForKey:@"fixTakeTime"] longLongValue])/1000;
         
         
-         timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+        // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
         }
         
        // NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"ZGJ"] floatValue]]]);
         
         if ([[dic  objectForKey:@"ZGJ"] floatValue] < [[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]) {
             newVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue]]]];
+            
+            
+            float yijianlv = ([[[myDic objectForKey:@"detail"]  objectForKey:@"ZXJG"] floatValue] - [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])/[[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]*100;
+            if ([[[myDic objectForKey:@"detail"]  objectForKey:@"ZXJG"] floatValue] - [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue] > 0) {
+                priceVauleLab.text = [NSString stringWithFormat:@"%.2f%@",yijianlv,@"%"];
+            }
+            
+            
             
         } else {
         
@@ -2155,7 +2171,7 @@
         if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]];
         }
 
         
@@ -2167,7 +2183,7 @@
         if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
  
         
@@ -2178,7 +2194,7 @@
         if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
 
         

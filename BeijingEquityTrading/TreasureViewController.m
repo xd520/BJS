@@ -1157,7 +1157,7 @@
     
     if ([searchText.text isEqualToString:@""]) {
         [[HttpMethods Instance] activityIndicate:NO
-                                      tipContent:@"请输入专场名称"
+                                      tipContent:@"请输入项目名称或编号"
                                    MBProgressHUD:nil
                                           target:self.view
                                  displayInterval:3];
@@ -1561,7 +1561,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
         
     }else if ([str isEqualToString:@"cj"]){
-        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZGCJJ"] floatValue]]]];
+        _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZXJG"] floatValue]]]];
         _lab2.text = [NSString stringWithFormat:@"%@ %@", [_dic objectForKey:@"SJJSRQ"],[_dic objectForKey:@"SJJSSJ"]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
     }else if ([str isEqualToString:@"lp"]){
@@ -1659,7 +1659,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             
-            [totalLastTime removeAllObjects];
+           // [totalLastTime removeAllObjects];
             
             [dataList removeAllObjects];
         }

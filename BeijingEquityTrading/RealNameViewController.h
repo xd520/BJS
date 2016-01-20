@@ -30,5 +30,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *codeBtn;
 - (IBAction)codeMethods:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIView *adressView;
+@property (weak, nonatomic) IBOutlet UIView *codeView;
+
+
+
 
 @end

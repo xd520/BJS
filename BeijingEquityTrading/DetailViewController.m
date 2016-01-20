@@ -817,13 +817,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         if ([[responseObject objectForKey:@"success"] boolValue] == YES){
             NSLog(@"JSON: %@", responseObject);
-            
+            /*
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"加载完成"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
-            
+            */
             [self recivedCategoryList:[[[responseObject objectForKey:@"object"] objectForKey:@"prjList"] objectForKey:@"object"]];
             
         } else {
@@ -982,7 +982,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             [dataList removeAllObjects];
-            [totalLastTime removeAllObjects];
         }
     }
     
@@ -1013,7 +1012,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [table reloadData];
     
     //订阅项目
-    [self _reconnect];
+   // [self _reconnect];
     
 }
 
@@ -1050,6 +1049,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     __weak SDRefreshHeaderView *weakRefreshHeader = refreshHeader;
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            
+            lab2.textColor = [ConMethods colorWithHexString:@"999999"];
+            lab3.textColor = [ConMethods colorWithHexString:@"999999"];
+            lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
             
             
             start = @"1";
@@ -1116,13 +1120,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         if ([[responseObject objectForKey:@"success"] boolValue]){
             NSLog(@"JSON: %@", responseObject);
-            
+            /*
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"加载完成"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
-            
+            */
             [self recivedList:[[responseObject objectForKey:@"object"] objectForKey:@"zcResult"]];
             
         } else {

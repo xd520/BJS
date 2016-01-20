@@ -92,7 +92,7 @@
                             <rect key="frame" x="99" y="5" width="205" height="30"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="gFY-Nm-G3Y"/>
                             </connections>
@@ -120,6 +120,6 @@
         </view>
     </objects>
     <resources>
-        <image name="返回" width="12" height="20"/>
+        <image name="返回" width="31" height="31"/>
     </resources>
 </document>

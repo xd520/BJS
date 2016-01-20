@@ -263,7 +263,7 @@
             
             
             [[HttpMethods Instance] activityIndicate:NO
-                                          tipContent:[responseObject objectForKey:@"msg"]
+                                          tipContent:@"该用户名可以注册"
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];

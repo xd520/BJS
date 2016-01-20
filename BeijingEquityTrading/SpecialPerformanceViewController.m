@@ -489,9 +489,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     refreshHeader.beginRefreshingOperation = ^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-           
             start = @"1";
-            [self requestData:searchText.text];
+            [self requestData:@""];
 
             [weakRefreshHeader endRefreshing];
         });

@@ -15,7 +15,7 @@
 #import "MeansViewController.h"
 #import "NewsViewController.h"
 #import "LoginViewController.h"
-#import "AboutViewController.h"
+#import "SettingViewController.h"
 #import "PaymentRecordViewController.h"
 #import "FirstRealNameViewController.h"
 
@@ -387,7 +387,7 @@
 }
 
 -(void)searchMthods{
-    AboutViewController *vc = [[AboutViewController alloc] init];
+    SettingViewController *vc = [[SettingViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 

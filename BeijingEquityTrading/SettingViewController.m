@@ -1,24 +1,24 @@
 //
-//  AboutUsViewController.m
+//  SettingViewController.m
 //  BeijingEquityTrading
 //
-//  Created by 熊永辉 on 15/12/17.
-//  Copyright © 2015年 ApexSoft. All rights reserved.
+//  Created by 熊永辉 on 16/1/19.
+//  Copyright © 2016年 ApexSoft. All rights reserved.
 //
 
-#import "AboutUsViewController.h"
+#import "SettingViewController.h"
 #import "AppDelegate.h"
 #import "UserHelpViewController.h"
 #import "AboutViewController.h"
 
-@interface AboutUsViewController ()
+@interface SettingViewController ()
 {
     float addHight;
     
 }
 @end
 
-@implementation AboutUsViewController
+@implementation SettingViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,9 +60,8 @@
     singleTap.numberOfTapsRequired = 1;
     [_aboutLab addGestureRecognizer:singleTap];
     
-    
-}
 
+}
 
 - (IBAction)callPhone:(UITouch *)sender
 {
@@ -75,9 +74,9 @@
         vc.strName = @"使用帮助";
         [self.navigationController pushViewController:vc animated:YES];
     } else {
-        UserHelpViewController *vc = [[UserHelpViewController alloc] init];
-        vc.strId = @"SYBZ";
-        vc.strName = @"使用帮助";
+        AboutViewController *vc = [[AboutViewController alloc] init];
+        //vc.strId = @"SYBZ";
+        //vc.strName = @"使用帮助";
         [self.navigationController pushViewController:vc animated:YES];
         
         

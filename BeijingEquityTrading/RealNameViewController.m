@@ -97,6 +97,49 @@
 }
 
 
+#pragma mark - 消除键盘
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)even{
+    [self.view endEditing:YES];
+}
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    CGRect frame;
+    if (textField == _code) {
+        frame = _codeView.frame;
+    } else if(textField == _address) {
+    
+     frame = _adressView.frame;
+    } else {
+    frame = textField.frame;
+    }
+    
+    
+    int offset = frame.origin.y + 76 - (self.view.frame.size.height - 256.0);//键盘高度216
+       //将视图的Y坐标向上移动offset个单位，以使下面腾出地方用于软键盘的显示
+    if(offset > 0)
+        self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
+   
+    [UIView commitAnimations];
+    
+    
+}
+
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+    self.view.frame =CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    
+    
+}
+
+
+
+
+
+
 
 
 -(void)callPhone:(UITouch *)touch {

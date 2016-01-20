@@ -252,6 +252,14 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
+    
+    if (textField == _userName) {
+        
+         textField.text = [textField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+        
+    }
+    
+    
     //    if (IOS_VERSION_7_OR_ABOVE) {
     //        self.view.frame =CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
     //    }else{

@@ -134,6 +134,8 @@
 		A1F69D331C116FFF0095F66C /* ChangeLoginPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D2E1C116FFF0095F66C /* ChangeLoginPWViewController.xib */; };
 		A1F69D341C116FFF0095F66C /* ChangerPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */; };
 		A1F69D351C116FFF0095F66C /* ChangerPassWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */; };
+		A1F69E261C4E1131003982B3 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F69E241C4E1131003982B3 /* SettingViewController.m */; };
+		A1F69E271C4E1131003982B3 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F69E251C4E1131003982B3 /* SettingViewController.xib */; };
 		A1FB6F921C3B54A90043F4A5 /* SetEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FB6F901C3B54A90043F4A5 /* SetEmailViewController.m */; };
 		A1FB6F931C3B54A90043F4A5 /* SetEmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1FB6F911C3B54A90043F4A5 /* SetEmailViewController.xib */; };
 		A1FCE1CD1C2B91CB00B88BFA /* ReSetPassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FCE1CB1C2B91CB00B88BFA /* ReSetPassWordViewController.m */; };
@@ -355,6 +357,9 @@
 		A1F69D2F1C116FFF0095F66C /* ChangerPassWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangerPassWordViewController.h; sourceTree = "<group>"; };
 		A1F69D301C116FFF0095F66C /* ChangerPassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangerPassWordViewController.m; sourceTree = "<group>"; };
 		A1F69D311C116FFF0095F66C /* ChangerPassWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangerPassWordViewController.xib; sourceTree = "<group>"; };
+		A1F69E231C4E1131003982B3 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		A1F69E241C4E1131003982B3 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		A1F69E251C4E1131003982B3 /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		A1FB6F8F1C3B54A90043F4A5 /* SetEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetEmailViewController.h; sourceTree = "<group>"; };
 		A1FB6F901C3B54A90043F4A5 /* SetEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetEmailViewController.m; sourceTree = "<group>"; };
 		A1FB6F911C3B54A90043F4A5 /* SetEmailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetEmailViewController.xib; sourceTree = "<group>"; };
@@ -758,6 +763,9 @@
 				A1F5D8AE1C2282C000BF1FEB /* AboutUsViewController.h */,
 				A1F5D8AF1C2282C000BF1FEB /* AboutUsViewController.m */,
 				A1F5D8B01C2282C000BF1FEB /* AboutUsViewController.xib */,
+				A1F69E231C4E1131003982B3 /* SettingViewController.h */,
+				A1F69E241C4E1131003982B3 /* SettingViewController.m */,
+				A1F69E251C4E1131003982B3 /* SettingViewController.xib */,
 			);
 			name = "设置界面";
 			sourceTree = "<group>";
@@ -855,6 +863,7 @@
 				044B54AC1BD9E74D00CC4CC5 /* LoginViewController.xib in Resources */,
 				A15CB2131C1EBC0000FEBB4C /* PayForViewController.xib in Resources */,
 				042A56981BF30CF9006032C5 /* DetailViewController.xib in Resources */,
+				A1F69E271C4E1131003982B3 /* SettingViewController.xib in Resources */,
 				043E446E1C06F309007CC3C4 /* MarkListViewController.xib in Resources */,
 				A14EF75F1C2AA270001FBA58 /* ForgetPWDViewController.xib in Resources */,
 				047106081BCB670700F558FF /* Assets.xcassets in Resources */,
@@ -960,6 +969,7 @@
 				A1F5D8B11C2282C000BF1FEB /* AboutUsViewController.m in Sources */,
 				042968E01BCF792800975279 /* CPVTabViewController.m in Sources */,
 				042969171BCF80D200975279 /* SpecialPerformanceViewController.m in Sources */,
+				A1F69E261C4E1131003982B3 /* SettingViewController.m in Sources */,
 				042968E11BCF792800975279 /* ConMethods.m in Sources */,
 				042969211BCF811900975279 /* MyViewController.m in Sources */,
 				04BC406A1BFDBE8900548EBA /* AboutViewController.m in Sources */,
@@ -1089,7 +1099,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "a4142cdf-b1b8-4623-a03c-1921d0f03455";
+				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1112,7 +1122,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "a4142cdf-b1b8-4623-a03c-1921d0f03455";
+				PROVISIONING_PROFILE = "e030903b-9973-4895-a648-f7e83e4a8242";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

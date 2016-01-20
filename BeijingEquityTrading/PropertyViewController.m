@@ -518,16 +518,41 @@
  //退款申请：
                 UIButton *quitBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 80, 65, 80, 25)];
                 quitBtn.backgroundColor = [ConMethods colorWithHexString:@"f8f8f8"];
-                quitBtn.layer.borderColor = [ConMethods colorWithHexString:@"bcbabb"].CGColor;
+               
                 quitBtn.layer.borderWidth = 1;
                 [quitBtn setTitle:@"退款申请" forState:UIControlStateNormal];
-                [quitBtn setTitleColor:[ConMethods colorWithHexString:@"000000"] forState:UIControlStateNormal];
+               
                 quitBtn.titleLabel.font = [UIFont systemFontOfSize:14];
                 quitBtn.tag = indexPath.row;
                 [quitBtn addTarget:self action:@selector(payForMoney:) forControlEvents:UIControlEventTouchUpInside];
                 
                 if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"enableTK"] boolValue]) {
+                     quitBtn.backgroundColor = [ConMethods colorWithHexString:@"f8f8f8"];
+                    [quitBtn setTitleColor:[ConMethods colorWithHexString:@"000000"] forState:UIControlStateNormal];
+                    quitBtn.layer.borderColor = [ConMethods colorWithHexString:@"bcbabb"].CGColor;
+                    
                     [backView addSubview:quitBtn];
+                } else {
+                
+                    if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"BZJSQBZ"] isEqualToString:@"3"]) {
+                       
+                        UILabel *brandCla = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 80, 65, 80, 25)];
+                        brandCla.font = [UIFont systemFontOfSize:14];
+                        [brandCla setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                        [brandCla setBackgroundColor:[UIColor clearColor]];
+                        
+                        brandCla.text = @"支付成功";
+                        [backView addSubview:brandCla];
+                        
+                        
+                    } else {
+                        
+                     quitBtn.backgroundColor = [ConMethods colorWithHexString:@"fbfbfb"];    
+                    [quitBtn setTitleColor:[ConMethods colorWithHexString:@"eeeeee"] forState:UIControlStateNormal];
+                    quitBtn.layer.borderColor = [ConMethods colorWithHexString:@"eeeeee"].CGColor;
+                    quitBtn.enabled = NO;
+                     [backView addSubview:quitBtn];
+                    }
                 }
                 
                 /*

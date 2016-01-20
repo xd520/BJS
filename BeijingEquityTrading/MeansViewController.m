@@ -8,6 +8,8 @@
 
 #import "MeansViewController.h"
 #import "AppDelegate.h"
+#import "PhoneNumViewController.h"
+#import "SetEmailViewController.h"
 
 @interface MeansViewController ()
 {
@@ -27,6 +29,15 @@
 @end
 
 @implementation MeansViewController
+
+
+-(void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+    [self requestData];
+    
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -220,7 +231,7 @@
                 } else if (indexPath.row == 3) {
                    
                     if ([[myDic objectForKey:@"isSetEmail"] boolValue]) {
-                        endLabel.text =  [myDic objectForKey:@"email"];
+                    endLabel.text =  [myDic objectForKey:@"email"];
                     } else {
                     
                      endLabel.text = @"未设置";
@@ -326,9 +337,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             sheet.tag = 255;
             [sheet showInView:self.view];
             
-        } else {
+        } else if(indexPath.row == 2){
+            PhoneNumViewController *vc = [[PhoneNumViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+
  
-    }
+        } else if(indexPath.row == 3){
+            SetEmailViewController *vc = [[SetEmailViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
         
     } else {
     

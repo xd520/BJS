@@ -17,13 +17,16 @@
 //#define SERVERURL @"http://192.168.1.84:8089"
 //#define SERVERURL1 @"192.168.1.84:8089"
 
+
+//客户测试地址
+
+//#define SERVERURL @"http://211.167.66.245"
+//#define SERVERURL1 @"211.167.66.245"
+
+
 //上架appstore地址
-
-#define SERVERURL @"http://211.167.66.245"
-#define SERVERURL1 @"211.167.66.245"
-
-//#define SERVERURL @"http://otc.cbex.com"
-//#define SERVERURL1 @"otc.cbex.com"
+#define SERVERURL @"http://otc.cbex.com"
+#define SERVERURL1 @"otc.cbex.com"
 
 //http://otc.cbex.com
 

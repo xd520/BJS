@@ -8,10 +8,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RealNameViewController">
             <connections>
                 <outlet property="address" destination="POv-Hg-hs7" id="PVd-l4-W2R"/>
+                <outlet property="adressView" destination="LCh-rq-YUg" id="mht-zD-MIL"/>
                 <outlet property="cityLab" destination="cxU-eW-mJ6" id="qsC-Ir-xi3"/>
                 <outlet property="cityView" destination="WhZ-Lm-mv6" id="bYN-8c-M8P"/>
                 <outlet property="code" destination="7WR-A0-i2X" id="tEu-uj-GcH"/>
                 <outlet property="codeBtn" destination="iID-gM-3pk" id="zym-59-fSl"/>
+                <outlet property="codeView" destination="wyU-JP-lbb" id="z73-Vh-CA6"/>
                 <outlet property="proviceLab" destination="iWI-YV-9zQ" id="pMt-3F-epc"/>
                 <outlet property="prvoiceView" destination="ZnD-ia-FqB" id="cip-Zq-WDa"/>
                 <outlet property="section" destination="mGg-Px-T9q" id="Vea-Ny-uDH"/>
@@ -201,6 +203,6 @@
     </objects>
     <resources>
         <image name="next" width="6" height="11"/>
-        <image name="返回" width="12" height="20"/>
+        <image name="返回" width="31" height="31"/>
     </resources>
 </document>
