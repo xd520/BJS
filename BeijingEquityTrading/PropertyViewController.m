@@ -541,7 +541,7 @@
                         [brandCla setTextColor:[ConMethods colorWithHexString:@"333333"]];
                         [brandCla setBackgroundColor:[UIColor clearColor]];
                         
-                        brandCla.text = @"支付成功";
+                        brandCla.text = @"退款成功";
                         [backView addSubview:brandCla];
                         
                         

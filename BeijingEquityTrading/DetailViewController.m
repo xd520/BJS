@@ -123,11 +123,15 @@
     NSLog(@"Received \"%@\"", message);
     NSLog(@"55555%@",message);
     
+    lab2.textColor = [ConMethods colorWithHexString:@"999999"];
+    lab3.textColor = [ConMethods colorWithHexString:@"999999"];
+    lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
+    
     start = @"1";
     endTime = @"0";
     price = @"0";
     searchText.text = @"";
-    [self requestData:endTime withprice:price with:searchText.text];
+    [self requestData:endTime withprice:price with:@""];
     
     
 }
@@ -939,7 +943,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         UITableViewCell *cell = (UITableViewCell *)[table cellForRowAtIndexPath:indexPath];
         UILabel *textLab = [cell viewWithTag:indexPath.row + 1000];
         
-        textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+       // if (time >= 0) {
+         textLab.text = [NSString stringWithFormat:@"%@",[self lessSecondToDay:time]];
+       // }
+        
         NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [NSString stringWithFormat:@"%i",time]};
         [totalLastTime replaceObjectAtIndex:i withObject:dic];
     }
@@ -958,8 +965,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         int minCount = hourCount%60;
         int min = (hourCount - minCount)/60;
         int miao = minCount;
-        
-        NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
+    
+        NSString *time;
+    if (seconds >= 0) {
+       time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
+    } else {
+    
+     time = @"";
+    }
+    
         return time;
         
   }

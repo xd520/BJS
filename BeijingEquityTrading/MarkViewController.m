@@ -58,6 +58,10 @@
     //溢价率
     UILabel *priceVauleLab;
     
+    
+    UILabel *timeLabFree;
+    
+    
 }
 @end
 
@@ -148,6 +152,9 @@
         if ([[messDic objectForKey:@"style"] isEqualToString:@"jpz"]) {
             
             updataDic = messDic;
+            
+            
+             timeLabFree.text = [NSString stringWithFormat:@"%@期",[messDic objectForKey:@"JYZTSM"]];
             
             
             timeAll = ([[messDic objectForKey:@"STAMP"] longLongValue] - [[messDic objectForKey:@"fixTakeTime"] longLongValue])/1000;
@@ -766,12 +773,17 @@
         
     } else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]){
         image.image = [UIImage imageNamed:@"正在竞价"];
-        UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 85, 14)];
-        timeLab.font = [UIFont systemFontOfSize:14];
-        timeLab.backgroundColor = [UIColor clearColor];
-        timeLab.textColor = [UIColor whiteColor];
-        timeLab.text = @"自由报价期";
-        [image addSubview:timeLab];
+        timeLabFree = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 85, 14)];
+        timeLabFree.font = [UIFont systemFontOfSize:14];
+        timeLabFree.backgroundColor = [UIColor clearColor];
+        timeLabFree.textColor = [UIColor whiteColor];
+        
+        
+        timeLabFree.text = @"自由报价期";
+        
+        
+        
+        [image addSubview:timeLabFree];
         
         //剩余时间
         timeValue = [[UILabel alloc] initWithFrame:CGRectMake(110, 0, ScreenWidth - 120, 30)];
@@ -1598,6 +1610,10 @@
          timeAll = ([[dic objectForKey:@"STAMP"] longLongValue] - [[dic objectForKey:@"fixTakeTime"] longLongValue])/1000;
         
         
+           
+            timeLabFree.text = [NSString stringWithFormat:@"%@期",[dic objectForKey:@"JYZTSM"]];
+            
+            
         // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
         }
         
