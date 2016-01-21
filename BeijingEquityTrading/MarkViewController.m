@@ -149,7 +149,7 @@
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[messDic objectForKey:@"style"]]) {
         
         
-        if ([[messDic objectForKey:@"style"] isEqualToString:@"jpz"]) {
+        if ([[messDic objectForKey:@"style"] isEqualToString:@"jpz"]||[[messDic objectForKey:@"style"] isEqualToString:@"zbz"]) {
             
             updataDic = messDic;
             
@@ -715,8 +715,8 @@
         //添加5张图片
              for (int i = 0; i < arrImag.count; i++) {
                      UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth*i, 0, ScreenWidth, ScreenWidth)];
-            
-                [imageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",SERVERURL,[arrImag objectAtIndex:i]]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
+              NSString *baseStr = [[Base64XD encodeBase64String:@"400,400"] strBase64];
+                [imageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@_%@.jpg",SERVERURL,[arrImag objectAtIndex:i],baseStr]] placeholderImage:[UIImage imageNamed:@"loading_bd"]];
              //        隐藏指示条
                     _scrollViewImg.showsHorizontalScrollIndicator = NO;
                  
@@ -771,7 +771,7 @@
         [backView addSubview:timeValueLab];
 
         
-    } else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]){
+    } else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zbz"]){
         image.image = [UIImage imageNamed:@"正在竞价"];
         timeLabFree = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 85, 14)];
         timeLabFree.font = [UIFont systemFontOfSize:14];
@@ -1279,6 +1279,7 @@
         if ([[[dic objectForKey:@"bzjInfo"] objectForKey:@"isSubmitBzj"] boolValue] == NO) {
             
             baoLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 100, 10, 100, 12)];
+            
             baoLabTip.text = @"提交保证金后查看";
             baoLabTip.textColor = [ConMethods colorWithHexString:@"8e8d8e"];
             baoLabTip.font = [UIFont systemFontOfSize:12];
@@ -1396,13 +1397,22 @@
                 
                 
                 [scrollView setContentSize:CGSizeMake(ScreenWidth, baoBtn.frame.origin.y + baoBtn.frame.size.height + 55)];
-            
-        
+
         
         }
         
     
     } else {
+        
+        
+        UILabel *baoLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 100, 10, 100, 12)];
+        baoLab.text = @"报价已结束";
+        baoLab.textColor = [ConMethods colorWithHexString:@"8e8d8e"];
+        baoLab.font = [UIFont systemFontOfSize:12];
+        baoBtn.enabled = NO;
+        [baoBtn addSubview:baoLab];
+        
+        
         baoBackView = [[UIView alloc] initWithFrame:CGRectMake(0, baoBtn.frame.origin.y + baoBtn.frame.size.height, ScreenWidth, 55)];
         baoBackView.backgroundColor = [ConMethods colorWithHexString:@"f8f8f8"];
         [scrollView addSubview:baoBackView];
@@ -1603,7 +1613,7 @@
         }
         */
         
-        if ([[dic objectForKey:@"style"] isEqualToString:@"jpz"]) {
+        if ([[dic objectForKey:@"style"] isEqualToString:@"jpz"]||[[dic objectForKey:@"style"] isEqualToString:@"zbz"]) {
          
             updataDic = dic;
             

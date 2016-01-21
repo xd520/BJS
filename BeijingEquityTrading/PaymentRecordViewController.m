@@ -344,7 +344,7 @@
                 if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] hasPrefix:@"-"]) {
                     newLabel.text = [NSString stringWithFormat:@"-%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",0 - [[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] floatValue]]]];
                 } else {
-                    newLabel.text = [ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] floatValue]]];
+                    newLabel.text = [ConMethods AddComma:[NSString stringWithFormat:@"+%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] floatValue]]];
                     
                     
                 }

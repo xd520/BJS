@@ -93,7 +93,7 @@
     
     [_tabBarController setTabBarItemsImage:tbHighlightArray];
     
-    
+   
     
     NSMutableArray *txtArr=[NSMutableArray arrayWithObjects:@"首页",@"专场",@"寻宝",@"我的",nil];
     
@@ -101,6 +101,8 @@
     self.tabBarController.delegate = (id <UITabBarControllerDelegate>)self;
     
     [_tabBarController.tabBar setTintColor:[ConMethods colorWithHexString:@"850301"]];
+    
+     [_tabBarController showBadge];
     
     
     self.window.rootViewController = _tabBarController;

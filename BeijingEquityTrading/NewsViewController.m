@@ -308,7 +308,7 @@
         
         UILabel *dayLabel = [[UILabel alloc] initWithFrame:CGRectMake( ScreenWidth - 135, 15, 120, 10)];
         dayLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FSRQ"];
-        dayLabel.font = [UIFont systemFontOfSize:12];
+        dayLabel.font = [UIFont systemFontOfSize:11];
         dayLabel.textAlignment = NSTextAlignmentRight;
         dayLabel.textColor = [ConMethods colorWithHexString:@"999999"];
         [backView addSubview:dayLabel];

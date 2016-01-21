@@ -18,6 +18,7 @@
 #import "SettingViewController.h"
 #import "PaymentRecordViewController.h"
 #import "FirstRealNameViewController.h"
+#import "CPVTabViewController.h"
 
 @interface MyViewController ()
 {
@@ -28,6 +29,10 @@
     UITableView *table;
     UILabel *nameTitle;
     UIImageView *imgHeadVeiw;
+    
+    UILabel *unMesgLab;
+    
+    
 }
 @end
 
@@ -35,7 +40,8 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-        [self getUIFirst];
+    [self getUIFirst];
+   
 }
 
 
@@ -50,7 +56,7 @@
             
             nameTitle.text = [[delegate.loginUser objectForKey:@"object"] objectForKey:@"username"];
             [self requestCategoryList];
-            
+             [self requestMsgInfoData];
             
             } else {
             
@@ -178,6 +184,22 @@
     cell.imageView.image = [UIImage imageNamed:[arrImg objectAtIndex:indexPath.row]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
+         if (indexPath.row == 5) {
+             UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 45, 10.5, 19, 19)];
+             img.image = [UIImage imageNamed:@"msg_circle"];
+             
+             unMesgLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 19, 19)];
+             unMesgLab.textColor = [UIColor whiteColor];
+             unMesgLab.textAlignment = NSTextAlignmentCenter;
+             unMesgLab.font = [UIFont systemFontOfSize:10];
+             unMesgLab.text = @"0";
+             unMesgLab.backgroundColor = [UIColor clearColor];
+             [img addSubview:unMesgLab];
+             
+             [cell.contentView addSubview:img];
+         }
+         
+         
          
          if (indexPath.row == arrTitle.count - 1) {
              UIView *lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 39.5, ScreenWidth , 0.5)];
@@ -233,6 +255,85 @@
         }
     }
 }
+
+
+// 消息中心记录数
+-(void)requestMsgInfoData{
+    
+    
+    NSDictionary *parameters = @{};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes =  [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];//设置相应内容类型
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    
+    [manager POST:[NSString stringWithFormat:@"%@%@",SERVERURL,USERunReadMsgInfo] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        if ([[responseObject objectForKey:@"success"] boolValue]){
+            
+            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            
+            if ([[NSString stringWithFormat:@"%@",[[[responseObject objectForKey:@"object"] objectForKey:@"unReadMsg"] objectForKey:@"count"]] isEqualToString:@"0"]) {
+                
+                [delegate.tabBarController hiddenBadge];
+                
+            } else {
+             [delegate.tabBarController showBadge];
+                UITabBarItem *tabBarItem = [delegate.tabBarController.tabBar.items objectAtIndex:3];
+            tabBarItem.badgeValue = [NSString stringWithFormat:@"%@",[[[responseObject objectForKey:@"object"] objectForKey:@"unReadMsg"] objectForKey:@"count"]];
+            }
+            unMesgLab.text = [NSString stringWithFormat:@"%@",[[[responseObject objectForKey:@"object"] objectForKey:@"unReadMsg"] objectForKey:@"count"]];
+            
+            
+        } else {
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                    cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                    
+                }
+                
+            } else {
+                
+                [[HttpMethods Instance] activityIndicate:NO
+                                              tipContent:[responseObject objectForKey:@"msg"]
+                                           MBProgressHUD:nil
+                                                  target:self.navigationController.view
+                                         displayInterval:3];
+            }
+            
+            NSLog(@"JSON: %@", responseObject);
+            NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        [[HttpMethods Instance] activityIndicate:NO
+                                      tipContent:notNetworkConnetTip
+                                   MBProgressHUD:nil
+                                          target:self.navigationController.view
+                                 displayInterval:3];
+        
+        NSLog(@"Error: %@", error);
+    }];
+    
+    
+    
+    
+}
+
+
 
 
 -(void)requestData{

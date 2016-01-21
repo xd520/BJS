@@ -191,7 +191,8 @@
 
 /***设置邮箱***/
 #define USERsaveEmail @"/service/psncenter/grzl/saveEmail"
-
+/******消息中心记录数*******/
+#define USERunReadMsgInfo @"/service/unReadMsgInfo"
 
 
 

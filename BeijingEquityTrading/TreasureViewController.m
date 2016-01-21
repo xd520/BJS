@@ -1353,9 +1353,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             [backView addSubview:dayLabel];
             
             //竞拍中的时候 自由报价时期
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
-                
-                
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zpz"]){
                 
                 UILabel *ziyouLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 105 - 40, ScreenWidth/2 - 30, 14)];
                 
@@ -1378,7 +1376,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
                 
                 starLab.text = @"开始时间";
                 
-            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zbz"]){
                 
                 
                 starLab.text = @"剩余时间";
@@ -1406,7 +1404,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             UILabel *timeYuLab = [[UILabel alloc] initWithFrame:CGRectMake(starLab.frame.origin.x   + starLab.frame.size.width, 105 - 20, ScreenWidth - starLab.frame.origin.x   + starLab.frame.size.width - 50, 12)];
             timeYuLab.backgroundColor = [UIColor clearColor];
             
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]) {
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zbz"]) {
                 
                 
                 timeYuLab.tag = indexPath.row + 1000;
@@ -1449,7 +1447,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
                 dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9c7e4a"].CGColor;
                 
                 
-            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zbz"]){
                 markLab.text = @"报价";
                 markLab.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
                 markLab.textColor = [UIColor whiteColor];
@@ -1556,7 +1554,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"WGCS"]];
         
-    } else if ([str isEqualToString:@"jpz"]){
+    } else if ([str isEqualToString:@"jpz"]||[str isEqualToString:@"zbz"]){
         _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZXJG"] floatValue]]]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
         
@@ -1629,8 +1627,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         int minCount = hourCount%60;
         int min = (hourCount - minCount)/60;
         int miao = minCount;
-        
-        NSString *time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
+    
+    NSString *time;
+    if (seconds >= 0) {
+         time = [NSString stringWithFormat:@"%i日%i小时%i分钟%i秒",day,hour,min,miao];
+    } else {
+    
+    time = @"";
+    }
+    
         return time;
   
     
@@ -1694,7 +1699,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [table reloadData];
     
    //订阅项目
-  [self _reconnect];
+  //[self _reconnect];
     
 }
 

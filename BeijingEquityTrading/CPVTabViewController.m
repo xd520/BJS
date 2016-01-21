@@ -7,6 +7,7 @@
 //
 
 #import "CPVTabViewController.h"
+#import "ConMethods.h"
 
 @interface CPVTabViewController ()
 
@@ -24,17 +25,14 @@
             [self.tabBar addSubview:_badgeValueImage];
             self.tabBar.backgroundColor = [UIColor whiteColor];
         }
-        
     }
     return self;
 }
 
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+   
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -57,7 +55,14 @@
  {
  for (int i = 0; i < self.tabBar.items.count && i < titles.count; ++i)
  {
- UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:i];
+     UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:i];
+     //if (i == self.tabBar.items.count - 1) {
+        // if (![badgeValue isEqualToString:@""]) {
+           // tabBarItem.badgeValue = badgeValue;
+        // }
+         
+    // }
+     
      tabBarItem.title = [titles objectAtIndex:i];
  }
  }
@@ -68,9 +73,10 @@
  {
  for (int i = 0; i < self.tabBar.items.count && i < images.count; ++i) {
      UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:i];
+     
       if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
      
- tabBarItem.image = [[images objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+          tabBarItem.image = [[images objectAtIndex:i] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
       }else {
       
           tabBarItem.image = [images objectAtIndex:i];
@@ -109,7 +115,8 @@
     NSInteger imageCount = self.tabBarController.viewControllers.count;
     CGFloat cellWidth = self.tabBar.frame.size.width / imageCount;
     CGFloat xOffest = self.tabBar.frame.size.width - cellWidth/2.0 + 8.0f;
-    _badgeValueImage.frame = CGRectMake( xOffest, 8.0f, 8.0f, 8.0f);
+    _badgeValueImage.frame = CGRectMake(cellWidth*(imageCount - 1) + xOffest, 8.0f, 8.0f, 8.0f);
+    _badgeValueImage.backgroundColor = [ConMethods  colorWithHexString:@"e41717"];
     _badgeValueImage.hidden = NO;
     
 }

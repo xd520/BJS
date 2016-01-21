@@ -194,7 +194,7 @@
     
     
     view1 = [[UIView alloc] initWithFrame:CGRectMake(35, 20, ScreenWidth - 40, 30)];
-    view1.backgroundColor = [ConMethods colorWithHexString:@"cacaca" withApla:0.5];
+    view1.backgroundColor = [ConMethods colorWithHexString:@"fbfbfb" withApla:0.5];
     view1.layer.masksToBounds = YES;
     view1.layer.cornerRadius = 4;
     
@@ -618,7 +618,7 @@
             [backView addSubview:dayLabel];
             
             //竞拍中的时候 自由报价时期
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zbz"]){
                 
                 
                 
@@ -643,7 +643,7 @@
                
                 starLab.text = @"开始时间";
                 
-            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zbz"]){
                
                 
                     starLab.text = @"剩余时间";
@@ -671,7 +671,7 @@
             UILabel *timeYuLab = [[UILabel alloc] initWithFrame:CGRectMake(starLab.frame.origin.x   + starLab.frame.size.width, 105 - 20, ScreenWidth - starLab.frame.origin.x   + starLab.frame.size.width - 50, 12)];
             timeYuLab.backgroundColor = [UIColor clearColor];
            
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]) {
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zbz"]) {
                 
                 timeYuLab.tag = indexPath.row + 1000;
                 NSDictionary *dic = @{@"indexPath":indexPath,@"lastTime": [[dataList objectAtIndex:indexPath.row] objectForKey:@"djs"]};
@@ -709,7 +709,7 @@
                 dateLabelMore.layer.borderColor = [ConMethods colorWithHexString:@"9c7e4a"].CGColor;
                 
                 
-            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]){
+            } else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zbz"]){
                 markLab.text = @"报价";
                 markLab.backgroundColor = [ConMethods colorWithHexString:@"bd0100"];
                 markLab.textColor = [UIColor whiteColor];
@@ -871,7 +871,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"WGCS"]];
         
-    } else if ([str isEqualToString:@"jpz"]){
+    } else if ([str isEqualToString:@"jpz"]||[str isEqualToString:@"zbz"]){
         _lab1.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[_dic objectForKey:@"ZXJG"] floatValue]]]];
         _lab4.text = [NSString stringWithFormat:@"%@",[_dic objectForKey:@"BJZCS"]];
         
