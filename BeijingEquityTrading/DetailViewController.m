@@ -45,6 +45,8 @@
     NSTimer *timer;
     
      SRWebSocket *_webSocket;
+    
+    float addHight;
 
 }
 
@@ -162,6 +164,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0) {
+        addHight = 20;
+        UIView *statusBarView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
+        statusBarView.backgroundColor=[UIColor blackColor];
+        
+        [self.view addSubview:statusBarView];
+    } else {
+        addHight = 0;
+    }
+
+    
+    
      [self _reconnect];
     
     start = @"1";
@@ -176,27 +190,27 @@
     
     totalLastTime = [NSMutableArray array];
     
-    image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth , 150)];
-    image.userInteractionEnabled = YES;
-    //image.image = [UIImage imageNamed:@"logo"];
     
-    UIButton *back = [[UIButton alloc] initWithFrame:CGRectMake(0, 18.5, 30, 33)];
+    UIButton *back = [[UIButton alloc] initWithFrame:CGRectMake(0, addHight - 1.5 + 5, 30, 33)];
    
     [back setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
     
     [back addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-    [image addSubview:back];
+    [self.view addSubview:back];
     
     
     UIView *view1;
     
     
-    
-    
-    view1 = [[UIView alloc] initWithFrame:CGRectMake(35, 20, ScreenWidth - 40, 30)];
-    view1.backgroundColor = [ConMethods colorWithHexString:@"fbfbfb" withApla:0.5];
+    view1 = [[UIView alloc] initWithFrame:CGRectMake(35, addHight+ 5, ScreenWidth - 40, 30)];
+    view1.backgroundColor = [UIColor whiteColor];
     view1.layer.masksToBounds = YES;
     view1.layer.cornerRadius = 4;
+    view1.layer.borderWidth = 1;
+    view1.layer.borderColor = [ConMethods colorWithHexString:@"d8d8d8"].CGColor;
+    
+    
+    
     
     UIView  *lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 10, 1)];
     lineview.backgroundColor = [ConMethods colorWithHexString:@"a2a2a2"];
@@ -218,8 +232,11 @@
     [searchBtn setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchMthods) forControlEvents:UIControlEventTouchUpInside];
     [view1 addSubview:searchBtn];
-    [image addSubview:view1];
+    [self.view addSubview:view1];
     
+    image = [[UIImageView alloc] initWithFrame:CGRectMake(0, addHight + 45, ScreenWidth , 150)];
+    image.userInteractionEnabled = YES;
+    //image.image = [UIImage imageNamed:@"logo"];
     
     [self.view addSubview:image];
     [self requestMethods];
@@ -235,7 +252,7 @@
     
     
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 150, ScreenWidth , 110)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, addHight + 45 + 150, ScreenWidth , 110)];
     [backView setBackgroundColor:[UIColor whiteColor]];
     backView.layer.cornerRadius = 2;
     backView.layer.masksToBounds = YES;
@@ -390,7 +407,7 @@
     [self.view addSubview:backView];
 
 
-    table = [[UITableView alloc] initWithFrame:CGRectMake(0,260 , ScreenWidth,ScreenHeight - 260)];
+    table = [[UITableView alloc] initWithFrame:CGRectMake(0,260 + 45 + addHight, ScreenWidth,ScreenHeight - 260 - 65)];
     [table setDelegate:self];
     [table setDataSource:self];
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -996,6 +1013,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             [dataList removeAllObjects];
+            [totalLastTime removeAllObjects];
         }
     }
     
@@ -1189,6 +1207,17 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+    //UIStatusBarStyleDefault
+    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}
+
+
 
 -(void)back:(UIButton *)btn {
     [self.navigationController popViewControllerAnimated:YES];

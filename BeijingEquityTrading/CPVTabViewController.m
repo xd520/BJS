@@ -14,18 +14,13 @@
 @end
 
 @implementation CPVTabViewController
+//@synthesize _badgeValueImage;
 
 - (id)init {
     self = [super init];
     if (self) {
         
-        if (_badgeValueImage == nil) {
-            _badgeValueImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"number_warning.png"]];
-            _badgeValueImage.hidden = YES;
-            [self.tabBar addSubview:_badgeValueImage];
-            self.tabBar.backgroundColor = [UIColor whiteColor];
         }
-    }
     return self;
 }
 
@@ -33,6 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+   
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -56,13 +53,7 @@
  for (int i = 0; i < self.tabBar.items.count && i < titles.count; ++i)
  {
      UITabBarItem *tabBarItem = [self.tabBar.items objectAtIndex:i];
-     //if (i == self.tabBar.items.count - 1) {
-        // if (![badgeValue isEqualToString:@""]) {
-           // tabBarItem.badgeValue = badgeValue;
-        // }
-         
-    // }
-     
+    
      tabBarItem.title = [titles objectAtIndex:i];
  }
  }
@@ -112,18 +103,29 @@
 
 - (void)showBadge
 {
+    
+    if (!_badgeValueImage) {
+        _badgeValueImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"msg_circle"]];
+        
+        [self.tabBar addSubview:_badgeValueImage];
+        self.tabBar.backgroundColor = [UIColor whiteColor];
+    
+
+    
     NSInteger imageCount = self.tabBarController.viewControllers.count;
     CGFloat cellWidth = self.tabBar.frame.size.width / imageCount;
     CGFloat xOffest = self.tabBar.frame.size.width - cellWidth/2.0 + 8.0f;
     _badgeValueImage.frame = CGRectMake(cellWidth*(imageCount - 1) + xOffest, 8.0f, 8.0f, 8.0f);
-    _badgeValueImage.backgroundColor = [ConMethods  colorWithHexString:@"e41717"];
-    _badgeValueImage.hidden = NO;
+    _badgeValueImage.backgroundColor = [UIColor  clearColor];
     
+    }
 }
 
 - (void)hiddenBadge
 {
+    
     _badgeValueImage.hidden = YES;
+    
 }
 
 

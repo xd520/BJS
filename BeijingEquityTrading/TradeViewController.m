@@ -1060,7 +1060,7 @@
                 [brandLabel setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandLabel setBackgroundColor:[UIColor clearColor]];
                 brandLabel.textAlignment = NSTextAlignmentCenter;
-                brandLabel.text = [NSString stringWithFormat:@"结束时间：%@",[[dataListFinsh objectAtIndex:indexPath.row] objectForKey:@"JSSJ"]];
+                brandLabel.text = [NSString stringWithFormat:@"结束时间：%@",[self getDateStrFrom:[[dataListFinsh objectAtIndex:indexPath.row] objectForKey:@"JSSJ"]]];
                 [backView addSubview:brandLabel];
                 
                 
@@ -1128,6 +1128,37 @@
     }
     return nil;
 }
+
+
+-(NSString *)getDateStrFrom:(NSString *)str {
+    
+    
+    // NSString *string = @"20110826134106";
+    
+    NSDateFormatter *inputFormatter= [[NSDateFormatter alloc] init];
+    
+    [inputFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+    
+    [inputFormatter setDateFormat:@"yyyy-MM-ddHH:mm:ss"];
+    
+    NSDate*inputDate = [inputFormatter dateFromString:str];
+    
+    
+    
+    NSDateFormatter *outputFormatter= [[NSDateFormatter alloc] init];
+    [outputFormatter setLocale:[NSLocale currentLocale]];
+    
+    [outputFormatter setDateFormat:@"yyyy-MM-dd  HH:mm:ss"];
+    //[outputFormatter setDateFormat:@"MM月dd日HH时mm分ss秒"];
+    
+    NSString *stringdat= [outputFormatter stringFromDate:inputDate];
+    
+    return stringdat;
+}
+
+
+
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == table) {

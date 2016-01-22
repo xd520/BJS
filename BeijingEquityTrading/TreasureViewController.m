@@ -1351,7 +1351,7 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             [backView addSubview:dayLabel];
             
             //竞拍中的时候 自由报价时期
-            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zpz"]){
+            if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"zbz"]){
                 
                 UILabel *ziyouLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 105 - 40, ScreenWidth/2 - 30, 14)];
                 
@@ -1359,9 +1359,6 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
                 ziyouLabel.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"JYZT_MC"];
                 ziyouLabel.textColor = [ConMethods colorWithHexString:@"333333"];
                 [backView addSubview:ziyouLabel];
-                
-                
-                
                 
                 
             }
@@ -1662,8 +1659,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             
-           // [totalLastTime removeAllObjects];
-            
+            [totalLastTime removeAllObjects];
             [dataList removeAllObjects];
         }
         
@@ -1741,6 +1737,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             upStr = @"";
             endTime = @"0";
             price = @"0";
+            searchText.text = @"";
             
             lab2.textColor = [ConMethods colorWithHexString:@"999999"];
             lab3.textColor = [ConMethods colorWithHexString:@"999999"];

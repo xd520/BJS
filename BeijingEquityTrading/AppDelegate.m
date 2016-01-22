@@ -102,7 +102,7 @@
     
     [_tabBarController.tabBar setTintColor:[ConMethods colorWithHexString:@"850301"]];
     
-     [_tabBarController showBadge];
+    //[_tabBarController showBadge];
     
     
     self.window.rootViewController = _tabBarController;

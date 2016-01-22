@@ -22,7 +22,6 @@
     UIScrollView *scrollView;
     float addHight;
     int count;
-   // NSString *timeStr;
     UILabel *timeValue;
     NSMutableArray *arrImag;
     
@@ -218,6 +217,8 @@
     }
     
     arrImag = [NSMutableArray array];
+    
+    
     
     
     UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 43, ScreenWidth, 1)];
@@ -740,7 +741,7 @@
         [scrollView addSubview:_scrollViewImg];
         
         
-        if (self.timer) {
+        if (self.timerImg) {
             [self removeTimer];
         }
         
@@ -777,10 +778,12 @@
         timeLabFree.font = [UIFont systemFontOfSize:14];
         timeLabFree.backgroundColor = [UIColor clearColor];
         timeLabFree.textColor = [UIColor whiteColor];
-        
+        if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zbz"]) {
+            timeLabFree.text = @"准备报价期";
+        } else {
         
         timeLabFree.text = @"自由报价期";
-        
+        }
         
         
         [image addSubview:timeLabFree];
@@ -797,7 +800,7 @@
         //[self timerFireMethod1];
         
         
-        if (timer.isValid) {
+        if (timer) {
             [timer invalidate];
             timer = nil;
         }
@@ -843,13 +846,10 @@
         timeValueLab.backgroundColor = [UIColor clearColor];
         timeValueLab.textColor = [ConMethods colorWithHexString:@"333333"];
         
-        if(![[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"]){
+      
             if ([[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"] != [NSNull null]) {
                  timeValueLab.text = [NSString stringWithFormat:@"结束时间:%@  %@",[[dic objectForKey:@"detail"] objectForKey:@"SJJSRQ"],[[dic objectForKey:@"detail"] objectForKey:@"SJJSSJ"]];
             }
-       
-        }
-            
             
         [backView addSubview:timeValueLab];
         
@@ -1432,13 +1432,13 @@
     }else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"lp"]){
     
     } else {
-        if (timerNew.isValid) {
+        if (timerNew) {
             [timerNew invalidate];
             timerNew = nil;
         }
         
         
-    timerNew = [NSTimer scheduledTimerWithTimeInterval:300.0 target:self selector:@selector(updateDatafornew:) userInfo:nil repeats:YES];
+    timerNew = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(updateDatafornew:) userInfo:nil repeats:YES];
     
     
     }
@@ -1533,15 +1533,15 @@
     101  */
  - (void)addTimer{
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
+    self.timerImg = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
      }
  /**
 *  关闭定时器
 */
  - (void)removeTimer
  {
-    [self.timer invalidate];
-     self.timer = nil;
+    [self.timerImg invalidate];
+     self.timerImg = nil;
 }
 
 
@@ -1606,12 +1606,6 @@
 -(void)getreciedforupdatenew:(NSDictionary *)dic{
     
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[dic objectForKey:@"style"]]) {
-       /*
-        if (timer) {
-            [timer invalidate];
-            timer = nil;
-        }
-        */
         
         if ([[dic objectForKey:@"style"] isEqualToString:@"jpz"]||[[dic objectForKey:@"style"] isEqualToString:@"zbz"]) {
          
@@ -1622,6 +1616,7 @@
         
            
             timeLabFree.text = [NSString stringWithFormat:@"%@期",[dic objectForKey:@"JYZTSM"]];
+           
             
             
         // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];

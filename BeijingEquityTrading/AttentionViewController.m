@@ -145,6 +145,7 @@
     if ([start isEqualToString:@"1"]) {
         if (dataList.count > 0) {
             [dataList removeAllObjects];
+            [totalLastTime removeAllObjects];
         }
         
     }
@@ -204,7 +205,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             searchText.text = @"";
             start = @"1";
-            [self requestData:@""];
+            [self requestData:searchText.text];
             [weakRefreshHeader endRefreshing];
         });
     };

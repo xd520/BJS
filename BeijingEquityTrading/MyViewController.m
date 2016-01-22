@@ -31,8 +31,9 @@
     UIImageView *imgHeadVeiw;
     
     UILabel *unMesgLab;
+    UILabel *_badgeunMesgLab;
     
-    
+    UIImageView *_badgeValueImage;
 }
 @end
 
@@ -140,6 +141,8 @@
         
     }
 
+    //[self showBadge];
+    
     arrTitle = @[@"我的资产",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心",@"支付记录"];
     arrImg = @[@"grzx_icon_2",@"grzx_icon_3",@"grzx_icon_4",@"grzx_icon_5",@"grzx_icon_1",@"grzx_icon_6",@"grzx_icon_9"];
     
@@ -185,7 +188,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
          if (indexPath.row == 5) {
-             UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 45, 10.5, 19, 19)];
+             UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(130, 10.5, 19, 19)];
              img.image = [UIImage imageNamed:@"msg_circle"];
              
              unMesgLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 19, 19)];
@@ -274,16 +277,21 @@
         NSLog(@"JSON: %@", responseObject);
         if ([[responseObject objectForKey:@"success"] boolValue]){
             
-            AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
             
             if ([[NSString stringWithFormat:@"%@",[[[responseObject objectForKey:@"object"] objectForKey:@"unReadMsg"] objectForKey:@"count"]] isEqualToString:@"0"]) {
                 
-                [delegate.tabBarController hiddenBadge];
+                
+                _badgeValueImage.hidden = YES;
                 
             } else {
-             [delegate.tabBarController showBadge];
+                
+             [self showBadge];
+                
+                /*
+                
                 UITabBarItem *tabBarItem = [delegate.tabBarController.tabBar.items objectAtIndex:3];
             tabBarItem.badgeValue = [NSString stringWithFormat:@"%@",[[[responseObject objectForKey:@"object"] objectForKey:@"unReadMsg"] objectForKey:@"count"]];
+                 */
             }
             unMesgLab.text = [NSString stringWithFormat:@"%@",[[[responseObject objectForKey:@"object"] objectForKey:@"unReadMsg"] objectForKey:@"count"]];
             
@@ -331,6 +339,37 @@
     
     
     
+}
+
+
+- (void)showBadge
+{
+   
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if (!_badgeValueImage) {
+       
+        NSInteger imageCount = 4;
+        CGFloat cellWidth = ScreenWidth / imageCount;
+        CGFloat xOffest = ScreenWidth - cellWidth/2.0 + 8.0f;
+        
+        
+       _badgeValueImage = [[UIImageView alloc] initWithFrame:CGRectMake(xOffest, 8.0f, 18.0f, 18.0f)];
+        _badgeValueImage.image = [UIImage imageNamed:@"msg_circle"];
+        
+         _badgeunMesgLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 18.0f, 18.0f)];
+        _badgeunMesgLab.textColor = [UIColor whiteColor];
+        _badgeunMesgLab.textAlignment = NSTextAlignmentCenter;
+        _badgeunMesgLab.font = [UIFont systemFontOfSize:10];
+        _badgeunMesgLab.text = @"0";
+        _badgeunMesgLab.backgroundColor = [UIColor clearColor];
+        [_badgeValueImage addSubview:_badgeunMesgLab];
+        
+       
+        _badgeValueImage.backgroundColor = [UIColor  clearColor];
+        [delegate.tabBarController.tabBar addSubview:_badgeValueImage];
+        
+    }
 }
 
 

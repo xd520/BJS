@@ -72,7 +72,7 @@
     NSLog(@"start = %@",start);
     
     NSDate *nowDate = [NSDate date];
-    NSDate *yestDate = [self getPriousorLaterDateFromDate:nowDate withMonth:-1];
+   // NSDate *yestDate = [self getPriousorLaterDateFromDate:nowDate withMonth:-1];
     
     
    // NSDictionary *parameters = @{@"pageIndex":start,@"pageSize":limit,@"ksrq":[self dateToStringDate:yestDate],@"jsrq":[self dateToStringDate:nowDate]};
@@ -305,7 +305,7 @@
             [tipLabel setTextAlignment:NSTextAlignmentCenter];
             [tipLabel setTextColor:[ConMethods colorWithHexString:@"404040"]];
             tipLabel.backgroundColor = [UIColor clearColor];
-            [tipLabel setText:@"没有任何保证金记录哦~"];
+            [tipLabel setText:@"没有任何支付记录哦~"];
             [backView addSubview:tipLabel];
             [cell.contentView addSubview:backView];
             
@@ -331,7 +331,7 @@
                 nameTip.font = [UIFont systemFontOfSize:14];
                 //nameTip.textAlignment = NSTextAlignmentRight;
                 [nameTip setTextColor:[ConMethods colorWithHexString:@"333333"]];
-                nameTip.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZY"];
+                nameTip.text =[self getNameString:[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZY"]] ;
                 
                 [backView addSubview:nameTip];
                 
@@ -356,7 +356,7 @@
                
                 
                 
-                if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_YWLB"] isEqualToString:@"1"]) {
+                if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_YWLB"] isEqualToString:@"2"]) {
                     newLabel.text = [NSString stringWithFormat:@"-%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f", [[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] floatValue]]]];
                      [newLabel setTextColor:[ConMethods colorWithHexString:@"006600"]];
                     
@@ -422,6 +422,18 @@
         return cell;
 
 }
+
+
+-(NSString *)getNameString:(NSString *)str {
+
+    NSData *jsonData = [str dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    return [dic objectForKey:@"name"];
+}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
         if ([indexPath row] == [dataList count]) {

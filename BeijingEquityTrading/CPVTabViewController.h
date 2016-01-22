@@ -15,6 +15,9 @@
    
 }
 
+
+//@property(nonatomic,strong)UIImageView *_badgeValueImage;
+
 //[UIImage imageNamed:@"number_warning.png"]提示图片
 
 

@@ -25,8 +25,15 @@
 
 
 //上架appstore地址
-#define SERVERURL @"http://otc.cbex.com"
-#define SERVERURL1 @"otc.cbex.com"
+//#define SERVERURL @"http://otc.cbex.com"
+//#define SERVERURL1 @"otc.cbex.com"
+
+
+
+//云测试环境地址调整为：
+#define SERVERURL @"http://testotc.cbex.com"
+#define SERVERURL1 @"testotc.cbex.com"
+
 
 //http://otc.cbex.com
 
