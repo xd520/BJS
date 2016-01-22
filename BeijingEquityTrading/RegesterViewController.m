@@ -527,8 +527,8 @@
 
 - (IBAction)pushProcoalVC:(id)sender {
     UserProcrolViewController *cv = [[UserProcrolViewController alloc] init];
-    cv.strId = @"YHXY";
-    cv.strName = @"用户竞价协议";
+    cv.strId = @"FWXY";
+    cv.strName = @"服务协议";
    
     [self.navigationController pushViewController:cv animated:YES];
 }
@@ -650,4 +650,11 @@
  
 
 
+- (IBAction)pushProcoaVc:(id)sender {
+    UserProcrolViewController *cv = [[UserProcrolViewController alloc] init];
+    cv.strId = @"FLSM";
+    cv.strName = @"法律声明";
+    
+    [self.navigationController pushViewController:cv animated:YES];
+}
 @end

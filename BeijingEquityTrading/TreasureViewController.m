@@ -107,9 +107,7 @@
     lab3.textColor = [ConMethods colorWithHexString:@"999999"];
     lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
     
-    
     [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
-    
     
 }
 
@@ -189,7 +187,7 @@
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
 {
     NSLog(@"WebSocket closed");
-    self.title = @"Connection Closed! (see logs)";
+   // self.title = @"Connection Closed! (see logs)";
     _webSocket = nil;
 }
 
@@ -287,7 +285,7 @@
     
     //默认选择按钮
     
-    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"竞价次数▲",@"类别▲"];
+    NSArray *titleArrTranfer = @[@"默认",@"限时报价开始时间▲",@"报价次数▲",@"筛选▲"];
     
     for (int i = 0; i < 4; i++) {
         UIButton *btn = [[UIButton alloc] init];
@@ -452,12 +450,12 @@
         
         if (indext%2 == 0) {
             lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
-            lab3.text = @"竞价次数▲";
+            lab3.text = @"报价次数▲";
             price = @"1";
         } else {
             
             lab3.textColor = [ConMethods colorWithHexString:@"b30000"];
-            lab3.text = @"竞价次数▼";
+            lab3.text = @"报价次数▼";
             price = @"2";
         }
        

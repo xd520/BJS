@@ -29,6 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *allView;
 
+- (IBAction)pushProcoaVc:(id)sender;
 
 
 

@@ -324,8 +324,23 @@
                 backView.layer.cornerRadius = 2;
                 backView.layer.masksToBounds = YES;
                 
+                
+                
+                //持有份额
+                UILabel *nameTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, ScreenWidth - 120, 14)];
+                nameTip.font = [UIFont systemFontOfSize:14];
+                //nameTip.textAlignment = NSTextAlignmentRight;
+                [nameTip setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                nameTip.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_ZY"];
+                
+                [backView addSubview:nameTip];
+                
+                
+                
+                
+                
                 //时间
-                UILabel *kuiLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 80, 35)];
+                UILabel *kuiLabTip = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 80, 35)];
                 kuiLabTip.font = [UIFont systemFontOfSize:13];
                 kuiLabTip.numberOfLines = 0;
                 [kuiLabTip setTextColor:[ConMethods colorWithHexString:@"999999"]];
@@ -336,16 +351,18 @@
                 
                 //最新价
                 
-                UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 13, 150, 17)];
+                UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 33, 150, 17)];
                 newLabel.font = [UIFont systemFontOfSize:17];
-                [newLabel setTextColor:[ConMethods colorWithHexString:@"000000"]];
+               
                 
                 
-                if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] hasPrefix:@"-"]) {
-                    newLabel.text = [NSString stringWithFormat:@"-%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",0 - [[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] floatValue]]]];
+                if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_YWLB"] isEqualToString:@"1"]) {
+                    newLabel.text = [NSString stringWithFormat:@"-%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f", [[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] floatValue]]]];
+                     [newLabel setTextColor:[ConMethods colorWithHexString:@"006600"]];
+                    
                 } else {
                     newLabel.text = [ConMethods AddComma:[NSString stringWithFormat:@"+%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"FID_FSJE"] floatValue]]];
-                    
+                    [newLabel setTextColor:[ConMethods colorWithHexString:@"bd0100"]];
                     
                 }
                 
@@ -376,9 +393,9 @@
                 
                 
                
-                brandLabel.frame = CGRectMake(ScreenWidth - 120, 10, 110, 13);
+                brandLabel.frame = CGRectMake(ScreenWidth - 120, 12, 110, 13);
                 brandLabel.textAlignment = NSTextAlignmentRight;
-                [backView addSubview:brandLabel];
+               // [backView addSubview:brandLabel];
                 
                 //持有份额
                 UILabel *fenLabTip = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 260, 43, 250, 13)];

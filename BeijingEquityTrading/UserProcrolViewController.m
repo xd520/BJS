@@ -41,6 +41,9 @@
     //_webView.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     _titleLab.text = _strName;
   
+    
+    [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
+    
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/s/agreement/index_app?code=%@",SERVERURL,_strId]];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [_webView loadRequest:request];
@@ -69,11 +72,23 @@
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
     [[NSUserDefaults standardUserDefaults] synchronize];
     
+    [[HttpMethods Instance] activityIndicate:NO
+                                  tipContent:@"加载完成"
+                               MBProgressHUD:nil
+                                      target:self.view
+                             displayInterval:2];
+    
+    
+    
     
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
    
-    
+    [[HttpMethods Instance] activityIndicate:NO
+                                  tipContent:@"加载失败"
+                               MBProgressHUD:nil
+                                      target:self.view
+                             displayInterval:2];
 }
 
 
