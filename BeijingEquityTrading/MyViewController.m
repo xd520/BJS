@@ -286,6 +286,8 @@
             } else {
                 
              [self showBadge];
+                _badgeunMesgLab.text = [NSString stringWithFormat:@"%@",[[[responseObject objectForKey:@"object"] objectForKey:@"unReadMsg"] objectForKey:@"count"]];
+                
                 
                 /*
                 

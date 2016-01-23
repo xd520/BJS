@@ -9,6 +9,7 @@
 #import "AttentionViewController.h"
 #import "AppDelegate.h"
 #import "MarkViewController.h"
+#import "SRWebSocket.h"
 
 @interface AttentionViewController ()
 {
@@ -22,6 +23,8 @@
     NSString *start;
     NSString *limit;
     
+    SRWebSocket *_webSocket;
+    
     BOOL hasMore;
     UITableViewCell *moreCell;
     UITextField *searchText;
@@ -32,6 +35,91 @@
 @end
 
 @implementation AttentionViewController
+
+
+- (void)_reconnect;
+{
+    
+    if (_webSocket) {
+        _webSocket.delegate = nil;
+        [_webSocket close];
+    }
+    
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/all",SERVERURL1]]]];
+    
+    
+    
+    //ws://192.168.1.84:8089/websocket/bidInfoServer/allMgr  ws://localhost:9000/chat
+    
+    _webSocket.delegate = self;
+    
+    // self.title = @"Opening Connection...";
+    [_webSocket open];
+    
+}
+
+#pragma mark - SRWebSocketDelegate
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
+{
+    NSLog(@"Websocket Connected");
+    //self.title = @"Connected!";
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+{
+    NSLog(@":( Websocket Failed With Error %@", error);
+    
+    //self.title = @"Connection Failed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
+{
+    NSLog(@"Received \"%@\"", message);
+    NSLog(@"55555%@",message);
+    
+    //start = @"1";
+    //[self requestData];
+    
+    
+    NSData *jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    
+    NSDictionary *messDic = [dic objectForKey:@"object"];
+    
+    for (NSDictionary *diction in dataList) {
+        if ([[diction objectForKey:@"cpdm"]isEqualToString:[messDic objectForKey:@"cpdm"]]) {
+            [dataList replaceObjectAtIndex:[[diction objectForKey:@"number"] integerValue] withObject:messDic];
+        }
+        
+    }
+    
+    [table reloadData];
+    
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+{
+    NSLog(@"WebSocket closed");
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
+{
+    NSLog(@"Websocket received pong");
+}
+
+
+
+
+/////SRWebSocket//////
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -306,6 +394,15 @@
             backView.layer.cornerRadius = 2;
             backView.layer.masksToBounds = YES;
             
+            
+            NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:[dataList objectAtIndex:indexPath.row]];
+            
+            
+            
+            [tempDic setObject:[NSString stringWithFormat:@"%ld",indexPath.row] forKey:@"number"];
+            
+            [dataList replaceObjectAtIndex:indexPath.row withObject:tempDic];
+            
             //品牌
             UILabel *brandLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 0, ScreenWidth - 50 - 70, 30)];
             brandLabel.font = [UIFont systemFontOfSize:12];
@@ -416,7 +513,7 @@
             }  else if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"style"] isEqualToString:@"cj"]){
              sureLab.text = @"结束价：";
             sureVauleLab.textColor = [ConMethods colorWithHexString:@"ae4a5d"];
-            sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZGCJJ"] floatValue]]]];
+            sureVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZXJG"] floatValue]]]];
                 nextLab.text = @"起始价：";
                 nextVauleLab.text = [NSString stringWithFormat:@"￥%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[dataList objectAtIndex:indexPath.row] objectForKey:@"QPJ"] floatValue]]]];
                 

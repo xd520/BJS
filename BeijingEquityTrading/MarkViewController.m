@@ -23,6 +23,8 @@
     float addHight;
     int count;
     UILabel *timeValue;
+    UILabel *zbztimeValue;
+    
     NSMutableArray *arrImag;
     
     UIView *MyBackView;
@@ -30,6 +32,8 @@
     UILabel *numLabTip;
     
     long long timeAll;
+    
+    long long zbztimeAll;
     
     long long timeAllAgain;
     
@@ -41,7 +45,10 @@
     
     UIView *baoBackView;
     NSTimer *timer;
-     NSTimer *timerNew;
+     NSTimer *zbztimer;
+    
+    
+    NSTimer *timerNew;
     
     //
     UIButton *baoBtn;
@@ -56,9 +63,10 @@
     SRWebSocket *_webSocket;
     //溢价率
     UILabel *priceVauleLab;
-    
-    
     UILabel *timeLabFree;
+    
+    UILabel *zbztimeLabFree;
+    
     
     
 }
@@ -147,8 +155,10 @@
     
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[messDic objectForKey:@"style"]]) {
         
+         [self requestBaojiaMethods:[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]];
         
-        if ([[messDic objectForKey:@"style"] isEqualToString:@"jpz"]||[[messDic objectForKey:@"style"] isEqualToString:@"zbz"]) {
+        
+        if ([[messDic objectForKey:@"style"] isEqualToString:@"jpz"]) {
             
             updataDic = messDic;
             
@@ -162,6 +172,17 @@
             
                        
            // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+        } else if([[messDic objectForKey:@"style"] isEqualToString:@"zbz"]){
+        
+            updataDic = messDic;
+            
+            
+            zbztimeLabFree.text = [NSString stringWithFormat:@"%@期",[messDic objectForKey:@"JYZTSM"]];
+            
+            
+            zbztimeAll = ([[messDic objectForKey:@"STAMP"] longLongValue] - [[messDic objectForKey:@"fixTakeTime"] longLongValue])/1000;
+        
+        
         }
         
         NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[messDic objectForKey:@"ZGJ"] floatValue]]]);
@@ -176,7 +197,7 @@
         [self requestMethods];
     }
     
-   [self requestBaojiaMethods:[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]];
+  
     
 }
 
@@ -501,6 +522,36 @@
 */
 
 
+- (void)zbztimerFireMethod1{
+    
+    zbztimeAll = zbztimeAll - 1;
+    
+    if (zbztimeAll > 0) {
+        zbztimeValue.hidden = NO;
+        
+        //day
+        long long dayCount = zbztimeAll%(3600*24);
+        long long day = (zbztimeAll - dayCount)/(3600*24);
+        
+        //hour
+        long long hourCount = dayCount%3600;
+        long long hour = (dayCount - hourCount)/3600;
+        //min
+        long long minCount = hourCount%60;
+        long long min = (hourCount - minCount)/60;
+        
+        long long miao = minCount;
+        
+        zbztimeValue.text = [NSString stringWithFormat:@"%lld天%lld小时%lld分钟%lld秒",day, hour, min,miao];
+    } else {
+        
+        zbztimeValue.hidden = YES;
+    }
+}
+
+
+
+
 
 - (void)timerFireMethod1{
     
@@ -772,23 +823,25 @@
         [backView addSubview:timeValueLab];
 
         
-    } else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zbz"]){
+    } else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]){
         image.image = [UIImage imageNamed:@"正在竞价"];
+       
+        
         timeLabFree = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 85, 14)];
         timeLabFree.font = [UIFont systemFontOfSize:14];
         timeLabFree.backgroundColor = [UIColor clearColor];
         timeLabFree.textColor = [UIColor whiteColor];
-        if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zbz"]) {
-            timeLabFree.text = @"准备报价期";
-        } else {
+       
         
         timeLabFree.text = @"自由报价期";
-        }
+        
         
         
         [image addSubview:timeLabFree];
         
         //剩余时间
+        
+        
         timeValue = [[UILabel alloc] initWithFrame:CGRectMake(110, 0, ScreenWidth - 120, 30)];
         timeValue.font = [UIFont systemFontOfSize:14];
         timeValue.backgroundColor = [UIColor clearColor];
@@ -798,7 +851,10 @@
         timeAll = [[[dic objectForKey:@"detail"] objectForKey:@"djs"] longLongValue];
         
         //[self timerFireMethod1];
-        
+        if (zbztimer) {
+            [zbztimer invalidate];
+            zbztimer = nil;
+        }
         
         if (timer) {
             [timer invalidate];
@@ -808,7 +864,50 @@
        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod1) userInfo:nil repeats:YES];
         [self requestdatafornew];
         
-    } else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]){
+    }  else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zbz"]){
+        image.image = [UIImage imageNamed:@"正在竞价"];
+        
+       
+        zbztimeLabFree = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 85, 14)];
+        zbztimeLabFree.font = [UIFont systemFontOfSize:14];
+        zbztimeLabFree.backgroundColor = [UIColor clearColor];
+        zbztimeLabFree.textColor = [UIColor whiteColor];
+        
+        zbztimeLabFree.text = @"准备报价期";
+        
+        
+        [image addSubview:zbztimeLabFree];
+        
+        //剩余时间
+        
+        
+        zbztimeValue = [[UILabel alloc] initWithFrame:CGRectMake(110, 0, ScreenWidth - 120, 30)];
+        zbztimeValue.font = [UIFont systemFontOfSize:14];
+        zbztimeValue.backgroundColor = [UIColor clearColor];
+        zbztimeValue.textColor = [ConMethods colorWithHexString:@"333333"];
+        
+        [backView addSubview:zbztimeValue];
+        zbztimeAll = [[[dic objectForKey:@"detail"] objectForKey:@"djs"] longLongValue];
+    
+        //[self timerFireMethod1];
+        
+        if (timer) {
+            [timer invalidate];
+            timer = nil;
+        }
+
+    
+    
+        if (zbztimer) {
+            [zbztimer invalidate];
+            zbztimer = nil;
+            }
+            
+           zbztimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(zbztimerFireMethod1) userInfo:nil repeats:YES];
+        
+        [self requestdatafornew];
+        
+    }else if([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]){
         image.image = [UIImage imageNamed:@"正在竞价"];
         UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, 85, 14)];
         timeLab.font = [UIFont systemFontOfSize:14];
@@ -985,7 +1084,7 @@
         
         hight = sureVauleLab.frame.origin.y + sureVauleLab.frame.size.height;
         
-    } else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]){
+    } else if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zt"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zbz"]){
         UILabel *newLab = [[UILabel alloc] initWithFrame:CGRectMake(10, numLab.frame.origin.y + numLab.frame.size.height + 23, 50, 12)];
         newLab.font = [UIFont systemFontOfSize:12];
         newLab.backgroundColor = [UIColor clearColor];
@@ -1061,7 +1160,13 @@
         sureVauleLab.font = [UIFont systemFontOfSize:15];
         sureVauleLab.backgroundColor = [UIColor clearColor];
         sureVauleLab.textColor = [ConMethods colorWithHexString:@"bd0100"];
-        sureVauleLab.text = [NSString stringWithFormat:@"￥%@(%@)",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[arr objectAtIndex:0] objectForKey:@"BZJJE"] floatValue]]],[[arr objectAtIndex:0] objectForKey:@"TCMC"]];
+        if (arr.count > 0) {
+           sureVauleLab.text = [NSString stringWithFormat:@"￥%@(%@)",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[[arr objectAtIndex:0] objectForKey:@"BZJJE"] floatValue]]],[[arr objectAtIndex:0] objectForKey:@"TCMC"]];
+        } else {
+        sureVauleLab.text = @"";
+        }
+        
+       
         [scrollView addSubview:sureVauleLab];
         
         hight = sureVauleLab.frame.origin.y + sureVauleLab.frame.size.height;
@@ -1274,7 +1379,7 @@
     [scrollView addSubview:baoBtn];
     
  // 交纳保证金
-    if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"wks"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]){
+    if ([[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"wks"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"jpz"]||[[[dic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:@"zbz"]){
         
         if ([[[dic objectForKey:@"bzjInfo"] objectForKey:@"isSubmitBzj"] boolValue] == NO) {
             
@@ -1607,7 +1712,7 @@
     
     if ([[[myDic objectForKey:@"detail"] objectForKey:@"style"] isEqualToString:[dic objectForKey:@"style"]]) {
         
-        if ([[dic objectForKey:@"style"] isEqualToString:@"jpz"]||[[dic objectForKey:@"style"] isEqualToString:@"zbz"]) {
+        if ([[dic objectForKey:@"style"] isEqualToString:@"jpz"]) {
          
             updataDic = dic;
             
@@ -1620,6 +1725,15 @@
             
             
         // timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+        } else if ([[dic objectForKey:@"style"] isEqualToString:@"zbz"]) {
+        
+            updataDic = dic;
+            
+            zbztimeAll = ([[dic objectForKey:@"STAMP"] longLongValue] - [[dic objectForKey:@"fixTakeTime"] longLongValue])/1000;
+            
+            zbztimeLabFree.text = [NSString stringWithFormat:@"%@期",[dic objectForKey:@"JYZTSM"]];
+            
+
         }
         
        // NSLog(@"%@",[ConMethods AddComma:[NSString stringWithFormat:@"%.2f",[[dic objectForKey:@"ZGJ"] floatValue]]]);

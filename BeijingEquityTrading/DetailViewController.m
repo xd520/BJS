@@ -62,12 +62,13 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    /*
     start = @"1";
     endTime = @"0";
     price = @"0";
     searchText.text = @"";
     [self requestData:endTime withprice:price with:searchText.text];
+     */
 }
 
 
@@ -125,6 +126,8 @@
     NSLog(@"Received \"%@\"", message);
     NSLog(@"55555%@",message);
     
+    /*
+    
     lab2.textColor = [ConMethods colorWithHexString:@"999999"];
     lab3.textColor = [ConMethods colorWithHexString:@"999999"];
     lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
@@ -134,7 +137,24 @@
     price = @"0";
     searchText.text = @"";
     [self requestData:endTime withprice:price with:@""];
+     */
     
+    NSData *jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    
+    NSDictionary *messDic = [dic objectForKey:@"object"];
+    
+    for (NSDictionary *diction in dataList) {
+        if ([[diction objectForKey:@"cpdm"]isEqualToString:[messDic objectForKey:@"cpdm"]]) {
+            [dataList replaceObjectAtIndex:[[diction objectForKey:@"number"] integerValue] withObject:messDic];
+        }
+        
+    }
+    
+   [table reloadData]; 
     
 }
 
@@ -143,7 +163,6 @@
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
 {
     NSLog(@"WebSocket closed");
-    self.title = @"Connection Closed! (see logs)";
     _webSocket = nil;
 }
 
@@ -586,6 +605,14 @@
             backView.layer.masksToBounds = YES;
             backView.layer.borderWidth = 1;
             backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
+            
+            
+            
+            NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:[dataList objectAtIndex:indexPath.row]];
+            
+            [tempDic setObject:[NSString stringWithFormat:@"%ld",indexPath.row] forKey:@"number"];
+            [dataList replaceObjectAtIndex:indexPath.row withObject:tempDic];
+            
             
             //专场列表
             UIImageView *image1 = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 90, 90)];
@@ -1228,6 +1255,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
     [timer invalidate];
     timer = nil;
+    
+    _webSocket.delegate = nil;
+    [_webSocket close];
+    _webSocket = nil;
+    
 }
 
 

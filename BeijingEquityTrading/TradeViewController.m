@@ -142,15 +142,32 @@
     NSLog(@"Received \"%@\"", message);
     NSLog(@"55555%@",message);
     
-    start = @"1";
-    [self requestData];
+    //start = @"1";
+    //[self requestData];
+    
+    
+    NSData *jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    
+    NSDictionary *messDic = [dic objectForKey:@"object"];
+    
+    for (NSDictionary *diction in dataList) {
+        if ([[diction objectForKey:@"cpdm"]isEqualToString:[messDic objectForKey:@"cpdm"]]) {
+            [dataList replaceObjectAtIndex:[[diction objectForKey:@"number"] integerValue] withObject:messDic];
+        }
+        
+    }
+   
+    [table reloadData];
     
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
 {
     NSLog(@"WebSocket closed");
-    self.title = @"Connection Closed! (see logs)";
     _webSocket = nil;
 }
 
@@ -319,7 +336,7 @@
     commitB.layer.cornerRadius = 4;
     commitB.backgroundColor = [ConMethods colorWithHexString:@"850301"];
     
-    [commitB setTitle:@"合并付款" forState:UIControlStateNormal];
+    [commitB setTitle:@"立即付款" forState:UIControlStateNormal];
     [commitB setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     commitB.titleLabel.font = [UIFont systemFontOfSize:15];
@@ -731,6 +748,14 @@
                 cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 145)];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
+                
+                NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:[dataList objectAtIndex:indexPath.row]];
+                
+                [tempDic setObject:[NSString stringWithFormat:@"%ld",indexPath.row] forKey:@"number"];
+                [dataList replaceObjectAtIndex:indexPath.row withObject:tempDic];
+                
+                
+                
                 //添加背景View
                 UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 5, ScreenWidth - 10, 135)];
                 [backView setBackgroundColor:[UIColor whiteColor]];

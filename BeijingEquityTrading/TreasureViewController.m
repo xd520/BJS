@@ -90,7 +90,7 @@
 @implementation TreasureViewController
 
 #pragma mark - 进入后刷新
-
+/*
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -110,16 +110,13 @@
     [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
     
 }
-
+*/
 
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     
-    _webSocket.delegate = nil;
-    [_webSocket close];
-    _webSocket = nil;
 }
 
 
@@ -165,7 +162,7 @@
 {
     NSLog(@"Received \"%@\"", message);
     NSLog(@"55555%@",message);
-    
+        /*
         start = @"1";
         bddlStr = @"";
         bdxlStr = @"";
@@ -179,8 +176,29 @@
         lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
     
         [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
+        */ 
+         
     
+    NSData *jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    
+        NSDictionary *messDic = [dic objectForKey:@"object"];
+    
+    for (NSDictionary *diction in dataList) {
+        if ([[diction objectForKey:@"cpdm"]isEqualToString:[messDic objectForKey:@"cpdm"]]) {
+            [dataList replaceObjectAtIndex:[[diction objectForKey:@"number"] integerValue] withObject:messDic];
+        }
+        
+    }
+    
+    [table reloadData];
 }
+
+//更新数据列表
+
 
 
 
@@ -1306,6 +1324,13 @@ static NSString *rosterItemTableIdentifier = @"TZGGItem";
             backView.layer.borderWidth = 1;
             backView.layer.borderColor = [ConMethods colorWithHexString:@"d5d5d5"].CGColor;
             
+             NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:[dataList objectAtIndex:indexPath.row]];
+            
+            [tempDic setObject:[NSString stringWithFormat:@"%ld",indexPath.row] forKey:@"number"];
+            
+            [dataList replaceObjectAtIndex:indexPath.row withObject:tempDic];
+            
+            
             //专场列表
             UIImageView *image1 = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 90, 90)];
              NSString *baseStr = [[Base64XD encodeBase64String:@"90,90"] strBase64];
@@ -1851,6 +1876,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     arrMoney = nil;
     
 
+    _webSocket.delegate = nil;
+    [_webSocket close];
+    _webSocket = nil;
+    
+    
 }
 
 
