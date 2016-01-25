@@ -34,6 +34,7 @@
     UILabel *_badgeunMesgLab;
     
     UIImageView *_badgeValueImage;
+    UIImageView *imgCircle;
 }
 @end
 
@@ -143,7 +144,7 @@
 
     //[self showBadge];
     
-    arrTitle = @[@"我的资产",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心",@"支付记录"];
+    arrTitle = @[@"我的账户",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心",@"我的支付记录"];
     arrImg = @[@"grzx_icon_2",@"grzx_icon_3",@"grzx_icon_4",@"grzx_icon_5",@"grzx_icon_1",@"grzx_icon_6",@"grzx_icon_9"];
     
     
@@ -188,8 +189,8 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
          if (indexPath.row == 5) {
-             UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(130, 10.5, 19, 19)];
-             img.image = [UIImage imageNamed:@"msg_circle"];
+             imgCircle = [[UIImageView alloc] initWithFrame:CGRectMake(130, 10.5, 19, 19)];
+             imgCircle.image = [UIImage imageNamed:@"msg_circle"];
              
              unMesgLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 19, 19)];
              unMesgLab.textColor = [UIColor whiteColor];
@@ -197,9 +198,9 @@
              unMesgLab.font = [UIFont systemFontOfSize:10];
              unMesgLab.text = @"0";
              unMesgLab.backgroundColor = [UIColor clearColor];
-             [img addSubview:unMesgLab];
+             [imgCircle addSubview:unMesgLab];
              
-             [cell.contentView addSubview:img];
+             [cell.contentView addSubview:imgCircle];
          }
          
          
@@ -282,9 +283,10 @@
                 
                 
                 _badgeValueImage.hidden = YES;
+                imgCircle.hidden = YES;
                 
             } else {
-                
+              imgCircle.hidden = NO;
              [self showBadge];
                 _badgeunMesgLab.text = [NSString stringWithFormat:@"%@",[[[responseObject objectForKey:@"object"] objectForKey:@"unReadMsg"] objectForKey:@"count"]];
                 
@@ -306,6 +308,7 @@
                     
                     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
                     [delegate.loginUser removeAllObjects];
+                    
                     
                     LoginViewController *cv = [[LoginViewController alloc] init];
                     cv.hidesBottomBarWhenPushed = YES;

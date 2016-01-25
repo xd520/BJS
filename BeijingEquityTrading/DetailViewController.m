@@ -150,11 +150,13 @@
     for (NSDictionary *diction in dataList) {
         if ([[diction objectForKey:@"cpdm"]isEqualToString:[messDic objectForKey:@"cpdm"]]) {
             [dataList replaceObjectAtIndex:[[diction objectForKey:@"number"] integerValue] withObject:messDic];
+            
+             [table reloadData]; 
         }
         
     }
     
-   [table reloadData]; 
+  
     
 }
 

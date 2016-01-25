@@ -290,6 +290,23 @@
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                    // cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                    
+                }
+                
+            }
+            
+            
+            
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -478,6 +495,22 @@
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                    // cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                    
+                }
+                
+            }
+            
+            
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -650,6 +683,21 @@
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                    // cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                    
+                }
+                
+            }
+            
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -706,6 +754,22 @@
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                    // cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                    
+                }
+                
+            }
             
         }
         
@@ -1510,8 +1574,9 @@
     } else {
         
         
-        UILabel *baoLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 100, 10, 100, 12)];
+        UILabel *baoLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 100, 10, 90, 12)];
         baoLab.text = @"报价已结束";
+        baoLab.textAlignment = NSTextAlignmentRight;
         baoLab.textColor = [ConMethods colorWithHexString:@"8e8d8e"];
         baoLab.font = [UIFont systemFontOfSize:12];
         baoBtn.enabled = NO;
@@ -1692,6 +1757,8 @@
             
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
+            
+            
             
         }
         
@@ -2270,6 +2337,22 @@
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                    // cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                    
+                }
+                
+            }
+            
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -2298,7 +2381,7 @@
         if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
 
         
@@ -2552,6 +2635,22 @@
             NSLog(@"JSON: %@", responseObject);
             NSLog(@"JSON: %@", [responseObject objectForKey:@"msg"]);
             
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                    // cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                    
+                }
+                
+            }
+            
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -2573,6 +2672,7 @@
 
 
 -(void)summitBaozhenJin{
+    
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在提交..." MBProgressHUD:nil target:self.view displayInterval:2.0];
     
     NSDictionary *parameters = @{@"cpdm":[[myDic objectForKey:@"detail"] objectForKey:@"KEYID"]};
@@ -2608,6 +2708,21 @@
             [self requestMethods];
             
         } else {
+            
+            if ([[responseObject objectForKey:@"object"] isKindOfClass:[NSString class]]) {
+                
+                if ([[responseObject objectForKey:@"object"] isEqualToString:@"loginTimeout"]) {
+                    
+                    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                    [delegate.loginUser removeAllObjects];
+                    
+                    LoginViewController *cv = [[LoginViewController alloc] init];
+                   // cv.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:cv animated:YES];
+                    
+                }
+                
+            }
             
             
             [[HttpMethods Instance] activityIndicate:NO

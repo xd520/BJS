@@ -496,8 +496,24 @@
                 [backView addSubview:lineV];
                 
               
+               
+                
+  //支付类型
+                
+                UILabel *brandClass = [[UILabel alloc] init];
+                brandClass.font = [UIFont systemFontOfSize:12];
+                [brandClass setTextColor:[ConMethods colorWithHexString:@"333333"]];
+                [brandClass setBackgroundColor:[UIColor clearColor]];
+                
+                brandClass.text = [NSString stringWithFormat:@"支付类型：%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZFLX"]];
+                
+                brandClass.frame =CGRectMake(ScreenWidth - 25 - [PublicMethod getStringWidth:brandClass.text font:brandClass.font], 43, [PublicMethod getStringWidth:brandClass.text font:brandClass.font], 12);
+                
+                [backView addSubview:brandClass];
+                
+                
                 //品牌
-                UILabel *brandName = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, ScreenWidth - 140, 15)];
+                UILabel *brandName = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, ScreenWidth - brandClass.frame.origin.x - 5, 15)];
                 brandName.font = [UIFont systemFontOfSize:14];
                 [brandName setTextColor:[ConMethods colorWithHexString:@"333333"]];
                 [brandName setBackgroundColor:[UIColor clearColor]];
@@ -505,15 +521,7 @@
                 brandName.text = [[dataList objectAtIndex:indexPath.row] objectForKey:@"TCMC"];
                 [backView addSubview:brandName];
                 
-  //支付类型
                 
-                UILabel *brandClass = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 135, 43, 120, 12)];
-                brandClass.font = [UIFont systemFontOfSize:12];
-                [brandClass setTextColor:[ConMethods colorWithHexString:@"333333"]];
-                [brandClass setBackgroundColor:[UIColor clearColor]];
-                
-                brandClass.text = [NSString stringWithFormat:@"支付类型：%@",[[dataList objectAtIndex:indexPath.row] objectForKey:@"ZFLX"]];
-                [backView addSubview:brandClass];
                 
  //退款申请：
                 UIButton *quitBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 80, 65, 80, 25)];

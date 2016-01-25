@@ -25,7 +25,7 @@
 
 
 //上架appstore地址
-//#define SERVERURL @"http://otc.cbex.com"
+//#define SERVERURL @"https://otc.cbex.com"
 //#define SERVERURL1 @"otc.cbex.com"
 
 
