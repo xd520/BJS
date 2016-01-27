@@ -2507,7 +2507,7 @@
         
         
         UILabel *agree = [[UILabel alloc] init];
-        agree.text = @",并且理解了";
+        agree.text = @",并且理解了：";
         agree.textColor = [ConMethods colorWithHexString:@"333333"];
         agree.font = [UIFont systemFontOfSize:10];
         agree.frame = CGRectMake(115, 100, [PublicMethod getStringWidth:agree.text font:agree.font], 10);
@@ -2515,14 +2515,14 @@
         
         
         UILabel *agreeUser = [[UILabel alloc] init];
-        agreeUser.text = @"《保证金详细规则》";
+        agreeUser.text = @"《经典收藏品受托转让项目动态报价承诺函》";
         agreeUser.textColor = [ConMethods colorWithHexString:@"bd0100"];
         agreeUser.font = [UIFont systemFontOfSize:10];
      agreeUser.tag = 10002;
-        agreeUser.frame = CGRectMake(agree.frame.origin.x + agree.frame.size.width , 100, [PublicMethod getStringWidth:agreeUser.text font:agreeUser.font], 10);
+        agreeUser.frame = CGRectMake(10 , 115, ScreenWidth - 40, 10);
     agreeUser.userInteractionEnabled = YES;
      UITapGestureRecognizer *singleTap;
-    
+    agreeUser.textAlignment = NSTextAlignmentCenter;
     singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushProcoalVC:)];
     
     //单点触摸
@@ -2535,7 +2535,7 @@
         [litleView addSubview:agreeUser];
     
   //确定 取消
-        UIButton *commitB = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 - 95, 130, 80, 30)];
+        UIButton *commitB = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 - 95, 145, 80, 30)];
         commitB.layer.masksToBounds = YES;
         commitB.layer.cornerRadius = 4;
         commitB.backgroundColor = [ConMethods colorWithHexString:@"850301"];
@@ -2550,7 +2550,7 @@
         
         
         
-        UIButton *quitBtn = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 + 15, 130, 80, 30)];
+        UIButton *quitBtn = [[UIButton alloc] initWithFrame: CGRectMake((ScreenWidth - 40)/2 + 15, 145, 80, 30)];
         quitBtn.layer.masksToBounds = YES;
         quitBtn.layer.cornerRadius = 4;
         quitBtn.backgroundColor = [ConMethods colorWithHexString:@"aaaaaa"];
@@ -2587,8 +2587,8 @@
     
      isUpDate = NO;   
     UserProcrolViewController *cv = [[UserProcrolViewController alloc] init];
-    cv.strId = @"BZYXXGZ";
-    cv.strName = @"保证金详细规则";
+    cv.strId = [[myDic objectForKey:@"detail"] objectForKey:@"KEYID"];
+    cv.strName = @"承诺函";
     
     [self.navigationController pushViewController:cv animated:YES];
     }

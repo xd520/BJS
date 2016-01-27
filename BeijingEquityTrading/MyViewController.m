@@ -143,6 +143,7 @@
     }
 
     [self showBadge];
+    _badgeValueImage.hidden = YES;
     
     arrTitle = @[@"我的账户",@"我的交易",@"我的关注",@"认证中心",@"个人资料",@"消息中心",@"我的支付记录"];
     arrImg = @[@"grzx_icon_2",@"grzx_icon_3",@"grzx_icon_4",@"grzx_icon_5",@"grzx_icon_1",@"grzx_icon_6",@"grzx_icon_9"];

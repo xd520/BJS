@@ -1099,7 +1099,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "a32e4e50-dfaf-4d3a-8662-e33022478e9a";
+				PROVISIONING_PROFILE = "34b33dd8-6eb9-40a1-b763-d6e1077a0cdb";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1122,7 +1122,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = BeijiaosuoByXiong;
 				PRODUCT_NAME = "北交互联";
-				PROVISIONING_PROFILE = "a32e4e50-dfaf-4d3a-8662-e33022478e9a";
+				PROVISIONING_PROFILE = "34b33dd8-6eb9-40a1-b763-d6e1077a0cdb";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

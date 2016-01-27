@@ -43,8 +43,12 @@
   
     
     [[HttpMethods Instance] activityIndicate:YES tipContent:@"正在加载..." MBProgressHUD:nil target:self.view displayInterval:2.0];
-    
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/s/agreement/index_app?code=%@",SERVERURL,_strId]];
+    NSURL *url;
+    if ([_strName isEqualToString:@"承诺函"]) {
+         url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/s/agreement/wap_bzjxy?id=%@",SERVERURL,_strId]];
+    } else {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/page/s/agreement/index_app?code=%@",SERVERURL,_strId]];
+    }
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         [_webView loadRequest:request];
     
