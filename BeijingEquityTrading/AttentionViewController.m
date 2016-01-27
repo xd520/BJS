@@ -45,7 +45,7 @@
         [_webSocket close];
     }
     
-    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/all",SERVERURL1]]]];
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/websocket/bidInfoServer/all",SERVERURL1]]]];
     
     
     
@@ -72,6 +72,9 @@
     
     //self.title = @"Connection Failed! (see logs)";
     _webSocket = nil;
+    
+    [self _reconnect];
+    
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
@@ -80,9 +83,11 @@
     NSLog(@"55555%@",message);
     
     //start = @"1";
-    //[self requestData];
     
+    [NSThread sleepForTimeInterval:2.0];
+    [self requestData:searchText.text];
     
+    /*
     NSData *jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSError *err;
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
@@ -99,6 +104,7 @@
     }
     
     [table reloadData];
+     */
     
 }
 

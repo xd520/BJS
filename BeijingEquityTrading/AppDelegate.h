@@ -16,6 +16,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "SDRefresh.h"
 #import "Base64XD.h"
+#import <Security/SecCertificate.h>
 
 
 @class CPVTabViewController;

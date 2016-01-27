@@ -15,39 +15,37 @@
 
 //北交所
 //#define SERVERURL @"http://192.168.1.84:8089"
-//#define SERVERURL1 @"192.168.1.84:8089"
+//#define SERVERURL1 @"ws://192.168.1.84:8089"
 
 
 //客户测试地址
 
 //#define SERVERURL @"http://211.167.66.245"
-//#define SERVERURL1 @"211.167.66.245"
+//#define SERVERURL1 @"ws://211.167.66.245"
 
 
 //上架appstore地址
-//#define SERVERURL @"https://otc.cbex.com"
-//#define SERVERURL1 @"otc.cbex.com"
+#define SERVERURL @"https://otc.cbex.com"
+#define SERVERURL1 @"wss://otc.cbex.com"
 
 
 
 //云测试环境地址调整为：
-#define SERVERURL @"http://testotc.cbex.com"
-#define SERVERURL1 @"testotc.cbex.com"
-
+//#define SERVERURL @"http://testotc.cbex.com"
+//#define SERVERURL1 @"ws://testotc.cbex.com"
 
 //http://otc.cbex.com
 
-
 //北交所客户外网2
 //#define SERVERURL @"http://202.96.1.30"
-//#define SERVERURL1 @"202.96.1.30"
+//#define SERVERURL1 @"ws://202.96.1.30"
 
 
 
 
 //小乔通道
 //#define SERVERURL @"http://192.168.2.207:8080"
-//#define SERVERURL1 @"192.168.2.207:8080"
+//#define SERVERURL1 @"ws://192.168.2.207:8080"
 //晨达通道
 //#define SERVERURL @"http://192.168.2.219:8080/bid"
 //#define SERVERURL1 @"192.168.2.219:8080/bid"

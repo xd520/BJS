@@ -108,7 +108,7 @@
         [_webSocket close];
     }
     
-    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/all",SERVERURL1]]]];
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/websocket/bidInfoServer/all",SERVERURL1]]]];
     
     
     
@@ -135,6 +135,9 @@
     
     //self.title = @"Connection Failed! (see logs)";
     _webSocket = nil;
+    
+    
+    [self _reconnect];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
@@ -142,10 +145,12 @@
     NSLog(@"Received \"%@\"", message);
     NSLog(@"55555%@",message);
     
+     [NSThread sleepForTimeInterval:2.0];
+    
     //start = @"1";
-    //[self requestData];
+    [self requestData];
     
-    
+    /*
     NSData *jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSError *err;
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
@@ -162,6 +167,7 @@
     }
    
     [table reloadData];
+     */
     
 }
 
@@ -749,13 +755,7 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell setBackgroundColor:[ConMethods colorWithHexString:@"eeeeee"]];
                 
-                NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] initWithDictionary:[dataList objectAtIndex:indexPath.row]];
-                
-                [tempDic setObject:[NSString stringWithFormat:@"%ld",indexPath.row] forKey:@"number"];
-                [dataList replaceObjectAtIndex:indexPath.row withObject:tempDic];
-                
-                
-                
+                               
                 //添加背景View
                 UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(5, 5, ScreenWidth - 10, 135)];
                 [backView setBackgroundColor:[UIColor whiteColor]];

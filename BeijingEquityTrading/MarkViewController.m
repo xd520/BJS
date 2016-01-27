@@ -113,7 +113,10 @@
     _webSocket.delegate = nil;
     [_webSocket close];
     
-    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/%@",SERVERURL1,_strId]]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/websocket/bidInfoServer/%@",SERVERURL1,_strId]]];
+    [request setHTTPShouldUsePipelining:YES];
+    
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:request];
     
     //ws://192.168.1.84:8089/websocket/bidInfoServer/allMgr  ws://localhost:9000/chat
     
@@ -138,6 +141,8 @@
     
     //self.title = @"Connection Failed! (see logs)";
     _webSocket = nil;
+    
+    [self _reconnect];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
@@ -2048,15 +2053,18 @@
     sureText.backgroundColor = [UIColor whiteColor];
     sureText.placeholder = @"输入报价金额";
     
-    if (updataDic.count > 0) {
+    if ([[[myDic objectForKey:@"detail"] objectForKey:@"ZXJG"] floatValue] > 0) {
         if ([[updataDic objectForKey:@"ZGJ"] floatValue] > [[myDic objectForKey:@"QPJ"] floatValue]) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+           sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
    
     } else {
-     sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+        
+        
+        sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+    
     
     }
     
@@ -2381,7 +2389,7 @@
         if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]];
         }
 
         
@@ -2393,7 +2401,7 @@
         if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue] + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
  
         
@@ -2404,7 +2412,7 @@
         if (([[updataDic objectForKey:@"ZGJ"] floatValue] > [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue])) {
             sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[updataDic objectForKey:@"ZGJ"] floatValue]];
         } else {
-            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*2 + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
+            sureText.text = [NSString stringWithFormat:@"%.2f",[[[myDic objectForKey:@"detail"] objectForKey:@"JJFD"] floatValue]*3 + [[[myDic objectForKey:@"detail"] objectForKey:@"QPJ"] floatValue]];
         }
 
         

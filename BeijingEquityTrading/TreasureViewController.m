@@ -34,6 +34,7 @@
     NSString *bdxlStr;
     NSString *downStr;
     NSString *upStr;
+    NSString *jjztStr;
     
     
     UILabel *lab1;
@@ -55,19 +56,24 @@
     UIView *littleView;
     UIView *moneyView;
     UIView *moneyHide;
+    UIView *statusView;
+    
     
     
     
     UIView *lineViewLit;
     UIView *lineViewBig;
+     UIView *lineViewStatus;
     
     
     int countBig;
     int countLittle;
     int countMoney;
+    int countStatus;
     
     float bigHight;
     float littltHight;
+    float moneyHight;
     
     UIButton *selectlitBtn;
     
@@ -75,6 +81,8 @@
     NSMutableArray *arrBig;
     NSMutableArray *arrLittle;
     NSMutableArray *arrMoney;
+    NSMutableArray *arrStatus;
+    
     
     //NSRunLoop *myLoop;
     
@@ -130,13 +138,15 @@
         [_webSocket close];
     }
     
-    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"ws://%@/websocket/bidInfoServer/all",SERVERURL1]]]];
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/websocket/bidInfoServer/all",SERVERURL1]]]];
+
     
-    
+        NSLog(@"%@",[NSString stringWithFormat:@"%@/websocket/bidInfoServer/all",SERVERURL1]);
     
     //ws://192.168.1.84:8089/websocket/bidInfoServer/allMgr  ws://localhost:9000/chat
     
     _webSocket.delegate = self;
+    
     
    // self.title = @"Opening Connection...";
     [_webSocket open];
@@ -156,29 +166,24 @@
     
     //self.title = @"Connection Failed! (see logs)";
     _webSocket = nil;
+    
+    [self _reconnect];
+    
+    
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
 {
     NSLog(@"Received \"%@\"", message);
     NSLog(@"55555%@",message);
-        /*
-        start = @"1";
-        bddlStr = @"";
-        bdxlStr = @"";
-        downStr = @"";
-        upStr = @"";
-        endTime = @"0";
-        price = @"0";
+    
         
-        lab2.textColor = [ConMethods colorWithHexString:@"999999"];
-        lab3.textColor = [ConMethods colorWithHexString:@"999999"];
-        lab1.textColor = [ConMethods colorWithHexString:@"b30000"];
+    [NSThread sleepForTimeInterval:2.0];
     
-        [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
-        */ 
+    [self requestData:endTime withprice:price withsearch:searchText.text withbddl:bddlStr withbdxl:bdxlStr withdown:downStr withup:upStr];
+    
          
-    
+    /*
     NSData *jsonData = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSError *err;
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
@@ -189,12 +194,21 @@
     
     for (NSDictionary *diction in dataList) {
         if ([[diction objectForKey:@"cpdm"]isEqualToString:[messDic objectForKey:@"cpdm"]]) {
+            
             [dataList replaceObjectAtIndex:[[diction objectForKey:@"number"] integerValue] withObject:messDic];
+            
+           // NSIndexPath *indexPath=[NSIndexPath indexPathForRow:[[diction objectForKey:@"number"] integerValue] inSection:0];
+           // [table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+            
+            
         }
-        
     }
     
-    [table reloadData];
+   // [table reloadData];
+   // [table beginUpdates];
+     
+     */
+     
 }
 
 //更新数据列表
@@ -212,6 +226,7 @@
 - (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
 {
     NSLog(@"Websocket received pong");
+    NSLog(@"%@",pongPayload);
 }
 
 
@@ -230,6 +245,7 @@
     arrBig = [NSMutableArray array];
     arrLittle = [NSMutableArray array];
     arrMoney = [NSMutableArray array];
+    arrStatus = [NSMutableArray array];
     
     start = @"1";
     limit = @"10";
@@ -239,6 +255,7 @@
     upStr = @"";
     endTime = @"0";
     price = @"0";
+    jjztStr = @"";
     
     [self enumerateFonts];
     
@@ -624,7 +641,11 @@
     [self initBigButtons];
     [self initlittleButtons];
     
-    moneyView = [[UIView alloc] initWithFrame:CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50)];
+    moneyView = [[UIView alloc] initWithFrame:CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,50 + 60 + 15)];
+    
+    moneyHight = 125;
+    
+    
     moneyView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
     
     UILabel *bigLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 18)];
@@ -645,12 +666,10 @@
     [selectBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
     [moneyView addSubview:selectBtn];
     
-  UIView  *lineVie = [[UIView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth - 40, 0.5)];
-    lineVie.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
-    [moneyView addSubview:lineVie];
+  
     NSArray *arrMoney = @[@"¥0-500",@"¥500-1000",@"¥1000-5000",@"¥5000以上"];
-    moneyHide = [[UIView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth - 40, 100)];
-    moneyHide.backgroundColor = [UIColor whiteColor];
+    //moneyHide = [[UIView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth - 40, 100)];
+   //moneyHide.backgroundColor = [UIColor whiteColor];
     
     
             
@@ -659,10 +678,10 @@
                 UIButton *selectBigBtn = [[UIButton alloc] init];
                 
                 if (i == 3) {
-                  selectBigBtn.frame  =CGRectMake(10 , 30, (ScreenWidth - 70)/3, 25);
+                  selectBigBtn.frame  =CGRectMake(10 , 80, (ScreenWidth - 70)/3, 25);
                     
                 } else {
-              selectBigBtn.frame  =CGRectMake(10 + (ScreenWidth - 70)/3*i + 5*i, 0, (ScreenWidth - 70)/3, 25);
+              selectBigBtn.frame  =CGRectMake(10 + (ScreenWidth - 70)/3*i + 5*i, 50, (ScreenWidth - 70)/3, 25);
                 }
                 [selectBigBtn setTitle:[arrMoney objectAtIndex:i] forState:UIControlStateNormal];
                 selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
@@ -673,17 +692,29 @@
                 [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
                 selectBigBtn.tag = i;
                 [selectBigBtn addTarget:self action:@selector(moneyMethods:) forControlEvents:UIControlEventTouchUpInside];
-                [moneyHide addSubview:selectBigBtn];
+                [moneyView addSubview:selectBigBtn];
             }
     
-    UIView  *lineVie1 = [[UIView alloc] initWithFrame:CGRectMake(0, 74.5, ScreenWidth - 40, 0.5)];
-    lineVie1.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
-    [moneyHide addSubview:lineVie1];
+    lineViewStatus = [[UIView alloc] initWithFrame:CGRectMake(0,50 + 74.5, ScreenWidth - 40, 0.5)];
+    lineViewStatus.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+    [moneyView addSubview:lineViewStatus];
     
     countMoney = 0;
-    
-    [moneyView addSubview:moneyHide];
     [backscrollView addSubview:moneyView];
+    
+    
+    [self initStatusButtons];
+    
+    
+    if (statusView.frame.origin.y + statusView.frame.size.width > ScreenHeight - addHight - 44 - 10 -50) {
+        [backscrollView setContentSize:CGSizeMake(ScreenWidth - 40, statusView.frame.origin.y + statusView.frame.size.height + 40)];
+    }else {
+        
+        [backscrollView setContentSize:CGSizeMake(ScreenWidth - 40, ScreenHeight - addHight - 44 - 10 -50)];
+        
+    }
+
+    
     
     [MyView addSubview:backscrollView];
     
@@ -727,6 +758,83 @@
     
     [delegate.window addSubview:MyView];
 }
+
+
+-(void)initStatusButtons {
+    
+
+    statusView = [[UIView alloc] init];
+    
+    if (ScreenHeight - 64 - 50 > moneyView.frame.origin.y + moneyView.frame.size.height + 95) {
+        statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - 50 - moneyView.frame.origin.y - moneyView.frame.size.height);
+    } else {
+         statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,50 + 30 + 15);
+    }
+    
+    countStatus = 0;
+    
+    statusView.backgroundColor = [ConMethods colorWithHexString:@"ffffff"];
+    
+    UILabel *bigLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 18)];
+    bigLab.text = @"竞价状态";
+    // bigLab.textAlignment = NSTextAlignmentCenter;
+    bigLab.textColor = [ConMethods colorWithHexString:@"252525"];
+    bigLab.font = [UIFont systemFontOfSize:18];
+    [statusView addSubview:bigLab];
+    
+    //取消按钮
+    UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 80, 19/2, 40, 25)];
+    // [selectBtn setTitle:@"取消" forState:UIControlStateNormal];
+    
+    [selectBtn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
+    
+    
+    selectBtn.tag = 10007;
+    [selectBtn addTarget:self action:@selector(quitMethods:) forControlEvents:UIControlEventTouchUpInside];
+    [statusView addSubview:selectBtn];
+    
+    UIView  *lineVie = [[UIView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth - 40, 0.5)];
+    lineVie.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+    [statusView addSubview:lineVie];
+    NSArray *arMoney = @[@"未开始",@"报价中",@"已结束"];
+    moneyHide = [[UIView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth - 40, 45)];
+    moneyHide.backgroundColor = [UIColor whiteColor];
+    
+    
+    
+    for (int i = 0; i < 3; i++) {
+        
+        UIButton *selectBigBtn = [[UIButton alloc] init];
+        
+      
+            selectBigBtn.frame  =CGRectMake(10 + (ScreenWidth - 70)/3*i + 5*i, 0, (ScreenWidth - 70)/3, 25);
+        
+        [selectBigBtn setTitle:[arMoney objectAtIndex:i] forState:UIControlStateNormal];
+        selectBigBtn.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+        selectBigBtn.layer.masksToBounds = YES;
+        selectBigBtn.layer.cornerRadius = 4;
+        
+        selectBigBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [selectBigBtn setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+        selectBigBtn.tag = i;
+        [selectBigBtn addTarget:self action:@selector(statusMethods:) forControlEvents:UIControlEventTouchUpInside];
+        [moneyHide addSubview:selectBigBtn];
+    }
+    
+    UIView  *lineVie1 = [[UIView alloc] initWithFrame:CGRectMake(0, 44.5, ScreenWidth - 40, 0.5)];
+    lineVie1.backgroundColor = [ConMethods colorWithHexString:@"c8c7cc"];
+    [moneyHide addSubview:lineVie1];
+    
+    countMoney = 0;
+    
+    [statusView addSubview:moneyHide];
+    [backscrollView addSubview:statusView];
+
+
+}
+
+
+
 
 -(void)initBigButtons{
     
@@ -825,8 +933,6 @@
         bigView.frame = CGRectMake(0, 10, ScreenWidth - 40, 50 );
     [backscrollView addSubview:bigView];
     }
-        
-    
     
 }
 
@@ -1029,6 +1135,36 @@
 }
 
 
+-(void)statusMethods:(UIButton *)btn {
+    if (arrStatus.count > 0) {
+        UIButton *button = [arrStatus objectAtIndex:0];
+        button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+        [button setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+        
+        [arrStatus removeAllObjects];
+    }
+    [arrStatus addObject:btn];
+    
+    
+    btn.backgroundColor = [ConMethods colorWithHexString:@"b50505"];
+    
+    [btn setTitleColor:[ConMethods colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
+    
+    if (btn.tag == 0) {
+        jjztStr  = @"djj";
+       
+    } else if (btn.tag == 1) {
+        jjztStr  = @"jjz";
+       
+    } else if (btn.tag == 2) {
+        jjztStr  = @"yjs";
+       
+    }
+
+}
+
+
+
 -(void)quitMethods:(UIButton *)btn {
 
 
@@ -1043,9 +1179,16 @@
              lineViewBig.frame = CGRectMake(0, bigHight - 0.5 , ScreenWidth - 40, 0.5);
              lineViewLit.frame = CGRectMake(0, 50 - 0.5 , ScreenWidth - 40, 0.5);
             
-            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,moneyHight);
+            
+            lineViewStatus.frame = CGRectMake(0,moneyHight - 0.5, ScreenWidth - 40, 0.5);
             
             
+            if (ScreenHeight - 64 - 50 > moneyView.frame.origin.y + moneyView.frame.size.height + 95) {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - 50 - moneyView.frame.origin.y - moneyView.frame.size.height);
+            } else {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,50 + 30 + 15);
+            }
             
         } else {
         
@@ -1059,9 +1202,15 @@
             [selectlitBtn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
             countLittle = 1;
             
+            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,moneyHight);
+             lineViewStatus.frame = CGRectMake(0,moneyHight - 0.5, ScreenWidth - 40, 0.5);
             
+            if (ScreenHeight - 64 - 50 > moneyView.frame.origin.y + moneyView.frame.size.height + 95) {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - 50 - moneyView.frame.origin.y - moneyView.frame.size.height);
+            } else {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,50 + 30 + 15);
+            }
             
-            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
 
             
         }
@@ -1078,14 +1227,27 @@
                 [btn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
                 littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, littltHight);
                  lineViewLit.frame = CGRectMake(0, littltHight - 0.5 , ScreenWidth - 40, 0.5);
-                 moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+                 moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,moneyHight);
+                 lineViewStatus.frame = CGRectMake(0,moneyHight - 0.5, ScreenWidth - 40, 0.5);
+                if (ScreenHeight - 64 - 50 > moneyView.frame.origin.y + moneyView.frame.size.height + 95) {
+                    statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - 50 - moneyView.frame.origin.y - moneyView.frame.size.height);
+                } else {
+                    statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,50 + 30 + 15);
+                }
                 
             } else {
             [btn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
              littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
              lineViewLit.frame = CGRectMake(0, 49.5 , ScreenWidth - 40, 0.5);
-            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+            moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,moneyHight);
+            lineViewStatus.frame = CGRectMake(0,moneyHight - 0.5, ScreenWidth - 40, 0.5);
+                if (ScreenHeight - 64 - 50 > moneyView.frame.origin.y + moneyView.frame.size.height + 95) {
+                    statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - 50 - moneyView.frame.origin.y - moneyView.frame.size.height);
+                } else {
+                    statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,50 + 30 + 15);
+                }
             }
+            
             
         } else {
             
@@ -1093,20 +1255,56 @@
            
             littleView.frame = CGRectMake(0, bigView.frame.origin.y + bigView.frame.size.height, ScreenWidth - 40, 50 );
              lineViewLit.frame = CGRectMake(0, 49.5 , ScreenWidth - 40, 0.5);
-             moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - littleView.frame.origin.y - littleView.frame.size.height - 50);
+             moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,moneyHight);
             
+             lineViewStatus.frame = CGRectMake(0,moneyHight - 0.5, ScreenWidth - 40, 0.5);
+            if (ScreenHeight - 64 - 50 > moneyView.frame.origin.y + moneyView.frame.size.height + 95) {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - 50 - moneyView.frame.origin.y - moneyView.frame.size.height);
+            } else {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,50 + 30 + 15);
+            }
         }
     
     } else if (btn.tag == 10004){
         countMoney++;
         if (countMoney%2 == 0) {
-            moneyHide.hidden = NO;
+            
+           moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,50 + 60 + 15);
+            moneyHight = 125;
+            lineViewStatus.frame = CGRectMake(0,moneyHight - 0.5, ScreenWidth - 40, 0.5);
+            
            [btn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
+            
+            if (ScreenHeight - 64 - 50 > moneyView.frame.origin.y + moneyView.frame.size.height + 95) {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - 50 - moneyView.frame.origin.y - moneyView.frame.size.height);
+            } else {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,50 + 30 + 15);
+            }
+            
         } else {
         [btn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
-        moneyHide.hidden = YES;
+       moneyView.frame = CGRectMake(0, littleView.frame.origin.y + littleView.frame.size.height, ScreenWidth - 40,50);
+            moneyHight = 50;
+            
+            lineViewStatus.frame = CGRectMake(0,moneyHight - 0.5, ScreenWidth - 40, 0.5);
+            if (ScreenHeight - 64 - 50 > moneyView.frame.origin.y + moneyView.frame.size.height + 95) {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,ScreenHeight - 64 - 50 - moneyView.frame.origin.y - moneyView.frame.size.height);
+            } else {
+                statusView.frame = CGRectMake(0, moneyView.frame.origin.y + moneyView.frame.size.height, ScreenWidth - 40,50 + 30 + 15);
+            }
+            
         }
-    } else if (btn.tag == 10005){
+    } else if (btn.tag == 10007){
+        countStatus++;
+        if (countStatus%2 == 0) {
+            
+            moneyHide.hidden = NO;
+            [btn setImage:[UIImage imageNamed:@"filter_arrow_up"] forState:UIControlStateNormal];
+        } else {
+            [btn setImage:[UIImage imageNamed:@"filter_arrow_down"] forState:UIControlStateNormal];
+            moneyHide.hidden = YES;
+        }
+    }else if (btn.tag == 10005){
         if (arrBig.count > 0) {
             UIButton *button = [arrBig objectAtIndex:0];
             button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
@@ -1130,15 +1328,24 @@
             
             [arrLittle removeAllObjects];
         }
+        
+        if (arrStatus.count > 0) {
+            UIButton *button = [arrStatus objectAtIndex:0];
+            button.backgroundColor = [ConMethods colorWithHexString:@"f5f5f5"];
+            [button setTitleColor:[ConMethods colorWithHexString:@"888888"] forState:UIControlStateNormal];
+            
+            [arrStatus removeAllObjects];
+        }
   
         bddlStr = @"";
         bdxlStr = @"";
         upStr = @"";
         downStr = @"";
+        jjztStr = @"";
     
     } else if (btn.tag == 10006){
       
-        if ([bddlStr isEqualToString:@""]&&[bdxlStr isEqualToString:@""]&&[upStr isEqualToString:@""]&&[downStr isEqualToString:@""]) {
+        if ([bddlStr isEqualToString:@""]&&[bdxlStr isEqualToString:@""]&&[upStr isEqualToString:@""]&&[downStr isEqualToString:@""]&&[jjztStr isEqualToString:@""]) {
             
             [[HttpMethods Instance] activityIndicate:NO
                                           tipContent:@"请筛选条件"
@@ -1151,6 +1358,7 @@
         [lineViewBig removeFromSuperview];
         [littleView removeFromSuperview];
         [lineViewLit removeFromSuperview];
+            [statusView removeFromSuperview];
         [moneyHide removeFromSuperview];
             
         [MyView removeFromSuperview];
@@ -1207,7 +1415,7 @@
     
     NSLog(@"start = %@",start);
     
-    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"endTime":_endTime,@"jjcs":_price,@"keyWord":search,@"bddl":bddl,@"bdxl":bdxl,@"jgfwdown":_down,@"jgfwup":_up};
+    NSDictionary *parameters = @{@"pageNo":start,@"pageSize":limit,@"endTime":_endTime,@"jjcs":_price,@"keyWord":search,@"bddl":bddl,@"bdxl":bdxl,@"jgfwdown":_down,@"jgfwup":_up,@"jjzt":jjztStr};
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
@@ -1762,6 +1970,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             upStr = @"";
             endTime = @"0";
             price = @"0";
+            jjztStr = @"";
             searchText.text = @"";
             
             lab2.textColor = [ConMethods colorWithHexString:@"999999"];

@@ -389,7 +389,16 @@ static __strong NSData *CRLFCRLF;
     NSAssert(_readyState == SR_CONNECTING, @"Cannot call -(void)open on SRWebSocket more than once");
 
     _selfRetain = self;
-    
+
+    if (_urlRequest.timeoutInterval > 0)
+    {
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, _urlRequest.timeoutInterval * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            if (self.readyState == SR_CONNECTING)
+                [self _failWithError:[NSError errorWithDomain:@"com.squareup.SocketRocket" code:504 userInfo:@{NSLocalizedDescriptionKey: @"Timeout Connecting to Server"}]];
+        });
+    }
+
     [self openConnection];
 }
 
@@ -623,7 +632,7 @@ static __strong NSData *CRLFCRLF;
             break;
         case NSURLNetworkServiceTypeVoIP: {
             networkServiceType = NSStreamNetworkServiceTypeVoIP;
-#ifdef __IPHONE_9_0
+#if TARGET_OS_IPHONE && __IPHONE_9_0
             if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_3) {
                 static dispatch_once_t predicate;
                 dispatch_once(&predicate, ^{
@@ -1478,9 +1487,7 @@ static const size_t SRFrameHeaderOverhead = 32;
                     [self _failWithError:[NSError errorWithDomain:SRWebSocketErrorDomain code:23556 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Invalid server cert"] forKey:NSLocalizedDescriptionKey]]];
                 });
                 return;
-            }
-            
-            if (aStream == _outputStream && _pinnedCertFound) {
+            } else if (aStream == _outputStream) {
                 dispatch_async(_workQueue, ^{
                     [self didConnect];
                 });
@@ -1497,7 +1504,9 @@ static const size_t SRFrameHeaderOverhead = 32;
                 }
                 assert(_readBuffer);
                 
-                if (!_secure && self.readyState == SR_CONNECTING && aStream == _inputStream) {
+                // didConnect fires after certificate verification if we're using pinned certificates.
+                BOOL usingPinnedCerts = [[_urlRequest SR_SSLPinnedCertificates] count] > 0;
+                if ((!_secure || !usingPinnedCerts) && self.readyState == SR_CONNECTING && aStream == _inputStream) {
                     [self didConnect];
                 }
                 [self _pumpWriting];
