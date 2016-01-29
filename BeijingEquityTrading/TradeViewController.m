@@ -1215,26 +1215,35 @@
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tbleView == table) {
+        
+        if (dataList.count > 0) {
+        
         MarkViewController *vc = [[MarkViewController alloc] init];
         //vc.hidesBottomBarWhenPushed = YES;
         vc.strId = [[dataList objectAtIndex:indexPath.row] objectForKey:@"XMID"];
         
         [self.navigationController pushViewController:vc animated:YES];
+        }
     } else if(tbleView == tablePast){
+        
+        if (dataListPast.count > 0) {
+            
         MarkViewController *vc = [[MarkViewController alloc] init];
         //vc.hidesBottomBarWhenPushed = YES;
         vc.strId = [[dataListPast objectAtIndex:indexPath.row] objectForKey:@"XMID"];
         
         [self.navigationController pushViewController:vc animated:YES];
-        
+            }
     } else {
     
+        if (dataListFinsh.count > 0) {
+            
         MarkViewController *vc = [[MarkViewController alloc] init];
         //vc.hidesBottomBarWhenPushed = YES;
         vc.strId = [[dataListFinsh objectAtIndex:indexPath.row] objectForKey:@"XMID"];
         
         [self.navigationController pushViewController:vc animated:YES];
-    
+            }
     }
     
     

@@ -361,6 +361,8 @@
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    if (dataList.count > 0) {
+        
     DetailViewController *vc = [[DetailViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     vc.strId = [[dataList objectAtIndex:indexPath.row] objectForKey:@"ID"];
@@ -368,6 +370,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [self.navigationController pushViewController:vc animated:YES];
     
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 

@@ -449,14 +449,21 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                        MBProgressHUD:nil
                                               target:self.view
                                      displayInterval:3];
-            headView.image = [[UIImage alloc] initWithContentsOfFile:fullPath];
+          //  headView.image = [[UIImage alloc] initWithContentsOfFile:fullPath];
+            
+            
+            headView.image = image;
+            _headViewImg = image;
             
             AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
             
            // NSNumber *num = [NSNumber numberWithBool:1];
             //[delegate.loginUser setObject:num forKey:@"haveAvatar"];
             
-            [delegate.loginUser setValue:@"1" forKey:@"haveAvatar"];
+           // [delegate.loginUser setValue:@"1" forKey:@"haveAvatar"];
+            
+            [delegate.loginUser setObject:@"1" forKey:@"HaveImage"];
+            
             
             //[[delegate.loginUser objectForKey:@"object"] objectForKey:@"haveAvatar"]
             

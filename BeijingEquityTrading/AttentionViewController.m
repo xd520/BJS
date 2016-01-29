@@ -614,6 +614,8 @@
 - (void)tableView:(UITableView *)tbleView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (dataList.count > 0) {
+        
     
     MarkViewController *vc = [[MarkViewController alloc] init];
     //vc.hidesBottomBarWhenPushed = YES;
@@ -622,6 +624,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [self.navigationController pushViewController:vc animated:YES];
     
     [tbleView deselectRowAtIndexPath:indexPath animated:YES];
+        }
 }
 
 
