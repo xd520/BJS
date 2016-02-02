@@ -2503,14 +2503,14 @@
     //点击几次，如果是1就是单击
     singleTap1.numberOfTapsRequired = 1;
     [agreeUserTip addGestureRecognizer:singleTap1];
-        [litleView addSubview:agreeUserTip];
+    //[litleView addSubview:agreeUserTip];
         
         
         UILabel *agree = [[UILabel alloc] init];
-        agree.text = @",并且理解了：";
+        agree.text = @",并且理了解：";
         agree.textColor = [ConMethods colorWithHexString:@"333333"];
         agree.font = [UIFont systemFontOfSize:10];
-        agree.frame = CGRectMake(115, 100, [PublicMethod getStringWidth:agree.text font:agree.font], 10);
+        agree.frame = CGRectMake(55, 100, [PublicMethod getStringWidth:agree.text font:agree.font], 10);
         [litleView addSubview:agree];
         
         

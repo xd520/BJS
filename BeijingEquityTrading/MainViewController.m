@@ -1182,7 +1182,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
        for (int i = 0; i < imageArray.count; i++) {
         UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth *i + ScreenWidth, 0, ScreenWidth, 150)];
         [imageView1 setTag:i + 10000];
-           [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw_app/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+          // [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw_app/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+           
+           [imageView1 setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:i] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+           
+           
+           
+           
         imageView1.userInteractionEnabled = YES;
          
            UITapGestureRecognizer *singleTap;
@@ -1244,6 +1250,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
          //[imgView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:0] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
         
         [imgViewl setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/LbFiles/tggw/%@.jpg",SERVERURL,[[imageArray objectAtIndex:0] objectForKey:@"ID"]]] placeholderImage:[UIImage imageNamed:@"loading_zc"]];
+        
+       
         
         
         // 添加第1页在最后 循环
