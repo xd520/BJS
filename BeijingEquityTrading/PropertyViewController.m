@@ -536,13 +536,11 @@
                 
                 if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"enableTK"] boolValue]) {
                     
-                    
                      quitBtn.backgroundColor = [ConMethods colorWithHexString:@"f8f8f8"];
                     [quitBtn setTitleColor:[ConMethods colorWithHexString:@"000000"] forState:UIControlStateNormal];
                     quitBtn.layer.borderColor = [ConMethods colorWithHexString:@"bcbabb"].CGColor;
                     
                     [backView addSubview:quitBtn];
-                
                 } else {
                 
                     if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"BZJSQBZ"] isEqualToString:@"3"]) {
@@ -556,7 +554,7 @@
                         [backView addSubview:brandCla];
                         
                         
-                    } else  if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"BZJSQBZ"] isEqualToString:@"5"]) {
+                    }else  if ([[[dataList objectAtIndex:indexPath.row] objectForKey:@"BZJSQBZ"] isEqualToString:@"5"]) {
                         UILabel *brandCla = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 80, 65, 80, 25)];
                         brandCla.font = [UIFont systemFontOfSize:14];
                         [brandCla setTextColor:[ConMethods colorWithHexString:@"333333"]];
@@ -565,6 +563,13 @@
                         brandCla.text = @"退款中";
                         [backView addSubview:brandCla];
                         
+                    } else {
+                        
+                     quitBtn.backgroundColor = [ConMethods colorWithHexString:@"fbfbfb"];    
+                    [quitBtn setTitleColor:[ConMethods colorWithHexString:@"eeeeee"] forState:UIControlStateNormal];
+                    quitBtn.layer.borderColor = [ConMethods colorWithHexString:@"eeeeee"].CGColor;
+                    quitBtn.enabled = NO;
+                     [backView addSubview:quitBtn];
                     }
                 }
                 
